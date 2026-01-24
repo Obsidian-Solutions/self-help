@@ -1,0 +1,72 @@
+{
+  "features": {
+    "quizzes": {
+      "enabled": true,
+      "description": "Interactive quiz system for lessons",
+      "version": "1.0.0"
+    },
+    "moodTracking": {
+      "enabled": true,
+      "description": "Daily mood check-in with emoji selector",
+      "version": "1.0.0"
+    },
+    "achievements": {
+      "enabled": true,
+      "description": "Badge system for unlocking milestones",
+      "count": 6,
+      "version": "1.0.0"
+    },
+    "darkMode": {
+      "enabled": true,
+      "description": "Light/dark theme toggle with persistence",
+      "version": "1.0.0"
+    },
+    "journal": {
+      "enabled": true,
+      "description": "User journal for personal notes",
+      "version": "1.0.0"
+    },
+    "dashboard": {
+      "enabled": true,
+      "description": "User dashboard with progress tracking",
+      "version": "1.0.0"
+    },
+    "authentication": {
+      "enabled": false,
+      "description": "User authentication system",
+      "note": "Client-side localStorage, no backend required",
+      "version": "1.0.0"
+    },
+    "therapistDirectory": {
+      "enabled": true,
+      "description": "Directory of therapists/resources",
+      "version": "1.0.0"
+    },
+    "courseSystem": {
+      "enabled": true,
+      "description": "Course management and tracking",
+      "version": "1.0.0"
+    },
+    "illustrations": {
+      "enabled": true,
+      "description": "Undraw SVG illustrations library",
+      "source": "local",
+      "count": 1000,
+      "version": "1.0.0"
+    }
+  },
+  "experimental": {
+    "codeSharing": {
+      "enabled": false,
+      "description": "Share quiz results as code"
+    },
+    "recommendations": {
+      "enabled": false,
+      "description": "AI-based course recommendations"
+    },
+    "spaced_repetition": {
+      "enabled": false,
+      "description": "Spaced repetition for quiz review"
+    }
+  }
+}

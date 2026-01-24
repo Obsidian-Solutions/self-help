@@ -1,0 +1,57 @@
+{
+  "plugins": {
+    "installed": [],
+    "available": [
+      {
+        "name": "analytics",
+        "description": "Analytics tracking (Google Analytics, Plausible, etc.)",
+        "enabled": false,
+        "type": "optional",
+        "version": "1.0.0"
+      },
+      {
+        "name": "seo",
+        "description": "SEO optimization (sitemap, robots.txt, schema)",
+        "enabled": true,
+        "type": "built-in",
+        "version": "1.0.0"
+      },
+      {
+        "name": "illustrations",
+        "description": "SVG illustrations from Undraw",
+        "enabled": true,
+        "type": "built-in",
+        "version": "1.0.0"
+      },
+      {
+        "name": "comments",
+        "description": "Comment system (Disqus, Utterances, etc.)",
+        "enabled": false,
+        "type": "optional",
+        "version": "1.0.0"
+      },
+      {
+        "name": "search",
+        "description": "Full-text search functionality",
+        "enabled": false,
+        "type": "optional",
+        "version": "1.0.0"
+      },
+      {
+        "name": "paywall",
+        "description": "Premium content paywall",
+        "enabled": false,
+        "type": "optional",
+        "version": "1.0.0"
+      }
+    ]
+  },
+  "modules": {
+    "enabled": false,
+    "note": "Hugo modules can be configured here for future use"
+  },
+  "customPlugins": {
+    "directory": "plugins/",
+    "description": "Place custom plugin code in plugins/ directory"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "environments": {
+    "development": {
+      "baseUrl": "http://localhost:1313",
+      "debug": true,
+      "caching": false,
+      "minify": false,
+      "logLevel": "debug"
+    },
+    "staging": {
+      "baseUrl": "https://staging.yourdomain.com",
+      "debug": true,
+      "caching": true,
+      "minify": true,
+      "logLevel": "info"
+    },
+    "production": {
+      "baseUrl": "https://yourdomain.com",
+      "debug": false,
+      "caching": true,
+      "minify": true,
+      "logLevel": "warn"
+    }
+  },
+  "currentEnvironment": "development",
+  "variables": {
+    "SITE_URL": "https://example.com",
+    "SITE_TITLE": "MindFull",
+    "SITE_DESCRIPTION": "Your mental health companion",
+    "AUTHOR_NAME": "Your Name",
+    "AUTHOR_EMAIL": "your.email@example.com",
+    "REPO_URL": "https://github.com/yourusername/mindfull-theme",
+    "SUPPORT_EMAIL": "support@example.com",
+    "ANALYTICS_ID": "",
+    "API_KEY": "",
+    "FEATURE_QUIZZES": "true",
+    "FEATURE_MOOD_TRACKING": "true",
+    "FEATURE_ACHIEVEMENTS": "true",
+    "FEATURE_DARK_MODE": "true",
+    "FEATURE_JOURNAL": "true"
+  },
+  "secrets": {
+    "note": "Use .env file for sensitive data (not in git)",
+    "PRIVATE_API_KEY": "",
+    "STRIPE_KEY": "",
+    "SENDGRID_KEY": ""
+  }
+}
