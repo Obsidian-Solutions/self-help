@@ -1,0 +1,51 @@
+{
+  "name": "mindfull-theme",
+  "version": "1.0.0",
+  "description": "Modern Hugo theme for mental health and self-help websites. Features dark mode, interactive quizzes, mood tracking, and achievements.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mindfull-theme"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mindfull-theme/issues"
+  },
+  "homepage": "https://github.com/yourusername/mindfull-theme#readme",
+  "scripts": {
+    "start": "hugo server -D",
+    "dev": "npm-run-all --parallel watch:css start",
+    "build": "npm run build:css && hugo --minify",
+    "build:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --minify",
+    "watch:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch",
+    "lint": "npm run lint:js && npm run lint:md",
+    "lint:js": "eslint assets/js --max-warnings 0",
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules",
+    "format": "prettier --write \"**/*.{js,json,html,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,html,css,md}\"",
+    "test": "npm run lint && npm run format:check && npm run build",
+    "test:ci": "npm run lint && npm run format:check && npm run build -- --printPathWarnings",
+    "clean": "rm -rf public resources _gen && echo 'Build cache cleaned'",
+    "setup": "npm install && npm run build:css && echo 'Setup complete!'",
+    "serve": "hugo server --disableFastRender -D",
+    "serve:prod": "hugo server",
+    "validate": "hugo --validateOutput"
+  },
+  "keywords": ["hugo", "theme", "mental-health", "self-help", "dark-mode", "quiz", "responsive", "tailwindcss"],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0",
+    "hugo": ">=0.120.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "eslint": "^8.54.0",
+    "markdownlint-cli": "^0.37.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.5.6",
+    "prettier": "^3.1.0",
+    "tailwindcss": "^3.4.19"
+  }
+}
