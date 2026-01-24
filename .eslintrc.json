@@ -23,7 +23,7 @@
     "semi": ["error", "always"],
     "no-unused-vars": ["warn"],
     "no-console": ["warn"],
-    "comma-dangle": ["error", "es5"],
+    "comma-dangle": ["error", "always-multiline"],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "never"],
     "no-var": ["error"],
