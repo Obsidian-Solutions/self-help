@@ -1,10 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['selector', '[class~="dark"]'],
-  content: [
-    "./**/*.html",
-    "./content/**/*.md"
-  ],
+  content: ['./**/*.html', './content/**/*.md'],
   theme: {
     extend: {
       colors: {
@@ -12,8 +9,8 @@ module.exports = {
         secondary: '#10B981', // Emerald 500
         accent: '#F59E0B', // Amber 500
         neutral: '#374151', // Gray 700
-      }
+      },
     },
   },
   plugins: [],
-}
+};
