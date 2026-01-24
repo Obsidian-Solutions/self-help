@@ -1,0 +1,47 @@
+{{/*
+Handcrafts Decorative Element Partial
+Usage: {{ partial "handcrafts.html" (dict "element" "underline-wavy" "stroke" "#6366f1" "class" "w-32") }}
+
+Handcrafts provides beautiful, customizable decorative SVG elements from https://handcrafts.undraw.co/
+Perfect for accents, dividers, and visual embellishments.
+
+Elements: underline, underline-wavy, underline-dashed, arrow, fun-arrow, check, heart, fun-star, etc.
+*/}}
+
+{{- $element := .element -}}
+{{- $stroke := .stroke | default "currentColor" -}}
+{{- $class := .class | default "" -}}
+
+<svg 
+  class="handcrafts-element {{ $class }}"
+  viewBox="0 0 200 50"
+  fill="none"
+  stroke="{{ $stroke }}"
+  stroke-width="3"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {{- if eq $element "underline-wavy" -}}
+    <path d="M 10 25 Q 30 10, 50 25 T 90 25 T 130 25 T 170 25 T 210 25" />
+  {{- else if eq $element "underline-dashed" -}}
+    <path d="M 10 25 L 190 25" stroke-dasharray="10,5" />
+  {{- else if eq $element "underline" -}}
+    <path d="M 10 25 L 190 25" />
+  {{- else if eq $element "arrow" -}}
+    <path d="M 10 25 L 180 25" />
+    <path d="M 165 10 L 180 25 L 165 40" />
+  {{- else if eq $element "fun-arrow" -}}
+    <path d="M 15 25 L 175 25" stroke-width="2.5" />
+    <path d="M 155 15 L 175 25 L 155 35" stroke-width="2.5" />
+    <circle cx="25" cy="25" r="4" fill="{{ $stroke }}" />
+  {{- else if eq $element "check" -}}
+    <path d="M 20 25 L 50 45 L 130 15" stroke-width="4" />
+  {{- else if eq $element "heart" -}}
+    <path d="M 100 40 C 70 20, 40 20, 40 35 C 40 50, 70 70, 100 90 C 130 70, 160 50, 160 35 C 160 20, 130 20, 100 40" />
+  {{- else if eq $element "star" -}}
+    <path d="M 100 10 L 115 35 L 145 35 L 120 50 L 135 75 L 100 60 L 65 75 L 80 50 L 55 35 L 85 35 Z" />
+  {{- else -}}
+    {{/* Default: simple underline */}}
+    <path d="M 10 25 L 190 25" />
+  {{- end -}}
+</svg>

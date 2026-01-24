@@ -1,0 +1,30 @@
+<!-- Login Modal -->
+<div id="loginModal" data-modal-backdrop class="hidden">
+  <div data-modal-content class="w-full max-w-md mx-4">
+    <!-- Modal Header -->
+    <div data-modal-header>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign In</h2>
+      <button data-modal-close onclick="window.closeModal('loginModal')" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 text-2xl leading-none">&times;</button>
+    </div>
+
+    <!-- Modal Body -->
+    <div data-modal-body>
+      <form class="space-y-4" onsubmit="window.handleLogin(event); return false;">
+        <div>
+          <label for="login-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+          <input id="login-email" name="email" type="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm">
+        </div>
+        <div>
+          <label for="login-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+          <input id="login-password" name="password" type="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm">
+        </div>
+        <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600">
+          Sign In
+        </button>
+      </form>
+      <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        Don't have an account? <a href="#" onclick="window.switchModal('loginModal', 'signupModal')" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">Sign up</a>
+      </p>
+    </div>
+  </div>
+</div>

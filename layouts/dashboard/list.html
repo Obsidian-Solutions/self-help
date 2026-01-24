@@ -1,0 +1,137 @@
+{{ define "main" }}
+<div class="flex flex-col md:flex-row min-h-screen">
+  <!-- Sidebar - Fixed on desktop -->
+  <div class="w-full md:w-64 md:flex-shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+    {{ partial "dashboard/sidebar.html" . }}
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+    <main class="flex-1 p-4 md:p-0">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Demo Info Banner -->
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm text-blue-700">
+                <strong>Open Source Demo:</strong> You are currently using Local Authentication. Data is stored in your browser. To integrate a real backend like Supabase or Go, update <code class="bg-blue-100 px-1 rounded">static/js/auth.js</code>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Welcome back!</h2>
+          <p class="text-gray-600 dark:text-gray-300">You're on a 3-day streak. Keep it up!</p>
+        </div>
+
+        <!-- Mood Check-In and Streak -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+          <div class="md:col-span-2">
+            {{ partial "mood-check-in/mood-selector.html" . }}
+          </div>
+          <div>
+            {{ partial "mood-check-in/streak-counter.html" . }}
+          </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div class="mt-8">
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Today's Learning</h3>
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">Understanding Your Emotions</h4>
+                <p class="text-gray-600 dark:text-gray-300">Quick 5-minute quiz to test your emotional awareness</p>
+              </div>
+              <button onclick="document.getElementById('dashboard-quiz-container').style.display = 'block'" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                Start Quiz
+              </button>
+            </div>
+            <div id="dashboard-quiz-container" style="display: none;" class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              {{ partial "quiz/quiz-engine.html" . }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Mood & Goals Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div class="md:col-span-2 bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Weekly Mood Tracker</h3>
+                <div class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-100 dark:border-gray-700">
+                    <div class="w-1/7 bg-green-200 rounded-t transition hover:bg-green-300" style="height: 40%; width: 14%;" title="Mon"></div>
+                    <div class="w-1/7 bg-green-300 rounded-t transition hover:bg-green-400" style="height: 60%; width: 14%;" title="Tue"></div>
+                    <div class="w-1/7 bg-green-400 rounded-t transition hover:bg-green-500" style="height: 50%; width: 14%;" title="Wed"></div>
+                    <div class="w-1/7 bg-green-500 rounded-t transition hover:bg-green-600" style="height: 80%; width: 14%;" title="Thu"></div>
+                    <div class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600" style="height: 100%; width: 14%;" title="Fri"></div>
+                    <div class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600" style="height: 100%; width: 14%;" title="Sat"></div>
+                    <div class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600" style="height: 100%; width: 14%;" title="Sun"></div>
+                </div>
+                <div class="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-2">
+                    <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                </div>
+            </div>
+
+            <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Daily Goals</h3>
+                <ul class="space-y-3">
+                    <li class="flex items-center">
+                        <input type="checkbox" checked class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                        <span class="ml-3 text-sm text-gray-500 dark:text-gray-400 line-through">Morning Meditate</span>
+                    </li>
+                    <li class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                        <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Drink Water (2L)</span>
+                    </li>
+                     <li class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                        <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Journal Entry</span>
+                    </li>
+                     <li class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600">
+                        <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Walk 15 mins</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- My Courses -->
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">Continue Learning</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          {{ range where .Site.RegularPages "Section" "courses" }}
+          <div class="bg-white shadow rounded-lg overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-md transition">
+            <div class="h-32 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center p-6">
+              {{ if .Params.illustration }}
+                {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+              {{ else }}
+                <svg class="h-16 w-16 text-indigo-300 dark:text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+              {{ end }}
+            </div>
+            <div class="p-4 flex-grow">
+              <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide">{{ .Params.category }}</span>
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{ .Title }}</h4>
+              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">{{ .Params.description }}</p>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 dark:border-gray-600">
+              <a href="{{ .RelPermalink }}" class="text-sm font-medium text-primary dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 block">Resume &rarr;</a>
+            </div>
+          </div>
+          {{ end }}
+        </div>
+
+        <!-- Achievements -->
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8 mb-4">Your Achievements</h3>
+        {{ partial "badges/achievement-badges.html" . }}
+      </div>
+    </main>
+  </div>
+</div>
+{{ end }}

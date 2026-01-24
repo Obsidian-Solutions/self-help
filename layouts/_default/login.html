@@ -1,0 +1,97 @@
+{{ define "main" }}
+<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 -my-8">
+  <!-- Illustration Side -->
+  <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-900 dark:to-purple-900 items-center justify-center p-12">
+    <div class="max-w-md text-white">
+      {{ if .Params.illustration }}
+        <div class="mb-8">
+          {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-64") }}
+        </div>
+      {{ end }}
+      <h2 class="text-3xl font-bold mb-4">{{ .Params.heading }}</h2>
+      <div class="prose prose-lg text-white/90">
+        {{ .Content }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Side -->
+  <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+      <h2 class="text-center text-3xl font-extrabold text-gray-900 dark:text-white lg:hidden">
+        {{ .Params.heading }}
+      </h2>
+      {{ if .Params.demoMode }}
+      <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+        <span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-1 rounded text-xs">Open Source Demo Mode</span>
+        <br>
+        Try: <strong>{{ .Params.demoEmail }}</strong> / <strong>{{ .Params.demoPassword }}</strong>
+      </p>
+      {{ end }}
+    </div>
+
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+      <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <form class="space-y-6" onsubmit="window.handleLogin(event)">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Email address
+            </label>
+            <div class="mt-1">
+              <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm">
+            </div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Password
+            </label>
+            <div class="mt-1">
+              <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm">
+            </div>
+          </div>
+
+          <div>
+            <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Sign in
+            </button>
+          </div>
+        </form>
+
+        {{ if .Params.socialLogin }}
+        <div class="mt-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <button onclick="window.handleGoogleLogin()" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <span class="sr-only">Sign in with Google</span>
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .533 5.333.533 12S5.867 24 12.48 24c3.44 0 6.32-1.133 8.4-3.253 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.16H12.48z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        {{ end }}
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Don't have an account?
+            <a href="/signup" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">
+              Sign up
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

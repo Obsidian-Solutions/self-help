@@ -1,0 +1,158 @@
+{{ define "main" }}
+<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 -my-8 mx-auto max-w-7xl">
+  <!-- Sidebar Navigation for Course Content -->
+  <aside class="w-full lg:w-80 bg-white border-r border-gray-200 lg:h-screen lg:overflow-y-auto lg:sticky lg:top-0 order-2 lg:order-1">
+    <div class="p-6 border-b border-gray-200">
+      <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Course Content</h2>
+      <p class="mt-2 text-lg font-bold text-gray-900 leading-tight">{{ .Params.course }}</p>
+    </div>
+    <nav class="flex-1">
+      <ul class="divide-y divide-gray-100">
+        {{ $currentCourse := .Params.course }}
+        {{ $currentPermalink := .RelPermalink }}
+        {{ range where .Site.RegularPages "Section" "lessons" }}
+          {{ if eq .Params.course $currentCourse }}
+          <li>
+            <a href="{{ .RelPermalink }}" class="block px-6 py-4 hover:bg-gray-50 {{ if eq .RelPermalink $currentPermalink }}bg-indigo-50 border-l-4 border-indigo-500{{ end }}">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium {{ if eq .RelPermalink $currentPermalink }}text-indigo-700{{ else }}text-gray-900{{ end }}">
+                  {{ .Title }}
+                </span>
+                {{ if eq .RelPermalink $currentPermalink }}
+                <!-- Playing Icon -->
+                <svg class="h-5 w-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+                {{ end }}
+              </div>
+            </a>
+          </li>
+          {{ end }}
+        {{ end }}
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main Lesson Content -->
+  <main class="flex-1 flex flex-col min-w-0 overflow-hidden order-1 lg:order-2">
+    <div class="flex-1 overflow-y-auto p-6 lg:p-12">
+      <div class="max-w-3xl mx-auto">
+        
+        <!-- Video Player Mock -->
+        {{ if .Params.video_url }}
+        <div class="aspect-w-16 aspect-h-9 mb-8 bg-black rounded-lg shadow-lg overflow-hidden">
+             <!-- Ideally we'd parse the URL to get the ID, but for now just a link or placeholder -->
+             <div class="flex items-center justify-center h-64 md:h-96 w-full text-white bg-gray-900">
+               <div class="text-center">
+                 <p class="mb-4 font-semibold">Video Placeholder</p>
+                 <a href="{{ .Params.video_url }}" target="_blank" class="underline text-indigo-400">Watch on External Site</a>
+                 <br>
+                 <span class="text-xs text-gray-500">(Embeds would go here)</span>
+               </div>
+             </div>
+        </div>
+        {{ end }}
+
+        <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white">{{ .Title }}</h1>
+        
+        <div class="prose prose-indigo dark:prose-invert mt-6 text-gray-500 dark:text-gray-400 max-w-none">
+          {{ .Content }}
+        </div>
+
+        <!-- Embedded Quiz (if lesson has quiz data) -->
+        {{ if .Params.quiz }}
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 rounded-lg p-8">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Check Your Understanding</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">{{ .Params.quiz.description | default "Test what you've learned in this lesson" }}</p>
+            
+            <button onclick="initLessonQuiz(lessonQuizData)" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+              Start Lesson Quiz
+            </button>
+          </div>
+
+          <!-- Quiz Container (hidden by default) -->
+          <div id="lesson-quiz-container" style="display: none;" class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+            {{ partial "quiz/quiz-engine.html" . }}
+          </div>
+        </div>
+        {{ end }}
+
+        <!-- Navigation Buttons -->
+        <div class="mt-12 flex items-center justify-between border-t border-gray-200 pt-6">
+          <button class="btn btn-outline" onclick="history.back()">Previous</button>
+          <button class="btn btn-primary" onclick="markComplete()">Complete & Continue</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // Lesson quiz data
+  {{ if .Params.quiz }}
+  {{ $quizQuestions := .Params.quiz.questions }}
+  {{ $questionCount := len $quizQuestions }}
+  const lessonQuizData = {
+    title: "{{ .Title }} - Knowledge Check",
+    description: "{{ .Params.quiz.description | default "Test your understanding of this lesson" }}",
+    resultMessage: "{{ .Params.quiz.resultMessage | default "Great work! You're mastering the concepts." }}",
+    questions: [
+      {{ range $index, $q := $quizQuestions }}
+      {
+        question: `{{ $q.question }}`,
+        options: [
+          {{ range $q.options }}
+          `{{ . }}`,
+          {{ end }}
+        ],
+        correct: {{ $q.correct }},
+        explanation: `{{ $q.explanation }}`
+      }{{ if lt $index (sub $questionCount 1) }},{{ end }}
+      {{ end }}
+    ]
+  };
+
+  function initLessonQuiz(data) {
+    document.getElementById('lesson-quiz-container').style.display = 'block';
+    initializeQuiz(data);
+    document.getElementById('lesson-quiz-container').scrollIntoView({ behavior: 'smooth' });
+  }
+  {{ else }}
+  // No quiz for this lesson
+  function initLessonQuiz(data) {
+    alert("This lesson doesn't have a quiz yet.");
+  }
+  {{ end }}
+
+  function markComplete() {
+    // Mark lesson as complete and award achievement if quiz was passed
+    const lessonId = "{{ .Title }}";
+    let progress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    
+    // Track completion
+    progress[lessonId] = {
+      completed: true,
+      completedAt: new Date().toISOString(),
+      course: "{{ .Params.course }}"
+    };
+    
+    localStorage.setItem('courseProgress', JSON.stringify(progress));
+    
+    // Check if we should award achievement
+    {{ if .Params.quiz }}
+    const score = parseInt(localStorage.getItem('lastQuizScore') || '0');
+    if (score >= 80) {
+      awardBadge('feelings-explorer');
+    }
+    {{ end }}
+    
+    alert("Lesson marked as complete! 🎉");
+    // Logic to go to next lesson would be here
+  }
+
+  function awardBadge(badgeId) {
+    let badges = JSON.parse(localStorage.getItem('badges') || '{}');
+    badges[badgeId] = true;
+    localStorage.setItem('badges', JSON.stringify(badges));
+  }
+</script>
+{{ end }}

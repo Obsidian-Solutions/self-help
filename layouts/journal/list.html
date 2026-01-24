@@ -1,0 +1,104 @@
+{{ define "main" }}
+<div class="flex flex-col md:flex-row h-screen md:overflow-hidden">
+  <!-- Sidebar - Fixed on desktop -->
+  <div class="w-full md:w-64 md:flex-shrink-0 md:overflow-y-auto md:sticky md:top-0 md:h-screen">
+    {{ partial "dashboard/sidebar.html" . }}
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <main class="flex-1 overflow-y-auto">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="md:flex md:items-center md:justify-between mb-8">
+          <div class="flex-1 min-w-0">
+            <h2 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate">
+              Private Journal
+            </h2>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Your thoughts are safe here. (Stored locally in your browser)</p>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="space-y-6">
+              <div>
+                <label for="journal-title" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Title</label>
+                <div class="mt-1">
+                  <input type="text" name="journal-title" id="journal-title" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Reflections on today...">
+                </div>
+              </div>
+
+              <div>
+                <label for="journal-content" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Entry</label>
+                <div class="mt-1">
+                  <textarea id="journal-content" name="journal-content" rows="10" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="Write whatever is on your mind..."></textarea>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <button onclick="saveEntry()" class="btn btn-primary">
+                  Save Entry
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Past Entries</h3>
+          <div id="entries-list" class="space-y-4">
+            <!-- Entries will be injected here via JS -->
+            <p class="text-gray-500 dark:text-gray-400 italic">No entries yet.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  function saveEntry() {
+    const title = document.getElementById('journal-title').value;
+    const content = document.getElementById('journal-content').value;
+    const date = new Date().toLocaleDateString();
+
+    if (!title || !content) {
+      alert("Please fill in both fields.");
+      return;
+    }
+
+    const entry = { title, content, date, id: Date.now() };
+    const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    entries.unshift(entry);
+    localStorage.setItem('journalEntries', JSON.stringify(entries));
+
+    document.getElementById('journal-title').value = '';
+    document.getElementById('journal-content').value = '';
+    renderEntries();
+  }
+
+  function renderEntries() {
+    const entries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    const container = document.getElementById('entries-list');
+    const isDark = document.documentElement.classList.contains('dark');
+    
+    if (entries.length === 0) {
+      container.innerHTML = '<p class="text-gray-500 dark:text-gray-400 italic">No entries yet.</p>';
+      return;
+    }
+
+    container.innerHTML = entries.map(entry => `
+      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+        <div class="flex justify-between items-center mb-2">
+          <h4 class="text-lg font-bold text-gray-900 dark:text-white">${entry.title}</h4>
+          <span class="text-xs text-gray-500 dark:text-gray-400">${entry.date}</span>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 whitespace-pre-wrap">${entry.content}</p>
+      </div>
+    `).join('');
+  }
+
+  // Load entries on page load
+  document.addEventListener('DOMContentLoaded', renderEntries);
+</script>
+{{ end }}

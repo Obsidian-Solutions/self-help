@@ -1,0 +1,99 @@
+{{ define "main" }}
+<div class="flex flex-col md:flex-row h-screen md:overflow-hidden">
+  <!-- Sidebar - Fixed on desktop -->
+  <div class="w-full md:w-64 md:flex-shrink-0 md:overflow-y-auto md:sticky md:top-0 md:h-screen">
+    {{ partial "dashboard/sidebar.html" . }}
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <main class="flex-1 overflow-y-auto">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Account Settings</h1>
+
+            <form onsubmit="updateProfile(event)" class="space-y-6">
+              <div>
+                <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white">Profile</h3>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  This information will be displayed publicly so be careful what you share.
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                <div class="sm:col-span-4">
+                  <label for="profile-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+                  <div class="mt-1">
+                    <input type="text" name="profile-name" id="profile-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  </div>
+                </div>
+
+                <div class="sm:col-span-4">
+                  <label for="profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>
+                  <div class="mt-1">
+                    <input type="email" name="profile-email" id="profile-email" disabled class="bg-gray-50 dark:bg-gray-700 shadow-sm block w-full sm:text-sm border border-gray-300 dark:border-gray-600 rounded-md p-2 text-gray-500 dark:text-gray-400 cursor-not-allowed">
+                  </div>
+                </div>
+              </div>
+              
+              <div class="pt-5 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex justify-end">
+                  <button type="submit" class="btn btn-primary">Save Profile</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Data Management -->
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+            <h3 class="text-lg font-bold text-red-600 dark:text-red-400 mb-4">Danger Zone</h3>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Permanently delete your local data (journal entries, progress).</p>
+            <button onclick="clearData()" class="btn border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900">Clear Local Data</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('mindfull_session'));
+    if (user) {
+      document.getElementById('profile-name').value = user.name || '';
+      document.getElementById('profile-email').value = user.email || '';
+    }
+  });
+
+  function updateProfile(e) {
+    e.preventDefault();
+    const newName = document.getElementById('profile-name').value;
+    
+    // Update Local Storage
+    let user = JSON.parse(localStorage.getItem('mindfull_session'));
+    user.name = newName;
+    localStorage.setItem('mindfull_session', JSON.stringify(user));
+    
+    // Update DB (Mock)
+    let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
+    const userIndex = users.findIndex(u => u.email === user.email);
+    if (userIndex !== -1) {
+        users[userIndex].name = newName;
+        localStorage.setItem('mindfull_users', JSON.stringify(users));
+    }
+
+    alert('Profile updated!');
+    location.reload(); // Refresh to update sidebar
+  }
+
+  function clearData() {
+      if(confirm("Are you sure? This will delete all your journal entries and progress.")) {
+          localStorage.removeItem('courseProgress');
+          localStorage.removeItem('journalEntries');
+          alert("Data cleared.");
+          location.reload();
+      }
+  }
+</script>
+{{ end }}

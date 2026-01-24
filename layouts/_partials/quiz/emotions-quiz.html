@@ -1,0 +1,83 @@
+<div class="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-lg p-8 my-12">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Understand Your Emotions</h2>
+      <p class="text-gray-600 dark:text-gray-300">Take this quick quiz to learn more about emotional awareness</p>
+    </div>
+
+    {{ partial "quiz/quiz-engine.html" . }}
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize the "Understanding Your Emotions" quiz
+  const emotionQuiz = {
+    title: "Understanding Your Emotions",
+    description: "Learn to identify and understand different emotions",
+    resultMessage: "Great job! Understanding your emotions is the first step to managing them.",
+    questions: [
+      {
+        question: "What is the primary purpose of emotions?",
+        options: [
+          "To make us feel bad",
+          "To provide information and guide our behavior",
+          "To confuse us",
+          "They serve no purpose"
+        ],
+        correct: 1,
+        explanation: "Emotions serve important functions - they provide information about our needs and help guide our behavior and decision-making."
+      },
+      {
+        question: "Which of these is a primary emotion?",
+        options: [
+          "Jealousy",
+          "Embarrassment",
+          "Sadness",
+          "Guilt"
+        ],
+        correct: 2,
+        explanation: "Sadness is considered a primary emotion. Primary emotions include happiness, sadness, fear, anger, and disgust."
+      },
+      {
+        question: "What does it mean to have emotional awareness?",
+        options: [
+          "Never feeling negative emotions",
+          "Being able to recognize and understand your emotions",
+          "Suppressing all emotions",
+          "Only experiencing positive emotions"
+        ],
+        correct: 1,
+        explanation: "Emotional awareness means being able to identify, understand, and accept your emotions - both positive and negative."
+      },
+      {
+        question: "When experiencing anxiety, what's a helpful first step?",
+        options: [
+          "Ignore it completely",
+          "Name and acknowledge the emotion",
+          "Judge yourself for feeling it",
+          "Try to eliminate it immediately"
+        ],
+        correct: 1,
+        explanation: "Naming and acknowledging emotions is a key step in emotional regulation. This helps activate the thinking part of your brain."
+      },
+      {
+        question: "How are emotions and thoughts connected?",
+        options: [
+          "They are completely separate",
+          "Emotions always come before thoughts",
+          "Thoughts and emotions influence each other",
+          "Only emotions matter"
+        ],
+        correct: 2,
+        explanation: "There's a strong connection between thoughts, emotions, and behaviors. Changing one can influence the others - this is the basis of CBT!"
+      }
+    ]
+  };
+
+  // Only initialize if the quiz element exists
+  if (document.querySelector('.quiz-container')) {
+    initializeQuiz(emotionQuiz);
+  }
+});
+</script>

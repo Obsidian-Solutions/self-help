@@ -1,0 +1,57 @@
+<!-- Dark mode initialization and toggle - must run early -->
+<script>
+  (function() {
+    const html = document.documentElement;
+    const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) {
+      html.classList.add('dark');
+      localStorage.theme = 'dark';
+    } else {
+      html.classList.remove('dark');
+      localStorage.theme = 'light';
+    }
+  })();
+  
+  // Global dark mode toggle function - must be defined early
+  window.toggleDarkMode = function() {
+    const html = document.documentElement;
+    const isDark = html.classList.contains('dark');
+    
+    if (isDark) {
+      html.classList.remove('dark');
+      localStorage.theme = 'light';
+    } else {
+      html.classList.add('dark');
+      localStorage.theme = 'dark';
+    }
+    
+    document.dispatchEvent(new CustomEvent('darkModeToggled', { detail: { isDark: !isDark } }));
+  }
+  
+  // Set up button event listener
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('dark-mode-toggle');
+    if (btn) {
+      btn.addEventListener('click', window.toggleDarkMode);
+    }
+  });
+</script>
+
+<script src="{{ "js/auth.js" | relURL }}"></script>
+
+{{- with resources.Get "js/main.js" }}
+  {{- $opts := dict
+    "minify" (not hugo.IsDevelopment)
+    "sourceMap" (cond hugo.IsDevelopment "external" "")
+    "targetPath" "js/main.js"
+  }}
+  {{- with . | js.Build $opts }}
+    {{- if hugo.IsDevelopment }}
+      <script src="{{ .RelPermalink }}"></script>
+    {{- else }}
+      {{- with . | fingerprint }}
+        <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}

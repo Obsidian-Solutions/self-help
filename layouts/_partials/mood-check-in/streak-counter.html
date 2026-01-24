@@ -1,0 +1,59 @@
+<div class="streak-widget bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 rounded-lg p-6 shadow-md">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Your Check-In Streak</h3>
+    <span class="text-3xl">🔥</span>
+  </div>
+  
+  <div class="grid grid-cols-2 gap-4">
+    <div>
+      <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400" id="streak-count">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-300">days in a row</div>
+    </div>
+    <div>
+      <div class="text-4xl font-bold text-purple-600 dark:text-purple-400" id="total-count">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-300">total check-ins</div>
+    </div>
+  </div>
+
+  <div class="mt-4 p-3 bg-white dark:bg-gray-700 rounded-lg">
+    <p class="text-sm text-gray-600 dark:text-gray-300">
+      <span class="font-semibold text-indigo-600 dark:text-indigo-400">Keep it up!</span> Every day you check in, you're building awareness of your emotions. 🌱
+    </p>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
+  const dates = Object.keys(moodData).sort().reverse();
+  
+  if (dates.length === 0) {
+    document.getElementById('streak-count').textContent = '0';
+    document.getElementById('total-count').textContent = '0';
+    return;
+  }
+
+  document.getElementById('total-count').textContent = dates.length;
+
+  // Calculate streak
+  let streak = 0;
+  let today = new Date();
+  
+  for (let i = 0; i < dates.length; i++) {
+    const checkDate = new Date(dates[i]);
+    const expectedDate = new Date(today);
+    expectedDate.setDate(expectedDate.getDate() - i);
+    
+    const checkDateStr = checkDate.toISOString().split('T')[0];
+    const expectedDateStr = expectedDate.toISOString().split('T')[0];
+    
+    if (checkDateStr === expectedDateStr) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  document.getElementById('streak-count').textContent = streak;
+});
+</script>
