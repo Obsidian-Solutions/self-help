@@ -1,4 +1,4 @@
 ---
-title: "Find a Therapist"
-layout: "list"
+title: 'Find a Therapist'
+layout: 'list'
 ---

@@ -1,4 +1,4 @@
 ---
-title: "Account Settings"
-layout: "settings"
+title: 'Account Settings'
+layout: 'settings'
 ---

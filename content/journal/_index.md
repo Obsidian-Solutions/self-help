@@ -1,4 +1,4 @@
 ---
-title: "My Journal"
-layout: "list"
+title: 'My Journal'
+layout: 'list'
 ---

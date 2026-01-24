@@ -1,11 +1,11 @@
 ---
-title: "Log In"
-layout: "login"
-illustration: "secure-login"
-heading: "Sign in to your account"
+title: 'Log In'
+layout: 'login'
+illustration: 'secure-login'
+heading: 'Sign in to your account'
 demoMode: true
-demoEmail: "demo@example.com"
-demoPassword: "password"
+demoEmail: 'demo@example.com'
+demoPassword: 'password'
 socialLogin: true
 ---
 

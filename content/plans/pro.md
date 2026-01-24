@@ -1,9 +1,9 @@
 ---
-title: "Pro"
-price: "$19/mo"
+title: 'Pro'
+price: '$19/mo'
 features:
-  - "All courses"
-  - "Progress tracking"
-  - "Offline access"
+  - 'All courses'
+  - 'Progress tracking'
+  - 'Offline access'
 recommended: true
 ---

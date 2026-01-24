@@ -1,4 +1,4 @@
 ---
-title: "Dashboard"
-layout: "dashboard"
+title: 'Dashboard'
+layout: 'dashboard'
 ---
