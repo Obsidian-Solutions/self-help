@@ -30,7 +30,16 @@
     "serve:prod": "hugo server",
     "validate": "hugo --validateOutput"
   },
-  "keywords": ["hugo", "theme", "mental-health", "self-help", "dark-mode", "quiz", "responsive", "tailwindcss"],
+  "keywords": [
+    "hugo",
+    "theme",
+    "mental-health",
+    "self-help",
+    "dark-mode",
+    "quiz",
+    "responsive",
+    "tailwindcss"
+  ],
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
   "type": "commonjs",
