@@ -16,6 +16,7 @@ Thank you for your interest in contributing! This guide explains how to contribu
 Found a bug? Please report it!
 
 **Good bug report includes:**
+
 - Clear title: "Dark mode toggle not saving" (not "it's broken")
 - Steps to reproduce
 - Expected behavior vs. actual behavior
@@ -23,6 +24,7 @@ Found a bug? Please report it!
 - System info (browser, OS, Node version)
 
 **Example:**
+
 ```
 Title: Quiz answers not persisting after page refresh
 
@@ -42,12 +44,14 @@ Actual: All answers are cleared
 Have an idea? We'd love to hear it!
 
 **Good feature request includes:**
+
 - Clear title: "Add quiz explanations"
 - Problem it solves
 - Proposed solution
 - Why it's valuable
 
 **Example:**
+
 ```
 Title: Add explanation text to quiz answers
 
@@ -63,23 +67,27 @@ Value: Increases learning effectiveness
 ### Submitting a Pull Request
 
 **Before you start:**
+
 1. Fork the repository
 2. Create a branch: `git checkout -b feature/my-feature`
 3. Set up development environment: `npm run setup`
 
 **While developing:**
+
 1. Follow the code style
 2. Keep changes focused
 3. Test your changes: `npm run test`
 4. Update documentation
 
 **When submitting:**
+
 1. Push to your fork
 2. Create a pull request with clear description
 3. Link any related issues
 4. Ensure all checks pass
 
 **Your PR must:**
+
 - ✅ Pass `npm run test` (linting + format + build)
 - ✅ Have clear commit messages
 - ✅ Include tests or demo
@@ -103,6 +111,7 @@ npm run test
 ```
 
 **Key Rules:**
+
 - 2-space indentation
 - Single quotes in JavaScript
 - 100-character line limit
@@ -113,6 +122,7 @@ npm run test
 ### Naming Conventions
 
 **HTML/Templates:**
+
 ```html
 <!-- Use kebab-case for IDs/classes -->
 <div id="quiz-container" class="quiz-wrapper">
@@ -121,14 +131,18 @@ npm run test
 ```
 
 **JavaScript:**
+
 ```js
 // Use camelCase for functions/variables
-const getUserScore = (userId) => { /* ... */ };
+const getUserScore = userId => {
+  /* ... */
+};
 const isComplete = true;
-const CACHE_KEY = 'quiz_results';  // CONSTANTS_IN_CAPS
+const CACHE_KEY = 'quiz_results'; // CONSTANTS_IN_CAPS
 ```
 
 **CSS/Tailwind:**
+
 ```css
 /* Use Tailwind utilities when possible */
 .card {
@@ -137,6 +151,7 @@ const CACHE_KEY = 'quiz_results';  // CONSTANTS_IN_CAPS
 ```
 
 **Markdown:**
+
 ```markdown
 # Use proper heading hierarchy
 
@@ -216,6 +231,7 @@ Fixes #123"
 ```
 
 **Commit Message Format:**
+
 ```
 <type>: <subject>
 
@@ -254,6 +270,7 @@ When you add features, update docs:
 **Feature:** Quiz timer
 
 **Files to update:**
+
 - `layouts/_partials/quiz/quiz-engine.html` - Implementation
 - `assets/js/quiz.js` - JavaScript logic
 - `QUIZ_DOCUMENTATION.md` - User documentation
@@ -305,14 +322,17 @@ Found a problem with a PR?
 ## Issue Title
 
 ### Problem
+
 What's wrong?
 
 ### Steps to Reproduce
+
 1. Step 1
 2. Step 2
 3. Expected vs. actual
 
 ### Suggestion
+
 How could this be better?
 ```
 
@@ -325,6 +345,7 @@ How could this be better?
 ## Recognition
 
 Contributors are recognized in:
+
 - Commit history
 - Release notes
 - README contributors section
