@@ -2,16 +2,12 @@
   "default": true,
   "MD003": { "style": "consistent" },
   "MD004": { "style": "consistent" },
-  "MD013": {
-    "line_length": 120,
-    "code_blocks": true,
-    "code_languages": [],
-    "headers": true,
-    "headers_line_length": 120,
-    "tables": true,
-    "ignore_code_languages": []
-  },
+  "MD013": false,
   "MD024": false,
+  "MD026": false,
+  "MD029": false,
+  "MD036": false,
+  "MD040": false,
   "MD034": false,
   "no-hard-tabs": false,
   "whitespace": false
