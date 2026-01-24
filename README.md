@@ -5,6 +5,7 @@ A modern, reusable Hugo theme for mental health, self-help, and educational webs
 ## 🎯 Features
 
 ### Visual Design
+
 - ✅ **Dark Mode** - Full dark theme support with persistent toggle
 - ✅ **Undraw Illustrations** - Access to 1000+ beautiful open-source SVG illustrations
 - ✅ **Handcrafts Elements** - Decorative SVG elements for accents and visual interest
@@ -12,6 +13,7 @@ A modern, reusable Hugo theme for mental health, self-help, and educational webs
 - ✅ **Tailwind CSS** - Modern utility-first CSS framework
 
 ### Interactive Features
+
 - ✅ **Quiz Engine** - Multiple choice quizzes with immediate feedback and scoring
 - ✅ **Embedded Quizzes** - Add quizzes to lessons via front-matter YAML
 - ✅ **Mood Tracking** - Daily mood check-ins with emoji selector
@@ -20,6 +22,7 @@ A modern, reusable Hugo theme for mental health, self-help, and educational webs
 - ✅ **Progress Tracking** - Monitor course and lesson completion
 
 ### Data & Privacy
+
 - ✅ **100% Client-Side** - All data stored in browser localStorage
 - ✅ **No Server Required** - Completely static site generation
 - ✅ **Open Source** - MIT license, free to use and modify
@@ -70,17 +73,20 @@ self-help/                          # Theme root
 ### Installation
 
 1. **Copy theme to your Hugo project:**
+
    ```bash
    cp -r self-help your-project/themes/
    ```
 
 2. **Update your site's hugo.toml:**
+
    ```toml
    theme = "self-help"
    baseURL = "https://yourdomain.com/"
    ```
 
 3. **Install dependencies:**
+
    ```bash
    cd your-project
    npm install
@@ -88,6 +94,7 @@ self-help/                          # Theme root
    ```
 
 4. **Start development server:**
+
    ```bash
    hugo server -D
    ```
@@ -95,6 +102,7 @@ self-help/                          # Theme root
 ### Creating Content
 
 **Create a Course:**
+
 ```toml
 # content/courses/my-course.md
 +++
@@ -107,6 +115,7 @@ Course content here.
 ```
 
 **Create a Lesson with Quiz:**
+
 ```toml
 # content/lessons/lesson-1.md
 +++
@@ -171,7 +180,8 @@ Add decorative SVG accents with customizable colors and styles:
 
 ```html
 <!-- Wavy underline -->
-{{ partial "handcrafts.html" (dict "element" "underline-wavy" "stroke" "#6366f1" "class" "h-1 w-12") }}
+{{ partial "handcrafts.html" (dict "element" "underline-wavy" "stroke" "#6366f1" "class" "h-1 w-12")
+}}
 
 <!-- Fun arrow with dot -->
 {{ partial "handcrafts.html" (dict "element" "fun-arrow" "stroke" "currentColor") }}
@@ -191,22 +201,16 @@ Access 1000+ beautiful illustrations from Undraw library:
 {{ partial "undraw.html" (dict "name" "meditation") }}
 
 <!-- With custom sizing and color -->
-{{ partial "undraw.html" (dict 
-  "name" "learning" 
-  "width" "w-64" 
-  "height" "h-64" 
-  "color" "#ec4899"
-) }}
+{{ partial "undraw.html" (dict "name" "learning" "width" "w-64" "height" "h-64" "color" "#ec4899" )
+}}
 
 <!-- Responsive sizing -->
-{{ partial "undraw.html" (dict 
-  "name" "breathing"
-  "width" "w-full sm:w-96"
-  "height" "h-32 md:h-64"
-) }}
+{{ partial "undraw.html" (dict "name" "breathing" "width" "w-full sm:w-96" "height" "h-32 md:h-64" )
+}}
 ```
 
 **Popular Illustrations for Mental Health:**
+
 - `meditation` - Meditation and mindfulness
 - `anxiety` - Anxiety management
 - `sleep` - Sleep and rest
@@ -237,6 +241,7 @@ explanation = "Explanation of the answer..."
 ```
 
 Quiz features:
+
 - Immediate feedback after each answer
 - Percentage scoring
 - Results page with customizable message
@@ -246,6 +251,7 @@ Quiz features:
 ### Mood Tracking
 
 Daily mood check-ins with localStorage persistence:
+
 - 5 emoji moods: 😢 😕 😐 🙂 😄
 - Automatic streak counter
 - Visual representation on dashboard
@@ -254,6 +260,7 @@ Daily mood check-ins with localStorage persistence:
 ### Achievement System
 
 Unlock badges based on activity:
+
 - "First Course" - Started first course
 - "7-Day Streak" - 7 consecutive days of activity
 - "Feelings Expert" - Completed emotion-related quiz
@@ -262,12 +269,9 @@ Unlock badges based on activity:
 - "Journal Pro" - Written 10 journal entries
 
 Trigger badges via quiz scores ≥80%:
+
 ```html
-{{ if .Params.quiz }}
-if (score >= 80) {
-  awardBadge('feelings-explorer');
-}
-{{ end }}
+{{ if .Params.quiz }} if (score >= 80) { awardBadge('feelings-explorer'); } {{ end }}
 ```
 
 ## 🔧 Configuration
@@ -282,11 +286,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#6366f1',  // Indigo
-      }
-    }
-  }
-}
+        primary: '#6366f1', // Indigo
+      },
+    },
+  },
+};
 ```
 
 ### hugo.toml
@@ -342,12 +346,14 @@ hugo --minify
 - **Node.js** 16+ (for CSS building)
 
 Optional:
+
 - **GitHub/GitLab** for content management
 - **Wagtail/Strapi** for future CMS integration (planned)
 
 ## 🎓 Use Cases
 
 This theme is perfect for:
+
 - 📚 Online courses and educational content
 - 🧠 Mental health and therapy applications
 - 🎯 Self-help and personal development
@@ -364,6 +370,7 @@ This theme is perfect for:
 ## 🚦 Next Steps
 
 ### Phase 1: Visual Polish (80% complete)
+
 - ✅ Dark mode
 - ✅ Undraw integration
 - ✅ Handcrafts decorations
@@ -371,12 +378,14 @@ This theme is perfect for:
 - ⏳ Additional page templates
 
 ### Phase 2-3: Content (Complete)
+
 - ✅ Quiz engine
 - ✅ Mood tracking
 - ✅ Achievements
 - ✅ Embedded quizzes in lessons
 
 ### Phase 4: CMS (Planned)
+
 - 🔲 Evaluate Wagtail/Strapi/Payload
 - 🔲 Design content models
 - 🔲 Plan admin interface
