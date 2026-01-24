@@ -12,6 +12,7 @@
 ## 📊 Project Phases Overview
 
 ### Phase 1: Visual Design ✅ **80% Complete**
+
 - ✅ Dark mode system (full theme + persistent toggle)
 - ✅ Undraw integration (1000+ illustration library access)
 - ✅ Handcrafts decorative elements (8 available)
@@ -19,6 +20,7 @@
 - ⏳ More illustrations across pages (in progress)
 
 ### Phase 2-3: Interactive Features ✅ **100% Complete**
+
 - ✅ Quiz engine (235-line interactive system)
 - ✅ Embedded quizzes in lessons (YAML front-matter)
 - ✅ Mood tracking (emoji selector, streak counter)
@@ -27,6 +29,7 @@
 - ✅ localStorage persistence (no server needed)
 
 ### Phase 4: CMS Planning ⏳ **Not Started**
+
 - 🔲 Research CMS options
 - 🔲 Content model design
 - 🔲 Admin interface planning
@@ -39,12 +42,14 @@
 ### ✅ Completed
 
 **Dark Mode System**
+
 - JavaScript toggle with localStorage persistence
 - Tailwind selector-based dark mode: `[class~="dark"]`
 - Full coverage across 44 pages
 - Smooth transitions between themes
 
 **Undraw Illustration Integration**
+
 - New component: `/layouts/_partials/undraw.html`
 - Access to 1000+ illustrations from Undraw.co library
 - Customizable via parameters: `name`, `width`, `height`, `color`, `alt`, `class`
@@ -52,6 +57,7 @@
 - Easy for theme users to add: `{{ partial "undraw.html" (dict "name" "meditation") }}`
 
 **Handcrafts Decorative Elements**
+
 - New component: `/layouts/_partials/handcrafts.html`
 - 8 available decorative SVG elements
 - Elements: `underline`, `underline-wavy`, `underline-dashed`, `arrow`, `fun-arrow`, `check`, `heart`, `star`
@@ -60,6 +66,7 @@
 - Currently integrated into home page feature cards
 
 **Home Page Enhancement**
+
 - 4-feature grid with enhanced styling:
   1. **Indigo Card** - "Proven CBT Techniques" + wavy underline
   2. **Purple Card** - "Track Your Progress" + wavy underline
@@ -71,6 +78,7 @@
 - Icons with modern Heroicon styling
 
 ### ⏳ In Progress (20% remaining)
+
 - Extend Undraw illustrations to courses, settings, auth pages
 - Add Handcrafts elements to dashboard sections
 - Polish remaining page templates with decorative elements
@@ -85,6 +93,7 @@
 **Core Component:** `/layouts/_partials/quiz/quiz-engine.html` (235 lines)
 
 **Features:**
+
 - Multiple choice with 4 options per question
 - Immediate feedback on answer selection
 - Detailed explanations for each answer
@@ -95,6 +104,7 @@
 - Full localStorage integration for history
 
 **JavaScript Architecture:**
+
 ```js
 // Loads from front-matter
 const lessonQuizData = {
@@ -123,6 +133,7 @@ initializeQuiz(quizData)
 ### Embedded Quizzes in Lessons
 
 **How It Works:**
+
 1. Lesson markdown includes quiz in front-matter (YAML)
 2. `/layouts/lessons/single.html` extracts quiz data
 3. Converts YAML to JavaScript object
@@ -130,8 +141,10 @@ initializeQuiz(quizData)
 5. Tracks completion and awards badges if 80%+
 
 **Example Lesson:**
+
 ```markdown
 # content/lessons/anxiety-basics.md
+
 +++
 title = "Anxiety Basics"
 course = "CBT for Anxiety"
@@ -158,11 +171,13 @@ Lesson content here...
 ```
 
 **Implemented Example:**
+
 - `/content/lessons/anxiety-basics.md` - Full working example with 5-question quiz
 
 ### Mood Tracking System
 
 **Features:**
+
 - 5-emoji mood selector: 😢 😕 😐 🙂 😄
 - Daily check-in widget on dashboard
 - Automatic streak counter (consecutive days)
@@ -170,21 +185,23 @@ Lesson content here...
 - Visual display on dashboard with streak count and motivational message
 
 **Data Structure:**
+
 ```js
 localStorage.moodCheckins = [
   {
-    date: "2026-01-24",
-    mood: 4,  // 0-4 scale
-    notes: "Optional"
-  }
-]
+    date: '2026-01-24',
+    mood: 4, // 0-4 scale
+    notes: 'Optional',
+  },
+];
 
-localStorage.currentStreak = 7  // consecutive days
+localStorage.currentStreak = 7; // consecutive days
 ```
 
 ### Achievement Badge System
 
 **6 Badges Total:**
+
 1. **First Course** - Started first course
 2. **7-Day Streak** - 7 consecutive days of activity
 3. **Feelings Expert** - Completed emotion quiz with 80%+
@@ -193,6 +210,7 @@ localStorage.currentStreak = 7  // consecutive days
 6. **Journal Pro** - Written 10 journal entries
 
 **Features:**
+
 - Auto-unlock on 80%+ quiz scores
 - localStorage persistence
 - Visual display on dashboard
@@ -200,11 +218,12 @@ localStorage.currentStreak = 7  // consecutive days
 - Customizable trigger conditions
 
 **Implementation:**
+
 ```js
 localStorage.badges = {
-  "feelings-explorer": true,
-  "7-day-streak": false
-}
+  'feelings-explorer': true,
+  '7-day-streak': false,
+};
 
 // Trigger badge award
 if (quizScore >= 80) {
@@ -226,6 +245,7 @@ if (quizScore >= 80) {
 ## 📁 Files Created/Modified This Session
 
 ### Documentation (1000+ lines total)
+
 - **README.md** - Complete theme guide with quick start (350+ lines)
 - **ILLUSTRATIONS.md** - Undraw & Handcrafts usage (400+ lines)
 - **ILLUSTRATIONS_QUICK_REFERENCE.md** - Quick lookup (250+ lines)
@@ -233,18 +253,21 @@ if (quizScore >= 80) {
 - **DEVELOPMENT.md** - This file
 
 ### Core New Components
+
 - `/layouts/_partials/undraw.html` - Illustration component
 - `/layouts/_partials/handcrafts.html` - Decorative element component
 - `/layouts/_partials/quiz/quiz-engine.html` - Interactive quiz (235 lines)
 - `/layouts/_partials/quiz/course-quiz.html` - Quiz wrapper
 
 ### Modified Layouts
+
 - `/layouts/index.html` - Enhanced feature cards with Handcrafts
 - `/layouts/lessons/single.html` - Quiz embedding with badge logic
 - `/layouts/dashboard/list.html` - Fixed scroll, added quiz section
 - Various other page templates
 
 ### Content Examples
+
 - `/content/lessons/anxiety-basics.md` - Lesson with 5-question quiz demonstrating YAML structure
 
 ---
@@ -252,18 +275,21 @@ if (quizScore >= 80) {
 ## 🛠️ Technical Stack
 
 ### Frontend
+
 - **Hugo** 0.154+ - Static site generator
 - **Tailwind CSS 3.4.19** - Utility CSS framework
 - **Vanilla JavaScript** - No dependencies, all client-side
 - **localStorage API** - Client-side persistence
 
 ### Dark Mode
+
 - **Configuration**: `darkMode: ['selector', '[class~="dark"]']`
 - **Toggle**: JavaScript adds/removes `dark` class
 - **Persistence**: localStorage saves preference
 - **Coverage**: All 44 pages fully styled for dark mode
 
 ### Build Process
+
 ```
 npm run build:css          # Compiles Tailwind
 hugo -D                    # Builds 44 static HTML pages
@@ -271,6 +297,7 @@ hugo -D                    # Builds 44 static HTML pages
 ```
 
 ### Data Flow
+
 ```
 Markdown Front Matter (YAML)
     ↓
@@ -292,6 +319,7 @@ Browser localStorage Persistence
 **Scenario:** Creating a new mental health course site
 
 **Step 1: Copy Theme**
+
 ```bash
 cp -r self-help/ my-project/themes/
 cd my-project
@@ -299,8 +327,10 @@ npm install
 ```
 
 **Step 2: Create Content (No Code Required)**
+
 ```markdown
 # content/courses/stress-management.md
+
 +++
 title = "Stress Management"
 description = "Learn to manage daily stress"
@@ -308,6 +338,7 @@ description = "Learn to manage daily stress"
 Course overview...
 
 # content/lessons/stress-1.md
+
 +++
 title = "Identifying Stress"
 course = "Stress Management"
@@ -324,19 +355,21 @@ Lesson content...
 ```
 
 **Step 3: Optional - Customize with Illustrations**
+
 ```html
-{{- /* Custom layout using components */ -}}
-{{ partial "undraw.html" (dict "name" "meditation") }}
+{{- /* Custom layout using components */ -}} {{ partial "undraw.html" (dict "name" "meditation") }}
 {{ partial "handcrafts.html" (dict "element" "underline-wavy" "stroke" "#6366f1") }}
 ```
 
 **Step 4: Build**
+
 ```bash
 hugo server -D
 # Live site at http://localhost:1313
 ```
 
 **Result:**
+
 - ✅ Courses and lessons from markdown
 - ✅ Embedded quizzes with scoring
 - ✅ Mood tracking
@@ -350,20 +383,21 @@ hugo server -D
 
 ## 📚 Documentation Files
 
-| File | Content | Lines |
-|------|---------|-------|
-| README.md | Complete theme guide | 350+ |
-| ILLUSTRATIONS.md | Undraw & Handcrafts guide | 400+ |
-| ILLUSTRATIONS_QUICK_REFERENCE.md | Quick lookup & examples | 250+ |
-| QUIZ_DOCUMENTATION.md | Quiz system details | 400+ |
-| DEVELOPMENT.md | This file | 350+ |
-| **Total Documentation** | **Complete reference** | **1700+** |
+| File                             | Content                   | Lines     |
+| -------------------------------- | ------------------------- | --------- |
+| README.md                        | Complete theme guide      | 350+      |
+| ILLUSTRATIONS.md                 | Undraw & Handcrafts guide | 400+      |
+| ILLUSTRATIONS_QUICK_REFERENCE.md | Quick lookup & examples   | 250+      |
+| QUIZ_DOCUMENTATION.md            | Quiz system details       | 400+      |
+| DEVELOPMENT.md                   | This file                 | 350+      |
+| **Total Documentation**          | **Complete reference**    | **1700+** |
 
 ---
 
 ## 🚀 Next Steps
 
 ### Phase 1: Visual Polish (20% remaining)
+
 - [ ] Integrate Undraw illustrations into more pages
 - [ ] Add Handcrafts decorations to dashboard sections
 - [ ] Create settings page with illustrations
@@ -371,6 +405,7 @@ hugo server -D
 - [ ] Expand feature cards on courses page
 
 ### Phase 4: CMS Research & Design
+
 - [ ] Evaluate lightweight CMS options:
   - Wagtail (Python-based, complex)
   - Strapi (Node-based, flexible)
@@ -390,6 +425,7 @@ hugo server -D
 ## 📊 Statistics
 
 **Theme Metrics:**
+
 - Pages generated: 44
 - Layout templates: 10+
 - Partials (reusable components): 15+
@@ -400,6 +436,7 @@ hugo server -D
 - Decorative elements: 8 (Handcrafts)
 
 **Features:**
+
 - Dark/Light modes: 2
 - Quiz questions in demo: 10+
 - Achievement badges: 6
@@ -411,33 +448,28 @@ hugo server -D
 ## 🎨 Illustration System
 
 ### Undraw Integration
+
 **Component:** `{{ partial "undraw.html" ... }}`
 
 ```html
-{{ partial "undraw.html" (dict 
-  "name" "meditation"           # Illustration name
-  "width" "w-64"               # Tailwind width
-  "height" "h-64"              # Tailwind height
-  "color" "#6366f1"            # Optional custom color
-  "alt" "Person meditating"    # Accessibility
-  "class" "rounded-lg"         # Extra CSS classes
-) }}
+{{ partial "undraw.html" (dict "name" "meditation" # Illustration name "width" "w-64" # Tailwind
+width "height" "h-64" # Tailwind height "color" "#6366f1" # Optional custom color "alt" "Person
+meditating" # Accessibility "class" "rounded-lg" # Extra CSS classes ) }}
 ```
 
 **Popular Mental Health Illustrations:**
+
 - meditation, mindfulness, breathing, anxiety, sleep, learning, journaling, happy, party, goals, growth, thinking, support, therapy
 
 **Browse all:** https://undraw.co/illustrations
 
 ### Handcrafts Integration
+
 **Component:** `{{ partial "handcrafts.html" ... }}`
 
 ```html
-{{ partial "handcrafts.html" (dict 
-  "element" "underline-wavy"   # Element type
-  "stroke" "#4f46e5"           # Color
-  "class" "h-1 w-12"           # Tailwind sizing
-) }}
+{{ partial "handcrafts.html" (dict "element" "underline-wavy" # Element type "stroke" "#4f46e5" #
+Color "class" "h-1 w-12" # Tailwind sizing ) }}
 ```
 
 **Available Elements:** underline, underline-wavy, underline-dashed, arrow, fun-arrow, check, heart, star
@@ -458,16 +490,19 @@ hugo server -D
 ## 📝 License
 
 **Theme Code:** MIT License
+
 - Free to use, modify, and distribute
 - Commercial use allowed
 - No attribution required
 
 **Undraw Illustrations:** Open License
+
 - 1000+ illustrations
 - Free for commercial and personal use
 - No attribution required
 
 **Handcrafts Elements:** Open Source
+
 - Free to use and customize
 - No attribution required
 
@@ -476,14 +511,17 @@ hugo server -D
 ## 💡 Key Insights
 
 ### Critical Understanding
+
 This is a **THEME FRAMEWORK**, not a finished product.
 
 The `/content/` folder demonstrates:
+
 - How to structure courses and lessons
 - How to embed quizzes in lessons
 - How to use reusable partials for customization
 
 **Future users will:**
+
 1. Copy this theme
 2. Create their own `/content/` folder
 3. Follow the patterns shown in demo files
@@ -491,7 +529,9 @@ The `/content/` folder demonstrates:
 5. Eventually integrate with CMS (Phase 4)
 
 ### Architecture Achievement
+
 Quiz embedding via YAML front-matter is elegant:
+
 - Keeps content and quiz data together
 - Hugo processes YAML at build time
 - Converts to JavaScript objects
@@ -504,6 +544,7 @@ Quiz embedding via YAML front-matter is elegant:
 ## 🎯 Success Metrics
 
 **Phase 1-3 Completion:**
+
 - ✅ All core features implemented
 - ✅ 44 pages building successfully
 - ✅ 1700+ lines of documentation
@@ -513,6 +554,7 @@ Quiz embedding via YAML front-matter is elegant:
 - ✅ Achievement and mood tracking complete
 
 **Ready for:**
+
 - ✅ Theme distribution to other projects
 - ✅ Community use and feedback
 - ✅ CMS planning and implementation (Phase 4)
@@ -522,6 +564,7 @@ Quiz embedding via YAML front-matter is elegant:
 ## 📞 Quick Reference
 
 **Key Files:**
+
 - README.md - Start here for overview
 - ILLUSTRATIONS_QUICK_REFERENCE.md - Copy-paste examples
 - QUIZ_DOCUMENTATION.md - Quiz implementation details
@@ -529,13 +572,15 @@ Quiz embedding via YAML front-matter is elegant:
 - tailwind.config.js - Styling configuration
 
 **Key Directories:**
+
 - layouts/ - Page templates
-- layouts/_partials/ - Reusable components
+- layouts/\_partials/ - Reusable components
 - content/ - Example content (markdown)
 - assets/css/ - Styling
 - assets/js/ - JavaScript
 
 **Build Commands:**
+
 ```bash
 npm run build:css           # Build CSS
 hugo server -D              # Dev server

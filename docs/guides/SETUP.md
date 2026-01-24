@@ -29,6 +29,7 @@ npm run setup
 ```
 
 This single command:
+
 - Installs all npm dependencies
 - Builds CSS from Tailwind
 - Confirms setup is complete
@@ -131,6 +132,7 @@ npm run format:check
 ```
 
 **Prettier Config** (`.prettierrc.json`):
+
 - Line width: 100 characters
 - Indentation: 2 spaces
 - Quotes: Single quotes (JavaScript)
@@ -146,6 +148,7 @@ npm run lint:js
 ```
 
 **Linting Rules**:
+
 - ES2021+ features
 - `const`/`let` preferred over `var`
 - Unused variables: warning
@@ -159,6 +162,7 @@ npm run lint:md
 ```
 
 **Markdown Rules**:
+
 - Consistent header styles
 - Line length: 120 characters (warnings only)
 - Proper code fence formatting
@@ -172,6 +176,7 @@ npm run test
 ```
 
 This runs:
+
 1. Linting (JavaScript + Markdown)
 2. Format checking
 3. Full production build
@@ -272,6 +277,7 @@ npm run lint
 No environment variables required for development. The theme is completely static with localStorage persistence.
 
 For production hosting, ensure:
+
 - `baseURL` in `hugo.toml` matches your domain
 - Hosting supports HTTPS (for secure localStorage)
 

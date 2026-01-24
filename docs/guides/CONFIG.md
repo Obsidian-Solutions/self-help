@@ -397,10 +397,10 @@ module.exports = {
       colors: {
         primary: '#4F46E5',
         secondary: '#10B981',
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 ```
 
 ### Custom Fonts
@@ -457,6 +457,7 @@ npm run clean            # Clean artifacts
 ### Scenario 1: Disable Dark Mode
 
 **hugo.toml:**
+
 ```toml
 [params.darkMode]
   enabled = false
@@ -465,6 +466,7 @@ npm run clean            # Clean artifacts
 ### Scenario 2: Enable Stripe Payments
 
 **config/api.json:**
+
 ```json
 "payments": {
   "enabled": true,
@@ -474,6 +476,7 @@ npm run clean            # Clean artifacts
 ```
 
 **.env:**
+
 ```env
 STRIPE_PUBLIC_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
@@ -482,6 +485,7 @@ STRIPE_SECRET_KEY=sk_live_...
 ### Scenario 3: Add Google Analytics
 
 **hugo.toml:**
+
 ```toml
 [params.analytics]
   enabled = true
@@ -491,6 +495,7 @@ STRIPE_SECRET_KEY=sk_live_...
 ### Scenario 4: Customize Colors
 
 **config/settings.json:**
+
 ```json
 "colors": {
   "primary": "#FF6B6B",
@@ -500,6 +505,7 @@ STRIPE_SECRET_KEY=sk_live_...
 ```
 
 **tailwind.config.js:**
+
 ```javascript
 colors: {
   primary: '#FF6B6B',
@@ -515,7 +521,7 @@ colors: {
 Settings are applied in this order (later overrides earlier):
 
 1. **defaults.json** (if created)
-2. **config/*.json** files
+2. **config/\*.json** files
 3. **.env** variables
 4. **hugo.toml** params
 5. **tailwind.config.js** theme

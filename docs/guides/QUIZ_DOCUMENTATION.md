@@ -12,24 +12,24 @@ Lessons are the core building blocks of courses. Each lesson can include an embe
 
 ```yaml
 ---
-title: "Understanding Anxiety: The Basics"
-course: "CBT for Anxiety"           # Links lesson to a course
-description: "Learn the fundamentals of anxiety and how CBT can help manage it."
-order: 1                             # Display order in course
+title: 'Understanding Anxiety: The Basics'
+course: 'CBT for Anxiety' # Links lesson to a course
+description: 'Learn the fundamentals of anxiety and how CBT can help manage it.'
+order: 1 # Display order in course
 draft: false
-quiz:                               # Optional - add quiz to lesson
-  description: "Test your knowledge about anxiety basics"
-  resultMessage: "Excellent! You understand the foundations of anxiety management."
+quiz: # Optional - add quiz to lesson
+  description: 'Test your knowledge about anxiety basics'
+  resultMessage: 'Excellent! You understand the foundations of anxiety management.'
   questions:
-    - question: "What does CBT stand for?"
+    - question: 'What does CBT stand for?'
       options:
-        - "Cognitive Behavioral Therapy"
-        - "Cognitive Biological Theory"
-        - "Consistent Behavior Training"
-        - "Cognitive Bias Testing"
-      correct: 0                     # Index of correct answer
-      explanation: "CBT stands for Cognitive Behavioral Therapy..."
-    
+        - 'Cognitive Behavioral Therapy'
+        - 'Cognitive Biological Theory'
+        - 'Consistent Behavior Training'
+        - 'Cognitive Bias Testing'
+      correct: 0 # Index of correct answer
+      explanation: 'CBT stands for Cognitive Behavioral Therapy...'
+
     # Add more questions...
 ---
 ```
@@ -37,30 +37,36 @@ quiz:                               # Optional - add quiz to lesson
 ## Creating a Lesson with a Quiz
 
 ### Step 1: Create the Lesson File
+
 Create a new markdown file in `content/lessons/`:
+
 - File: `content/lessons/my-lesson.md`
 - Name it descriptively (e.g., `anxiety-basics.md`, `sleep-hygiene-intro.md`)
 
 ### Step 2: Add Front Matter
+
 Include metadata and quiz questions:
+
 ```yaml
 ---
-title: "Your Lesson Title"
-course: "Course Name That Matches a Course File"
-description: "Brief description of what students will learn"
+title: 'Your Lesson Title'
+course: 'Course Name That Matches a Course File'
+description: 'Brief description of what students will learn'
 order: 1
 quiz:
-  description: "Optional description of the quiz"
-  resultMessage: "Message shown after quiz completion"
+  description: 'Optional description of the quiz'
+  resultMessage: 'Message shown after quiz completion'
   questions:
-    - question: "First question?"
-      options: ["Option A", "Option B", "Option C", "Option D"]
+    - question: 'First question?'
+      options: ['Option A', 'Option B', 'Option C', 'Option D']
       correct: 0
-      explanation: "Why this answer is correct"
+      explanation: 'Why this answer is correct'
 ```
 
 ### Step 3: Write Lesson Content
+
 Add your lesson content in markdown:
+
 ```markdown
 ---
 [Front matter here]
@@ -69,8 +75,9 @@ Add your lesson content in markdown:
 ## Welcome to Your Lesson
 
 Your lesson content goes here. You can use:
+
 - Headings (##, ###, etc.)
-- **Bold** and *italic* text
+- **Bold** and _italic_ text
 - Lists
 - Code blocks
 - Links
@@ -81,6 +88,7 @@ The quiz will automatically render at the end of the lesson content.
 ## How Quizzes Work
 
 ### Quiz Features
+
 - **Multiple choice questions** with 4 options
 - **Immediate feedback** - explanation shown after each question
 - **Scoring system** - calculates percentage
@@ -103,17 +111,17 @@ The quiz uses Hugo's templating to convert YAML quiz data to JavaScript:
 
 ```javascript
 const lessonQuizData = {
-  title: "Lesson Title - Knowledge Check",
-  description: "Test your understanding",
-  resultMessage: "Great work!",
+  title: 'Lesson Title - Knowledge Check',
+  description: 'Test your understanding',
+  resultMessage: 'Great work!',
   questions: [
     {
-      question: "Question text?",
-      options: ["A", "B", "C", "D"],
+      question: 'Question text?',
+      options: ['A', 'B', 'C', 'D'],
       correct: 0,
-      explanation: "Explanation text"
-    }
-  ]
+      explanation: 'Explanation text',
+    },
+  ],
 };
 
 initializeQuiz(lessonQuizData);
@@ -122,13 +130,16 @@ initializeQuiz(lessonQuizData);
 ## Quiz Scoring & Achievements
 
 ### Score Thresholds
+
 - **80%+** → 🌟 "Excellent Work!" + Unlock "Feelings Expert" badge
 - **60-79%** → 👏 "Good Job!"
 - **40-59%** → 📚 "Keep Learning!"
 - **<40%** → 💪 "Time to Review"
 
 ### Achievement Tracking
+
 Achievements are stored in `localStorage.badges`:
+
 ```javascript
 {
   "first-course": true,        // Completed first course
@@ -143,16 +154,18 @@ Achievements are stored in `localStorage.badges`:
 ## Course Structure
 
 Courses are created as simple markdown files in `content/courses/`:
+
 - File: `content/courses/course-name.md`
 - The course automatically pulls in all lessons with matching `course:` value
 
 ### Course Front Matter
+
 ```yaml
 ---
-title: "Course Title"
-description: "What students will learn"
-image: "/images/course-image.jpg"
-category: "Category Name (e.g., Anxiety, Sleep)"
+title: 'Course Title'
+description: 'What students will learn'
+image: '/images/course-image.jpg'
+category: 'Category Name (e.g., Anxiety, Sleep)'
 ---
 ```
 
@@ -167,14 +180,18 @@ category: "Category Name (e.g., Anxiety, Sleep)"
 ## Customization
 
 ### Modify Quiz Styling
+
 Edit `/layouts/_partials/quiz/quiz-engine.html` for:
+
 - Colors and gradients
 - Button styles
 - Animations
 - Result screen layout
 
 ### Extend Quiz Features
+
 Add to `quiz-engine.html`:
+
 - Timed quizzes
 - Question shuffling
 - Passing score requirements
@@ -182,7 +199,9 @@ Add to `quiz-engine.html`:
 - Email results
 
 ### Add Quiz Types
+
 Create new partials in `layouts/_partials/quiz/`:
+
 - `true-false-quiz.html` - Simple yes/no questions
 - `matching-quiz.html` - Match items together
 - `essay-quiz.html` - Open-ended questions with rubrics
@@ -190,6 +209,7 @@ Create new partials in `layouts/_partials/quiz/`:
 ## Data Persistence
 
 ### Stored in localStorage:
+
 - `moodCheckins` - Daily mood selections
 - `courseProgress` - Completed lessons/courses
 - `badges` - Unlocked achievements
@@ -209,6 +229,7 @@ Create new partials in `layouts/_partials/quiz/`:
 ## Future Enhancements
 
 This theme is built for eventual CMS integration (Phase 4):
+
 - Admin dashboard for creating quizzes
 - Question bank/library
 - Quiz analytics and reporting

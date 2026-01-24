@@ -1,16 +1,18 @@
 # Development Tooling & Configuration Setup
 
 **Date:** January 24, 2026  
-**Status:** ✅ Complete  
+**Status:** ✅ Complete
 
 ---
 
 ## What Was Added
 
 ### 1. Enhanced package.json
+
 **File:** `package.json`
 
 **New Scripts:**
+
 ```bash
 npm run dev              # Start dev server + watch CSS (recommended)
 npm run build           # Production build with minification
@@ -29,12 +31,14 @@ npm run validate        # Validate Hugo output
 ```
 
 **New Dev Dependencies:**
+
 - `eslint` (8.54.0) - JavaScript linting
 - `prettier` (3.1.0) - Code formatting
 - `markdownlint-cli` (0.37.0) - Markdown validation
 - `npm-run-all` (4.1.5) - Run multiple scripts in parallel
 
 **Updated Metadata:**
+
 - Added `bugs` URL
 - Added `homepage` URL
 - Updated `engines` (Node 18+, npm 9+, Hugo 0.120+)
@@ -44,12 +48,14 @@ npm run validate        # Validate Hugo output
 ### 2. Configuration Files (Dotfiles)
 
 #### `.eslintrc.json` - JavaScript Linting
+
 - Targets ES2021+ features
 - Enforces consistent code style
 - Rules: 2-space indents, single quotes, strict equality
 - Browser + localStorage globals supported
 
 #### `.prettierrc.json` - Code Formatting
+
 - 100-character line width
 - 2-space indentation
 - Single quotes in JavaScript
@@ -57,12 +63,14 @@ npm run validate        # Validate Hugo output
 - Consistent formatting across HTML, CSS, JSON
 
 #### `.markdownlint.json` - Markdown Validation
+
 - Consistent heading styles
 - 120-character line limit
 - Proper code fence formatting
 - Allows flexible list styles
 
 #### `.editorconfig` - Editor Configuration
+
 - UTF-8 encoding
 - LF line endings
 - 2-space indentation (most file types)
@@ -70,6 +78,7 @@ npm run validate        # Validate Hugo output
 - Final newline required
 
 #### `.gitignore` - Version Control
+
 - Hugo build artifacts (`public/`, `resources/`, `.hugo_build.lock`)
 - Node modules and npm files
 - IDE files (`.vscode/`, `.idea/`, etc.)
@@ -78,6 +87,7 @@ npm run validate        # Validate Hugo output
 - Build outputs
 
 #### `.npmrc` - NPM Configuration
+
 - Strict dependency resolution
 - Consistent npm behavior across machines
 
@@ -86,6 +96,7 @@ npm run validate        # Validate Hugo output
 ### 3. Development Guides
 
 #### `SETUP.md` - Development Environment Guide (700+ lines)
+
 - **Quick Start** (5 minutes)
 - **Available Commands** - Complete reference
 - **Folder Structure** - Where everything lives
@@ -96,6 +107,7 @@ npm run validate        # Validate Hugo output
 - **CI/CD Integration** - Automated testing setup
 
 #### `CONTRIBUTING.md` - Contribution Guidelines (600+ lines)
+
 - **Code of Conduct** - Be respectful and inclusive
 - **Types of Contributions** - Bugs, features, code
 - **Bug Report Template** - How to report issues
@@ -111,6 +123,7 @@ npm run validate        # Validate Hugo output
 ## Quick Start for Development
 
 ### First Time Setup
+
 ```bash
 cd /home/matt/Development/themes/self-help
 npm run setup
@@ -120,6 +133,7 @@ npm run dev
 Visit `http://localhost:1313` and start editing!
 
 ### Daily Development
+
 ```bash
 npm run dev          # Start dev server
 # Make changes
@@ -129,6 +143,7 @@ git commit -m "feat: description"
 ```
 
 ### Before Committing
+
 ```bash
 npm run test         # Run full test suite
 npm run build        # Build production
@@ -141,40 +156,45 @@ git push
 ## Available Scripts Reference
 
 ### Development
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start server + CSS watcher (recommended) |
-| `npm start` | Start Hugo server only |
-| `npm run serve` | Dev server (fast render disabled) |
-| `npm run serve:prod` | Production mode server |
+
+| Command              | Purpose                                  |
+| -------------------- | ---------------------------------------- |
+| `npm run dev`        | Start server + CSS watcher (recommended) |
+| `npm start`          | Start Hugo server only                   |
+| `npm run serve`      | Dev server (fast render disabled)        |
+| `npm run serve:prod` | Production mode server                   |
 
 ### Building
-| Command | Purpose |
-|---------|---------|
-| `npm run build` | Full production build |
-| `npm run build:css` | Build Tailwind CSS |
+
+| Command             | Purpose               |
+| ------------------- | --------------------- |
+| `npm run build`     | Full production build |
+| `npm run build:css` | Build Tailwind CSS    |
 | `npm run watch:css` | Watch CSS and rebuild |
-| `npm run clean` | Clean build artifacts |
+| `npm run clean`     | Clean build artifacts |
 
 ### Code Quality
-| Command | Purpose |
-|---------|---------|
-| `npm run lint` | Run all linters |
-| `npm run lint:js` | Lint JavaScript |
-| `npm run lint:md` | Lint Markdown |
-| `npm run format` | Auto-format code |
+
+| Command                | Purpose          |
+| ---------------------- | ---------------- |
+| `npm run lint`         | Run all linters  |
+| `npm run lint:js`      | Lint JavaScript  |
+| `npm run lint:md`      | Lint Markdown    |
+| `npm run format`       | Auto-format code |
 | `npm run format:check` | Check formatting |
 
 ### Testing
-| Command | Purpose |
-|---------|---------|
-| `npm run test` | Full test suite |
-| `npm run test:ci` | CI-mode testing |
+
+| Command            | Purpose         |
+| ------------------ | --------------- |
+| `npm run test`     | Full test suite |
+| `npm run test:ci`  | CI-mode testing |
 | `npm run validate` | Hugo validation |
 
 ### Setup
-| Command | Purpose |
-|---------|---------|
+
+| Command         | Purpose                |
+| --------------- | ---------------------- |
 | `npm run setup` | Initialize environment |
 
 ---
@@ -182,6 +202,7 @@ git push
 ## Code Quality Standards
 
 ### JavaScript (ESLint)
+
 - ES2021+ features
 - 2-space indentation
 - Single quotes
@@ -191,12 +212,14 @@ git push
 - No unused variables (warnings)
 
 ### Markdown (markdownlint)
+
 - Consistent headers
 - 120-char line limit
 - Proper code fences
 - List consistency
 
 ### Formatting (Prettier)
+
 - 100-character lines
 - 2-space tabs
 - Single quotes (JS)
@@ -204,6 +227,7 @@ git push
 - Automatic formatting
 
 ### Style (EditorConfig)
+
 - UTF-8 encoding
 - LF line endings
 - Final newline required
@@ -250,6 +274,7 @@ npm run test:ci
 ```
 
 This runs:
+
 1. Linting (JS + Markdown)
 2. Format validation
 3. Production build with warnings
@@ -259,12 +284,14 @@ This runs:
 ## Version Requirements
 
 **Minimum versions:**
+
 - Node.js: 18.0.0
 - npm: 9.0.0
 - Hugo: 0.120.0 (extended)
 - Git: Any recent version
 
 **Check versions:**
+
 ```bash
 node --version
 npm --version
@@ -291,6 +318,7 @@ All dependencies are dev-only (not required for production):
 ```
 
 **Installation:**
+
 ```bash
 npm install
 ```
@@ -300,16 +328,19 @@ npm install
 ## Best Practices
 
 ### Before Committing
+
 ```bash
 npm run test        # Check everything
 ```
 
 ### Before Pushing
+
 ```bash
 npm run build       # Verify production build
 ```
 
 ### Before Deploying
+
 ```bash
 npm run test:ci     # Strict CI checks
 npm run clean && npm run build  # Fresh build
@@ -320,6 +351,7 @@ npm run clean && npm run build  # Fresh build
 ## Troubleshooting
 
 ### Scripts Not Running
+
 ```bash
 # Ensure npm is in PATH
 which npm
@@ -330,6 +362,7 @@ npm install
 ```
 
 ### Linting Errors
+
 ```bash
 # Auto-fix formatting
 npm run format
@@ -339,6 +372,7 @@ npm run lint
 ```
 
 ### Build Failures
+
 ```bash
 # Clean and rebuild
 npm run clean
@@ -350,16 +384,19 @@ npm run build
 ## Next Steps
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Start developing:**
+
    ```bash
    npm run dev
    ```
 
 3. **Before committing:**
+
    ```bash
    npm run test
    ```
@@ -378,7 +415,7 @@ npm run build
 ✅ **Git Ignore** - Production-ready exclusions  
 ✅ **NPM Config** - Consistent npm behavior  
 ✅ **Development Guides** - SETUP.md & CONTRIBUTING.md  
-✅ **CI/CD Ready** - `npm run test:ci` for automation  
+✅ **CI/CD Ready** - `npm run test:ci` for automation
 
 **The project is now production-ready with professional development tooling.** 🚀
 

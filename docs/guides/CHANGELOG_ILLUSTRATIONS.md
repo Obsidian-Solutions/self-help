@@ -1,24 +1,28 @@
 # Illustration System Update - Changelog
 
 ## Summary
+
 Migrated from external API-based illustrations to **local, data-driven illustrations** with full **dark mode support**. All content is now controlled through **markdown front matter** instead of hardcoded HTML.
 
 ## Changes Made
 
 ### 1. ✅ Updated Undraw Partial (`layouts/_partials/undraw.html`)
+
 **Before:** Fetched illustrations from external API
+
 ```html
 <img src="https://undraw.co/api/illustrations/{{ $name }}" />
 ```
 
 **After:** Uses local SVG files from `assets/illustrations/undraw-raw/`
+
 ```html
-{{- $pattern := printf "illustrations/undraw-raw/undraw_%s*.svg" $name -}}
-{{- $illustrations := resources.Match $pattern -}}
-{{ $illustration.Content | safeHTML }}
+{{- $pattern := printf "illustrations/undraw-raw/undraw_%s*.svg" $name -}} {{- $illustrations :=
+resources.Match $pattern -}} {{ $illustration.Content | safeHTML }}
 ```
 
 **Benefits:**
+
 - ✅ Works offline
 - ✅ Faster page loads (no external requests)
 - ✅ Full control over illustrations
@@ -26,6 +30,7 @@ Migrated from external API-based illustrations to **local, data-driven illustrat
 - ✅ Automatic fallback to placeholder if not found
 
 ### 2. ✅ Added Dark Mode CSS (`assets/css/input.css`)
+
 ```css
 .dark .undraw-wrapper svg {
   filter: brightness(0.9) saturate(0.95);
@@ -33,15 +38,18 @@ Migrated from external API-based illustrations to **local, data-driven illustrat
 ```
 
 **Features:**
+
 - Subtle brightness/saturation adjustment for dark backgrounds
 - Smooth transitions
 - Optional hover effects for interactive illustrations
 - Responsive sizing with Tailwind classes
 
 ### 3. ✅ Made Home Page Data-Driven (`content/_index.md`)
+
 **Before:** All content hardcoded in `layouts/index.html`
 
 **After:** All content in markdown front matter:
+
 ```toml
 [hero]
 headline = "Master your mind"
@@ -55,49 +63,58 @@ decoration = "fun-star"
 ```
 
 **Benefits:**
+
 - ✅ No code editing needed to update content
 - ✅ Non-developers can edit in markdown
 - ✅ Illustration changes via front matter
 - ✅ Easy A/B testing of different illustrations
 
 ### 4. ✅ Updated Home Page Template (`layouts/index.html`)
+
 **Before:** Hardcoded HTML with inline illustrations
+
 ```html
 <h1>Master your mind</h1>
 {{ readFile "/path/to/meditation.svg" | safeHTML }}
 ```
 
 **After:** Reads from markdown parameters
+
 ```html
 <h1>{{ .Params.hero.headline }}</h1>
 {{ partial "undraw.html" (dict "name" .Params.hero.illustration) }}
 ```
 
 ### 5. ✅ Updated Course Cards (`layouts/courses/list.html`)
+
 **Before:** Used image URLs or placeholder icons
+
 ```html
 <img src="{{ .Params.image }}" />
 ```
 
 **After:** Uses local illustrations from front matter
+
 ```html
 {{ partial "undraw.html" (dict "name" .Params.illustration) }}
 ```
 
 ### 6. ✅ Updated All Course Files
+
 Added illustration metadata to each course:
 
 ```yaml
 # content/courses/cbt-anxiety.md
 ---
-title: "CBT for Anxiety"
-illustration: "processing-thoughts"
-duration: "6 weeks"
-level: "Beginner"
+title: 'CBT for Anxiety'
+illustration: 'processing-thoughts'
+duration: '6 weeks'
+level: 'Beginner'
 ---
 ```
 
 **Courses Updated:**
+
 - ✅ `cbt-anxiety.md` → "processing-thoughts"
 - ✅ `mindfulness-101.md` → "mindfulness"
 - ✅ `sleep-mastery.md` → "chilling"
@@ -105,6 +122,7 @@ level: "Beginner"
 - ⏳ `social-anxiety.md` (needs illustration assignment)
 
 ### 7. ✅ Created Documentation
+
 - ✅ `USING_ILLUSTRATIONS.md` - Complete guide for theme users
 - ✅ `CHANGELOG_ILLUSTRATIONS.md` - This file
 - ✅ Updated `agent.md` with progress
@@ -112,6 +130,7 @@ level: "Beginner"
 ## Available Local Illustrations (43 total)
 
 ### By Category:
+
 - **Meditation & Mindfulness**: 5 illustrations
 - **Learning & Education**: 8 illustrations
 - **Writing & Journaling**: 4 illustrations
@@ -126,25 +145,24 @@ Full list in `USING_ILLUSTRATIONS.md`
 ## How to Use (Quick Reference)
 
 ### In Markdown Front Matter:
+
 ```yaml
 ---
-title: "My Course"
-illustration: "meditation"  # Just the name, no prefix/extension
+title: 'My Course'
+illustration: 'meditation' # Just the name, no prefix/extension
 ---
 ```
 
 ### In Hugo Templates:
+
 ```html
 {{ partial "undraw.html" (dict "name" "meditation") }}
 ```
 
 ### With Options:
+
 ```html
-{{ partial "undraw.html" (dict
-  "name" "meditation"
-  "width" "w-64"
-  "height" "h-64"
-  "class" "mx-auto"
+{{ partial "undraw.html" (dict "name" "meditation" "width" "w-64" "height" "h-64" "class" "mx-auto"
 ) }}
 ```
 
@@ -159,11 +177,13 @@ illustration: "meditation"  # Just the name, no prefix/extension
 ## Performance Impact
 
 **Before:**
+
 - External API calls on every page load
 - Network latency
 - Dependent on undraw.co availability
 
 **After:**
+
 - ✅ Zero external requests
 - ✅ Inline SVG (no additional HTTP requests)
 - ✅ Cached with page (static HTML)
@@ -179,12 +199,14 @@ illustration: "meditation"  # Just the name, no prefix/extension
 ## Next Steps
 
 ### Recommended:
+
 1. ⏳ Add illustration to `social-anxiety.md` course
 2. ⏳ Add illustrations to blog posts (optional)
 3. ⏳ Add illustrations to therapist profiles (optional)
 4. ⏳ Create auth page illustrations (login/signup)
 
 ### Optional Enhancements:
+
 - Add illustration picker to CMS (Phase 4)
 - Create custom illustration variants
 - Add animation effects to illustrations
@@ -204,6 +226,7 @@ illustration: "meditation"  # Just the name, no prefix/extension
 ## Breaking Changes
 
 None! This is fully backward compatible:
+
 - Old `image` parameter still works as fallback
 - Templates gracefully handle missing illustrations
 - No changes needed to existing content (unless migrating)
@@ -211,6 +234,7 @@ None! This is fully backward compatible:
 ## File Changes Summary
 
 ### Modified:
+
 - `layouts/_partials/undraw.html` (complete rewrite)
 - `assets/css/input.css` (added dark mode rules)
 - `content/_index.md` (added front matter structure)
@@ -219,10 +243,12 @@ None! This is fully backward compatible:
 - `content/courses/*.md` (added illustration metadata)
 
 ### Created:
+
 - `USING_ILLUSTRATIONS.md` (user guide)
 - `CHANGELOG_ILLUSTRATIONS.md` (this file)
 
 ### Not Changed:
+
 - Existing illustration files in `assets/illustrations/` (8 files)
 - Quiz system
 - Mood tracking

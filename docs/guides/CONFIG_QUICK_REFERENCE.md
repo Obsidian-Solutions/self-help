@@ -37,12 +37,14 @@ project/
 ## ✨ Toggle Features
 
 **Option 1:** `config/features.json`
+
 ```json
 "quizzes": { "enabled": true },
 "moodTracking": { "enabled": true }
 ```
 
 **Option 2:** `hugo.toml`
+
 ```toml
 [params.features]
   quizzes = true
@@ -52,12 +54,14 @@ project/
 ## 🌍 Environment Variables
 
 **Setup:**
+
 ```bash
 cp .env.example .env
 nano .env  # Edit with your values
 ```
 
 **Key Variables:**
+
 ```env
 SITE_URL=https://yourdomain.com
 SITE_TITLE=Your Site Name
@@ -109,6 +113,7 @@ API_KEY=your-key-here
 **File:** `hugo.toml`
 
 ### Features
+
 ```toml
 [params.features]
   quizzes = true
@@ -118,6 +123,7 @@ API_KEY=your-key-here
 ```
 
 ### Colors
+
 ```toml
 [params.colors]
   primary = '#4F46E5'
@@ -125,6 +131,7 @@ API_KEY=your-key-here
 ```
 
 ### Analytics
+
 ```toml
 [params.analytics]
   enabled = true
@@ -132,6 +139,7 @@ API_KEY=your-key-here
 ```
 
 ### Social
+
 ```toml
 [params.social]
   twitter = 'https://twitter.com/you'
@@ -155,6 +163,7 @@ For complete details, see [CONFIG.md](CONFIG.md)
 ## ⚡ Quick Tasks
 
 ### Change Primary Color
+
 ```bash
 # 1. Edit config/settings.json
 nano config/settings.json
@@ -165,6 +174,7 @@ npm run build:css
 ```
 
 ### Disable Mood Tracking
+
 ```bash
 # Edit hugo.toml
 nano hugo.toml
@@ -173,6 +183,7 @@ nano hugo.toml
 ```
 
 ### Add Google Analytics
+
 ```bash
 # Edit hugo.toml
 nano hugo.toml
@@ -182,6 +193,7 @@ nano hugo.toml
 ```
 
 ### Set Environment Variables
+
 ```bash
 cp .env.example .env
 nano .env
@@ -189,6 +201,7 @@ nano .env
 ```
 
 ### Build & Test
+
 ```bash
 npm run build      # Production build
 npm run dev        # Dev server
@@ -229,7 +242,7 @@ GitLab CI → CI/CD Variables
 - [ ] Copy .env.example → .env
 - [ ] Edit .env with your values
 - [ ] Update baseURL in hugo.toml
-- [ ] Update title in hugo.toml  
+- [ ] Update title in hugo.toml
 - [ ] Customize colors in config/settings.json
 - [ ] Toggle unwanted features in config/features.json
 - [ ] Set up API keys if needed

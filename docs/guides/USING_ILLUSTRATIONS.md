@@ -41,12 +41,12 @@ Add illustrations to courses in `/content/courses/*.md`:
 
 ```yaml
 ---
-title: "CBT for Anxiety"
-description: "Master your anxiety..."
-illustration: "processing-thoughts"  # ← Local illustration
-category: "Anxiety"
-duration: "6 weeks"
-level: "Beginner"
+title: 'CBT for Anxiety'
+description: 'Master your anxiety...'
+illustration: 'processing-thoughts' # ← Local illustration
+category: 'Anxiety'
+duration: '6 weeks'
+level: 'Beginner'
 ---
 ```
 
@@ -57,6 +57,7 @@ The course list page automatically displays these illustrations with dark mode s
 We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 
 #### 🧘 Meditation & Mindfulness
+
 - `meditation` - Meditation scene
 - `meditating` - Person meditating
 - `mindfulness` - Mindfulness practice
@@ -64,6 +65,7 @@ We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 - `relaxing-outdoors` - Outdoor relaxation
 
 #### 📚 Learning & Education
+
 - `online-learning` - E-learning
 - `learning` - Learning concept
 - `learning-to-sketch` - Creative learning
@@ -74,12 +76,14 @@ We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 - `homework-research` - Research
 
 #### ✍️ Writing & Journaling
+
 - `blogging` - Blogging
 - `book-writer` - Writing
 - `writing-down-ideas` - Ideas
 - `writing-online` - Online writing
 
 #### 😊 Happiness & Positive Emotions
+
 - `happy-feeling` - Happy mood
 - `happy` - General happiness
 - `happy-2021` - Celebration
@@ -89,6 +93,7 @@ We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 - `positive-attitude` - Optimism
 
 #### 🎉 Achievement & Progress
+
 - `accomplishments` - Milestones
 - `celebration` - Celebration
 - `fireworks` - Major achievement
@@ -97,6 +102,7 @@ We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 - `stepping-up` - Personal growth
 
 #### 🌱 Wellness & Self-Care
+
 - `camping` - Outdoor activities
 - `beach-day` - Relaxation
 - `chilling` - Rest/downtime
@@ -105,12 +111,14 @@ We have **43 local Undraw illustrations** in `assets/illustrations/undraw-raw/`:
 - `processing-thoughts` - Mental processing
 
 #### 📖 Content & Publishing
+
 - `online-articles` - Articles
 - `publish-article` - Publishing
 - `everyday-design` - Daily activities
 - `proud-self` - Self-esteem
 
 #### ⚙️ Miscellaneous
+
 - `forgot-password` - Auth pages
 - `five-year-plan` - Goal setting
 - `too-many-options` - Decision-making
@@ -124,6 +132,7 @@ In any Hugo template, use the `undraw.html` partial:
 ```
 
 **Parameters:**
+
 - `name` (required): Illustration name without `undraw_` prefix
 - `width`: Tailwind width class (default: `w-full`)
 - `height`: Tailwind height class (default: `h-auto`)
@@ -131,19 +140,16 @@ In any Hugo template, use the `undraw.html` partial:
 - `class`: Additional CSS classes
 
 **Example with options:**
+
 ```html
-{{ partial "undraw.html" (dict
-  "name" "happy-feeling"
-  "width" "w-96"
-  "height" "h-96"
-  "alt" "Happy person"
-  "class" "mx-auto"
-) }}
+{{ partial "undraw.html" (dict "name" "happy-feeling" "width" "w-96" "height" "h-96" "alt" "Happy
+person" "class" "mx-auto" ) }}
 ```
 
 ### 5. Dark Mode Support
 
 Dark mode is **automatic**! The CSS applies:
+
 - `filter: brightness(0.9) saturate(0.95)` in dark mode
 - Smooth transitions between light/dark
 - Works across all illustrations
@@ -157,6 +163,7 @@ Use fun decorative accents:
 ```
 
 **Available elements:**
+
 - `underline` - Simple line
 - `underline-wavy` - Wavy underline
 - `underline-dashed` - Dashed line
@@ -181,12 +188,14 @@ pink = "#ec4899"     # Accent
 ## Best Practices
 
 ✅ **DO:**
+
 - Store all content in markdown front matter
 - Use descriptive illustration names that match content
 - Test in both light and dark modes
 - Use Tailwind classes for responsive sizing
 
 ❌ **DON'T:**
+
 - Hardcode HTML content in templates
 - Use illustrations with unclear subjects
 - Override dark mode filters (they're optimized)
@@ -196,18 +205,18 @@ pink = "#ec4899"     # Accent
 
 ```yaml
 ---
-title: "Stress Management"
-description: "Learn to manage daily stress with proven techniques."
-illustration: "meditation"
-category: "Mental Health"
-duration: "6 weeks"
-level: "Beginner"
+title: 'Stress Management'
+description: 'Learn to manage daily stress with proven techniques.'
+illustration: 'meditation'
+category: 'Mental Health'
+duration: '6 weeks'
+level: 'Beginner'
 ---
-
 Your course content here in markdown.
 ```
 
 That's it! The theme automatically:
+
 - Displays the illustration on the course card
 - Applies dark mode styling
 - Handles responsive sizing
@@ -216,16 +225,19 @@ That's it! The theme automatically:
 ## Troubleshooting
 
 **Illustration not showing?**
+
 1. Check the filename in `assets/illustrations/undraw-raw/`
 2. Use the name **without** the `undraw_` prefix
 3. Don't include the file extension
 
 **Dark mode looking off?**
+
 - Rebuild CSS: `npm run build:css`
 - Clear browser cache
 - Check that `dark:` class is on `<html>` element
 
 **Want to add more illustrations?**
+
 1. Download from [undraw.co](https://undraw.co/illustrations)
 2. Place in `assets/illustrations/undraw-raw/`
 3. Use the filename (without `undraw_` and `.svg`)
@@ -235,13 +247,15 @@ That's it! The theme automatically:
 ## Migration from Old System
 
 Old way (hardcoded):
+
 ```html
 <img src="https://undraw.co/api/illustrations/meditation" />
 ```
 
 New way (data-driven):
+
 ```yaml
-illustration: "meditation"
+illustration: 'meditation'
 ```
 
 The template handles everything automatically!

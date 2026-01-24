@@ -31,6 +31,7 @@ HTML page is generated
 ## 🎨 What You Can Edit
 
 ### 1. Hero Section
+
 Controls the top banner with headline, description, and call-to-action buttons.
 
 ```toml
@@ -50,6 +51,7 @@ secondaryCtaLink = "/login"                # Secondary button link
 ---
 
 ### 2. Features Section
+
 The 4-column feature grid with icons, descriptions, and decorative elements.
 
 ```toml
@@ -79,6 +81,7 @@ decoration = "heart"
 ---
 
 ### 3. Section Headings
+
 Text for each major section of the page.
 
 ```toml
@@ -107,6 +110,7 @@ ctaLink = "/login"
 ---
 
 ### 4. Testimonials
+
 Customer testimonial cards with quotes and author info.
 
 ```toml
@@ -128,6 +132,7 @@ color = "green"
 ---
 
 ### 5. FAQs
+
 Frequently asked questions and answers.
 
 ```toml
@@ -145,6 +150,7 @@ answer = "Yes! In this demo version, all your data..."
 ---
 
 ### 6. Page Metadata
+
 Basic page information.
 
 ```toml
@@ -160,12 +166,14 @@ draft = false                               # false = published, true = hidden
 ### Example 1: Change the hero headline
 
 **Before:**
+
 ```toml
 [hero]
 headline = "Master your mind"
 ```
 
 **After:**
+
 ```toml
 [hero]
 headline = "Take Control of Your Mental Health"
@@ -178,6 +186,7 @@ headline = "Take Control of Your Mental Health"
 ### Example 2: Add a new feature
 
 **Current:**
+
 ```toml
 [[features]]
 title = "Find Therapists"
@@ -185,6 +194,7 @@ title = "Find Therapists"
 ```
 
 **Add this after:**
+
 ```toml
 [[features]]
 title = "Your New Feature"
@@ -201,6 +211,7 @@ decoration = "heart"
 ### Example 3: Update testimonials
 
 **Find:**
+
 ```toml
 [[testimonials]]
 quote = "I've struggled with anxiety..."
@@ -210,6 +221,7 @@ color = "indigo"
 ```
 
 **Change to:**
+
 ```toml
 [[testimonials]]
 quote = "Your new testimonial text here."
@@ -225,6 +237,7 @@ color = "purple"
 ### Example 4: Add FAQ
 
 **Add:**
+
 ```toml
 [[faqs]]
 question = "How much does it cost?"
@@ -240,6 +253,7 @@ answer = "We offer a free tier and premium plans starting at $9/month."
 ### Change Colors
 
 All 4 feature colors are customizable via Tailwind classes:
+
 - `indigo` → Primary color (#6366f1)
 - `purple` → Secondary color (#a855f7)
 - `green` → Success color (#16a34a)
@@ -277,6 +291,7 @@ To use different Undraw illustrations:
 ## 📋 TOML Syntax Tips
 
 **Arrays** (multiple items):
+
 ```toml
 [[features]]          # Start a new feature
 title = "..."
@@ -286,12 +301,14 @@ title = "..."
 ```
 
 **Strings**:
+
 ```toml
 title = "Simple string"
 description = "Can use 'single' or \"double\" quotes"
 ```
 
 **Multi-line text**:
+
 ```toml
 answer = """
 First paragraph.
@@ -301,6 +318,7 @@ Second paragraph with more detail.
 ```
 
 **Special characters**:
+
 - Use `&` instead of `&` in text
 - Use `"` or `'` to wrap strings with quotes inside
 - Escape quotes with `\"`
