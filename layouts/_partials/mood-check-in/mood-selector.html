@@ -1,80 +1,89 @@
 {{ $moods := slice "🤗 Great" "😊 Good" "😐 Neutral" "😔 Not Great" "😢 Struggling" }}
 
 <div class="mood-selector">
-  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">How are you feeling today?</h3>
+  <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    How are you feeling today?
+  </h3>
   <div class="grid grid-cols-5 gap-2">
     {{ range $moods }}
-      <button class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
-              data-mood="{{ . }}">
-        <div class="text-3xl mb-2">{{ $emoji := strings.Split . " " }}{{ index $emoji 0 }}</div>
-        <div class="text-xs font-medium text-gray-600 dark:text-gray-300">{{ $label := strings.Split . " " }}{{ index $label 1 }}</div>
-      </button>
+    <button
+      class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
+      data-mood="{{ . }}"
+    >
+      <div class="text-3xl mb-2">{{ $emoji := strings.Split . " " }}{{ index $emoji 0 }}</div>
+      <div class="text-xs font-medium text-gray-600 dark:text-gray-300">
+        {{ $label := strings.Split . " " }}{{ index $label 1 }}
+      </div>
+    </button>
     {{ end }}
   </div>
-  <button id="mood-submit" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-600">
+  <button
+    id="mood-submit"
+    class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-600"
+  >
     Save Check-In
   </button>
 </div>
 
 <style>
-.mood-selector {
-  animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  .mood-selector {
+    animation: slideUp 0.3s ease-out;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-}
 
-.mood-btn {
-  cursor: pointer;
-}
+  .mood-btn {
+    cursor: pointer;
+  }
 
-.mood-btn.active {
-  border-color: #4f46e5;
-  background-color: #eef2ff;
-}
+  .mood-btn.active {
+    border-color: #4f46e5;
+    background-color: #eef2ff;
+  }
 
-.dark .mood-btn.active {
-  background-color: #312e81;
-}
+  .dark .mood-btn.active {
+    background-color: #312e81;
+  }
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const moodBtns = document.querySelectorAll('.mood-btn');
-  const submitBtn = document.getElementById('mood-submit');
-  let selectedMood = null;
+  document.addEventListener('DOMContentLoaded', function () {
+    const moodBtns = document.querySelectorAll('.mood-btn');
+    const submitBtn = document.getElementById('mood-submit');
+    let selectedMood = null;
 
-  moodBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      moodBtns.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-      selectedMood = this.getAttribute('data-mood');
-    });
-  });
-
-  if (submitBtn) {
-    submitBtn.addEventListener('click', function() {
-      if (selectedMood) {
-        const today = new Date().toISOString().split('T')[0];
-        const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
-        moodData[today] = selectedMood;
-        localStorage.setItem('moodCheckins', JSON.stringify(moodData));
-        alert('Mood check-in saved! Keep taking care of yourself.');
-        // Reset after save
-        selectedMood = null;
+    moodBtns.forEach(btn => {
+      btn.addEventListener('click', function () {
         moodBtns.forEach(b => b.classList.remove('active'));
-      } else {
-        alert('Please select a mood first');
-      }
+        this.classList.add('active');
+        selectedMood = this.getAttribute('data-mood');
+      });
     });
-  }
-});
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        if (selectedMood) {
+          const today = new Date().toISOString().split('T')[0];
+          const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
+          moodData[today] = selectedMood;
+          localStorage.setItem('moodCheckins', JSON.stringify(moodData));
+          alert('Mood check-in saved! Keep taking care of yourself.');
+          // Reset after save
+          selectedMood = null;
+          moodBtns.forEach(b => b.classList.remove('active'));
+        } else {
+          alert('Please select a mood first');
+        }
+      });
+    }
+  });
 </script>

@@ -1,52 +1,54 @@
 <!-- Course Lesson Quiz Component -->
 <!-- Use in course lessons with: {{ partial "quiz/course-quiz.html" (dict "lessonTitle" .Title "quizData" .Params.quiz) }} -->
 
-{{ $quiz := .quizData }}
-{{ $title := .lessonTitle }}
-
-{{ if $quiz }}
+{{ $quiz := .quizData }} {{ $title := .lessonTitle }} {{ if $quiz }}
 <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-  <div class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 rounded-lg p-8">
+  <div
+    class="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 rounded-lg p-8"
+  >
     <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Check Your Understanding</h3>
     <p class="text-gray-600 dark:text-gray-300 mb-6">Test what you've learned in this lesson</p>
-    
-    <button onclick="initCourseQuiz(courseQuizData)" class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-colors">
+
+    <button
+      onclick="initCourseQuiz(courseQuizData)"
+      class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+    >
       Start Lesson Quiz
     </button>
   </div>
 </div>
 
 <!-- Quiz Container (hidden by default) -->
-<div id="course-quiz-container" style="display: none;" class="mt-8">
+<div id="course-quiz-container" style="display: none" class="mt-8">
   {{ partial "quiz/quiz-engine.html" . }}
 </div>
 
 <script>
-// Course quiz data will be set by the lesson content
-const courseQuizData = {
-  title: "{{ $title }} - Knowledge Check",
-  description: "{{ $quiz.description | default "Test your understanding of this lesson" }}",
-  resultMessage: "{{ $quiz.resultMessage | default "Great work! You're mastering the concepts." }}",
-  questions: [
-    {{ range $index, $q := $quiz.questions }}
-    {
-      question: `{{ $q.question }}`,
-      options: [
-        {{ range $q.options }}
-        `{{ . }}`,
-        {{ end }}
-      ],
-      correct: {{ $q.correct }},
-      explanation: `{{ $q.explanation }}`
-    }{{ if lt $index (sub (len $quiz.questions) 1) }},{{ end }}
-    {{ end }}
-  ]
-};
+  // Course quiz data will be set by the lesson content
+  const courseQuizData = {
+    title: "{{ $title }} - Knowledge Check",
+    description: "{{ $quiz.description | default "Test your understanding of this lesson" }}",
+    resultMessage: "{{ $quiz.resultMessage | default "Great work! You're mastering the concepts." }}",
+    questions: [
+      {{ range $index, $q := $quiz.questions }}
+      {
+        question: `{{ $q.question }}`,
+        options: [
+          {{ range $q.options }}
+          `{{ . }}`,
+          {{ end }}
+        ],
+        correct: {{ $q.correct }},
+        explanation: `{{ $q.explanation }}`
+      }{{ if lt $index (sub (len $quiz.questions) 1) }},{{ end }}
+      {{ end }}
+    ]
+  };
 
-function initCourseQuiz(data) {
-  document.getElementById('course-quiz-container').style.display = 'block';
-  initializeQuiz(data);
-  document.getElementById('course-quiz-container').scrollIntoView({ behavior: 'smooth' });
-}
+  function initCourseQuiz(data) {
+    document.getElementById('course-quiz-container').style.display = 'block';
+    initializeQuiz(data);
+    document.getElementById('course-quiz-container').scrollIntoView({ behavior: 'smooth' });
+  }
 </script>
 {{ end }}

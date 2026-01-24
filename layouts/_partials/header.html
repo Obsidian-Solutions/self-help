@@ -6,38 +6,95 @@
           <a href="/" class="text-2xl font-bold text-primary dark:text-indigo-400">MindFull</a>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          <a id="nav-courses" href="/courses" class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          <a
+            id="nav-courses"
+            href="/courses"
+            class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+          >
             Courses
           </a>
-          <a href="/therapists" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          <a
+            href="/therapists"
+            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+          >
             Therapists
           </a>
-          <a href="/posts" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          <a
+            href="/posts"
+            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+          >
             Blog
           </a>
-          <a id="nav-dashboard" href="/dashboard" class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+          <a
+            id="nav-dashboard"
+            href="/dashboard"
+            class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+          >
             Dashboard
           </a>
         </div>
       </div>
       <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
         <!-- Dark Mode Toggle -->
-        <button type="button" id="dark-mode-toggle" class="p-2 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none">
-            <!-- Moon (for light mode) / Sun (for dark mode) -->
-            <svg class="h-6 w-6 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-            <svg class="h-6 w-6 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        <button
+          type="button"
+          id="dark-mode-toggle"
+          class="p-2 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none"
+        >
+          <!-- Moon (for light mode) / Sun (for dark mode) -->
+          <svg
+            class="h-6 w-6 hidden dark:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <svg
+            class="h-6 w-6 block dark:hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
         </button>
 
         <!-- Not Logged In State (Default for Landing) -->
         <div id="auth-logged-out" class="hidden sm:flex sm:items-center space-x-4">
-          <button onclick="window.openModal('loginModal')" class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium">Log in</button>
-          <button onclick="window.openModal('signupModal')" class="btn btn-primary text-sm">Sign Up</button>
+          <button
+            onclick="window.openModal('loginModal')"
+            class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium"
+          >
+            Log in
+          </button>
+          <button onclick="window.openModal('signupModal')" class="btn btn-primary text-sm">
+            Sign Up
+          </button>
         </div>
 
         <!-- Logged In State -->
         <div id="auth-logged-in" class="hidden sm:flex sm:items-center space-x-4">
-          <span id="user-display-name" class="text-gray-700 dark:text-gray-300 text-sm font-medium"></span>
-          <button onclick="window.handleLogout()" class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium">Log out</button>
+          <span
+            id="user-display-name"
+            class="text-gray-700 dark:text-gray-300 text-sm font-medium"
+          ></span>
+          <button
+            onclick="window.handleLogout()"
+            class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium"
+          >
+            Log out
+          </button>
         </div>
       </div>
     </div>

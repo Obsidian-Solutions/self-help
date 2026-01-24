@@ -23,20 +23,39 @@
 
               <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                  <label for="profile-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+                  <label
+                    for="profile-name"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >Full Name</label
+                  >
                   <div class="mt-1">
-                    <input type="text" name="profile-name" id="profile-name" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <input
+                      type="text"
+                      name="profile-name"
+                      id="profile-name"
+                      class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    />
                   </div>
                 </div>
 
                 <div class="sm:col-span-4">
-                  <label for="profile-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email address</label>
+                  <label
+                    for="profile-email"
+                    class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >Email address</label
+                  >
                   <div class="mt-1">
-                    <input type="email" name="profile-email" id="profile-email" disabled class="bg-gray-50 dark:bg-gray-700 shadow-sm block w-full sm:text-sm border border-gray-300 dark:border-gray-600 rounded-md p-2 text-gray-500 dark:text-gray-400 cursor-not-allowed">
+                    <input
+                      type="email"
+                      name="profile-email"
+                      id="profile-email"
+                      disabled
+                      class="bg-gray-50 dark:bg-gray-700 shadow-sm block w-full sm:text-sm border border-gray-300 dark:border-gray-600 rounded-md p-2 text-gray-500 dark:text-gray-400 cursor-not-allowed"
+                    />
                   </div>
                 </div>
               </div>
-              
+
               <div class="pt-5 border-t border-gray-200 dark:border-gray-700">
                 <div class="flex justify-end">
                   <button type="submit" class="btn btn-primary">Save Profile</button>
@@ -48,8 +67,15 @@
           <!-- Data Management -->
           <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
             <h3 class="text-lg font-bold text-red-600 dark:text-red-400 mb-4">Danger Zone</h3>
-            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">Permanently delete your local data (journal entries, progress).</p>
-            <button onclick="clearData()" class="btn border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900">Clear Local Data</button>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">
+              Permanently delete your local data (journal entries, progress).
+            </p>
+            <button
+              onclick="clearData()"
+              class="btn border border-red-300 dark:border-red-600 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
+            >
+              Clear Local Data
+            </button>
           </div>
         </div>
       </div>
@@ -69,18 +95,18 @@
   function updateProfile(e) {
     e.preventDefault();
     const newName = document.getElementById('profile-name').value;
-    
+
     // Update Local Storage
     let user = JSON.parse(localStorage.getItem('mindfull_session'));
     user.name = newName;
     localStorage.setItem('mindfull_session', JSON.stringify(user));
-    
+
     // Update DB (Mock)
     let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
     const userIndex = users.findIndex(u => u.email === user.email);
     if (userIndex !== -1) {
-        users[userIndex].name = newName;
-        localStorage.setItem('mindfull_users', JSON.stringify(users));
+      users[userIndex].name = newName;
+      localStorage.setItem('mindfull_users', JSON.stringify(users));
     }
 
     alert('Profile updated!');
@@ -88,12 +114,12 @@
   }
 
   function clearData() {
-      if(confirm("Are you sure? This will delete all your journal entries and progress.")) {
-          localStorage.removeItem('courseProgress');
-          localStorage.removeItem('journalEntries');
-          alert("Data cleared.");
-          location.reload();
-      }
+    if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
+      localStorage.removeItem('courseProgress');
+      localStorage.removeItem('journalEntries');
+      alert('Data cleared.');
+      location.reload();
+    }
   }
 </script>
 {{ end }}
