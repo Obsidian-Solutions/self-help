@@ -1,0 +1,172 @@
+# ============================================================================
+# Hugo Configuration - MindFull Theme
+# ============================================================================
+
+# Site Configuration
+baseURL = 'https://mindfull.example.com/'  # Update with your actual domain
+languageCode = 'en-US'
+title = 'MindFull - Your Mental Health Companion'
+description = 'A modern mental health and self-help platform with interactive lessons, mood tracking, and achievements.'
+author = 'Your Name'
+copyright = 'Copyright © 2026 MindFull. All rights reserved.'
+
+# Hugo Configuration
+enableRobotsTXT = true
+enableGitInfo = false
+ignoreFiles = ['\\.md$']  # Ignore raw markdown if processed elsewhere
+
+# Pagination
+[pagination]
+  pagerSize = 10
+
+# Output Formats
+[outputs]
+  home = ['HTML']
+  page = ['HTML']
+  section = ['HTML']
+
+# Sitemap Configuration
+[sitemap]
+  changefreq = 'weekly'
+  filename = 'sitemap.xml'
+  priority = -1
+
+# Taxonomies (Categories, Tags)
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# Menu Configuration
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Courses'
+    pageRef = '/courses'
+    weight = 20
+
+  [[menus.main]]
+    name = 'Blog'
+    pageRef = '/posts'
+    weight = 30
+
+  [[menus.main]]
+    name = 'Dashboard'
+    pageRef = '/dashboard'
+    weight = 40
+
+# Hugo Module Configuration
+[module]
+  [module.hugoVersion]
+    extended = true  # Changed to true for Tailwind CSS support
+    min = '0.154.0'  # Updated to current version
+
+# Markdown Configuration
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true  # Allow HTML in markdown
+
+# Security & Privacy
+[security]
+  enableInlineShortcodes = false
+  [security.exec]
+    allow = ['^dart-sass-embedded$', '^go$', '^npx$', '^postcss$']
+  [security.funcs]
+    getenv = ['HUGO_ENV']
+  [security.osEnv]
+    allow = ['(?i)^(HUGO|NODE)', 'PATH']
+
+# Build Configuration
+[build]
+  noJSConfigInAssets = false
+  useResourceCacheWhen = 'fallback'
+  [build.cachebusters]
+    [[build.cachebusters.source]]
+      source = 'assets/watching/hugo_stats.json'
+      target = 'styles.css'
+    [[build.cachebusters.source]]
+      source = '(postcss|tailwind).config.js'
+      target = 'styles.css'
+    [[build.cachebusters.source]]
+      source = 'assets/css/**.css'
+      target = 'styles.css'
+
+# ============================================================================
+# PLUGIN & FEATURE CONFIGURATION
+# ============================================================================
+
+# Features Configuration - Enable/Disable Features
+[params.features]
+  quizzes = true
+  moodTracking = true
+  achievements = true
+  darkMode = true
+  journal = true
+  dashboard = true
+  authentication = false
+  therapistDirectory = true
+  courseSystem = true
+  illustrations = true
+
+# API Configuration
+[params.api]
+  enableExternalApi = false
+  enableAnalytics = false
+  enableComments = false
+
+# Illustration Settings
+[params.illustrations]
+  source = 'local'
+  fallbackImage = '/images/placeholder.svg'
+  lazyLoad = true
+
+# Dark Mode Configuration
+[params.darkMode]
+  enabled = true
+  defaultMode = 'auto'  # 'light', 'dark', or 'auto'
+  storageKey = 'theme-preference'
+
+# Theme Colors
+[params.colors]
+  primary = '#4F46E5'
+  secondary = '#10B981'
+  accent = '#F59E0B'
+  neutral = '#374151'
+
+# Social Links (Optional)
+[params.social]
+  # twitter = 'https://twitter.com/yourusername'
+  # facebook = 'https://facebook.com/yourusername'
+  # instagram = 'https://instagram.com/yourusername'
+  # github = 'https://github.com/yourusername'
+  # email = 'contact@example.com'
+
+# Analytics (Optional)
+[params.analytics]
+  enabled = false
+  googleAnalyticsId = ''
+  # plausibleDomain = ''
+
+# SEO Configuration
+[params.seo]
+  robotsTxt = true
+  sitemap = true
+  enableOpenGraph = true
+  enableTwitterCard = true
+
+# Performance
+[params.performance]
+  minifyHTML = true
+  minifyCSS = true
+  minifyJS = true
+  enableGzip = true
+  lazyLoadImages = true
+
+# Cache Control
+[params.cache]
+  maxAge = 31536000  # 1 year for assets
+  sMaxAge = 604800   # 1 week for pages
