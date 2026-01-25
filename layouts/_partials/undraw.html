@@ -1,9 +1,7 @@
 {{/*
-  Undraw Illustration Partial (Optimized Hybrid)
-  1. Local Core: assets/illustrations/ (Fastest)
-  2. Local Library: assets/illustrations/library/ (Fast)
-  3. Remote: GitHub mirror using catalog (Fallback)
-  4. Placeholder: CSS dashed box (Final Fallback)
+  Undraw Illustration Partial (Remote-First Hybrid)
+  1. Remote (Primary): Try fetching from CDN or Mirror.
+  2. Local (Secondary/Backup): Fallback if remote fails.
 */}}
 
 {{- $name := .name -}}
@@ -18,54 +16,68 @@
 {{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
-{{/* 1. LOCAL CORE CHECK */}}
-{{- $localRes := resources.Get (printf "illustrations/%s.svg" $name) -}}
+{{- $illustrationRes := "" -}}
+{{- $foundRemote := false -}}
 
-{{/* 2. LOCAL LIBRARY CHECK (Checking undraw_ pattern in library folder) */}}
-{{- if not $localRes -}}
-  {{- $altName := replace $name "-" "_" -}}
-  {{- $pattern := printf "illustrations/library/undraw_%s*.svg" $altName -}}
-  {{- $matches := resources.Match $pattern -}}
-  {{- if $matches -}}
-    {{- $localRes = index $matches 0 -}}
+{{/* --- 1. REMOTE ATTEMPT (Primary) --- */}}
+
+{{/* Try to find direct CDN URL */}}
+{{- $remoteCatalog := site.Data.undraw_remote -}}
+{{- $cdnURL := "" -}}
+{{- if $remoteCatalog -}}
+  {{- range $remoteCatalog -}}
+    {{- if or (in .image (printf "/%s_" $name)) (in .image (printf "/undraw_%s_" $name)) -}}
+      {{- $cdnURL = .image -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
-{{- if $localRes -}}
-  <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $localRes.Content | safeHTML }}</div>
-{{- else -}}
-  {{/* 3. REMOTE FALLBACK */}}
-  {{- $catalog := site.Data.undraw_catalog -}}
-  {{- $fileName := "" -}}
-  
-  {{- if $catalog -}}
-    {{- range $catalog -}}
-      {{- if or (eq .image $name) (eq (replace .image ".svg" "") $name) (in .image (printf "undraw_%s" $name)) -}}
-        {{- $fileName = .image -}}
-      {{- end -}}
+{{- if $cdnURL -}}
+  {{- with try (resources.GetRemote $cdnURL) -}}
+    {{- with .Value -}}
+      {{- $illustrationRes = . -}}
+      {{- $foundRemote = true -}}
     {{- end -}}
   {{- end -}}
+{{- end -}}
 
-  {{- $remoteRes := "" -}}
-  {{- if $fileName -}}
-    {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/%s" $fileName -}}
-    {{- $remoteRes = resources.GetRemote $remoteURL -}}
-  {{- else -}}
-    {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/undraw_%s.svg" (replace $name "-" "_") -}}
-    {{- $remoteRes = resources.GetRemote $remoteURL -}}
+{{- if not $foundRemote -}}
+  {{/* Try mirror */}}
+  {{- $mirrorURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/undraw_%s.svg" (replace $name "-" "_") -}}
+  {{- with try (resources.GetRemote $mirrorURL) -}}
+    {{- with .Value -}}
+      {{- $illustrationRes = . -}}
+      {{- $foundRemote = true -}}
+    {{- end -}}
   {{- end -}}
+{{- end -}}
 
-  {{- if and $remoteRes (not $remoteRes.Err) -}}
-    <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $remoteRes.Content | safeHTML }}</div>
+{{/* --- 2. LOCAL FALLBACK (Secondary/Backup) --- */}}
+
+{{- if not $foundRemote -}}
+  {{- $localPath := printf "illustrations/library/undraw_%s*.svg" (replace $name "-" "_") -}}
+  {{- $matches := resources.Match $localPath -}}
+  {{- if $matches -}}
+    {{- $illustrationRes = index $matches 0 -}}
   {{- else -}}
-    {{/* 4. FINAL FALLBACK: Placeholder */}}
-    <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
-      <div class="text-center p-4">
-        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span class="mt-2 block text-sm font-medium text-gray-500 dark:text-gray-400">{{ $alt }}</span>
-      </div>
+    {{- $illustrationRes = resources.Get (printf "illustrations/library/%s.svg" $name) -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* --- RENDER --- */}}
+
+{{- if $illustrationRes -}}
+  <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">
+    {{ $illustrationRes.Content | safeHTML }}
+  </div>
+{{- else -}}
+  {{/* 3. FINAL FALLBACK: Placeholder */}}
+  <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
+    <div class="text-center p-4">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+      <span class="mt-2 block text-sm font-medium text-gray-500 dark:text-gray-400">{{ $alt }}</span>
     </div>
-  {{- end -}}
+  </div>
 {{- end -}}
