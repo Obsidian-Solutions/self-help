@@ -2,7 +2,7 @@
 title: 'The Importance of Sleep Hygiene'
 date: 2026-01-14T08:00:00-00:00
 description: "How to set up your bedroom and routine for the best night's sleep of your life."
-illustration: 'chilling'
+illustration: 'sleep'
 ---
 
 Sleep is when our brain processes emotions. Without it, our emotional regulation centers go offline.

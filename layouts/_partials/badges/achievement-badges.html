@@ -77,16 +77,69 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Check which badges have been earned based on localStorage data
-    const badgeData = JSON.parse(localStorage.getItem('badges') || '{}');
+  function refreshAchievements() {
+    const badges = JSON.parse(localStorage.getItem('badges') || '{}');
+    const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    const moodStreak = JSON.parse(localStorage.getItem('moodStreak') || '{"count": 0}');
+    const journalEntries = JSON.parse(localStorage.getItem('journalEntries') || '[]');
+    const quizResults = JSON.parse(localStorage.getItem('quizResults') || '[]');
 
+    let updated = false;
+
+    // First Course Badge
+    const completedCourses = new Set();
+    Object.values(courseProgress).forEach(lesson => {
+      if (lesson.completed) completedCourses.add(lesson.course);
+    });
+    if (completedCourses.size >= 1 && !badges['first-course']) {
+      badges['first-course'] = true;
+      updated = true;
+    }
+
+    // Meditation Streak (7 days)
+    if (moodStreak.count >= 7 && !badges['meditation-streak']) {
+      badges['meditation-streak'] = true;
+      updated = true;
+    }
+
+    // Feelings Explorer (Complete 3 quizzes with 80%+)
+    const highScores = quizResults.filter(r => r.score >= 80).length;
+    if (highScores >= 3 && !badges['feelings-explorer']) {
+      badges['feelings-explorer'] = true;
+      updated = true;
+    }
+
+    // Anxiety Warrior (Assume course complete if major lesson is done for demo)
+    if (courseProgress['Understanding Anxiety: The Basics']?.completed && !badges['anxiety-warrior']) {
+      badges['anxiety-warrior'] = true;
+      updated = true;
+    }
+
+    // Sleep Wizard
+    if (courseProgress['Lesson 1: The Science of Sleep']?.completed && !badges['sleep-wizard']) {
+      badges['sleep-wizard'] = true;
+      updated = true;
+    }
+
+    // Journaling Champion (10 entries)
+    if (journalEntries.length >= 10 && !badges['journaling-champ']) {
+      badges['journaling-champ'] = true;
+      updated = true;
+    }
+
+    if (updated) {
+      localStorage.setItem('badges', JSON.stringify(badges));
+    }
+
+    // Update UI
     document.querySelectorAll('.badge-card').forEach(card => {
       const badge = card.getAttribute('data-badge');
-      if (badgeData[badge]) {
+      if (badges[badge]) {
         card.querySelector('.aspect-square').style.opacity = '1';
         card.classList.add('earned');
       }
     });
-  });
+  }
+
+  document.addEventListener('DOMContentLoaded', refreshAchievements);
 </script>

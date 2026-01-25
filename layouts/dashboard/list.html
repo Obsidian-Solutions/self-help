@@ -135,41 +135,83 @@
 
           <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Daily Goals</h3>
-            <ul class="space-y-3">
+            <ul class="space-y-3" id="daily-goals-list">
               <li class="flex items-center">
                 <input
                   type="checkbox"
-                  checked
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                  id="goal-meditate"
+                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span class="ml-3 text-sm text-gray-500 dark:text-gray-400 line-through"
-                  >Morning Meditate</span
+                <label for="goal-meditate" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                  >Morning Meditate</label
                 >
               </li>
               <li class="flex items-center">
                 <input
                   type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                  id="goal-water"
+                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Drink Water (2L)</span>
+                <label for="goal-water" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Drink Water (2L)</label>
               </li>
               <li class="flex items-center">
                 <input
                   type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                  id="goal-journal"
+                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Journal Entry</span>
+                <label for="goal-journal" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Journal Entry</label>
               </li>
               <li class="flex items-center">
                 <input
                   type="checkbox"
-                  class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+                  id="goal-walk"
+                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <span class="ml-3 text-sm text-gray-700 dark:text-gray-300">Walk 15 mins</span>
+                <label for="goal-walk" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Walk 15 mins</label>
               </li>
             </ul>
           </div>
         </div>
+
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.goal-checkbox');
+            const today = new Date().toISOString().split('T')[0];
+            
+            // Load state from localStorage
+            const savedGoals = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
+            const goalsState = savedGoals[today] || {};
+
+            checkboxes.forEach(checkbox => {
+              const id = checkbox.id;
+              const label = checkbox.nextElementSibling;
+              
+              // Apply saved state
+              if (goalsState[id]) {
+                checkbox.checked = true;
+                label.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
+                label.classList.remove('text-gray-700', 'dark:text-gray-300');
+              }
+
+              checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                  label.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
+                  label.classList.remove('text-gray-700', 'dark:text-gray-300');
+                } else {
+                  label.classList.remove('line-through', 'text-gray-500', 'dark:text-gray-400');
+                  label.classList.add('text-gray-700', 'dark:text-gray-300');
+                }
+
+                // Save to localStorage
+                const currentSaved = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
+                if (!currentSaved[today]) currentSaved[today] = {};
+                currentSaved[today][id] = this.checked;
+                localStorage.setItem('dailyGoals', JSON.stringify(currentSaved));
+              });
+            });
+          });
+        </script>
 
         <!-- My Courses -->
         <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">Continue Learning</h3>

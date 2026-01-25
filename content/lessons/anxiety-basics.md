@@ -2,6 +2,7 @@
 title: 'Understanding Anxiety: The Basics'
 course: 'CBT for Anxiety'
 description: 'Learn the fundamentals of anxiety and how CBT can help manage it.'
+illustration: 'anxiety'
 order: 1
 draft: false
 quiz:

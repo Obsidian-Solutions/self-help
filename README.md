@@ -391,22 +391,15 @@ This theme is perfect for:
 - 🔲 Plan admin interface
 - 🔲 Migration strategy
 
-## 📞 Support
+## 📞 Support & Credits
 
-- **Documentation**: Read the files in this repository
-- **Undraw Library**: https://undraw.co/ (1000+ illustrations)
-- **Hugo Docs**: https://gohugo.io/documentation/
-- **Tailwind Docs**: https://tailwindcss.com/docs
-
-## 🎉 Getting Started
-
-1. Copy the theme to your project
-2. Create `content/courses/` and `content/lessons/` files
-3. Add quizzes to lessons via front-matter
-4. Use `{{ partial "undraw.html" }}` for illustrations
-5. Use `{{ partial "handcrafts.html" }}` for decorations
-6. Run `hugo server` and start creating!
+- **Developer**: Built with ❤️ by [Obsidian Solutions](https://obsidiansolutions.co.uk)
+- **Repository**: [GitHub Issues & Source](https://github.com/Obsidian-Solutions/self-help)
+- **Undraw Library**: [undraw.co](https://undraw.co/) (1000+ illustrations)
+- **Hugo Docs**: [gohugo.io](https://gohugo.io/documentation/)
+- **Tailwind Docs**: [tailwindcss.com](https://tailwindcss.com/docs)
 
 ---
 
-**Built with ❤️ for mental health and education**
+**MindFull Hugo Theme - Professional Mental Health & Education Platform**  
+Maintained by [Obsidian Solutions](https://obsidiansolutions.co.uk)

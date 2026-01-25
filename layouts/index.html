@@ -24,7 +24,7 @@
 
       <!-- Hero Illustration from Markdown -->
       <div class="relative h-64 sm:h-72 md:h-96 lg:h-full flex items-center justify-center">
-        <div class="w-full h-full max-w-md">
+        <div class="w-full h-full max-w-md interactive">
           {{ partial "undraw.html" (dict "name" .Params.hero.illustration) }}
         </div>
       </div>
@@ -46,7 +46,7 @@
     </div>
 
     <div class="mt-10">
-      <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+      <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-x-8 md:gap-y-10">
         {{ range .Params.features }}
         {{ $gradientFrom := printf "from-%s-50" .color }}
         {{ $gradientTo := printf "to-%s-100" .color }}

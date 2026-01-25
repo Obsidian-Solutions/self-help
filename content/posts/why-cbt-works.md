@@ -2,7 +2,7 @@
 title: 'Why CBT is the Gold Standard for Anxiety'
 date: 2026-01-12T14:30:00-00:00
 description: 'Understanding the science behind Cognitive Behavioral Therapy and why it works.'
-illustration: 'online-learning'
+illustration: 'learning'
 ---
 
 Cognitive Behavioral Therapy (CBT) is based on the idea that our thoughts, feelings, and behaviors are interconnected.

@@ -171,8 +171,15 @@
     }
     {{ end }}
 
-    alert("Lesson marked as complete! 🎉");
-    // Logic to go to next lesson would be here
+    if (window.showToast) {
+      window.showToast('Lesson marked as complete! 🎉', 'success');
+    } else {
+      alert("Lesson marked as complete! 🎉");
+    }
+    
+    setTimeout(() => {
+      window.location.href = "/courses"; // Return to course syllabus
+    }, 1500);
   }
 
   function awardBadge(badgeId) {

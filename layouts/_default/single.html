@@ -18,7 +18,11 @@
     </div>
   </div>
 
-  {{ if .Params.image }}
+  {{ if .Params.illustration }}
+  <div class="relative h-64 sm:h-80 w-full mb-12 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl flex items-center justify-center p-8">
+    {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+  </div>
+  {{ else if .Params.image }}
   <div class="relative h-64 sm:h-96 w-full mb-12">
     <img
       class="w-full h-full object-cover rounded-xl shadow-lg"
@@ -29,7 +33,7 @@
   {{ end }}
 
   <div
-    class="prose prose-indigo dark:prose-invert prose-lg mx-auto text-gray-600 dark:text-gray-300"
+    class="prose prose-indigo dark:prose-invert prose-lg mx-auto text-gray-600 dark:text-gray-300 first-letter:text-5xl first-letter:font-bold first-letter:text-indigo-600 dark:first-letter:text-indigo-400 first-letter:mr-3 first-letter:float-left"
   >
     {{ .Content }}
   </div>
