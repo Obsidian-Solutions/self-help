@@ -75,7 +75,7 @@ window.handleSignUp = async e => {
   } else {
     alert('Account created! Welcome, ' + name);
   }
-  
+
   setTimeout(() => {
     window.location.href = '/dashboard';
   }, 1500);
