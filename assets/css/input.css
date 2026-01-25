@@ -4,7 +4,7 @@
 
 @layer components {
   /* ... existing component styles ... */
-  
+
   /* Modal Component */
   [data-modal-backdrop] {
     @apply fixed inset-0 z-50 overflow-y-auto bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4;
