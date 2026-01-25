@@ -1,7 +1,7 @@
 ---
 title: 'Sign Up'
 layout: 'signup'
-illustration: 'welcome'
+illustration: 'happy-feeling'
 heading: 'Create your account'
 subheading: 'Already have an account?'
 loginLink: '/login'

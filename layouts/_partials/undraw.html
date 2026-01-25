@@ -1,28 +1,57 @@
-{{/* Undraw Illustration Partial (Local Files) Usage: {{ partial "undraw.html" (dict "name"
-"meditation" "width" "w-64" "height" "h-64") }} Parameters: - name (string, required): Undraw
-illustration name (e.g., "meditation", "learning", "happy-feeling") - width (string): Tailwind width
-class (default: "w-full") - height (string): Tailwind height class (default: "h-auto") - alt
-(string): Alt text for accessibility (default: formatted name) - class (string): Additional CSS
-classes to apply Looks for local files in: assets/illustrations/undraw-raw/undraw_[name]*.svg Dark
-mode supported via CSS filter */}} {{- $name := .name -}} {{- $width := .width | default "" -}} {{-
-$height := .height | default "" -}} {{- $alt := .alt | default (humanize $name) -}} {{- $class :=
-.class | default "" -}} {{/* Build class string - only add width/height if provided */}} {{-
-$wrapperClass := "undraw-wrapper" -}} {{- if $width -}} {{- $wrapperClass = printf "%s %s"
-$wrapperClass $width -}} {{- end -}} {{- if $height -}} {{- $wrapperClass = printf "%s %s"
-$wrapperClass $height -}} {{- end -}} {{- if $class -}} {{- $wrapperClass = printf "%s %s"
-$wrapperClass $class -}} {{- end -}} {{/* Find matching local illustration file */}} {{- $pattern :=
-printf "illustrations/undraw-raw/undraw_%s*.svg" $name -}} {{- $illustrations := resources.Match
-$pattern -}} {{- if $illustrations -}} {{- $illustration := index $illustrations 0 -}}
-<div class="{{ $wrapperClass }}">{{ $illustration.Content | safeHTML }}</div>
-{{- else -}} {{/* Try alternative pattern with underscores instead of hyphens */}} {{- $altName :=
-replace $name "-" "_" -}} {{- $altPattern := printf "illustrations/undraw-raw/undraw_%s*.svg"
-$altName -}} {{- $altIllustrations := resources.Match $altPattern -}} {{- if $altIllustrations -}}
-{{- $illustration := index $altIllustrations 0 -}}
-<div class="{{ $wrapperClass }}">{{ $illustration.Content | safeHTML }}</div>
-{{- else -}} {{/* Fallback to generic placeholder if illustration not found */}}
-<div
-  class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center min-h-[200px]"
->
-  <span class="text-gray-400 dark:text-gray-500 text-sm">{{ $alt }}</span>
-</div>
-{{- end -}} {{- end -}}
+{{/*
+  Undraw Illustration Partial (Local Files)
+  Usage: {{ partial "undraw.html" (dict "name" "meditation" "width" "w-64" "height" "h-64") }}
+  
+  Parameters:
+  - name (string, required): Illustration name (e.g., "meditation", "learning", "breaking-barriers")
+  - width (string): Tailwind width class (default: "")
+  - height (string): Tailwind height class (default: "")
+  - alt (string): Alt text for accessibility
+  - class (string): Additional CSS classes
+*/}}
+
+{{- $name := .name -}}
+{{- $width := .width | default "" -}}
+{{- $height := .height | default "" -}}
+{{- $alt := .alt | default (humanize $name) -}}
+{{- $class := .class | default "" -}}
+
+{{/* Build class string */}}
+{{- $wrapperClass := "undraw-wrapper" -}}
+{{- if $width -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $width -}} {{- end -}}
+{{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
+{{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
+
+{{/* 1. Try exact match in illustrations/ */}}
+{{- $directPath := printf "illustrations/%s.svg" $name -}}
+{{- $directRes := resources.Get $directPath -}}
+
+{{- if $directRes -}}
+  <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $directRes.Content | safeHTML }}</div>
+{{- else -}}
+  {{/* 2. Try pattern match in illustrations/undraw-raw/undraw_[name]*.svg */}}
+  {{- $pattern := printf "illustrations/undraw-raw/undraw_%s*.svg" $name -}}
+  {{- $matches := resources.Match $pattern -}}
+  
+  {{- if not $matches -}}
+    {{/* 3. Try with underscores instead of hyphens */}}
+    {{- $altName := replace $name "-" "_" -}}
+    {{- $pattern = printf "illustrations/undraw-raw/undraw_%s*.svg" $altName -}}
+    {{- $matches = resources.Match $pattern -}}
+  {{- end -}}
+
+  {{- if $matches -}}
+    {{- $illustration := index $matches 0 -}}
+    <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $illustration.Content | safeHTML }}</div>
+  {{- else -}}
+    {{/* Fallback to generic placeholder if not found */}}
+    <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Missing illustration: {{ $name }}">
+      <div class="text-center p-4">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span class="mt-2 block text-sm font-medium text-gray-500 dark:text-gray-400">{{ $alt }}</span>
+      </div>
+    </div>
+  {{- end -}}
+{{- end -}}

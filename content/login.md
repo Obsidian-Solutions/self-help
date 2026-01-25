@@ -1,7 +1,7 @@
 ---
 title: 'Log In'
 layout: 'login'
-illustration: 'secure-login'
+illustration: 'knowledge'
 heading: 'Sign in to your account'
 demoMode: true
 demoEmail: 'demo@example.com'
