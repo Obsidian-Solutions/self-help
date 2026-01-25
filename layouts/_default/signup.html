@@ -1,8 +1,8 @@
 {{ define "main" }}
-<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 -my-8">
+<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-gray-900">
   <!-- Illustration Side -->
   <div
-    class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-500 to-indigo-600 dark:from-purple-900 dark:to-indigo-900 items-center justify-center p-12"
+    class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-900 dark:to-purple-900 items-center justify-center p-12"
   >
     <div class="max-w-md text-white">
       {{ if .Params.illustration }}
@@ -12,7 +12,7 @@
       </div>
       {{ end }}
       <h2 class="text-3xl font-bold mb-4">{{ .Params.heading }}</h2>
-      <div class="prose prose-lg text-white/90">{{ .Content }}</div>
+      <div class="prose prose-lg text-white/90 dark:text-gray-200">{{ .Content }}</div>
     </div>
   </div>
 
@@ -22,29 +22,18 @@
       <h2 class="text-center text-3xl font-extrabold text-gray-900 dark:text-white lg:hidden">
         {{ .Params.heading }}
       </h2>
-      {{ if .Params.subheading }}
-      <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-        {{ .Params.subheading }}
-        <a
-          href="{{ .Params.loginLink }}"
-          class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
-        >
-          {{ .Params.loginText }}
-        </a>
-      </p>
-      {{ end }}
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6" onsubmit="window.handleSignUp(event)">
+        <form class="space-y-6" onsubmit="window.handleSignup(event); return false;">
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Full Name
             </label>
             <div class="mt-1">
               <input
-                id="name"
+                id="signup-name"
                 name="name"
                 type="text"
                 required
@@ -59,7 +48,7 @@
             </label>
             <div class="mt-1">
               <input
-                id="email"
+                id="signup-email"
                 name="email"
                 type="email"
                 autocomplete="email"
@@ -78,7 +67,7 @@
             </label>
             <div class="mt-1">
               <input
-                id="password"
+                id="signup-password"
                 name="password"
                 type="password"
                 required
@@ -87,15 +76,43 @@
             </div>
           </div>
 
+          <div class="flex items-center">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label for="terms" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
+              I agree to the
+              <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
+                >Terms and Conditions</a
+              >
+            </label>
+          </div>
+
           <div>
             <button
               type="submit"
               class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign up
+              Create Account
             </button>
           </div>
         </form>
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Already have an account?
+            <a
+              href="/login"
+              class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
+            >
+              Log in
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   </div>

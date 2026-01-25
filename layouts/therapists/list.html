@@ -1,13 +1,13 @@
 {{ define "main" }}
-<div class="flex flex-col md:flex-row h-screen md:overflow-hidden">
+<div class="flex flex-col md:flex-row min-h-screen bg-gray-50 dark:bg-gray-900">
   <!-- Sidebar - Fixed on desktop -->
-  <div class="w-full md:w-64 md:flex-shrink-0 md:overflow-y-auto md:sticky md:top-0 md:h-screen">
+  <div class="w-full md:w-64 md:flex-shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
     {{ partial "dashboard/sidebar.html" . }}
   </div>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col overflow-hidden">
-    <main class="flex-1 overflow-y-auto">
+  <div class="flex-1 flex flex-col min-w-0">
+    <main class="flex-1">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="text-center mb-12">
           <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
@@ -159,10 +159,12 @@
   function openBookingModal(name) {
     document.getElementById('therapist-name').textContent = name;
     document.getElementById('booking-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
   }
 
   function closeBookingModal() {
     document.getElementById('booking-modal').classList.add('hidden');
+    document.body.style.overflow = '';
   }
 
   function handleBooking(e) {

@@ -462,7 +462,22 @@ Ready to start building? Want me to scaffold the initial project structure?
 
 ## Latest Session Accomplishments (January 25, 2026)
 
-### 1. ✅ Security Vulnerability Resolution
+### 1. ✅ Bug Fixes & UX Improvements
+- **Course View Enhancements:**
+  - Resolved light mode "stuck" issue in lesson views by adding dark mode support to `layouts/lessons/single.html`.
+  - Added "Exit Course" button to lesson sidebar for easier navigation.
+  - Implemented illustration rendering in lesson pages.
+  - Added "Finish Quiz" button to quiz results with smooth scroll/hide functionality.
+- **Visual Fixes:**
+  - Resolved missing images for "Science of Sleep" and "Understanding Anxiety" by correcting illustration paths in content files.
+  - Standardized background colors for dark mode across all main views (`bg-gray-50 dark:bg-gray-900`).
+- **Layout & Scrolling:**
+  - Fixed "dual scrollbar" regression in Journal, Settings, Therapists, and Course List pages by refactoring `h-screen` and `overflow-hidden` constraints.
+  - Cleaned up Login and Signup page layouts (removed problematic `-my-8` margins).
+- **Authentication:**
+  - Fixed typo in `signup-modal.html` (`handleSignUp` -> `handleSignup`) ensuring form submission works correctly.
+
+### 2. ✅ Security Vulnerability Resolution
 
 - Resolved High-severity Dependabot alerts for `glob` and `tar` packages.
 - **Root:** Updated `markdownlint-cli` to `@latest` (0.47.0) which uses a secure version of `glob`.

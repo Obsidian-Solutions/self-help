@@ -34,12 +34,20 @@
           <p class="text-lg text-indigo-900 dark:text-indigo-100" id="score-display"></p>
         </div>
       </div>
-      <button
-        onclick="location.reload()"
-        class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded-lg transition-colors"
-      >
-        Retake Quiz
-      </button>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button
+          onclick="location.reload()"
+          class="bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800 font-medium py-2 px-6 rounded-lg transition-colors"
+        >
+          Retake Quiz
+        </button>
+        <button
+          onclick="if(window.onQuizFinish) { window.onQuizFinish(); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }"
+          class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded-lg transition-colors"
+        >
+          Finish Quiz
+        </button>
+      </div>
     </div>
   </div>
 
