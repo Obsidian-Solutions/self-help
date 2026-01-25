@@ -74,16 +74,19 @@ db.serialize(() => {
   // Create default admin if not exists
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-  
+
   db.get('SELECT * FROM users WHERE email = ?', [adminEmail], (err, row) => {
     if (err) console.error(err);
     if (!row) {
       const hash = bcrypt.hashSync(adminPassword, 10);
-      db.run('INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)', 
-        ['Admin', adminEmail, hash], (err) => {
+      db.run(
+        'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
+        ['Admin', adminEmail, hash],
+        err => {
           if (err) console.error(err);
           else console.log(`Default admin created: ${adminEmail}`);
-        });
+        }
+      );
     } else {
       console.log('Admin user already exists.');
     }
