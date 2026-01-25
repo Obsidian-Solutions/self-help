@@ -251,7 +251,7 @@
   }
 
   function clearData() {
-    if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
+    const performClear = () => {
       localStorage.removeItem('courseProgress');
       localStorage.removeItem('journalEntries');
       localStorage.removeItem('moodCheckins');
@@ -265,6 +265,16 @@
       setTimeout(() => {
         location.reload();
       }, 1000);
+    };
+
+    if (window.showConfirm) {
+      window.showConfirm(
+        'Clear All Data', 
+        'Are you sure? This will permanently delete all your journal entries, course progress, and settings. This cannot be undone.', 
+        performClear
+      );
+    } else if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
+      performClear();
     }
   }
 </script>
