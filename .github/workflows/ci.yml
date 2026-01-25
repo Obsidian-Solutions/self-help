@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main, 'feat/*' ]
+    branches: [ main, 'feat/**', 'feature/**' ]
   pull_request:
     branches: [ main ]
 
@@ -28,6 +28,9 @@ jobs:
 
     - name: Install Dependencies
       run: npm install
+
+    - name: Install CMS Dependencies
+      run: npm run cms:install
 
     - name: Run Lints
       run: npm run lint
