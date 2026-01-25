@@ -4,10 +4,10 @@ The MindFull theme uses a hybrid illustration system designed for **speed**, **r
 
 ## How it Works
 
-The `undraw.html` partial handles illustrations using a 3-tier remote-first strategy:
+The `undraw.html` partial handles illustrations using a 3-tier **local-first** strategy:
 
-1.  **Remote (Primary):** Consults `data/undraw_remote.json` for official CDN links or uses the GitHub mirror. Illustrations are fetched and embedded at build-time.
-2.  **Local Library (Secondary/Backup):** If the remote fetch fails (e.g., offline, 404), it falls back to the `assets/illustrations/library/` folder. This is your safety net.
+1.  **Local Library (Primary):** Checks `assets/illustrations/library/` using flexible pattern matching (case-insensitive, handles various prefixes). This is the fastest and most reliable method.
+2.  **Remote Fallback (Secondary):** If not found locally, it consults `data/undraw_remote.json` for known CDN links.
 3.  **Placeholder (Fallback):** If both fail, it renders a styled dashed box.
 
 ## Usage

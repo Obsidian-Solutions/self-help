@@ -1,7 +1,8 @@
 {{/*
-  Undraw Illustration Partial (Remote-First Hybrid)
-  1. Remote (Primary): Try fetching from CDN or Mirror.
-  2. Local (Secondary/Backup): Fallback if remote fails.
+  Undraw Illustration Partial (Local-First Hybrid)
+  1. Local Library (Primary): assets/illustrations/library/ (Fastest & most reliable)
+  2. Remote Fallback: Official CDN or mirror (if missing locally)
+  3. Placeholder: Final fallback
 */}}
 
 {{- $name := .name -}}
@@ -13,54 +14,57 @@
 {{/* Build class string */}}
 {{- $wrapperClass := "undraw-wrapper" -}}
 {{- if $width -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $width -}} {{- end -}}
-{{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
+{{- if $height -}} {{- $wrapperClass = printf "%s %s" $height -}} {{- end -}}
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
 {{- $illustrationRes := "" -}}
-{{- $foundRemote := false -}}
+{{- $foundLocal := false -}}
 
-{{/* --- 1. REMOTE ATTEMPT (Primary) --- */}}
+{{/* --- 1. LOCAL CHECK (Primary) --- */}}
 
-{{/* Try to find direct CDN URL */}}
-{{- $remoteCatalog := site.Data.undraw_remote -}}
-{{- $cdnURL := "" -}}
-{{- if $remoteCatalog -}}
-  {{- range $remoteCatalog -}}
-    {{- if or (in .image (printf "/%s_" $name)) (in .image (printf "/undraw_%s_" $name)) -}}
-      {{- $cdnURL = .image -}}
-    {{- end -}}
-  {{- end -}}
+{{/* 
+   Try different naming patterns in assets/illustrations/library/
+   - Exact: [name].svg
+   - Undraw Pattern: undraw_[name]*.svg
+   - Case Insensitive pattern matching via resources.Match
+*/}}
+
+{{- $nameLower := lower $name -}}
+{{- $pattern := printf "illustrations/library/*%s*.svg" $nameLower -}}
+{{- $matches := resources.Match $pattern -}}
+
+{{/* If no matches with lowercase, try replacing hyphens with underscores */}}
+{{- if not $matches -}}
+  {{- $altName := replace $nameLower "-" "_" -}}
+  {{- $pattern = printf "illustrations/library/*%s*.svg" $altName -}}
+  {{- $matches = resources.Match $pattern -}}
 {{- end -}}
 
-{{- if $cdnURL -}}
-  {{- with try (resources.GetRemote $cdnURL) -}}
-    {{- with .Value -}}
-      {{- $illustrationRes = . -}}
-      {{- $foundRemote = true -}}
-    {{- end -}}
-  {{- end -}}
+{{- if $matches -}}
+  {{- $illustrationRes = index $matches 0 -}}
+  {{- $foundLocal = true -}}
 {{- end -}}
 
-{{- if not $foundRemote -}}
-  {{/* Try mirror */}}
-  {{- $mirrorURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/undraw_%s.svg" (replace $name "-" "_") -}}
-  {{- with try (resources.GetRemote $mirrorURL) -}}
-    {{- with .Value -}}
-      {{- $illustrationRes = . -}}
-      {{- $foundRemote = true -}}
+{{/* --- 2. REMOTE FALLBACK (Secondary) --- */}}
+
+{{- if not $foundLocal -}}
+  {{/* Try to find direct CDN URL from undraw_remote.json */}}
+  {{- $remoteCatalog := site.Data.undraw_remote -}}
+  {{- $cdnURL := "" -}}
+  {{- if $remoteCatalog -}}
+    {{- range $remoteCatalog -}}
+      {{- if or (in (lower .image) (printf "/%s_" $nameLower)) (in (lower .image) (printf "/undraw_%s_" $nameLower)) -}}
+        {{- $cdnURL = .image -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
-{{- end -}}
 
-{{/* --- 2. LOCAL FALLBACK (Secondary/Backup) --- */}}
-
-{{- if not $foundRemote -}}
-  {{- $localPath := printf "illustrations/library/undraw_%s*.svg" (replace $name "-" "_") -}}
-  {{- $matches := resources.Match $localPath -}}
-  {{- if $matches -}}
-    {{- $illustrationRes = index $matches 0 -}}
-  {{- else -}}
-    {{- $illustrationRes = resources.Get (printf "illustrations/library/%s.svg" $name) -}}
+  {{- if $cdnURL -}}
+    {{- with try (resources.GetRemote $cdnURL) -}}
+      {{- with .Value -}}
+        {{- $illustrationRes = . -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
