@@ -1,8 +1,9 @@
 {{/*
-  Undraw Illustration Partial (Local-First Hybrid)
-  1. Local Library (Primary): assets/illustrations/library/ (Fastest & most reliable)
-  2. Remote Fallback: Official CDN or mirror (if missing locally)
-  3. Placeholder: Final fallback
+  Undraw Illustration Partial (Optimized Hybrid)
+  1. Local Core: assets/illustrations/ (Highest priority)
+  2. Local Library: assets/illustrations/library/ (Bulk storage)
+  3. Remote Fallback: CDN (if missing locally)
+  4. Placeholder: CSS dashed box (Final fallback)
 */}}
 
 {{- $name := .name -}}
@@ -14,41 +15,46 @@
 {{/* Build class string */}}
 {{- $wrapperClass := "undraw-wrapper" -}}
 {{- if $width -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $width -}} {{- end -}}
-{{- if $height -}} {{- $wrapperClass = printf "%s %s" $height -}} {{- end -}}
+{{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
 {{- $illustrationRes := "" -}}
 {{- $foundLocal := false -}}
 
-{{/* --- 1. LOCAL CHECK (Primary) --- */}}
+{{/* --- 1. LOCAL CORE CHECK (Primary) --- */}}
+{{- $corePath := printf "illustrations/%s.svg" $name -}}
+{{- $illustrationRes = resources.Get $corePath -}}
 
-{{/* 
-   Try different naming patterns in assets/illustrations/library/
-   - Exact: [name].svg
-   - Undraw Pattern: undraw_[name]*.svg
-   - Case Insensitive pattern matching via resources.Match
-*/}}
-
-{{- $nameLower := lower $name -}}
-{{- $pattern := printf "illustrations/library/*%s*.svg" $nameLower -}}
-{{- $matches := resources.Match $pattern -}}
-
-{{/* If no matches with lowercase, try replacing hyphens with underscores */}}
-{{- if not $matches -}}
-  {{- $altName := replace $nameLower "-" "_" -}}
-  {{- $pattern = printf "illustrations/library/*%s*.svg" $altName -}}
-  {{- $matches = resources.Match $pattern -}}
+{{- if not $illustrationRes -}}
+  {{/* Try undraw_ prefix in core */}}
+  {{- $illustrationRes = resources.Get (printf "illustrations/undraw_%s.svg" $name) -}}
 {{- end -}}
 
-{{- if $matches -}}
-  {{- $illustrationRes = index $matches 0 -}}
+{{- if $illustrationRes -}}
   {{- $foundLocal = true -}}
 {{- end -}}
 
-{{/* --- 2. REMOTE FALLBACK (Secondary) --- */}}
-
+{{/* --- 2. LOCAL LIBRARY CHECK (Secondary) --- */}}
 {{- if not $foundLocal -}}
-  {{/* Try to find direct CDN URL from undraw_remote.json */}}
+  {{- $nameLower := lower $name -}}
+  {{- $pattern := printf "illustrations/library/*%s*.svg" $nameLower -}}
+  {{- $matches := resources.Match $pattern -}}
+
+  {{- if not $matches -}}
+    {{- $altName := replace $nameLower "-" "_" -}}
+    {{- $pattern = printf "illustrations/library/*%s*.svg" $altName -}}
+    {{- $matches = resources.Match $pattern -}}
+  {{- end -}}
+
+  {{- if $matches -}}
+    {{- $illustrationRes = index $matches 0 -}}
+    {{- $foundLocal = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* --- 3. REMOTE FALLBACK (Tertiary) --- */}}
+{{- if not $foundLocal -}}
+  {{- $nameLower := lower $name -}}
   {{- $remoteCatalog := site.Data.undraw_remote -}}
   {{- $cdnURL := "" -}}
   {{- if $remoteCatalog -}}
@@ -69,13 +75,12 @@
 {{- end -}}
 
 {{/* --- RENDER --- */}}
-
 {{- if $illustrationRes -}}
   <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">
     {{ $illustrationRes.Content | safeHTML }}
   </div>
 {{- else -}}
-  {{/* 3. FINAL FALLBACK: Placeholder */}}
+  {{/* 4. FINAL FALLBACK: Placeholder */}}
   <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
     <div class="text-center p-4">
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
