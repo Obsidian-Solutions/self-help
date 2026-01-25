@@ -1,9 +1,8 @@
 {{/*
-  Undraw Illustration Partial (Optimized Hybrid)
-  1. Local Core: assets/illustrations/ (Highest priority)
-  2. Local Library: assets/illustrations/library/ (Bulk storage)
-  3. Remote Fallback: CDN (if missing locally)
-  4. Placeholder: CSS dashed box (Final fallback)
+  Undraw Illustration Partial (Local Library Only)
+  Usage: {{ partial "undraw.html" (dict "name" "meditation" "width" "w-64") }}
+  
+  Looks exclusively in assets/illustrations/library/ using undraw_catalog.json mapping.
 */}}
 
 {{- $name := .name -}}
@@ -19,56 +18,44 @@
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
 {{- $illustrationRes := "" -}}
-{{- $foundLocal := false -}}
+{{- $nameLower := lower $name -}}
 
-{{/* --- 1. LOCAL CORE CHECK (Primary) --- */}}
-{{- $corePath := printf "illustrations/%s.svg" $name -}}
-{{- $illustrationRes = resources.Get $corePath -}}
+{{/* 1. Try catalog mapping (Search by title or partial image name) */}}
+{{- $catalog := site.Data.undraw_catalog -}}
+{{- $fileName := "" -}}
 
-{{- if not $illustrationRes -}}
-  {{/* Try undraw_ prefix in core */}}
-  {{- $illustrationRes = resources.Get (printf "illustrations/undraw_%s.svg" $name) -}}
-{{- end -}}
-
-{{- if $illustrationRes -}}
-  {{- $foundLocal = true -}}
-{{- end -}}
-
-{{/* --- 2. LOCAL LIBRARY CHECK (Secondary) --- */}}
-{{- if not $foundLocal -}}
-  {{- $nameLower := lower $name -}}
-  {{- $pattern := printf "illustrations/library/*%s*.svg" $nameLower -}}
-  {{- $matches := resources.Match $pattern -}}
-
-  {{- if not $matches -}}
-    {{- $altName := replace $nameLower "-" "_" -}}
-    {{- $pattern = printf "illustrations/library/*%s*.svg" $altName -}}
-    {{- $matches = resources.Match $pattern -}}
-  {{- end -}}
-
-  {{- if $matches -}}
-    {{- $illustrationRes = index $matches 0 -}}
-    {{- $foundLocal = true -}}
-  {{- end -}}
-{{- end -}}
-
-{{/* --- 3. REMOTE FALLBACK (Tertiary) --- */}}
-{{- if not $foundLocal -}}
-  {{- $nameLower := lower $name -}}
-  {{- $remoteCatalog := site.Data.undraw_remote -}}
-  {{- $cdnURL := "" -}}
-  {{- if $remoteCatalog -}}
-    {{- range $remoteCatalog -}}
-      {{- if or (in (lower .image) (printf "/%s_" $nameLower)) (in (lower .image) (printf "/undraw_%s_" $nameLower)) -}}
-        {{- $cdnURL = .image -}}
-      {{- end -}}
+{{- if $catalog -}}
+  {{- range $catalog -}}
+    {{- if or (eq (lower .title) $nameLower) (eq (replace .image ".svg" "") $nameLower) -}}
+      {{- $fileName = .image -}}
     {{- end -}}
   {{- end -}}
+{{- end -}}
 
-  {{- if $cdnURL -}}
-    {{- with try (resources.GetRemote $cdnURL) -}}
-      {{- with .Value -}}
-        {{- $illustrationRes = . -}}
+{{/* 2. Lookup in library folder */}}
+{{- if $fileName -}}
+  {{- $illustrationRes = resources.Get (printf "illustrations/library/%s" $fileName) -}}
+{{- end -}}
+
+{{/* 3. Fallback: Direct search if not in catalog or catalog mapping failed */}}
+{{- if not $illustrationRes -}}
+  {{/* Try exact match, with underscores, or partial match */}}
+  {{- $patterns := slice 
+      (printf "illustrations/library/%s.svg" $nameLower)
+      (printf "illustrations/library/%s.svg" (replace $nameLower "-" "_"))
+      (printf "illustrations/library/*%s*.svg" $nameLower)
+      (printf "illustrations/library/*%s*.svg" (replace $nameLower "-" "_"))
+  -}}
+  
+  {{- range $patterns -}}
+    {{- if not $illustrationRes -}}
+      {{- if in . "*" -}}
+        {{- $matches := resources.Match . -}}
+        {{- if $matches -}}
+          {{- $illustrationRes = index $matches 0 -}}
+        {{- end -}}
+      {{- else -}}
+        {{- $illustrationRes = resources.Get . -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -80,7 +67,7 @@
     {{ $illustrationRes.Content | safeHTML }}
   </div>
 {{- else -}}
-  {{/* 4. FINAL FALLBACK: Placeholder */}}
+  {{/* Final Fallback: Placeholder */}}
   <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
     <div class="text-center p-4">
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
