@@ -1,8 +1,9 @@
 {{/*
   Undraw Illustration Partial (Optimized Hybrid)
-  1. Local (Speed): Check assets/illustrations/ first.
-  2. Remote (Library): Fallback to fetching from mirror using catalog.
-  3. Placeholder: Final fallback to prevent layout breakage.
+  1. Local Core: assets/illustrations/ (Fastest)
+  2. Local Library: assets/illustrations/library/ (Fast)
+  3. Remote: GitHub mirror using catalog (Fallback)
+  4. Placeholder: CSS dashed box (Final Fallback)
 */}}
 
 {{- $name := .name -}}
@@ -17,21 +18,23 @@
 {{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
-{{/* 1. LOCAL CHECK (Optimized for speed) */}}
-{{- $localPath := printf "illustrations/%s.svg" $name -}}
-{{- $localRes := resources.Get $localPath -}}
+{{/* 1. LOCAL CORE CHECK */}}
+{{- $localRes := resources.Get (printf "illustrations/%s.svg" $name) -}}
 
+{{/* 2. LOCAL LIBRARY CHECK (Checking undraw_ pattern in library folder) */}}
 {{- if not $localRes -}}
-  {{/* Try with undraw_ prefix or underscores */}}
   {{- $altName := replace $name "-" "_" -}}
-  {{- $localPath = printf "illustrations/undraw_%s.svg" $altName -}}
-  {{- $localRes = resources.Get $localPath -}}
+  {{- $pattern := printf "illustrations/library/undraw_%s*.svg" $altName -}}
+  {{- $matches := resources.Match $pattern -}}
+  {{- if $matches -}}
+    {{- $localRes = index $matches 0 -}}
+  {{- end -}}
 {{- end -}}
 
 {{- if $localRes -}}
   <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $localRes.Content | safeHTML }}</div>
 {{- else -}}
-  {{/* 2. REMOTE FALLBACK (Primary source for missing local files) */}}
+  {{/* 3. REMOTE FALLBACK */}}
   {{- $catalog := site.Data.undraw_catalog -}}
   {{- $fileName := "" -}}
   
@@ -48,7 +51,6 @@
     {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/%s" $fileName -}}
     {{- $remoteRes = resources.GetRemote $remoteURL -}}
   {{- else -}}
-    {{/* Try direct pattern if not in catalog */}}
     {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/undraw_%s.svg" (replace $name "-" "_") -}}
     {{- $remoteRes = resources.GetRemote $remoteURL -}}
   {{- end -}}
@@ -56,7 +58,7 @@
   {{- if and $remoteRes (not $remoteRes.Err) -}}
     <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $remoteRes.Content | safeHTML }}</div>
   {{- else -}}
-    {{/* 3. FINAL FALLBACK: Placeholder */}}
+    {{/* 4. FINAL FALLBACK: Placeholder */}}
     <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
       <div class="text-center p-4">
         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

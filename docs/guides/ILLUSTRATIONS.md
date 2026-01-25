@@ -4,11 +4,12 @@ The MindFull theme uses a hybrid illustration system designed for **speed**, **r
 
 ## How it Works
 
-The `undraw.html` partial handles illustrations using a 3-tier strategy:
+The `undraw.html` partial handles illustrations using a 4-tier strategy:
 
-1.  **Local (Primary/Fastest):** Checks `assets/illustrations/` for an exact match. Use this for your most-used images to ensure zero-latency builds and instant loading.
-2.  **Remote (Secondary/Library):** If not found locally, it consults the catalog in `data/undraw_catalog.json` and fetches the SVG from a high-speed GitHub mirror at build-time.
-3.  **Placeholder (Fallback):** If both fail, it renders a styled dashed box with the illustration name to prevent layout shifts.
+1.  **Local Core (Primary/Fastest):** Checks `assets/illustrations/` for an exact match. Use this for your most-used images.
+2.  **Local Library (Secondary/Fast):** Checks `assets/illustrations/library/` for matching filenames. This is where we store our bulk collection.
+3.  **Remote (Fallback):** If not found locally, it consults the catalog in `data/undraw_catalog.json` and fetches the SVG from a high-speed GitHub mirror at build-time.
+4.  **Placeholder (Fallback):** If all fail, it renders a styled dashed box.
 
 ## Usage
 
@@ -30,10 +31,10 @@ We have indexed **1,000+ illustrations** from the UnDraw library. You can find t
 
 To keep your production builds fast and your site independent of external repos:
 
-1.  Find an illustration you like in the catalog.
-2.  Download the SVG (or let Hugo fetch it once).
-3.  Move it to `assets/illustrations/[name].svg`.
-4.  Hugo will now pick it up from your local disk instantly during every subsequent build.
+1.  **Bulk Download:** You can download the entire UnDraw library mirror into your `assets/illustrations/library/` folder to ensure every possible illustration loads instantly from your disk.
+    - Path: `assets/illustrations/library/`
+2.  **Individual Pick:** Find an illustration you like in the catalog, download the SVG, and move it to `assets/illustrations/[name].svg`.
+3.  Hugo will now pick it up from your local disk instantly during every subsequent build.
 
 ## Maintenance
 

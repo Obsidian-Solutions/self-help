@@ -471,7 +471,8 @@ Ready to start building? Want me to scaffold the initial project structure?
   - Added "Finish Quiz" button to quiz results with smooth scroll/hide functionality.
 - **Visual Fixes:**
   - Resolved missing images for "Science of Sleep" and "Understanding Anxiety" by correcting illustration paths in content files.
-  - **Hybrid Illustration System:** Re-engineered `undraw.html` to prioritize local assets for speed, with a robust remote fallback to a 1,000+ SVG mirror.
+  - **Hybrid Illustration System:** Re-engineered `undraw.html` with a 4-tier strategy: Local Core (fastest), Local Library (bulk storage), Remote Mirror (1,000+ fallback), and visual placeholder.
+  - **Asset Optimization:** Cleaned up raw assets and established `assets/illustrations/library/` for bulk local storage to ensure high-performance builds.
   - Implemented build-time SVG embedding via `resources.GetRemote` for zero-latency client performance.
   - Created `docs/guides/ILLUSTRATIONS.md` documentation for the new system.
   - Standardized background colors for dark mode across all main views (`bg-gray-50 dark:bg-gray-900`).
