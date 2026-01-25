@@ -460,6 +460,22 @@ Ready to start building? Want me to scaffold the initial project structure?
 
 ---
 
+## Latest Session Accomplishments (January 25, 2026)
+
+### 1. ✅ Security Vulnerability Resolution
+- Resolved High-severity Dependabot alerts for `glob` and `tar` packages.
+- **Root:** Updated `markdownlint-cli` to `@latest` (0.47.0) which uses a secure version of `glob`.
+- **CMS:** Implemented dependency `overrides` in `cms/package.json` to force `tar@^7.5.6` and `glob@^11.0.0`, bypassing vulnerable transitive dependencies from `sqlite3` -> `node-gyp`.
+- Verified both environments with `npm audit` (0 vulnerabilities found).
+
+### 2. ✅ Legal & Licensing
+- Created root `LICENSE` file (MIT License) as specified in `package.json`.
+- Verified `README.md` alignment with licensing terms.
+
+### 3. ✅ CI/CD Stability (Previous Session)
+- Resolved CI workflow failures by generating and tracking `package-lock.json` files.
+- Fixed `markdownlint` failures in CI by isolating Hugo binary extraction and adjusting linting rules.
+
 ## Latest Session Accomplishments (January 24, 2026)
 
 ### Phase 5 Planning Complete! ✅
