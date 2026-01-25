@@ -1,0 +1,19 @@
+{
+  "anxiety": ["Thoughts", "Feeling blue", "Heartbroken", "Startled"],
+  "sleep": ["Sleep analysis", "Staying in", "Before dawn", "nap", "bed"],
+  "worry": ["Thoughts", "Feeling blue", "Heartbroken"],
+  "stress": ["Mindfulness", "Meditation", "Relaxing at home"],
+  "fear": ["Startled", "Warning", "Dark alley"],
+  "sad": ["Feeling blue", "Heartbroken", "Thoughts"],
+  "joy": ["Celebration", "Winners", "Young and happy", "Smiley face"],
+  "meditation": ["Meditation", "Mindfulness", "Meditating", "Yoga"],
+  "mindfulness": ["Mindfulness", "Meditation", "Meditating", "Thoughts"],
+  "breathing": ["Meditation", "Mindfulness", "Relaxing at home"],
+  "learning": ["Studying", "Book lover", "Reading list", "Knowledge"],
+  "journal": ["Notes", "Taking notes", "Writing down ideas"],
+  "emotions-happy": ["Smiley face", "Happy", "Happy feeling", "Celebration"],
+  "celebration": ["Celebration", "Balloons", "Birthday cake", "Winners", "Fireworks"],
+  "growth": ["Growing", "Growth curve", "Stepping up", "Rising"],
+  "support": ["Active support", "Air support", "Instant support", "Team spirit"],
+  "thinking": ["Thoughts", "Focus", "Social ideas", "Brainstorming"]
+}
