@@ -3,9 +3,11 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const errorHandler = require('./middleware/errorHandler');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const PORT = process.env.CMS_PORT || 3000;
@@ -30,6 +32,7 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,6 +40,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'CMS is running' });
 });
+
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Error handling
 app.use(errorHandler);
