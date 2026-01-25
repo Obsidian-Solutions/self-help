@@ -85,7 +85,7 @@ db.serialize(() => {
         err => {
           if (err) console.error(err);
           else console.log(`Default admin created: ${adminEmail}`);
-        }
+        },
       );
     } else {
       console.log('Admin user already exists.');

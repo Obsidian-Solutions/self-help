@@ -19,7 +19,7 @@ app.use(
         'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Allow inline for admin panel simplicity
       },
     },
-  })
+  }),
 );
 
 const limiter = rateLimit({
