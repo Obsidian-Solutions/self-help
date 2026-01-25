@@ -64,6 +64,84 @@
             </form>
           </div>
 
+          <!-- Appearance Settings -->
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Appearance</h3>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400 mb-6">
+              Customize how MindFull looks on your device.
+            </p>
+            
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <button 
+                onclick="updateThemeSetting('light')" 
+                id="theme-light"
+                class="flex flex-col items-center p-4 border-2 rounded-lg hover:border-indigo-500 transition-colors dark:bg-gray-700 dark:border-gray-600"
+              >
+                <div class="w-full h-20 bg-gray-100 rounded mb-2 flex items-center justify-center">
+                  <div class="w-12 h-12 bg-white rounded shadow-sm"></div>
+                </div>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">Light</span>
+              </button>
+              
+              <button 
+                onclick="updateThemeSetting('dark')" 
+                id="theme-dark"
+                class="flex flex-col items-center p-4 border-2 rounded-lg hover:border-indigo-500 transition-colors dark:bg-gray-700 dark:border-gray-600"
+              >
+                <div class="w-full h-20 bg-gray-900 rounded mb-2 flex items-center justify-center">
+                  <div class="w-12 h-12 bg-gray-800 rounded shadow-sm"></div>
+                </div>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">Dark</span>
+              </button>
+
+              <button 
+                onclick="updateThemeSetting('auto')" 
+                id="theme-auto"
+                class="flex flex-col items-center p-4 border-2 rounded-lg hover:border-indigo-500 transition-colors dark:bg-gray-700 dark:border-gray-600"
+              >
+                <div class="w-full h-20 bg-gradient-to-r from-gray-100 to-gray-900 rounded mb-2 flex items-center justify-center">
+                  <div class="w-12 h-12 bg-white rounded-l shadow-sm"></div>
+                  <div class="w-12 h-12 bg-gray-800 rounded-r shadow-sm"></div>
+                </div>
+                <span class="text-sm font-medium text-gray-900 dark:text-white">System</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Notifications Settings -->
+          <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+            <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-4">Notifications</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">Daily Reminders</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Receive a nudge to check in with your mood daily.</p>
+                </div>
+                <button 
+                  onclick="toggleNotification('dailyReminders')"
+                  id="notif-dailyReminders"
+                  class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none bg-gray-200 dark:bg-gray-700"
+                >
+                  <span class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                </button>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm font-medium text-gray-900 dark:text-white">Course Updates</p>
+                  <p class="text-xs text-gray-500 dark:text-gray-400">Be notified when new lessons or courses are available.</p>
+                </div>
+                <button 
+                  onclick="toggleNotification('courseUpdates')"
+                  id="notif-courseUpdates"
+                  class="relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none bg-gray-200 dark:bg-gray-700"
+                >
+                  <span class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- Data Management -->
           <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
             <h3 class="text-lg font-bold text-red-600 dark:text-red-400 mb-4">Danger Zone</h3>
@@ -85,11 +163,21 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Load profile
     const user = JSON.parse(localStorage.getItem('mindfull_session'));
     if (user) {
       document.getElementById('profile-name').value = user.name || '';
       document.getElementById('profile-email').value = user.email || '';
     }
+
+    // Load theme
+    const theme = localStorage.getItem('theme-preference') || 'auto';
+    highlightTheme(theme);
+
+    // Load notifications
+    const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
+    updateNotifUI('dailyReminders', notifs.dailyReminders);
+    updateNotifUI('courseUpdates', notifs.courseUpdates);
   });
 
   function updateProfile(e) {
@@ -109,16 +197,74 @@
       localStorage.setItem('mindfull_users', JSON.stringify(users));
     }
 
-    alert('Profile updated!');
-    location.reload(); // Refresh to update sidebar
+    if (window.showToast) {
+      window.showToast('Profile updated!', 'success');
+    } else {
+      alert('Profile updated!');
+    }
+    
+    setTimeout(() => {
+      location.reload(); // Refresh to update sidebar
+    }, 1000);
+  }
+
+  function updateThemeSetting(theme) {
+    window.setTheme(theme);
+    highlightTheme(theme);
+  }
+
+  function highlightTheme(theme) {
+    ['light', 'dark', 'auto'].forEach(t => {
+      const btn = document.getElementById(`theme-${t}`);
+      if (t === theme) {
+        btn.classList.add('border-indigo-500', 'ring-2', 'ring-indigo-200', 'dark:ring-indigo-900');
+        btn.classList.remove('border-transparent');
+      } else {
+        btn.classList.remove('border-indigo-500', 'ring-2', 'ring-indigo-200', 'dark:ring-indigo-900');
+        btn.classList.add('border-transparent');
+      }
+    });
+  }
+
+  function toggleNotification(key) {
+    const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
+    notifs[key] = !notifs[key];
+    localStorage.setItem('notification-settings', JSON.stringify(notifs));
+    updateNotifUI(key, notifs[key]);
+  }
+
+  function updateNotifUI(key, enabled) {
+    const btn = document.getElementById(`notif-${key}`);
+    const dot = btn.querySelector('span');
+    
+    if (enabled) {
+      btn.classList.add('bg-indigo-600');
+      btn.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+      dot.classList.add('translate-x-5');
+      dot.classList.remove('translate-x-0');
+    } else {
+      btn.classList.remove('bg-indigo-600');
+      btn.classList.add('bg-gray-200', 'dark:bg-gray-700');
+      dot.classList.add('translate-x-0');
+      dot.classList.remove('translate-x-5');
+    }
   }
 
   function clearData() {
     if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
       localStorage.removeItem('courseProgress');
       localStorage.removeItem('journalEntries');
-      alert('Data cleared.');
-      location.reload();
+      localStorage.removeItem('moodCheckins');
+      localStorage.removeItem('moodStreak');
+      localStorage.removeItem('notification-settings');
+      if (window.showToast) {
+        window.showToast('Data cleared.', 'success');
+      } else {
+        alert('Data cleared.');
+      }
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
     }
   }
 </script>

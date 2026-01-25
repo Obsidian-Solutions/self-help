@@ -166,8 +166,8 @@ const CACHE_KEY = 'quiz_results'; // CONSTANTS_IN_CAPS
 
 ```bash
 # Clone repo
-git clone https://github.com/yourusername/mindfull-theme.git
-cd mindfull-theme
+git clone https://github.com/Obsidian-Solutions/self-help.git
+cd self-help
 
 # Install dependencies
 npm run setup

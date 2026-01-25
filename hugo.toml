@@ -142,8 +142,9 @@ ignoreFiles = ['\\.md$']  # Ignore raw markdown if processed elsewhere
   # twitter = 'https://twitter.com/yourusername'
   # facebook = 'https://facebook.com/yourusername'
   # instagram = 'https://instagram.com/yourusername'
-  # github = 'https://github.com/yourusername'
-  # email = 'contact@example.com'
+  github = 'https://github.com/Obsidian-Solutions/self-help'
+  email = 'contact@obsidiansolutions.co.uk'
+  website = 'https://obsidiansolutions.co.uk'
 
 # Analytics (Optional)
 [params.analytics]

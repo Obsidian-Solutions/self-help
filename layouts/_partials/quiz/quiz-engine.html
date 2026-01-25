@@ -209,7 +209,11 @@
 
   function nextQuestion() {
     if (answers[currentQuestion] === null && !showingFeedback) {
-      alert('Please select an answer before continuing');
+      if (window.showToast) {
+        window.showToast('Please select an answer before continuing', 'error');
+      } else {
+        alert('Please select an answer before continuing');
+      }
       return;
     }
     currentQuestion++;

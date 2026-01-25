@@ -33,16 +33,16 @@ Transforming the self-help platform with Undraw-inspired visual style, interacti
 **High Priority (UX Blocking):**
 
 - [x] ✅ **Form modals now implemented** - Login/signup forms are closeable modals with dark mode, persistent auth sessions
-- [ ] **Lesson page images** - Lesson list needs illustrations/images, currently just text grid
-- [ ] **Daily goals logic** - Crossing out doesn't work properly when toggling checkboxes
-- [ ] **Mood tracker repeat check-ins** - Should only allow once per day, currently allows multiple
+- [x] ✅ **Lesson page images** - Lesson list needs illustrations/images, currently just text grid
+- [x] ✅ **Daily goals logic** - Crossing out doesn't work properly when toggling checkboxes
+- [x] ✅ **Mood tracker repeat check-ins** - Should only allow once per day, currently allows multiple
 
 **Medium Priority (Feature Complete):**
 
-- [ ] **Journal edit/delete** - No way to edit or delete entries
-- [ ] **Settings expansion** - Minimal content, needs more customization options
-- [ ] **Book appointment** - Button doesn't link anywhere
-- [ ] **Dynamic achievements** - Hardcoded, should update based on user actions
+- [x] ✅ **Journal edit/delete** - No way to edit or delete entries
+- [x] ✅ **Settings expansion** - Minimal content, needs more customization options
+- [x] ✅ **Book appointment** - Button doesn't link anywhere
+- [x] ✅ **Dynamic achievements** - Hardcoded, should update based on user actions
 - [ ] **Browser popup forms** - Replace native browser prompts with custom modals
 
 **Lower Priority (Design Polish):**

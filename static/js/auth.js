@@ -58,7 +58,11 @@ window.handleSignUp = async e => {
   const password = document.getElementById('password').value;
 
   if (findUser(email)) {
-    alert('User already exists with this email.');
+    if (window.showToast) {
+      window.showToast('User already exists with this email.', 'error');
+    } else {
+      alert('User already exists with this email.');
+    }
     return;
   }
 
@@ -66,8 +70,15 @@ window.handleSignUp = async e => {
   saveUser(newUser);
   setSession(newUser);
 
-  alert('Account created! Welcome, ' + name);
-  window.location.href = '/dashboard';
+  if (window.showToast) {
+    window.showToast('Account created! Welcome, ' + name, 'success');
+  } else {
+    alert('Account created! Welcome, ' + name);
+  }
+  
+  setTimeout(() => {
+    window.location.href = '/dashboard';
+  }, 1500);
 };
 
 window.handleLogin = async e => {
@@ -81,10 +92,19 @@ window.handleLogin = async e => {
   if (user && user.password === password) {
     console.log('Login Successful');
     setSession(user);
-    window.location.href = '/dashboard';
+    if (window.showToast) {
+      window.showToast('Login successful! Welcome back.', 'success');
+    }
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 1000);
   } else {
     console.warn('Login Failed');
-    alert('Invalid email or password. (Try demo@example.com / password)');
+    if (window.showToast) {
+      window.showToast('Invalid email or password.', 'error');
+    } else {
+      alert('Invalid email or password. (Try demo@example.com / password)');
+    }
   }
 };
 

@@ -1,7 +1,8 @@
 ---
-title: 'Lesson 1: Understanding Triggers'
-course: 'CBT for Anxiety'
-video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+title: 'The Foundation of Self-Help'
+course: 'Self-Help 101'
+illustration: 'learning'
+order: 1
 ---
 
 In this lesson, we will identify what triggers your anxiety.

@@ -1,7 +1,8 @@
 ---
-title: 'Lesson 2: Reframing Thoughts'
-course: 'CBT for Anxiety'
-video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+title: 'Setting Healthy Boundaries'
+course: 'Self-Help 101'
+illustration: 'learning'
+order: 2
 ---
 
 Learn how to reframe negative thoughts into positive ones.
