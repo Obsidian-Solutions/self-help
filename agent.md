@@ -471,6 +471,8 @@ Ready to start building? Want me to scaffold the initial project structure?
   - Added "Finish Quiz" button to quiz results with smooth scroll/hide functionality.
 - **Visual Fixes:**
   - Resolved missing images for "Science of Sleep" and "Understanding Anxiety" by correcting illustration paths in content files.
+  - Robust illustration rendering: Updated `undraw.html` partial to support multiple directory lookups (`assets/illustrations/` and `assets/illustrations/undraw-raw/`) and filename pattern matching.
+  - Guaranteed fallback: Implemented a dashed placeholder for missing illustrations to prevent layout breakage.
   - Standardized background colors for dark mode across all main views (`bg-gray-50 dark:bg-gray-900`).
 - **Layout & Scrolling:**
   - Fixed "dual scrollbar" regression in Journal, Settings, Therapists, and Course List pages by refactoring `h-screen` and `overflow-hidden` constraints.
