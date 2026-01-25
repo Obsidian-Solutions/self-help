@@ -35,7 +35,7 @@
 
 The MindFull theme adheres to strict security standards, even in its mock/prototype features:
 
-1. **Authentication Security**: 
+1. **Authentication Security**:
    - Passwords are never stored in clear text.
    - Using browser `SubtleCrypto` for SHA-256 hashing.
 2. **Data Sanitization**:

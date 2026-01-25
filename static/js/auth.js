@@ -11,10 +11,10 @@ const SESSION_KEY = 'mindfull_session';
 if (!localStorage.getItem(DB_KEY)) {
   console.log('Seeding Demo User...');
   // Hashed version of 'password'
-  const demoUser = { 
-    name: 'Demo User', 
-    email: 'demo@example.com', 
-    password: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8' 
+  const demoUser = {
+    name: 'Demo User',
+    email: 'demo@example.com',
+    password: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8',
   };
   localStorage.setItem(DB_KEY, JSON.stringify([demoUser]));
 }
