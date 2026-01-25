@@ -114,11 +114,30 @@
   }
 
   function clearData() {
-    if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
+    const performClear = () => {
       localStorage.removeItem('courseProgress');
       localStorage.removeItem('journalEntries');
-      alert('Data cleared.');
-      location.reload();
+      localStorage.removeItem('moodCheckins');
+      localStorage.removeItem('moodStreak');
+      localStorage.removeItem('notification-settings');
+      if (window.showToast) {
+        window.showToast('Data cleared.', 'success');
+      } else {
+        alert('Data cleared.');
+      }
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    };
+
+    if (window.showConfirm) {
+      window.showConfirm(
+        'Clear All Data', 
+        'Are you sure? This will permanently delete all your journal entries, course progress, and settings. This cannot be undone.', 
+        performClear
+      );
+    } else if (confirm('Are you sure? This will delete all your journal entries and progress.')) {
+      performClear();
     }
   }
 </script>

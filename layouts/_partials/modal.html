@@ -1,0 +1,38 @@
+<div 
+  id="{{ .id }}" 
+  data-modal-backdrop 
+  class="hidden fixed inset-0 z-50 overflow-y-auto bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4"
+  onclick="if(event.target === this) window.closeModal('{{ .id }}')"
+>
+  <div 
+    data-modal-content 
+    class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-{{ .maxWidth | default "md" }} transform transition-all duration-300"
+  >
+    <!-- Modal Header -->
+    <div data-modal-header class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700">
+      <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ .title }}</h3>
+      <button 
+        type="button" 
+        onclick="window.closeModal('{{ .id }}')"
+        class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors"
+      >
+        <span class="sr-only">Close</span>
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div data-modal-body class="p-6">
+      {{ .body | safeHTML }}
+    </div>
+
+    <!-- Modal Footer -->
+    {{ if .footer }}
+    <div data-modal-footer class="p-6 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-3">
+      {{ .footer | safeHTML }}
+    </div>
+    {{ end }}
+  </div>
+</div>

@@ -16,9 +16,11 @@
       {{ partial "footer.html" . }}
     </footer>
     <!-- Global Modals -->
-    {{ partial "modals/login-modal.html" . }}
-    {{ partial "modals/signup-modal.html" . }}
-  </div>
+        {{ partial "modals/login-modal.html" . }}
+        {{ partial "modals/signup-modal.html" . }}
+        {{ partial "modals/confirm-modal.html" . }}
+        {{ partial "toast.html" . }}
+      </div>
   
   <script>
     // Enhanced modal functions for forms
