@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, 'feat/**', 'feature/**' ]
+    branches: [main, 'feat/**', 'feature/**']
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -19,29 +19,29 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-    - name: Install Hugo
-      run: |
-        HUGO_VERSION=$(grep -oP "min = '\K[0-9.]+" hugo.toml)
-        mkdir -p hugo_bin
-        wget -q https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
-        tar -xzf hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz -C hugo_bin
-        sudo mv hugo_bin/hugo /usr/local/bin/
-        rm -rf hugo_bin hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
+      - name: Install Hugo
+        run: |
+          HUGO_VERSION=$(grep -oP "min = '\K[0-9.]+" hugo.toml)
+          mkdir -p hugo_bin
+          wget -q https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
+          tar -xzf hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz -C hugo_bin
+          sudo mv hugo_bin/hugo /usr/local/bin/
+          rm -rf hugo_bin hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Install CMS Dependencies
-      run: npm run cms:install
+      - name: Install CMS Dependencies
+        run: npm run cms:install
 
-    - name: Run Lints
-      run: npm run lint
+      - name: Run Lints
+        run: npm run lint
 
-    - name: Check Formatting
-      run: npm run format:check
+      - name: Check Formatting
+        run: npm run format:check
 
-    - name: Build CSS
-      run: npm run build:css
+      - name: Build CSS
+        run: npm run build:css
 
-    - name: Build Hugo Site
-      run: hugo --minify
+      - name: Build Hugo Site
+        run: hugo --minify
