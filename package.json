@@ -13,7 +13,11 @@
   "homepage": "https://github.com/yourusername/mindfull-theme#readme",
   "scripts": {
     "start": "hugo server -D",
-    "dev": "npm-run-all --parallel watch:css start",
+    "dev": "npm-run-all --parallel watch:css start cms:dev",
+    "cms:install": "npm install --prefix cms",
+    "cms:init": "npm run init-db --prefix cms",
+    "cms:dev": "npm run dev --prefix cms",
+    "cms:start": "npm start --prefix cms",
     "build": "npm run build:css && hugo --minify",
     "build:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --minify",
     "watch:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch",
