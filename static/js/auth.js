@@ -10,11 +10,25 @@ const SESSION_KEY = 'mindfull_session';
 // --- Pre-seed Demo User ---
 if (!localStorage.getItem(DB_KEY)) {
   console.log('Seeding Demo User...');
-  const demoUser = { name: 'Demo User', email: 'demo@example.com', password: 'password' };
+  // Hashed version of 'password'
+  const demoUser = { 
+    name: 'Demo User', 
+    email: 'demo@example.com', 
+    password: '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8' 
+  };
   localStorage.setItem(DB_KEY, JSON.stringify([demoUser]));
 }
 
 // --- Helper Functions ---
+
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
 
 function getUsers() {
   return JSON.parse(localStorage.getItem(DB_KEY) || '[]');
@@ -66,7 +80,8 @@ window.handleSignUp = async e => {
     return;
   }
 
-  const newUser = { name, email, password };
+  const hashedPassword = await hashPassword(password);
+  const newUser = { name, email, password: hashedPassword };
   saveUser(newUser);
   setSession(newUser);
 
@@ -88,8 +103,9 @@ window.handleLogin = async e => {
   const password = document.getElementById('password').value;
 
   const user = findUser(email);
+  const hashedPassword = await hashPassword(password);
 
-  if (user && user.password === password) {
+  if (user && user.password === hashedPassword) {
     console.log('Login Successful');
     setSession(user);
     if (window.showToast) {
@@ -117,7 +133,7 @@ window.handleGoogleLogin = async () => {
   const mockGoogleUser = {
     name: 'Google User',
     email: 'google@example.com',
-    password: 'sso-placeholder',
+    password: 'sso-placeholder-hashed',
   };
 
   if (!findUser(mockGoogleUser.email)) {

@@ -41,6 +41,15 @@ window.switchModal = (closeId, openId) => {
 
 // --- Helper Functions ---
 
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 function getUsers() {
   return JSON.parse(localStorage.getItem(DB_KEY) || '[]');
 }
@@ -90,7 +99,8 @@ window.handleSignup = async e => {
   }
 
   // Create User
-  const newUser = { name, email, password };
+  const hashedPassword = await hashPassword(password);
+  const newUser = { name, email, password: hashedPassword };
   saveUser(newUser);
 
   // Log them in automatically
@@ -109,8 +119,9 @@ window.handleLogin = async e => {
   const password = document.getElementById('login-password').value;
 
   const user = findUser(email);
+  const hashedPassword = await hashPassword(password);
 
-  if (user && user.password === password) {
+  if (user && user.password === hashedPassword) {
     setSession(user);
     window.closeModal('loginModal');
     window.location.href = '/dashboard';
@@ -131,7 +142,7 @@ window.handleGoogleLogin = async () => {
   const mockGoogleUser = {
     name: 'Demo User',
     email: 'demo@gmail.com',
-    password: 'sso-placeholder',
+    password: 'sso-placeholder-hashed', // Mock hash
   };
 
   if (!findUser(mockGoogleUser.email)) {

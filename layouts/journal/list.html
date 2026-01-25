@@ -117,32 +117,93 @@
       return;
     }
 
-    container.innerHTML = entries
-      .map(
-        entry => `
-      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6" id="entry-${entry.id}">
-        <div class="flex justify-between items-center mb-2">
-          <h4 class="text-lg font-bold text-gray-900 dark:text-white" id="title-${entry.id}">${entry.title}</h4>
-          <div class="flex items-center space-x-2">
-            <span class="text-xs text-gray-500 dark:text-gray-400 mr-2">${entry.date}</span>
-            <button onclick="editEntry(${entry.id})" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-medium">Edit</button>
-            <button onclick="deleteEntry(${entry.id})" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-xs font-medium">Delete</button>
-          </div>
-        </div>
-        <p class="text-gray-600 dark:text-gray-300 whitespace-pre-wrap" id="content-${entry.id}">${entry.content}</p>
-        
-        <div id="edit-form-${entry.id}" style="display: none" class="mt-4 space-y-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-          <input type="text" id="edit-title-${entry.id}" class="block w-full sm:text-sm border-gray-300 rounded-md p-2 border dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="${entry.title}">
-          <textarea id="edit-content-${entry.id}" rows="4" class="block w-full sm:text-sm border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white">${entry.content}</textarea>
-          <div class="flex justify-end space-x-2">
-            <button onclick="cancelEdit(${entry.id})" class="text-gray-500 hover:text-gray-700 text-xs font-medium">Cancel</button>
-            <button onclick="updateEntry(${entry.id})" class="bg-indigo-600 text-white px-3 py-1 rounded text-xs font-medium">Update</button>
-          </div>
-        </div>
-      </div>
-    `
-      )
-      .join('');
+    container.innerHTML = ''; // Clear container
+    
+    entries.forEach(entry => {
+      const entryDiv = document.createElement('div');
+      entryDiv.className = 'bg-white dark:bg-gray-800 shadow rounded-lg p-6';
+      entryDiv.id = `entry-${entry.id}`;
+
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'flex justify-between items-center mb-2';
+
+      const titleH4 = document.createElement('h4');
+      titleH4.className = 'text-lg font-bold text-gray-900 dark:text-white';
+      titleH4.id = `title-${entry.id}`;
+      titleH4.textContent = entry.title;
+
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'flex items-center space-x-2';
+
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'text-xs text-gray-500 dark:text-gray-400 mr-2';
+      dateSpan.textContent = entry.date;
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-medium';
+      editBtn.textContent = 'Edit';
+      editBtn.onclick = () => editEntry(entry.id);
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-xs font-medium';
+      deleteBtn.textContent = 'Delete';
+      deleteBtn.onclick = () => deleteEntry(entry.id);
+
+      actionsDiv.appendChild(dateSpan);
+      actionsDiv.appendChild(editBtn);
+      actionsDiv.appendChild(deleteBtn);
+
+      headerDiv.appendChild(titleH4);
+      headerDiv.appendChild(actionsDiv);
+
+      const contentP = document.createElement('p');
+      contentP.className = 'text-gray-600 dark:text-gray-300 whitespace-pre-wrap';
+      contentP.id = `content-${entry.id}`;
+      contentP.textContent = entry.content;
+
+      const editFormDiv = document.createElement('div');
+      editFormDiv.id = `edit-form-${entry.id}`;
+      editFormDiv.style.display = 'none';
+      editFormDiv.className = 'mt-4 space-y-4 pt-4 border-t border-gray-100 dark:border-gray-700';
+
+      const editTitleInput = document.createElement('input');
+      editTitleInput.type = 'text';
+      editTitleInput.id = `edit-title-${entry.id}`;
+      editTitleInput.className = 'block w-full sm:text-sm border-gray-300 rounded-md p-2 border dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editTitleInput.value = entry.title;
+
+      const editContentTextarea = document.createElement('textarea');
+      editContentTextarea.id = `edit-content-${entry.id}`;
+      editContentTextarea.rows = 4;
+      editContentTextarea.className = 'block w-full sm:text-sm border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editContentTextarea.textContent = entry.content;
+
+      const editActionsDiv = document.createElement('div');
+      editActionsDiv.className = 'flex justify-end space-x-2';
+
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'text-gray-500 hover:text-gray-700 text-xs font-medium';
+      cancelBtn.textContent = 'Cancel';
+      cancelBtn.onclick = () => cancelEdit(entry.id);
+
+      const updateBtn = document.createElement('button');
+      updateBtn.className = 'bg-indigo-600 text-white px-3 py-1 rounded text-xs font-medium';
+      updateBtn.textContent = 'Update';
+      updateBtn.onclick = () => updateEntry(entry.id);
+
+      editActionsDiv.appendChild(cancelBtn);
+      editActionsDiv.appendChild(updateBtn);
+
+      editFormDiv.appendChild(editTitleInput);
+      editFormDiv.appendChild(editContentTextarea);
+      editFormDiv.appendChild(editActionsDiv);
+
+      entryDiv.appendChild(headerDiv);
+      entryDiv.appendChild(contentP);
+      entryDiv.appendChild(editFormDiv);
+
+      container.appendChild(entryDiv);
+    });
   }
 
   function deleteEntry(id) {
