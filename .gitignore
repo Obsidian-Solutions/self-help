@@ -67,3 +67,7 @@ dist/
 build/
 *.min.css
 *.min.js
+
+# Local Tools
+.claude/
+.oc/
