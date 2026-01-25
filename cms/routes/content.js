@@ -12,24 +12,26 @@ router.get('/:collection', auth, async (req, res) => {
   const { collection } = req.params;
   const collectionPath = path.join(CONTENT_DIR, collection);
 
-  if (!await fs.pathExists(collectionPath)) {
+  if (!(await fs.pathExists(collectionPath))) {
     return res.status(404).json({ message: 'Collection not found' });
   }
 
   try {
     const files = await fs.readdir(collectionPath);
     const mdFiles = files.filter(f => f.endsWith('.md') && !f.startsWith('_'));
-    
-    const content = await Promise.all(mdFiles.map(async (file) => {
-      const filePath = path.join(collectionPath, file);
-      const fileContent = await fs.readFile(filePath, 'utf8');
-      const { data, content: body } = matter(fileContent);
-      return {
-        slug: file.replace('.md', ''),
-        data,
-        body: body.substring(0, 200) + '...' // Excerpt
-      };
-    }));
+
+    const content = await Promise.all(
+      mdFiles.map(async file => {
+        const filePath = path.join(collectionPath, file);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const { data, content: body } = matter(fileContent);
+        return {
+          slug: file.replace('.md', ''),
+          data,
+          body: body.substring(0, 200) + '...', // Excerpt
+        };
+      }),
+    );
 
     res.json(content);
   } catch (err) {
@@ -42,7 +44,7 @@ router.get('/:collection/:slug', auth, async (req, res) => {
   const { collection, slug } = req.params;
   const filePath = path.join(CONTENT_DIR, collection, `${slug}.md`);
 
-  if (!await fs.pathExists(filePath)) {
+  if (!(await fs.pathExists(filePath))) {
     return res.status(404).json({ message: 'Entry not found' });
   }
 
@@ -76,7 +78,7 @@ router.delete('/:collection/:slug', auth, async (req, res) => {
   const { collection, slug } = req.params;
   const filePath = path.join(CONTENT_DIR, collection, `${slug}.md`);
 
-  if (!await fs.pathExists(filePath)) {
+  if (!(await fs.pathExists(filePath))) {
     return res.status(404).json({ message: 'Entry not found' });
   }
 
