@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const errorHandler = require('./middleware/errorHandler');
 const authRoutes = require('./routes/auth');
+const contentRoutes = require('./routes/content');
 
 const app = express();
 const PORT = process.env.CMS_PORT || 3000;
@@ -43,6 +44,7 @@ app.get('/api/health', (req, res) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/content', contentRoutes);
 
 // Error handling
 app.use(errorHandler);
