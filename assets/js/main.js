@@ -11,6 +11,7 @@ window.showToast = function(message, type = 'info', duration = 5000) {
   const template = document.getElementById('toast-template');
   
   if (!container || !template) {
+    // eslint-disable-next-line no-console
     console.error('Toast container or template not found');
     return;
   }
