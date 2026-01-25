@@ -463,6 +463,7 @@ Ready to start building? Want me to scaffold the initial project structure?
 ## Latest Session Accomplishments (January 25, 2026)
 
 ### 1. ✅ Bug Fixes & UX Improvements
+
 - **Course View Enhancements:**
   - Resolved light mode "stuck" issue in lesson views by adding dark mode support to `layouts/lessons/single.html`.
   - Added "Exit Course" button to lesson sidebar for easier navigation.
