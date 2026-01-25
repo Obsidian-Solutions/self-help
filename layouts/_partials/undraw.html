@@ -1,13 +1,8 @@
 {{/*
-  Undraw Illustration Partial (Local Files)
-  Usage: {{ partial "undraw.html" (dict "name" "meditation" "width" "w-64" "height" "h-64") }}
-  
-  Parameters:
-  - name (string, required): Illustration name (e.g., "meditation", "learning", "breaking-barriers")
-  - width (string): Tailwind width class (default: "")
-  - height (string): Tailwind height class (default: "")
-  - alt (string): Alt text for accessibility
-  - class (string): Additional CSS classes
+  Undraw Illustration Partial (Optimized Hybrid)
+  1. Local (Speed): Check assets/illustrations/ first.
+  2. Remote (Library): Fallback to fetching from mirror using catalog.
+  3. Placeholder: Final fallback to prevent layout breakage.
 */}}
 
 {{- $name := .name -}}
@@ -22,30 +17,47 @@
 {{- if $height -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $height -}} {{- end -}}
 {{- if $class -}} {{- $wrapperClass = printf "%s %s" $wrapperClass $class -}} {{- end -}}
 
-{{/* 1. Try exact match in illustrations/ */}}
-{{- $directPath := printf "illustrations/%s.svg" $name -}}
-{{- $directRes := resources.Get $directPath -}}
+{{/* 1. LOCAL CHECK (Optimized for speed) */}}
+{{- $localPath := printf "illustrations/%s.svg" $name -}}
+{{- $localRes := resources.Get $localPath -}}
 
-{{- if $directRes -}}
-  <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $directRes.Content | safeHTML }}</div>
+{{- if not $localRes -}}
+  {{/* Try with undraw_ prefix or underscores */}}
+  {{- $altName := replace $name "-" "_" -}}
+  {{- $localPath = printf "illustrations/undraw_%s.svg" $altName -}}
+  {{- $localRes = resources.Get $localPath -}}
+{{- end -}}
+
+{{- if $localRes -}}
+  <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $localRes.Content | safeHTML }}</div>
 {{- else -}}
-  {{/* 2. Try pattern match in illustrations/undraw-raw/undraw_[name]*.svg */}}
-  {{- $pattern := printf "illustrations/undraw-raw/undraw_%s*.svg" $name -}}
-  {{- $matches := resources.Match $pattern -}}
+  {{/* 2. REMOTE FALLBACK (Primary source for missing local files) */}}
+  {{- $catalog := site.Data.undraw_catalog -}}
+  {{- $fileName := "" -}}
   
-  {{- if not $matches -}}
-    {{/* 3. Try with underscores instead of hyphens */}}
-    {{- $altName := replace $name "-" "_" -}}
-    {{- $pattern = printf "illustrations/undraw-raw/undraw_%s*.svg" $altName -}}
-    {{- $matches = resources.Match $pattern -}}
+  {{- if $catalog -}}
+    {{- range $catalog -}}
+      {{- if or (eq .image $name) (eq (replace .image ".svg" "") $name) (in .image (printf "undraw_%s" $name)) -}}
+        {{- $fileName = .image -}}
+      {{- end -}}
+    {{- end -}}
   {{- end -}}
 
-  {{- if $matches -}}
-    {{- $illustration := index $matches 0 -}}
-    <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $illustration.Content | safeHTML }}</div>
+  {{- $remoteRes := "" -}}
+  {{- if $fileName -}}
+    {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/%s" $fileName -}}
+    {{- $remoteRes = resources.GetRemote $remoteURL -}}
   {{- else -}}
-    {{/* Fallback to generic placeholder if not found */}}
-    <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Missing illustration: {{ $name }}">
+    {{/* Try direct pattern if not in catalog */}}
+    {{- $remoteURL := printf "https://raw.githubusercontent.com/cuuupid/undraw-illustrations/master/svg/undraw_%s.svg" (replace $name "-" "_") -}}
+    {{- $remoteRes = resources.GetRemote $remoteURL -}}
+  {{- end -}}
+
+  {{- if and $remoteRes (not $remoteRes.Err) -}}
+    <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">{{ $remoteRes.Content | safeHTML }}</div>
+  {{- else -}}
+    {{/* 3. FINAL FALLBACK: Placeholder */}}
+    <div class="undraw-placeholder {{ $wrapperClass }} bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center min-h-[150px] border-2 border-dashed border-gray-200 dark:border-gray-700" title="Illustration not found: {{ $name }}">
       <div class="text-center p-4">
         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
