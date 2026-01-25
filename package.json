@@ -23,7 +23,7 @@
     "watch:css": "tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch",
     "lint": "npm run lint:js && npm run lint:md",
     "lint:js": "eslint assets/js --max-warnings 0",
-    "lint:md": "markdownlint '**/*.md' --ignore node_modules",
+    "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore cms/node_modules",
     "format": "prettier --write \"**/*.{js,json,html,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,json,html,css,md}\"",
     "test": "npm run lint && npm run format:check && npm run build",
