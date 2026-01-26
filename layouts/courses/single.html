@@ -3,7 +3,7 @@
   <!-- Sidebar -->
   <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
     <div class="sticky top-0 p-4 md:p-6">
-      {{ partial "dashboard/sidebar.html" . }}
+      {{ partial "app/sidebar.html" . }}
     </div>
   </aside>
 
@@ -34,8 +34,7 @@
                 {{ else }}
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Free</span>
                 {{ end }}
-                {{ $courseLessons := where .Site.RegularPages "Section" "lessons" }}
-                {{ $thisCourseLessons := where $courseLessons "Params.course" .Title }}
+                {{ $thisCourseLessons := .Pages }}
                 <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ len $thisCourseLessons }} Lessons</span>
               </div>
               
@@ -68,7 +67,7 @@
                       <div
                         class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 rounded-xl overflow-hidden group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors"
                       >
-                        {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name"
+                        {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name"
                         .Params.illustration "width" "w-10" "height" "h-10" "class" "object-contain") }}
                         {{ else }}
                         <!-- Play Icon Fallback -->
@@ -80,8 +79,7 @@
                         >
                           <path
                             stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            stroke-linejoin="round" stroke-width="2"
                             d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                           />
                           <path

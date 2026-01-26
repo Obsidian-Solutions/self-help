@@ -3,5 +3,5 @@
 <title>
   {{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}
 </title>
-{{ partial "head/favicon.html" . }}
-{{ partialCached "head/css.html" . }} {{ partialCached "head/js.html" . }}
+{{ partial "shared/head/favicon.html" . }}
+{{ partialCached "shared/head/css.html" . }} {{ partialCached "shared/head/js.html" . }}

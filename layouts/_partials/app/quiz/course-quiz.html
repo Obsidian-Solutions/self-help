@@ -1,5 +1,5 @@
 <!-- Course Lesson Quiz Component -->
-<!-- Use in course lessons with: {{ partial "quiz/course-quiz.html" (dict "lessonTitle" .Title "quizData" .Params.quiz) }} -->
+<!-- Use in course lessons with: {{ partial "app/quiz/course-quiz.html" (dict "lessonTitle" .Title "quizData" .Params.quiz) }} -->
 
 {{ $quiz := .quizData }} {{ $title := .lessonTitle }} {{ if $quiz }}
 <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
@@ -20,7 +20,7 @@
 
 <!-- Quiz Container (hidden by default) -->
 <div id="course-quiz-container" style="display: none" class="mt-8">
-  {{ partial "quiz/quiz-engine.html" . }}
+  {{ partial "app/quiz/quiz-engine.html" . }}
 </div>
 
 <script>

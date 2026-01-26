@@ -1,348 +1,241 @@
 {{ define "main" }}
-<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
-  <!-- Sidebar -->
-  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-    <div class="sticky top-0 p-4 md:p-6">
-      {{ partial "dashboard/sidebar.html" . }}
-    </div>
-  </aside>
+  {{ partial "app/shell.html" . }}
+{{ end }}
 
-  <!-- Main Content -->
-  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-    <div class="max-w-7xl mx-auto">
-      <!-- Demo Info Banner -->
-      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <svg
-                class="h-5 w-5 text-blue-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <p class="text-sm text-blue-700">
-                <strong>{{ .Params.demo_banner.title | default "Demo Mode" }}:</strong> {{ .Params.demo_banner.text | default "You are currently using Local Authentication." }}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Welcome Section -->
-        <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ .Params.welcome.headline | default "Welcome back!" }}</h2>
-          <p class="text-gray-600 dark:text-gray-300">{{ .Params.welcome.streak_text | default "You're on a streak!" }}</p>
-        </div>
-
-        <!-- Mood Check-In and Streak -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div class="md:col-span-2">{{ partial "mood-check-in/mood-selector.html" . }}</div>
-          <div>{{ partial "mood-check-in/streak-counter.html" . }}</div>
-        </div>
-
-        <!-- Quiz Section -->
-        <div class="mt-8">
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ .Params.sections.learning.title | default "Today's Learning" }}</h3>
-          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <div class="flex items-center justify-between">
-              <div>
-                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  {{ .Params.sections.learning.subtitle | default "Understanding Your Emotions" }}
-                </h4>
-                <p class="text-gray-600 dark:text-gray-300">
-                  {{ .Params.sections.learning.description | default "Quick quiz to test your awareness" }}
-                </p>
-              </div>
-              <button
-                onclick="
-                  document.getElementById('dashboard-quiz-container').style.display = 'block'
-                "
-                class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg transition-colors"
-              >
-                Start Quiz
-              </button>
-            </div>
-            <div
-              id="dashboard-quiz-container"
-              style="display: none"
-              class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700"
-            >
-              {{ partial "quiz/quiz-engine.html" . }}
-            </div>
-          </div>
-        </div>
-
-        <!-- Mood & Goals Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-          <div
-            class="md:col-span-2 bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100"
-          >
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
-            </h3>
-            <div
-              id="mood-chart-container"
-              class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-100 dark:border-gray-700"
-            >
-              <!-- Populated via JS -->
-              {{ range seq 7 }}
-              <div
-                class="mood-bar flex-1 bg-gray-100 dark:bg-gray-700 rounded-t transition-all duration-500 relative group"
-                style="height: 10%"
-              >
-                <div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
-                  No Data
-                </div>
-              </div>
-              {{ end }}
-            </div>
-            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-2">
-              <span class="flex-1 text-center">Mon</span>
-              <span class="flex-1 text-center">Tue</span>
-              <span class="flex-1 text-center">Wed</span>
-              <span class="flex-1 text-center">Thu</span>
-              <span class="flex-1 text-center">Fri</span>
-              <span class="flex-1 text-center">Sat</span>
-              <span class="flex-1 text-center">Sun</span>
-            </div>
-          </div>
-
-          <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{{ .Params.sections.tracking.goals_title | default "Daily Goals" }}</h3>
-            <ul class="space-y-3" id="daily-goals-list">
-              <li class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="goal-meditate"
-                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="goal-meditate"
-                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
-                  >Morning Meditate</label
-                >
-              </li>
-              <li class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="goal-water"
-                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="goal-water"
-                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
-                  >Drink Water (2L)</label
-                >
-              </li>
-              <li class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="goal-journal"
-                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="goal-journal"
-                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
-                  >Journal Entry</label
-                >
-              </li>
-              <li class="flex items-center">
-                <input
-                  type="checkbox"
-                  id="goal-walk"
-                  class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label
-                  for="goal-walk"
-                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
-                  >Walk 15 mins</label
-                >
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            const checkboxes = document.querySelectorAll('.goal-checkbox');
-            const today = new Date().toISOString().split('T')[0];
-
-            // Load state from localStorage
-            const savedGoals = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
-            const goalsState = savedGoals[today] || {};
-
-            checkboxes.forEach(checkbox => {
-              const id = checkbox.id;
-              const label = checkbox.nextElementSibling;
-
-              // Apply saved state
-              if (goalsState[id]) {
-                checkbox.checked = true;
-                label.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
-                label.classList.remove('text-gray-700', 'dark:text-gray-300');
-              }
-
-              checkbox.addEventListener('change', function () {
-                if (this.checked) {
-                  label.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
-                  label.classList.remove('text-gray-700', 'dark:text-gray-300');
-                } else {
-                  label.classList.remove('line-through', 'text-gray-500', 'dark:text-gray-400');
-                  label.classList.add('text-gray-700', 'dark:text-gray-300');
-                }
-
-                // Save to localStorage
-                const currentSaved = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
-                if (!currentSaved[today]) currentSaved[today] = {};
-                currentSaved[today][id] = this.checked;
-                localStorage.setItem('dailyGoals', JSON.stringify(currentSaved));
-              });
-            });
-
-            // Calculate Course Progress
-            const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
-            const courseCards = document.querySelectorAll('[data-course-card]');
-            
-            courseCards.forEach(card => {
-              const courseTitle = card.getAttribute('data-course-card');
-              const progressBar = card.querySelector(`[data-progress-bar="${courseTitle}"]`);
-              const progressText = card.querySelector(`[data-progress-text="${courseTitle}"]`);
-              
-              // Count completed lessons for this course
-              const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
-              
-              // Get total lessons from the card's hidden count (or we can inject it)
-              // We'll use the lesson count we already calculated in the template
-              const lessonCountEl = card.querySelector('.text-xs.text-gray-500');
-              if (!lessonCountEl) return;
-              const totalLessons = parseInt(lessonCountEl.innerText) || 1;
-              
-              const percentage = Math.round((completedCount / totalLessons) * 100);
-              
-              if (progressBar) progressBar.style.width = percentage + '%';
-              if (progressText) progressText.innerText = percentage + '%';
-            });
-
-            // Populate Weekly Mood Tracker
-            const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
-            const moodBars = document.querySelectorAll('.mood-bar');
-            const moodMap = {
-              'Great': { height: '100%', color: 'bg-indigo-500' },
-              'Good': { height: '75%', color: 'bg-indigo-400' },
-              'Neutral': { height: '50%', color: 'bg-indigo-300' },
-              'Not Great': { height: '35%', color: 'bg-gray-400' },
-              'Struggling': { height: '20%', color: 'bg-gray-500' }
-            };
-
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const todayDate = new Date();
-            
-            // Get dates for the current week (starting Monday)
-            const currentDay = todayDate.getDay(); // 0-6
-            const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
-            const monday = new Date(todayDate);
-            monday.setDate(todayDate.getDate() + mondayOffset);
-
-            moodBars.forEach((bar, index) => {
-              const date = new Date(monday);
-              date.setDate(monday.getDate() + index);
-              const dateStr = date.toISOString().split('T')[0];
-              const moodEntry = moodData[dateStr];
-              const tooltip = bar.querySelector('.absolute');
-
-              if (moodEntry) {
-                // Mood entry is "🤗 Great" - need to split
-                const moodLabel = moodEntry.split(' ')[1] || moodEntry;
-                const config = moodMap[moodLabel] || moodMap['Neutral'];
-                
-                bar.style.height = config.height;
-                bar.classList.remove('bg-gray-100', 'dark:bg-gray-700');
-                bar.classList.add(config.color);
-                if (tooltip) tooltip.innerText = moodEntry;
-              } else {
-                bar.style.height = '10%';
-                if (tooltip) tooltip.innerText = 'No Data';
-              }
-            });
-          });
-        </script>
-
-        <!-- My Courses -->
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-          {{ range where .Site.RegularPages "Section" "courses" }}
-          {{ $courseTitle := .Title }}
-          {{ $lessons := where $.Site.RegularPages "Params.course" $courseTitle }}
-          {{ $lessonCount := len $lessons }}
-          <div
-            class="group bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-md transition-all duration-300"
-            data-course-card="{{ $courseTitle }}"
-          >
-            <div
-              class="h-32 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-6"
-            >
-              {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name"
-              .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
-              <svg
-                class="h-16 w-16 text-indigo-300 dark:text-indigo-600"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
-                />
-              </svg>
-              {{ end }}
-            </div>
-            <div class="p-5 flex-grow">
-              <div class="flex justify-between items-start mb-2">
-                <span
-                  class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest"
-                  >{{ .Params.category }}</span
-                >
-                <span class="text-xs font-bold text-gray-400" data-progress-text="{{ $courseTitle }}">0%</span>
-              </div>
-              <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{{ .Title }}</h4>
-              
-              <!-- Progress Bar -->
-              <div class="mt-4">
-                <div class="overflow-hidden h-2 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
-                  <div
-                    data-progress-bar="{{ $courseTitle }}"
-                    style="width: 0%"
-                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <div
-              class="px-5 py-3 bg-gray-50/50 dark:bg-gray-900/20 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center"
-            >
-              <span class="text-xs text-gray-500">{{ $lessonCount }} Lessons</span>
-              <a
-                href="{{ .RelPermalink }}"
-                class="text-sm font-bold text-primary dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 block"
-                >Resume &rarr;</a
-              >
-            </div>
-          </div>
-          {{ end }}
-        </div>
-
-        <!-- Achievements -->
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8 mb-4">
-          {{ .Params.sections.achievements.title | default "Your Achievements" }}
-        </h3>
-        {{ partial "badges/achievement-badges.html" . }}
+{{ define "app-content" }}
+<div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <!-- Demo Info Banner -->
+  <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded-r-xl">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
       </div>
-    </main>
+      <div class="ml-3">
+        <p class="text-sm text-blue-700">
+          <strong>{{ .Params.demo_banner.title | default "Demo Mode" }}:</strong> {{ .Params.demo_banner.text | default "You are currently using Local Authentication." }}
+        </p>
+      </div>
+    </div>
   </div>
+
+  <!-- Welcome Section -->
+  <div class="bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+    <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-2">{{ .Params.welcome.headline | default "Welcome back!" }}</h2>
+    <p class="text-gray-500 dark:text-gray-400 font-medium">{{ .Params.welcome.streak_text | default "You're on a streak!" }}</p>
+  </div>
+
+  <!-- Mood Check-In and Streak -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+    <div class="md:col-span-2">{{ partial "app/mood-check-in/mood-selector.html" . }}</div>
+    <div>{{ partial "app/mood-check-in/streak-counter.html" . }}</div>
+  </div>
+
+  <!-- Quiz Section -->
+  <div class="mt-8">
+    <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.learning.title | default "Today's Learning" }}</h3>
+    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-8 border border-gray-100 dark:border-gray-700">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2">
+            {{ .Params.sections.learning.subtitle | default "Understanding Your Emotions" }}
+          </h4>
+          <p class="text-gray-500 dark:text-gray-400 font-medium">
+            {{ .Params.sections.learning.description | default "Quick quiz to test your awareness" }}
+          </p>
+        </div>
+        <button
+          onclick="document.getElementById('dashboard-quiz-container').style.display = 'block'"
+          class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-indigo-100 dark:shadow-none"
+        >
+          Start Quiz
+        </button>
+      </div>
+      <div
+        id="dashboard-quiz-container"
+        style="display: none"
+        class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700"
+      >
+        {{ partial "app/quiz/quiz-engine.html" . }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Mood & Goals Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+    <div class="md:col-span-2 bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+      <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">
+        {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
+      </h3>
+      <div id="mood-chart-container" class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-50 dark:border-gray-700">
+        {{ range seq 7 }}
+        <div class="mood-bar flex-1 bg-gray-50 dark:bg-gray-700 rounded-t-xl transition-all duration-500 relative group" style="height: 10%">
+          <div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 font-bold">
+            No Data
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-4">
+        <span class="flex-1 text-center">Mon</span>
+        <span class="flex-1 text-center">Tue</span>
+        <span class="flex-1 text-center">Wed</span>
+        <span class="flex-1 text-center">Thu</span>
+        <span class="flex-1 text-center">Fri</span>
+        <span class="flex-1 text-center">Sat</span>
+        <span class="flex-1 text-center">Sun</span>
+      </div>
+    </div>
+
+    <div class="bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+      <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.tracking.goals_title | default "Daily Goals" }}</h3>
+      <ul class="space-y-4" id="daily-goals-list">
+        {{ range slice "Morning Meditate" "Drink Water (2L)" "Journal Entry" "Walk 15 mins" }}
+        {{ $id := . | urlize }}
+        <li class="flex items-center group cursor-pointer">
+          <div class="relative flex items-center">
+            <input type="checkbox" id="goal-{{ $id }}" class="goal-checkbox h-6 w-6 text-indigo-600 focus:ring-indigo-500 border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 transition-all cursor-pointer" />
+            <label for="goal-{{ $id }}" class="ml-4 text-sm font-bold text-gray-600 dark:text-gray-300 cursor-pointer group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{{ . }}</label>
+          </div>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  </div>
+
+  <!-- My Courses -->
+  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-12 mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    {{ range where .Site.RegularPages "Section" "courses" }}
+    {{ $courseTitle := .Title }}
+    {{ $lessons := where $.Site.RegularPages "Params.course" $courseTitle }}
+    {{ $lessonCount := len $lessons }}
+    <div class="group bg-white shadow-sm rounded-3xl overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-xl transition-all duration-500" data-course-card="{{ $courseTitle }}">
+      <div class="h-40 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-8">
+        {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
+        <svg class="h-16 w-16 text-indigo-300 dark:text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+        </svg>
+        {{ end }}
+      </div>
+      <div class="p-8 flex-grow">
+        <div class="flex justify-between items-start mb-4">
+          <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
+          <span class="text-xs font-black text-gray-400" data-progress-text="{{ $courseTitle }}">0%</span>
+        </div>
+        <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight">{{ .Title }}</h4>
+        
+        <div class="mt-6">
+          <div class="overflow-hidden h-2 text-xs flex rounded-full bg-gray-50 dark:bg-gray-700">
+            <div data-progress-bar="{{ $courseTitle }}" style="width: 0%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"></div>
+          </div>
+        </div>
+      </div>
+      <div class="px-8 py-4 bg-gray-50/50 dark:bg-gray-900/20 border-t border-gray-50 dark:border-gray-700 flex justify-between items-center">
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ $lessonCount }} Lessons</span>
+        <a href="{{ .RelPermalink }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform block">Resume &rarr;</a>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- Achievements -->
+  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-12 mb-6 uppercase tracking-widest text-xs">
+    {{ .Params.sections.achievements.title | default "Your Achievements" }}
+  </h3>
+  {{ partial "app/badges/achievement-badges.html" . }}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.goal-checkbox');
+    const today = new Date().toISOString().split('T')[0];
+
+    const savedGoals = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
+    const goalsState = savedGoals[today] || {};
+
+    checkboxes.forEach(checkbox => {
+      const id = checkbox.id;
+      const label = checkbox.nextElementSibling;
+
+      if (goalsState[id]) {
+        checkbox.checked = true;
+        label.classList.add('line-through', 'text-gray-400', 'dark:text-gray-500');
+        label.classList.remove('text-gray-600', 'dark:text-gray-300');
+      }
+
+      checkbox.addEventListener('change', function () {
+        if (this.checked) {
+          label.classList.add('line-through', 'text-gray-400', 'dark:text-gray-500');
+          label.classList.remove('text-gray-600', 'dark:text-gray-300');
+        } else {
+          label.classList.remove('line-through', 'text-gray-400', 'dark:text-gray-500');
+          label.classList.add('text-gray-600', 'dark:text-gray-300');
+        }
+
+        const currentSaved = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
+        if (!currentSaved[today]) currentSaved[today] = {};
+        currentSaved[today][id] = this.checked;
+        localStorage.setItem('dailyGoals', JSON.stringify(currentSaved));
+      });
+    });
+
+    const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    const courseCards = document.querySelectorAll('[data-course-card]');
+    
+    courseCards.forEach(card => {
+      const courseTitle = card.getAttribute('data-course-card');
+      const progressBar = card.querySelector(`[data-progress-bar="${courseTitle}"]`);
+      const progressText = card.querySelector(`[data-progress-text="${courseTitle}"]`);
+      
+      const lessonCountEl = card.querySelector('.text-xs.font-bold.text-gray-400');
+      if (!lessonCountEl) return;
+      const totalLessons = parseInt(lessonCountEl.innerText) || 1;
+      
+      const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
+      const percentage = Math.round((completedCount / totalLessons) * 100);
+      
+      if (progressBar) progressBar.style.width = percentage + '%';
+      if (progressText) progressText.innerText = percentage + '%';
+    });
+
+    const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
+    const moodBars = document.querySelectorAll('.mood-bar');
+    const moodMap = {
+      'Great': { height: '100%', color: 'bg-indigo-500' },
+      'Good': { height: '75%', color: 'bg-indigo-400' },
+      'Neutral': { height: '50%', color: 'bg-indigo-300' },
+      'Not Great': { height: '35%', color: 'bg-gray-400' },
+      'Struggling': { height: '20%', color: 'bg-gray-500' }
+    };
+
+    const todayDate = new Date();
+    const currentDay = todayDate.getDay(); 
+    const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+    const monday = new Date(todayDate);
+    monday.setDate(todayDate.getDate() + mondayOffset);
+
+    moodBars.forEach((bar, index) => {
+      const date = new Date(monday);
+      date.setDate(monday.getDate() + index);
+      const dateStr = date.toISOString().split('T')[0];
+      const moodEntry = moodData[dateStr];
+      const tooltip = bar.querySelector('.absolute');
+
+      if (moodEntry) {
+        const moodLabel = moodEntry.split(' ')[1] || moodEntry;
+        const config = moodMap[moodLabel] || moodMap['Neutral'];
+        
+        bar.style.height = config.height;
+        bar.classList.remove('bg-gray-50', 'dark:bg-gray-700');
+        bar.classList.add(config.color);
+        if (tooltip) tooltip.innerText = moodEntry;
+      } else {
+        bar.style.height = '10%';
+        if (tooltip) tooltip.innerText = 'No Data';
+      }
+    });
+  });
+</script>
 {{ end }}

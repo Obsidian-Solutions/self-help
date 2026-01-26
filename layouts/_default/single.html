@@ -3,7 +3,7 @@
   <!-- Sidebar -->
   <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
     <div class="sticky top-0 p-4 md:p-6">
-      {{ partial "dashboard/sidebar.html" . }}
+      {{ partial "app/sidebar.html" . }}
     </div>
   </aside>
 
@@ -32,7 +32,7 @@
       <div
         class="relative h-64 sm:h-80 w-full mb-12 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl flex items-center justify-center p-8"
       >
-        {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full"
+        {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full"
         "class" "max-h-full object-contain") }}
       </div>
       {{ else if .Params.image }}

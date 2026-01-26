@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
 <head>
-  {{ partial "head.html" . }}
+  {{ partial "shared/head.html" . }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
@@ -9,7 +9,7 @@
   <div class="min-h-screen flex flex-col">
     {{ if not $isAuthPage }}
     <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      {{ partial "header.html" . }}
+      {{ partial "shared/header.html" . }}
     </header>
     {{ end }}
     <main class="flex-grow">
@@ -17,14 +17,14 @@
     </main>
     {{ if not $isAuthPage }}
     <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
-      {{ partial "footer.html" . }}
+      {{ partial "shared/footer.html" . }}
     </footer>
     {{ end }}
     <!-- Global Modals -->
-    {{ partial "modals/login-modal.html" . }}
-    {{ partial "modals/signup-modal.html" . }}
-    {{ partial "modals/confirm-modal.html" . }}
-    {{ partial "toast.html" . }}
+    {{ partial "auth/login-modal.html" . }}
+    {{ partial "auth/signup-modal.html" . }}
+    {{ partial "auth/confirm-modal.html" . }}
+    {{ partial "shared/toast.html" . }}
   </div>
   
   <script>

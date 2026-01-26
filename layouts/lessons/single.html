@@ -72,7 +72,7 @@
         {{ if not .Params.video_url }} {{ if .Params.illustration }}
         <div class="mb-8 flex justify-center bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-8">
           <div class="w-full max-w-sm">
-            {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height"
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height"
             "h-64") }}
           </div>
         </div>
@@ -129,7 +129,7 @@
             style="display: none"
             class="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6"
           >
-            {{ partial "quiz/quiz-engine.html" . }}
+            {{ partial "app/quiz/quiz-engine.html" . }}
           </div>
         </div>
         {{ end }}

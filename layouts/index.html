@@ -34,7 +34,7 @@
       <div class="relative flex items-center justify-center lg:h-[500px]">
         <div class="w-full h-full max-w-lg interactive group">
           <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-full scale-90 group-hover:scale-95 transition-transform duration-700 blur-2xl"></div>
-          {{ partial "undraw.html" (dict "name" .Params.hero.illustration "class" "relative z-10") }}
+          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "relative z-10") }}
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@
 
         <div class="relative bg-gradient-to-br {{ $gradientFrom }} {{ $gradientTo }} {{ $gradientFromDark }} {{ $gradientToDark }} rounded-lg p-6 border {{ $borderColor }} {{ $borderColorDark }} hover:shadow-lg transition-shadow">
           <div class="absolute -top-3 -right-3 w-24 h-24 opacity-10">
-            {{ partial "handcrafts.html" (dict "element" .decoration "stroke" $strokeColor) }}
+            {{ partial "shared/handcrafts.html" (dict "element" .decoration "stroke" $strokeColor) }}
           </div>
           <dt>
             <div class="flex items-center justify-center h-16 w-16 rounded-full {{ $bgColor }} text-white mb-4">
@@ -96,7 +96,7 @@
             {{ .description }}
           </dd>
           <div class="mt-4 h-1 w-12">
-            {{ partial "handcrafts.html" (dict "element" "underline-wavy" "stroke" $strokeColor "class" "h-1") }}
+            {{ partial "shared/handcrafts.html" (dict "element" "underline-wavy" "stroke" $strokeColor "class" "h-1") }}
           </div>
         </div>
         {{ end }}
@@ -122,7 +122,7 @@
       <div class="flex flex-col bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-indigo-100/20 dark:shadow-none border border-gray-100 dark:border-gray-800 overflow-hidden hover:scale-[1.02] transition-all duration-500">
         <div class="h-52 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-10">
           {{ if .Params.illustration }}
-            {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
           {{ end }}
         </div>
         <div class="p-8 flex-1 flex flex-col justify-between">
@@ -197,7 +197,7 @@
 </div>
 
 <!-- Interactive Quiz Section -->
-{{ partial "quiz/emotions-quiz.html" . }}
+{{ partial "app/quiz/emotions-quiz.html" . }}
 
 <!-- Blog Preview Section -->
 <div class="bg-white dark:bg-gray-900 py-16 lg:py-24">
@@ -211,7 +211,7 @@
       <div class="flex flex-col rounded-lg shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div class="flex-shrink-0 h-48 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center p-8">
           {{ if .Params.illustration }}
-            {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full") }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full") }}
           {{ else if .Params.image }}
             <img class="w-full h-full object-cover" src="{{ .Params.image }}" alt="{{ .Title }}">
           {{ else }}

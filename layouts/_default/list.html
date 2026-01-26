@@ -15,7 +15,7 @@
       <div
         class="flex-shrink-0 h-48 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center p-8"
       >
-        {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name" .Params.illustration
+        {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name" .Params.illustration
         "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else if
         .Params.image }}
         <img class="w-full h-full object-cover" src="{{ .Params.image }}" alt="{{ .Title }}" />

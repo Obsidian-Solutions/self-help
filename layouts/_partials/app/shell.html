@@ -1,0 +1,15 @@
+<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <!-- Sidebar -->
+  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="sticky top-0 p-4 md:p-6">
+      {{ partial "app/sidebar.html" . }}
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 overflow-y-auto">
+    <div class="max-w-7xl mx-auto">
+      {{ block "app-content" . }}{{ end }}
+    </div>
+  </main>
+</div>

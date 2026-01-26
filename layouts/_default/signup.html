@@ -7,7 +7,7 @@
     <div class="max-w-md text-white">
       {{ if .Params.illustration }}
       <div class="mb-8">
-        {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-64")
+        {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-64")
         }}
       </div>
       {{ end }}
