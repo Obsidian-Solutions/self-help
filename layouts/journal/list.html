@@ -99,7 +99,15 @@
 
   function parseMarkdown(text) {
     if (!text) return '';
-    let html = text
+    // Basic HTML escaping to prevent XSS
+    let escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+    let html = escaped
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>')
       .replace(/^\- (.*$)/gim, '<li>$1</li>')
@@ -158,37 +166,57 @@
       entryDiv.className = 'bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-6 border border-gray-100 dark:border-gray-700 group transition-all hover:shadow-md';
       entryDiv.id = `entry-${entry.id}`;
 
-      entryDiv.innerHTML = `
-        <div class="flex justify-between items-start mb-6">
-          <div>
-            <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-1 block">
-              ${entry.date}
-            </span>
-            <h4 class="text-2xl font-black text-gray-900 dark:text-white" id="title-${entry.id}">
-              ${entry.title}
-            </h4>
-          </div>
-          <div class="flex items-center space-x-3">
-            <button onclick="editEntry(${entry.id})" class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-            </button>
-            <button onclick="deleteEntry(${entry.id})" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            </button>
-          </div>
-        </div>
-        <div class="text-gray-600 dark:text-gray-300 font-medium leading-relaxed prose prose-indigo dark:prose-invert max-w-none" id="content-${entry.id}">
-          ${parseMarkdown(entry.content)}
-        </div>
-        <div id="edit-form-${entry.id}" class="hidden mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 space-y-6">
-          <input type="text" id="edit-title-${entry.id}" class="block w-full font-bold border-gray-200 rounded-xl p-3 border dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="${entry.title}">
-          <textarea id="edit-content-${entry.id}" rows="4" class="block w-full font-medium border border-gray-200 rounded-xl p-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">${entry.content}</textarea>
-          <div class="flex justify-end space-x-3">
-            <button onclick="cancelEdit(${entry.id})" class="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 transition-colors">Cancel</button>
-            <button onclick="updateEntry(${entry.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-100">Update</button>
-          </div>
+      const dateSpan = document.createElement('span');
+      dateSpan.className = 'text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-1 block';
+      dateSpan.textContent = entry.date;
+
+      const titleH4 = document.createElement('h4');
+      titleH4.className = 'text-2xl font-black text-gray-900 dark:text-white';
+      titleH4.id = `title-${entry.id}`;
+      titleH4.textContent = entry.title;
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'text-gray-600 dark:text-gray-300 font-medium leading-relaxed prose prose-indigo dark:prose-invert max-w-none';
+      contentDiv.id = `content-${entry.id}`;
+      contentDiv.innerHTML = parseMarkdown(entry.content);
+
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'flex justify-between items-start mb-6';
+      
+      const titleWrapper = document.createElement('div');
+      titleWrapper.appendChild(dateSpan);
+      titleWrapper.appendChild(titleH4);
+
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'flex items-center space-x-3';
+      actionsDiv.innerHTML = `
+        <button onclick="editEntry(${entry.id})" class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        </button>
+        <button onclick="deleteEntry(${entry.id})" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </button>
+      `;
+
+      headerDiv.appendChild(titleWrapper);
+      headerDiv.appendChild(actionsDiv);
+
+      entryDiv.appendChild(headerDiv);
+      entryDiv.appendChild(contentDiv);
+
+      // Edit form (remains hidden until edit)
+      const editForm = document.createElement('div');
+      editForm.id = `edit-form-${entry.id}`;
+      editForm.className = 'hidden mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 space-y-6';
+      editForm.innerHTML = `
+        <input type="text" id="edit-title-${entry.id}" class="block w-full font-bold border-gray-200 rounded-xl p-3 border dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="${entry.title.replace(/"/g, '&quot;')}">
+        <textarea id="edit-content-${entry.id}" rows="4" class="block w-full font-medium border border-gray-200 rounded-xl p-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">${entry.content.replace(/</g, '&lt;')}</textarea>
+        <div class="flex justify-end space-x-3">
+          <button onclick="cancelEdit(${entry.id})" class="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 transition-colors">Cancel</button>
+          <button onclick="updateEntry(${entry.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-100">Update</button>
         </div>
       `;
+      entryDiv.appendChild(editForm);
 
       container.appendChild(entryDiv);
     });

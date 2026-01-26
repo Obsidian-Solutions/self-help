@@ -42,8 +42,8 @@
       const sidebarPlan = document.getElementById('sidebar-user-plan');
       const avatarContainer = document.getElementById('sidebar-avatar-container');
       
-      if (sidebarName) sidebarName.innerText = user.name || user.email;
-      if (sidebarPlan) sidebarPlan.innerText = (user.plan || 'Free') + ' Plan';
+      if (sidebarName) sidebarName.textContent = user.name || user.email;
+      if (sidebarPlan) sidebarPlan.textContent = (user.plan || 'Free') + ' Plan';
       
       if (user.avatar) {
         avatarContainer.innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover" loading="lazy" decoding="async">`;

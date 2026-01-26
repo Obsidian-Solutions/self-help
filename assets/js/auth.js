@@ -209,7 +209,7 @@ window.checkAuth = () => {
     // Update Mobile UI
     if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.add('hidden');
     if (mobileLoggedInDiv) mobileLoggedInDiv.classList.remove('hidden');
-    if (mobileDisplayName) mobileDisplayName.innerText = user.name || user.email;
+    if (mobileDisplayName) mobileDisplayName.textContent = user.name || user.email;
     mobileDashboardLinks.forEach(link => link.classList.remove('hidden'));
 
     // Show Sidebar if it exists
@@ -222,7 +222,7 @@ window.checkAuth = () => {
 
     // Display user's name
     if (userDisplayName) {
-      userDisplayName.innerText = user.name || user.email;
+      userDisplayName.textContent = user.name || user.email;
     }
 
     // Show authenticated nav links

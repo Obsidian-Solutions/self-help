@@ -86,8 +86,8 @@
 
   function renderQuestion() {
     const question = currentQuiz.questions[currentQuestionIndex];
-    document.getElementById('question-text').innerText = question.question;
-    document.getElementById('question-count').innerText = currentQuestionIndex + 1;
+    document.getElementById('question-text').textContent = question.question;
+    document.getElementById('question-count').textContent = currentQuestionIndex + 1;
     document.getElementById('quiz-progress').style.width = ((currentQuestionIndex + 1) / currentQuiz.questions.length * 100) + '%';
 
     const optionsContainer = document.getElementById('options-container');
@@ -96,7 +96,7 @@
     question.options.forEach((option, index) => {
       const button = document.createElement('button');
       button.className = 'w-full text-left p-4 rounded-xl border-2 border-indigo-400/30 hover:border-white transition-all text-white font-medium bg-indigo-900/20';
-      button.innerText = option;
+      button.textContent = option;
       button.onclick = () => selectOption(index, button);
       optionsContainer.appendChild(button);
     });
@@ -126,7 +126,7 @@
     }
 
     if (question.explanation) {
-      document.getElementById('explanation-text').innerText = question.explanation;
+      document.getElementById('explanation-text').textContent = question.explanation;
       document.getElementById('explanation-container').style.display = 'block';
     }
 
@@ -148,8 +148,8 @@
     document.getElementById('quiz-results').style.display = 'block';
     
     const finalPercentage = Math.round((score / currentQuiz.questions.length) * 100);
-    document.getElementById('final-score').innerText = finalPercentage;
-    document.getElementById('result-message').innerText = currentQuiz.resultMessage;
+    document.getElementById('final-score').textContent = finalPercentage;
+    document.getElementById('result-message').textContent = currentQuiz.resultMessage;
     
     // Save score
     localStorage.setItem('lastQuizScore', finalPercentage);
