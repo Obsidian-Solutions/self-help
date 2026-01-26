@@ -13,7 +13,6 @@ description = 'Science-backed CBT tools and expert guidance to help you master y
   description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
   keywords = 'mental health, CBT, therapy, mindfulness, mood tracking, self-help, wellness'
   og_image = '/images/og-image.png'
-  twitter_handle = '@mindfull' # Add your actual handle here
 
 # Hugo Configuration
 enableRobotsTXT = true
@@ -141,14 +140,15 @@ enableGitInfo = false
   accent = '#F59E0B'
   neutral = '#374151'
 
-# Social Links (Optional)
+# Social Links & Handles (Optional)
 [params.social]
-  # twitter = 'https://twitter.com/yourusername'
-  # facebook = 'https://facebook.com/yourusername'
-  # instagram = 'https://instagram.com/yourusername'
+  twitter = 'https://twitter.com/mindfull'
+  twitter_handle = '@mindfull'
   github = 'https://github.com/Obsidian-Solutions/self-help'
-  email = 'contact@obsidiansolutions.co.uk'
-  website = 'https://obsidiansolutions.co.uk'
+  email = 'support@mindfull.com'
+  website = 'https://mindfull.example.com'
+  # facebook = 'https://facebook.com/mindfull'
+  # instagram = 'https://instagram.com/mindfull'
 
 # Analytics (Optional)
 [params.analytics]
