@@ -6,51 +6,54 @@
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
   {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-  <div class="min-h-screen flex flex-col">
-    {{ if not $isAuthPage }}
-    <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
-      {{ partial "shared/header.html" . }}
-    </header>
-    {{ end }}
-    <main class="flex-grow">
-      {{ block "main" . }}{{ end }}
-    </main>
-    {{ if not $isAuthPage }}
-    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
-      {{ partial "shared/footer.html" . }}
-    </footer>
-    {{ end }}
-    <!-- Global Modals -->
-    {{ partial "auth/login-modal.html" . }}
-    {{ partial "auth/signup-modal.html" . }}
-    {{ partial "auth/confirm-modal.html" . }}
-    {{ partial "shared/toast.html" . }}
-  </div>
+  {{ $isAppShell := eq .Params.layout "shell" }}
+
+  {{ if $isAppShell }}
+    <!-- Application Shell -->
+    <div class="min-h-screen flex flex-col md:flex-row">
+      <!-- Sidebar -->
+      <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div class="sticky top-0 p-4 md:p-6">
+          {{ partial "app/sidebar.html" . }}
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+          {{ block "main" . }}{{ end }}
+        </div>
+      </main>
+    </div>
+  {{ else }}
+    <!-- Standard Marketing Layout -->
+    <div class="min-h-screen flex flex-col">
+      {{ if not $isAuthPage }}
+      <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
+        {{ partial "shared/header.html" . }}
+      </header>
+      {{ end }}
+      <main class="flex-grow">
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ if not $isAuthPage }}
+      <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
+        {{ partial "shared/footer.html" . }}
+      </footer>
+      {{ end }}
+    </div>
+  {{ end }}
+
+  <!-- Global Modals & Utilities -->
+  {{ partial "auth/login-modal.html" . }}
+  {{ partial "auth/signup-modal.html" . }}
+  {{ partial "auth/confirm-modal.html" . }}
+  {{ partial "shared/toast.html" . }}
   
   <script>
-    // Enhanced modal functions for forms
-    window.openModal = function(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.style.display = '';
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-    };
-
-    window.closeModal = function(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) {
-        modal.classList.add('hidden');
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-      }
-    };
-
-    window.switchModal = function(closeId, openId) {
-      window.closeModal(closeId);
-      window.openModal(openId);
-    };
+    window.openModal = function(id) { document.getElementById(id)?.classList.remove('hidden'); };
+    window.closeModal = function(id) { document.getElementById(id)?.classList.add('hidden'); };
+    window.switchModal = function(c, o) { window.closeModal(c); window.openModal(o); };
   </script>
 </body>
 </html>
