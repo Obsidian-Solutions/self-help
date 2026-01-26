@@ -92,7 +92,14 @@
     "support_title": "Support",
     "legal_title": "Legal",
     "copyright_prefix": "All rights reserved.",
-    "status_label": "System Status: Operational"
+    "status_label": "System Status: Operational",
+    "nav": [
+      { "name": "Contact Us", "url": "/contact" },
+      { "name": "Member Login", "url": "/login" },
+      { "name": "Privacy Policy", "url": "/privacy" },
+      { "name": "Terms of Service", "url": "/terms" },
+      { "name": "Cookie Policy", "url": "/cookie-policy" }
+    ]
   },
   "auth_modals": {
     "login": {
@@ -140,6 +147,13 @@
     "default_result_emoji": "🎉",
     "question_prefix": "Question",
     "question_of": "of"
+  },
+  "courses": {
+    "pro_tier": "Pro Tier",
+    "free_access": "Free Access",
+    "syllabus_title": "Course Curriculum",
+    "coming_soon": "Coming Soon",
+    "start_btn": "Start Course"
   },
   "journal": {
     "empty_state": {
