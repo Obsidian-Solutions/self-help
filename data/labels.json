@@ -103,7 +103,9 @@
       "password_placeholder": "••••••••",
       "submit_btn": "Sign In",
       "footer_text": "Don't have an account?",
-      "footer_link": "Sign up"
+      "footer_link": "Sign up",
+      "sso_divider": "Or continue with",
+      "sso_google": "Google"
     },
     "signup": {
       "title": "Create Account",
@@ -115,7 +117,9 @@
       "password_placeholder": "••••••••",
       "submit_btn": "Create Account",
       "footer_text": "Already have an account?",
-      "footer_link": "Sign in"
+      "footer_link": "Sign in",
+      "sso_divider": "Or join with",
+      "sso_google": "Google"
     }
   },
   "moods": [
@@ -162,6 +166,13 @@
     }
   },
   "contact": {
+    "labels": {
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email Address",
+      "message": "Message",
+      "submit_btn": "Send Message"
+    },
     "placeholders": {
       "first_name": "Jane",
       "last_name": "Doe",
