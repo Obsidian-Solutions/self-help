@@ -1,11 +1,11 @@
-{{ $labels := site.Data.labels }}
+{{ $labels := site.Data.labels.mood_selector }}
 <div class="mood-selector" id="mood-selector-container">
   <div id="mood-check-in-view">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-      How are you feeling today?
+      {{ $labels.title }}
     </h3>
     <div class="grid grid-cols-5 gap-2">
-      {{ range $labels.moods }}
+      {{ range site.Data.labels.moods }}
       <button
         class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
         data-mood="{{ .emoji }} {{ .label }}"
@@ -21,7 +21,7 @@
       id="mood-submit"
       class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-600"
     >
-      Save Check-In
+      {{ $labels.submit_btn }}
     </button>
   </div>
 
@@ -38,9 +38,9 @@
         ></path>
       </svg>
     </div>
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ $labels.mood_selector.success_title }}</h3>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ $labels.success_title }}</h3>
     <p class="text-gray-600 dark:text-gray-400 mb-4">
-      {{ $labels.mood_selector.success_message }}
+      {{ $labels.already_checked_in }}
     </p>
     <div
       id="logged-mood-display"
@@ -100,7 +100,7 @@
     function showCompletedView(mood) {
       checkInView.style.display = 'none';
       completedView.style.display = 'block';
-      loggedMoodDisplay.textContent = `Today's mood: ${mood}`;
+      loggedMoodDisplay.textContent = `{{ $labels.today_prefix }} ${mood}`;
     }
 
     moodBtns.forEach(btn => {
@@ -123,15 +123,15 @@
 
           showCompletedView(selectedMood);
           if (window.showToast) {
-            window.showToast('Mood check-in saved! Keep taking care of yourself.', 'success');
+            window.showToast('{{ $labels.toast_success }}', 'success');
           } else {
-            alert('Mood check-in saved! Keep taking care of yourself.');
+            alert('{{ $labels.toast_success }}');
           }
         } else {
           if (window.showToast) {
-            window.showToast('Please select a mood first', 'error');
+            window.showToast('{{ $labels.toast_error }}', 'error');
           } else {
-            alert('Please select a mood first');
+            alert('{{ $labels.toast_error }}');
           }
         }
       });

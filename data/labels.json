@@ -14,8 +14,38 @@
     "no_data": "0"
   },
   "mood_selector": {
+    "title": "How are you feeling today?",
+    "submit_btn": "Save Check-In",
     "success_title": "Mood Logged!",
-    "success_message": "Your reflection has been saved to your private journal."
+    "success_message": "Your reflection has been saved to your private journal.",
+    "already_checked_in": "You've already checked in for today. Great job practicing self-awareness!",
+    "today_prefix": "Today's mood:",
+    "toast_success": "Mood check-in saved! Keep taking care of yourself.",
+    "toast_error": "Please select a mood first"
+  },
+  "dashboard": {
+    "days": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    "no_data": "No Data",
+    "resume_btn": "Resume",
+    "lessons_label": "Lessons",
+    "quiz_data": {
+      "title": "Daily Awareness Check",
+      "description": "A quick check-in to see how you are processing your tools today.",
+      "resultMessage": "Great job staying mindful today!",
+      "questions": [
+        {
+          "question": "Which of these is a core principle of CBT?",
+          "options": [
+            "Ignoring thoughts",
+            "Identifying thought patterns",
+            "Always staying positive",
+            "Only focus on the past"
+          ],
+          "correct": 1,
+          "explanation": "CBT focuses on identifying and refactoring negative thought patterns."
+        }
+      ]
+    }
   },
   "sidebar": {
     "default_user": "User",
@@ -73,7 +103,9 @@
     "finish_btn": "Finish Quiz",
     "results_title": "Results",
     "score_label": "Your Score",
-    "default_result_emoji": "🎉"
+    "default_result_emoji": "🎉",
+    "question_prefix": "Question",
+    "question_of": "of"
   },
   "journal": {
     "empty_state": {
@@ -84,5 +116,52 @@
     },
     "history_label": "Your Journey History",
     "no_entries_fallback": "No entries yet."
-  }
+  },
+  "shared": {
+    "close": "Close"
+  },
+  "comparison": [
+    {
+      "name": "Course Access",
+      "free": "Foundation only",
+      "standard": "Unlimited",
+      "pro": "Unlimited"
+    },
+    {
+      "name": "Mood Tracking",
+      "free": "✓",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Personal Journal",
+      "free": "✓",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Therapist Booking",
+      "free": "—",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Offline Access",
+      "free": "—",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Consultations",
+      "free": "—",
+      "standard": "—",
+      "pro": "1-on-1 Monthly"
+    },
+    {
+      "name": "Family Seats",
+      "free": "1",
+      "standard": "1",
+      "pro": "2"
+    }
+  ]
 }

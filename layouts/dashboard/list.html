@@ -43,7 +43,7 @@
           </p>
         </div>
         <button
-          onclick="document.getElementById('dashboard-quiz-container').style.display = 'block'"
+          onclick="startDashboardQuiz()"
           class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-indigo-100 dark:shadow-none"
         >
           {{ $labels.quiz.start_btn }}
@@ -69,19 +69,15 @@
         {{ range seq 7 }}
         <div class="mood-bar flex-1 bg-gray-50 dark:bg-gray-700 rounded-t-xl transition-all duration-500 relative group" style="height: 10%">
           <div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 font-bold">
-            No Data
+            {{ $labels.dashboard.no_data }}
           </div>
         </div>
         {{ end }}
       </div>
       <div class="flex justify-between text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mt-4">
-        <span class="flex-1 text-center">Mon</span>
-        <span class="flex-1 text-center">Tue</span>
-        <span class="flex-1 text-center">Wed</span>
-        <span class="flex-1 text-center">Thu</span>
-        <span class="flex-1 text-center">Fri</span>
-        <span class="flex-1 text-center">Sat</span>
-        <span class="flex-1 text-center">Sun</span>
+        {{ range $labels.dashboard.days }}
+        <span class="flex-1 text-center">{{ . }}</span>
+        {{ end }}
       </div>
     </div>
 
@@ -131,8 +127,8 @@
         </div>
       </div>
       <div class="px-8 py-4 bg-gray-50/50 dark:bg-gray-900/20 border-t border-gray-50 dark:border-gray-700 flex justify-between items-center">
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest lesson-count-display">{{ $lessonCount }} Lessons</span>
-        <a href="{{ .RelPermalink }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform block">Resume &rarr;</a>
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest lesson-count-display">{{ $lessonCount }} {{ $labels.dashboard.lessons_label }}</span>
+        <a href="{{ .RelPermalink }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform block">{{ $labels.dashboard.resume_btn }} &rarr;</a>
       </div>
     </div>
     {{ end }}
@@ -146,6 +142,14 @@
 </div>
 
 <script>
+  function startDashboardQuiz() {
+    document.getElementById('dashboard-quiz-container').style.display = 'block';
+    const quizData = {{ $labels.dashboard.quiz_data }};
+    if (window.initializeQuiz) {
+      window.initializeQuiz(quizData);
+    }
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll('.goal-checkbox');
     const today = new Date().toISOString().split('T')[0];
@@ -231,7 +235,7 @@
         if (tooltip) tooltip.innerText = moodEntry;
       } else {
         bar.style.height = '10%';
-        if (tooltip) tooltip.innerText = 'No Data';
+        if (tooltip) tooltip.innerText = '{{ $labels.dashboard.no_data }}';
       }
     });
   });
