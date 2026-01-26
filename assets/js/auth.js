@@ -179,7 +179,8 @@ window.checkAuth = () => {
     path.includes('/dashboard') ||
     path.includes('/journal') ||
     path.includes('/courses') ||
-    path.includes('/lessons');
+    path.includes('/lessons') ||
+    path.includes('/settings');
 
   if (user) {
     // User is logged in
@@ -202,6 +203,10 @@ window.checkAuth = () => {
       loggedInDiv.classList.add('flex');
       loggedInDiv.style.display = 'flex'; // Force show
     }
+
+    // Show Sidebar if it exists
+    const sidebar = document.querySelector('aside');
+    if (sidebar) sidebar.classList.remove('hidden');
 
     // Display user's name
     if (userDisplayName) {
@@ -278,12 +283,26 @@ window.checkAuth = () => {
     if (loggedOutDiv) {
       loggedOutDiv.classList.remove('hidden');
       loggedOutDiv.classList.add('flex');
+      loggedOutDiv.style.display = 'flex';
     }
-    if (loggedInDiv) loggedInDiv.classList.add('hidden');
+    if (loggedInDiv) {
+      loggedInDiv.classList.add('hidden');
+      loggedInDiv.style.display = 'none';
+    }
+
+    // Hide Sidebar if it exists
+    const sidebar = document.querySelector('aside');
+    if (sidebar && !path.includes('/posts')) {
+      // Keep sidebar hidden on protected pages
+      sidebar.classList.add('hidden');
+    }
+    // Specific fix for blog: if logged out, hide the sidebar
+    if (path.includes('/posts') && sidebar) {
+      sidebar.classList.add('hidden');
+    }
 
     // Hide dashboard/protected nav
     if (navDashboard) navDashboard.classList.add('hidden');
-    // Note: We might want to keep /courses visible but redirect on click
 
     // Redirect if on protected page
     if (isProtectedPage) {
@@ -292,7 +311,10 @@ window.checkAuth = () => {
 
       // If we have modals, use them, otherwise redirect to login page
       const hasModals = document.getElementById('loginModal');
-      if (hasModals && (path.includes('/dashboard') || path.includes('/journal'))) {
+      if (
+        hasModals &&
+        (path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings'))
+      ) {
         setTimeout(() => {
           window.openModal('loginModal');
         }, 500);

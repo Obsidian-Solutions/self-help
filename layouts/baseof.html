@@ -5,16 +5,21 @@
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
+  {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
   <div class="min-h-screen flex flex-col">
+    {{ if not $isAuthPage }}
     <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
       {{ partial "header.html" . }}
     </header>
+    {{ end }}
     <main class="flex-grow">
       {{ block "main" . }}{{ end }}
     </main>
+    {{ if not $isAuthPage }}
     <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
       {{ partial "footer.html" . }}
     </footer>
+    {{ end }}
     <!-- Global Modals -->
     {{ partial "modals/login-modal.html" . }}
     {{ partial "modals/signup-modal.html" . }}

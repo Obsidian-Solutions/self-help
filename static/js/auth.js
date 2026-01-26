@@ -161,7 +161,8 @@ window.checkAuth = () => {
     path.includes('/dashboard') ||
     path.includes('/journal') ||
     path.includes('/courses') ||
-    path.includes('/lessons');
+    path.includes('/lessons') ||
+    path.includes('/settings');
 
   if (user) {
     console.log('User is signed in:', user.email, 'Plan:', user.plan);
@@ -183,6 +184,10 @@ window.checkAuth = () => {
       loggedInDiv.classList.add('flex');
       loggedInDiv.style.display = 'flex';
     }
+
+    // Show Sidebar if it exists
+    const sidebar = document.querySelector('aside');
+    if (sidebar) sidebar.classList.remove('hidden');
 
     // Header: Show Dashboard & Courses links
     if (navDashboard) {
@@ -257,6 +262,23 @@ window.checkAuth = () => {
     });
   } else {
     console.log('User is not signed in');
+
+    // Header UI Updates
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.remove('hidden');
+      loggedOutDiv.classList.add('flex');
+      loggedOutDiv.style.display = 'flex';
+    }
+    if (loggedInDiv) {
+      loggedInDiv.classList.add('hidden');
+      loggedInDiv.style.display = 'none';
+    }
+
+    // Hide Sidebar if it exists
+    const sidebar = document.querySelector('aside');
+    if (sidebar) {
+      sidebar.classList.add('hidden');
+    }
 
     // Header: Hide Dashboard & Courses links
     if (navDashboard) {
