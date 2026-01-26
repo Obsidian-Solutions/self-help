@@ -1,4 +1,5 @@
 ---
+layout: 'syllabus'
 useAppShell: true
 premium: false
 title: 'Mindfulness 101'
@@ -8,6 +9,8 @@ category: 'Mindfulness'
 duration: '4 weeks'
 level: 'Beginner'
 ---
+
+layout: "syllabus"
 
 useAppShell: true
 

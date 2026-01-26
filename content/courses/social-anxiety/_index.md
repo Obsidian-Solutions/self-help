@@ -1,4 +1,5 @@
 ---
+layout: 'syllabus'
 useAppShell: true
 premium: true
 title: 'Social Anxiety Bootcamp'
@@ -8,6 +9,8 @@ category: 'Anxiety'
 duration: '8 weeks'
 level: 'Intermediate'
 ---
+
+layout: "syllabus"
 
 useAppShell: true
 

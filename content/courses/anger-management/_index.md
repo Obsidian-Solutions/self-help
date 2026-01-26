@@ -1,4 +1,5 @@
 ---
+layout: 'syllabus'
 useAppShell: true
 premium: false
 title: 'Anger Management'
@@ -8,6 +9,8 @@ category: 'Emotional Regulation'
 duration: '5 weeks'
 level: 'Beginner'
 ---
+
+layout: "syllabus"
 
 useAppShell: true
 

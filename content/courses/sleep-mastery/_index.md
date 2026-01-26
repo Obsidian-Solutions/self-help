@@ -1,4 +1,5 @@
 ---
+layout: 'syllabus'
 useAppShell: true
 premium: true
 title: 'Sleep Mastery'
@@ -8,6 +9,8 @@ category: 'Health'
 duration: '8 weeks'
 level: 'Intermediate'
 ---
+
+layout: "syllabus"
 
 useAppShell: true
 

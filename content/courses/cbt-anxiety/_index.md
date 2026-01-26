@@ -1,4 +1,5 @@
 ---
+layout: 'syllabus'
 useAppShell: true
 premium: true
 title: 'CBT for Anxiety'
@@ -8,6 +9,8 @@ category: 'Anxiety'
 duration: '6 weeks'
 level: 'Beginner'
 ---
+
+layout: "syllabus"
 
 useAppShell: true
 
