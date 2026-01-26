@@ -1,0 +1,50 @@
+[
+  {
+    "id": "first-course",
+    "title": "First Course",
+    "description": "Complete 1 course",
+    "icon": "📚",
+    "color_from": "blue-400",
+    "color_to": "blue-600"
+  },
+  {
+    "id": "meditation-streak",
+    "title": "7 Day Streak",
+    "description": "Check in 7 days",
+    "icon": "🧘",
+    "color_from": "green-400",
+    "color_to": "green-600"
+  },
+  {
+    "id": "feelings-explorer",
+    "title": "Feelings Expert",
+    "description": "Complete 3 quizzes",
+    "icon": "🎯",
+    "color_from": "purple-400",
+    "color_to": "purple-600"
+  },
+  {
+    "id": "anxiety-warrior",
+    "title": "Anxiety Master",
+    "description": "Complete Anxiety course",
+    "icon": "⚔️",
+    "color_from": "orange-400",
+    "color_to": "orange-600"
+  },
+  {
+    "id": "sleep-wizard",
+    "title": "Sleep Master",
+    "description": "Complete Sleep course",
+    "icon": "😴",
+    "color_from": "indigo-400",
+    "color_to": "indigo-600"
+  },
+  {
+    "id": "journaling-champ",
+    "title": "Journal Pro",
+    "description": "Write 10 entries",
+    "icon": "📝",
+    "color_from": "pink-400",
+    "color_to": "pink-600"
+  }
+]

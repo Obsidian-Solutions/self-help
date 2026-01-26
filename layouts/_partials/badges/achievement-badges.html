@@ -1,69 +1,15 @@
 <div class="achievement-badges grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-  <!-- First Course Badge -->
-  <div class="badge-card group cursor-pointer" data-badge="first-course">
+  {{ range .Site.Data.badges }}
+  <div class="badge-card group cursor-pointer" data-badge="{{ .id }}">
     <div
-      class="aspect-square bg-gradient-to-br from-blue-400 to-blue-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
+      class="aspect-square bg-gradient-to-br from-{{ .color_from }} to-{{ .color_to }} rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
     >
-      <span class="text-3xl mb-2">📚</span>
-      <span class="text-xs font-bold text-center px-2">First Course</span>
+      <span class="text-3xl mb-2">{{ .icon }}</span>
+      <span class="text-xs font-bold text-center px-2">{{ .title }}</span>
     </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Complete 1 course</p>
+    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">{{ .description }}</p>
   </div>
-
-  <!-- Meditation Streak -->
-  <div class="badge-card group cursor-pointer" data-badge="meditation-streak">
-    <div
-      class="aspect-square bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
-    >
-      <span class="text-3xl mb-2">🧘</span>
-      <span class="text-xs font-bold text-center px-2">7 Day Streak</span>
-    </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Check in 7 days</p>
-  </div>
-
-  <!-- Feelings Explorer -->
-  <div class="badge-card group cursor-pointer" data-badge="feelings-explorer">
-    <div
-      class="aspect-square bg-gradient-to-br from-purple-400 to-purple-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
-    >
-      <span class="text-3xl mb-2">🎯</span>
-      <span class="text-xs font-bold text-center px-2">Feelings Expert</span>
-    </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Complete 3 quizzes</p>
-  </div>
-
-  <!-- Anxiety Warrior -->
-  <div class="badge-card group cursor-pointer" data-badge="anxiety-warrior">
-    <div
-      class="aspect-square bg-gradient-to-br from-orange-400 to-orange-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
-    >
-      <span class="text-3xl mb-2">⚔️</span>
-      <span class="text-xs font-bold text-center px-2">Anxiety Master</span>
-    </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Complete Anxiety course</p>
-  </div>
-
-  <!-- Sleep Wizard -->
-  <div class="badge-card group cursor-pointer" data-badge="sleep-wizard">
-    <div
-      class="aspect-square bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
-    >
-      <span class="text-3xl mb-2">😴</span>
-      <span class="text-xs font-bold text-center px-2">Sleep Master</span>
-    </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Complete Sleep course</p>
-  </div>
-
-  <!-- Journaling Champion -->
-  <div class="badge-card group cursor-pointer" data-badge="journaling-champ">
-    <div
-      class="aspect-square bg-gradient-to-br from-pink-400 to-pink-600 rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
-    >
-      <span class="text-3xl mb-2">📝</span>
-      <span class="text-xs font-bold text-center px-2">Journal Pro</span>
-    </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">Write 10 entries</p>
-  </div>
+  {{ end }}
 </div>
 
 <style>

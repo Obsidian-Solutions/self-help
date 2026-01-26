@@ -1,0 +1,9 @@
+{
+  "streak_widget": {
+    "title": "Your Check-In Streak",
+    "days_label": "days in a row",
+    "total_label": "total check-ins",
+    "encouragement_bold": "Keep it up!",
+    "encouragement_text": "Every day you check in, you're building awareness of your emotions. 🌱"
+  }
+}

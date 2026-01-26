@@ -111,8 +111,16 @@
     const container = document.getElementById('entries-list');
 
     if (entries.length === 0) {
-      container.innerHTML =
-        '<p class="text-gray-500 dark:text-gray-400 italic">No entries yet.</p>';
+      container.innerHTML = `
+        <div class="flex flex-col items-center justify-center py-12 px-4 text-center bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-200 dark:border-gray-700">
+          <div class="w-full max-w-xs mb-6 opacity-80">
+            <img src="/illustrations/library/taking_notes_re_3274.svg" class="w-full h-auto mx-auto" alt="No entries">
+          </div>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Your journal is empty</h3>
+          <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-6">Start documenting your thoughts and feelings. It's a great way to track your progress and clear your mind.</p>
+          <button onclick="document.getElementById('journal-title').focus()" class="text-primary dark:text-indigo-400 font-bold hover:underline">Write your first entry &rarr;</button>
+        </div>
+      `;
       return;
     }
 

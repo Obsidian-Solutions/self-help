@@ -53,6 +53,21 @@
                   <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">
                     {{ .Params.description }}
                   </p>
+                  <!-- Progress Bar -->
+                  <div class="mt-4 max-w-xs" data-course-card="{{ .Title }}">
+                    <div class="flex justify-between mb-1">
+                      <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Progress</span>
+                      <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400" data-progress-text="{{ .Title }}">0%</span>
+                    </div>
+                    <div class="overflow-hidden h-1.5 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
+                      <div
+                        data-progress-bar="{{ .Title }}"
+                        style="width: 0%"
+                        class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"
+                      ></div>
+                    </div>
+                    <span class="hidden total-lessons-count">{{ len $lessons }}</span>
+                  </div>
                 </div>
                 <div class="mt-6 flex items-center gap-4">
                   <a href="{{ .RelPermalink }}" class="btn btn-primary px-6">View Syllabus</a>
@@ -71,3 +86,25 @@
   </div>
 </div>
 {{ end }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    const courseCards = document.querySelectorAll('[data-course-card]');
+    
+    courseCards.forEach(card => {
+      const courseTitle = card.getAttribute('data-course-card');
+      const progressBar = card.querySelector('[data-progress-bar]');
+      const progressText = card.querySelector('[data-progress-text]');
+      const totalCountEl = card.querySelector('.total-lessons-count');
+      if (!totalCountEl) return;
+      const totalCount = parseInt(totalCountEl.innerText) || 1;
+      
+      const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
+      const percentage = Math.round((completedCount / totalCount) * 100);
+      
+      if (progressBar) progressBar.style.width = percentage + '%';
+      if (progressText) progressText.innerText = percentage + '%';
+    });
+  });
+</script>

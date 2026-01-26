@@ -223,18 +223,44 @@
                 localStorage.setItem('dailyGoals', JSON.stringify(currentSaved));
               });
             });
+
+            // Calculate Course Progress
+            const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+            const courseCards = document.querySelectorAll('[data-course-card]');
+            
+            courseCards.forEach(card => {
+              const courseTitle = card.getAttribute('data-course-card');
+              const progressBar = card.querySelector(`[data-progress-bar="${courseTitle}"]`);
+              const progressText = card.querySelector(`[data-progress-text="${courseTitle}"]`);
+              
+              // Count completed lessons for this course
+              const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
+              
+              // Get total lessons from the card's hidden count (or we can inject it)
+              // We'll use the lesson count we already calculated in the template
+              const totalLessons = parseInt(card.querySelector('.text-xs.text-gray-500').innerText) || 1;
+              
+              const percentage = Math.round((completedCount / totalLessons) * 100);
+              
+              if (progressBar) progressBar.style.width = percentage + '%';
+              if (progressText) progressText.innerText = percentage + '%';
+            });
           });
         </script>
 
         <!-- My Courses -->
         <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           {{ range where .Site.RegularPages "Section" "courses" }}
+          {{ $courseTitle := .Title }}
+          {{ $lessons := where $.Site.RegularPages "Params.course" $courseTitle }}
+          {{ $lessonCount := len $lessons }}
           <div
-            class="bg-white shadow rounded-lg overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-md transition"
+            class="group bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-md transition-all duration-300"
+            data-course-card="{{ $courseTitle }}"
           >
             <div
-              class="h-32 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center p-6"
+              class="h-32 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-6"
             >
               {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name"
               .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
@@ -249,22 +275,34 @@
               </svg>
               {{ end }}
             </div>
-            <div class="p-4 flex-grow">
-              <span
-                class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wide"
-                >{{ .Params.category }}</span
-              >
-              <h4 class="text-lg font-bold text-gray-900 dark:text-white mt-1">{{ .Title }}</h4>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-                {{ .Params.description }}
-              </p>
+            <div class="p-5 flex-grow">
+              <div class="flex justify-between items-start mb-2">
+                <span
+                  class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest"
+                  >{{ .Params.category }}</span
+                >
+                <span class="text-xs font-bold text-gray-400" data-progress-text="{{ $courseTitle }}">0%</span>
+              </div>
+              <h4 class="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors">{{ .Title }}</h4>
+              
+              <!-- Progress Bar -->
+              <div class="mt-4">
+                <div class="overflow-hidden h-2 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
+                  <div
+                    data-progress-bar="{{ $courseTitle }}"
+                    style="width: 0%"
+                    class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"
+                  ></div>
+                </div>
+              </div>
             </div>
             <div
-              class="px-4 py-3 bg-gray-50 dark:bg-gray-700 border-t border-gray-100 dark:border-gray-600"
+              class="px-5 py-3 bg-gray-50/50 dark:bg-gray-900/20 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center"
             >
+              <span class="text-xs text-gray-500">{{ $lessonCount }} Lessons</span>
               <a
                 href="{{ .RelPermalink }}"
-                class="text-sm font-medium text-primary dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 block"
+                class="text-sm font-bold text-primary dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 block"
                 >Resume &rarr;</a
               >
             </div>
