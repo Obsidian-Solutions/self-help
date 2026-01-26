@@ -26,7 +26,13 @@
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form class="space-y-6" onsubmit="window.handleSignup(event); return false;">
+        <form
+          class="space-y-6"
+          onsubmit="
+            window.handleSignup(event);
+            return false;
+          "
+        >
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
               Full Name

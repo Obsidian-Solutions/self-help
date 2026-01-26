@@ -110,7 +110,10 @@
     }
 
     // Anxiety Warrior (Assume course complete if major lesson is done for demo)
-    if (courseProgress['Understanding Anxiety: The Basics']?.completed && !badges['anxiety-warrior']) {
+    if (
+      courseProgress['Understanding Anxiety: The Basics']?.completed &&
+      !badges['anxiety-warrior']
+    ) {
       badges['anxiety-warrior'] = true;
       updated = true;
     }

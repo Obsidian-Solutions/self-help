@@ -1,227 +1,280 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MindFull CMS Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        [v-cloak] { display: none; }
+      [v-cloak] {
+        display: none;
+      }
     </style>
-</head>
-<body class="bg-gray-100 min-h-screen">
+  </head>
+  <body class="bg-gray-100 min-h-screen">
     <div id="app" v-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Login Form -->
-        <div v-if="!token" class="max-w-md mx-auto mt-20 bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
-            <form @submit.prevent="login">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" v-model="loginForm.email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" v-model="loginForm.password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" required>
-                </div>
-                <button type="submit" class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 transition">Login</button>
-            </form>
-            <p v-if="error" class="mt-4 text-red-600 text-center">{{ error }}</p>
+      <!-- Login Form -->
+      <div v-if="!token" class="max-w-md mx-auto mt-20 bg-white p-8 rounded-lg shadow-md">
+        <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+        <form @submit.prevent="login">
+          <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              v-model="loginForm.email"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              required
+            />
+          </div>
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              v-model="loginForm.password"
+              class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700 transition"
+          >
+            Login
+          </button>
+        </form>
+        <p v-if="error" class="mt-4 text-red-600 text-center">{{ error }}</p>
+      </div>
+
+      <!-- Dashboard -->
+      <div v-else>
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-3xl font-bold">MindFull CMS</h1>
+          <div class="flex items-center space-x-4">
+            <span>Welcome, {{ user.name }}</span>
+            <button @click="logout" class="text-gray-600 hover:text-red-600">Logout</button>
+          </div>
         </div>
 
-        <!-- Dashboard -->
-        <div v-else>
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-3xl font-bold">MindFull CMS</h1>
-                <div class="flex items-center space-x-4">
-                    <span>Welcome, {{ user.name }}</span>
-                    <button @click="logout" class="text-gray-600 hover:text-red-600">Logout</button>
-                </div>
-            </div>
+        <div class="grid grid-cols-4 gap-8">
+          <!-- Sidebar -->
+          <div class="col-span-1 space-y-2">
+            <button
+              v-for="col in collections"
+              @click="currentCollection = col.id; fetchEntries()"
+              :class="['w-full text-left px-4 py-2 rounded-md transition', currentCollection === col.id ? 'bg-indigo-600 text-white' : 'hover:bg-gray-200 text-gray-700']"
+            >
+              {{ col.name }}
+            </button>
+          </div>
 
-            <div class="grid grid-cols-4 gap-8">
-                <!-- Sidebar -->
-                <div class="col-span-1 space-y-2">
-                    <button 
-                        v-for="col in collections" 
-                        @click="currentCollection = col.id; fetchEntries()"
-                        :class="['w-full text-left px-4 py-2 rounded-md transition', currentCollection === col.id ? 'bg-indigo-600 text-white' : 'hover:bg-gray-200 text-gray-700']"
-                    >
-                        {{ col.name }}
+          <!-- Main Area -->
+          <div class="col-span-3 bg-white p-6 rounded-lg shadow-md">
+            <div v-if="!editingEntry">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">{{ currentCollectionName }}</h2>
+                <button
+                  @click="newEntry"
+                  class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                >
+                  New Entry
+                </button>
+              </div>
+
+              <div class="space-y-4">
+                <div
+                  v-for="entry in entries"
+                  class="border-b pb-4 flex justify-between items-center"
+                >
+                  <div>
+                    <h3 class="font-bold">{{ entry.data.title || entry.slug }}</h3>
+                    <p class="text-sm text-gray-500">{{ entry.slug }}</p>
+                  </div>
+                  <div class="flex space-x-2">
+                    <button @click="editEntry(entry)" class="text-indigo-600 hover:underline">
+                      Edit
                     </button>
+                    <button @click="deleteEntry(entry.slug)" class="text-red-600 hover:underline">
+                      Delete
+                    </button>
+                  </div>
                 </div>
-
-                <!-- Main Area -->
-                <div class="col-span-3 bg-white p-6 rounded-lg shadow-md">
-                    <div v-if="!editingEntry">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-semibold">{{ currentCollectionName }}</h2>
-                            <button @click="newEntry" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">New Entry</button>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div v-for="entry in entries" class="border-b pb-4 flex justify-between items-center">
-                                <div>
-                                    <h3 class="font-bold">{{ entry.data.title || entry.slug }}</h3>
-                                    <p class="text-sm text-gray-500">{{ entry.slug }}</p>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button @click="editEntry(entry)" class="text-indigo-600 hover:underline">Edit</button>
-                                    <button @click="deleteEntry(entry.slug)" class="text-red-600 hover:underline">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Editor -->
-                    <div v-else>
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-semibold">Editing: {{ editingEntry.slug }}</h2>
-                            <button @click="editingEntry = null" class="text-gray-500 hover:underline">Cancel</button>
-                        </div>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Slug</label>
-                                <input type="text" v-model="editingEntry.slug" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" :disabled="!isNew">
-                            </div>
-                            <div v-for="(val, key) in editingEntry.data">
-                                <label class="block text-sm font-medium text-gray-700">{{ key }}</label>
-                                <input v-if="typeof val !== 'object'" type="text" v-model="editingEntry.data[key]" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Content (Markdown)</label>
-                                <textarea v-model="editingEntry.body" rows="15" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 font-mono text-sm"></textarea>
-                            </div>
-                            <button @click="saveEntry" class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700">Save Changes</button>
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+
+            <!-- Editor -->
+            <div v-else>
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Editing: {{ editingEntry.slug }}</h2>
+                <button @click="editingEntry = null" class="text-gray-500 hover:underline">
+                  Cancel
+                </button>
+              </div>
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Slug</label>
+                  <input
+                    type="text"
+                    v-model="editingEntry.slug"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                    :disabled="!isNew"
+                  />
+                </div>
+                <div v-for="(val, key) in editingEntry.data">
+                  <label class="block text-sm font-medium text-gray-700">{{ key }}</label>
+                  <input
+                    v-if="typeof val !== 'object'"
+                    type="text"
+                    v-model="editingEntry.data[key]"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700">Content (Markdown)</label>
+                  <textarea
+                    v-model="editingEntry.body"
+                    rows="15"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 font-mono text-sm"
+                  ></textarea>
+                </div>
+                <button
+                  @click="saveEntry"
+                  class="w-full bg-indigo-600 text-white p-2 rounded-md hover:bg-indigo-700"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
-        const { createApp } = Vue;
+      const { createApp } = Vue;
 
-        createApp({
-            data() {
-                return {
-                    token: localStorage.getItem('cms_token'),
-                    user: JSON.parse(localStorage.getItem('cms_user') || '{}'),
-                    loginForm: { email: '', password: '' },
-                    error: '',
-                    collections: [
-                        { id: 'posts', name: 'Blog Posts' },
-                        { id: 'courses', name: 'Courses' },
-                        { id: 'lessons', name: 'Lessons' },
-                        { id: 'therapists', name: 'Therapists' }
-                    ],
-                    currentCollection: 'posts',
-                    entries: [],
-                    editingEntry: null,
-                    isNew: false
-                }
-            },
-            computed: {
-                currentCollectionName() {
-                    return this.collections.find(c => c.id === this.currentCollection)?.name;
-                }
-            },
-            mounted() {
-                if (this.token) this.fetchEntries();
-            },
-            methods: {
-                async login() {
-                    try {
-                        const res = await fetch('/api/auth/login', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(this.loginForm)
-                        });
-                        const data = await res.json();
-                        if (res.ok) {
-                            this.token = data.token;
-                            this.user = data.user;
-                            localStorage.setItem('cms_token', data.token);
-                            localStorage.setItem('cms_user', JSON.stringify(data.user));
-                            this.fetchEntries();
-                        } else {
-                            this.error = data.message;
-                        }
-                    } catch (err) {
-                        this.error = 'Login failed';
-                    }
-                },
-                logout() {
-                    this.token = null;
-                    localStorage.removeItem('cms_token');
-                    localStorage.removeItem('cms_user');
-                },
-                async fetchEntries() {
-                    try {
-                        const res = await fetch(`/api/content/${this.currentCollection}`, {
-                            headers: { 'Authorization': `Bearer ${this.token}` }
-                        });
-                        if (res.ok) this.entries = await res.json();
-                    } catch (err) {
-                        console.error('Fetch failed');
-                    }
-                },
-                async editEntry(entry) {
-                    try {
-                        const res = await fetch(`/api/content/${this.currentCollection}/${entry.slug}`, {
-                            headers: { 'Authorization': `Bearer ${this.token}` }
-                        });
-                        if (res.ok) {
-                            const detail = await res.json();
-                            this.editingEntry = { slug: entry.slug, ...detail };
-                            this.isNew = false;
-                        }
-                    } catch (err) {
-                        console.error('Edit failed');
-                    }
-                },
-                newEntry() {
-                    this.isNew = true;
-                    this.editingEntry = {
-                        slug: 'new-entry',
-                        data: { title: '', date: new Date().toISOString().split('T')[0], draft: true },
-                        body: ''
-                    };
-                },
-                async saveEntry() {
-                    try {
-                        const res = await fetch(`/api/content/${this.currentCollection}/${this.editingEntry.slug}`, {
-                            method: 'POST',
-                            headers: { 
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${this.token}`
-                            },
-                            body: JSON.stringify(this.editingEntry)
-                        });
-                        if (res.ok) {
-                            this.editingEntry = null;
-                            this.fetchEntries();
-                            alert('Saved!');
-                        }
-                    } catch (err) {
-                        alert('Save failed');
-                    }
-                },
-                async deleteEntry(slug) {
-                    if (!confirm('Are you sure?')) return;
-                    try {
-                        const res = await fetch(`/api/content/${this.currentCollection}/${slug}`, {
-                            method: 'DELETE',
-                            headers: { 'Authorization': `Bearer ${this.token}` }
-                        });
-                        if (res.ok) this.fetchEntries();
-                    } catch (err) {
-                        alert('Delete failed');
-                    }
-                }
+      createApp({
+        data() {
+          return {
+            token: localStorage.getItem('cms_token'),
+            user: JSON.parse(localStorage.getItem('cms_user') || '{}'),
+            loginForm: { email: '', password: '' },
+            error: '',
+            collections: [
+              { id: 'posts', name: 'Blog Posts' },
+              { id: 'courses', name: 'Courses' },
+              { id: 'lessons', name: 'Lessons' },
+              { id: 'therapists', name: 'Therapists' },
+            ],
+            currentCollection: 'posts',
+            entries: [],
+            editingEntry: null,
+            isNew: false,
+          };
+        },
+        computed: {
+          currentCollectionName() {
+            return this.collections.find(c => c.id === this.currentCollection)?.name;
+          },
+        },
+        mounted() {
+          if (this.token) this.fetchEntries();
+        },
+        methods: {
+          async login() {
+            try {
+              const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.loginForm),
+              });
+              const data = await res.json();
+              if (res.ok) {
+                this.token = data.token;
+                this.user = data.user;
+                localStorage.setItem('cms_token', data.token);
+                localStorage.setItem('cms_user', JSON.stringify(data.user));
+                this.fetchEntries();
+              } else {
+                this.error = data.message;
+              }
+            } catch (err) {
+              this.error = 'Login failed';
             }
-        }).mount('#app')
+          },
+          logout() {
+            this.token = null;
+            localStorage.removeItem('cms_token');
+            localStorage.removeItem('cms_user');
+          },
+          async fetchEntries() {
+            try {
+              const res = await fetch(`/api/content/${this.currentCollection}`, {
+                headers: { Authorization: `Bearer ${this.token}` },
+              });
+              if (res.ok) this.entries = await res.json();
+            } catch (err) {
+              console.error('Fetch failed');
+            }
+          },
+          async editEntry(entry) {
+            try {
+              const res = await fetch(`/api/content/${this.currentCollection}/${entry.slug}`, {
+                headers: { Authorization: `Bearer ${this.token}` },
+              });
+              if (res.ok) {
+                const detail = await res.json();
+                this.editingEntry = { slug: entry.slug, ...detail };
+                this.isNew = false;
+              }
+            } catch (err) {
+              console.error('Edit failed');
+            }
+          },
+          newEntry() {
+            this.isNew = true;
+            this.editingEntry = {
+              slug: 'new-entry',
+              data: { title: '', date: new Date().toISOString().split('T')[0], draft: true },
+              body: '',
+            };
+          },
+          async saveEntry() {
+            try {
+              const res = await fetch(
+                `/api/content/${this.currentCollection}/${this.editingEntry.slug}`,
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${this.token}`,
+                  },
+                  body: JSON.stringify(this.editingEntry),
+                },
+              );
+              if (res.ok) {
+                this.editingEntry = null;
+                this.fetchEntries();
+                alert('Saved!');
+              }
+            } catch (err) {
+              alert('Save failed');
+            }
+          },
+          async deleteEntry(slug) {
+            if (!confirm('Are you sure?')) return;
+            try {
+              const res = await fetch(`/api/content/${this.currentCollection}/${slug}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${this.token}` },
+              });
+              if (res.ok) this.fetchEntries();
+            } catch (err) {
+              alert('Delete failed');
+            }
+          },
+        },
+      }).mount('#app');
     </script>
-</body>
+  </body>
 </html>

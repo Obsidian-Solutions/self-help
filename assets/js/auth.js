@@ -41,13 +41,17 @@ window.switchModal = (closeId, openId) => {
 
 // --- Helper Functions ---
 
-async function hashPassword(password) {
+window.hashPassword = async function (password) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
   const hash = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(hash))
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
+};
+
+async function hashPassword(password) {
+  return await window.hashPassword(password);
 }
 
 function getUsers() {
@@ -56,6 +60,8 @@ function getUsers() {
 
 function saveUser(user) {
   const users = getUsers();
+  // Default new users to Free plan if not specified
+  if (!user.plan) user.plan = 'Free';
   users.push(user);
   localStorage.setItem(DB_KEY, JSON.stringify(users));
 }
@@ -71,6 +77,7 @@ function setSession(user) {
     email: user.email,
     name: user.name,
     id: user.id || Date.now(),
+    plan: user.plan || 'Free',
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 }
@@ -100,7 +107,12 @@ window.handleSignup = async e => {
 
   // Create User
   const hashedPassword = await hashPassword(password);
-  const newUser = { name, email, password: hashedPassword };
+
+  // Capture plan from URL if present
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedPlan = urlParams.get('plan') || 'Free';
+
+  const newUser = { name, email, password: hashedPassword, plan: selectedPlan };
   saveUser(newUser);
 
   // Log them in automatically
@@ -158,46 +170,135 @@ window.checkAuth = () => {
   const loggedOutDiv = document.getElementById('auth-logged-out');
   const loggedInDiv = document.getElementById('auth-logged-in');
   const userDisplayName = document.getElementById('user-display-name');
+  const navDashboard = document.getElementById('nav-dashboard');
+  const navCourses = document.getElementById('nav-courses');
+
+  const path = window.location.pathname;
+  const isAuthPage = path.includes('/login') || path.includes('/signup');
+  const isProtectedPage =
+    path.includes('/dashboard') ||
+    path.includes('/journal') ||
+    path.includes('/courses') ||
+    path.includes('/lessons');
 
   if (user) {
     // User is logged in
+    console.log('Session active for:', user.email, 'Plan:', user.plan);
 
-    // Show logged-in state
-    if (loggedOutDiv) loggedOutDiv.classList.add('hidden');
-    if (loggedInDiv) loggedInDiv.classList.remove('hidden');
+    // Redirect away from auth pages if logged in
+    if (isAuthPage) {
+      window.location.href = '/dashboard';
+      return;
+    }
+
+    // Update Header UI
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.add('hidden');
+      loggedOutDiv.classList.remove('sm:flex');
+      loggedOutDiv.style.display = 'none'; // Force hide
+    }
+    if (loggedInDiv) {
+      loggedInDiv.classList.remove('hidden');
+      loggedInDiv.classList.add('flex');
+      loggedInDiv.style.display = 'flex'; // Force show
+    }
 
     // Display user's name
     if (userDisplayName) {
       userDisplayName.innerText = user.name || user.email;
     }
 
-    // Show dashboard nav if hidden
-    const navDashboard = document.getElementById('nav-dashboard');
-    const navCourses = document.getElementById('nav-courses');
+    // Show authenticated nav links
     if (navDashboard) navDashboard.classList.remove('hidden');
     if (navCourses) navCourses.classList.remove('hidden');
+
+    // Update "Get Started" and "Choose Plan" buttons dynamically
+    const allAuthLinks = document.querySelectorAll(
+      'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
+    );
+    allAuthLinks.forEach(btn => {
+      // Don't touch header links we already handled via hidden classes
+      if (btn.closest('#auth-logged-out')) return;
+
+      const btnText = btn.innerText.toLowerCase();
+      const currentPlan = (user.plan || 'Free').toLowerCase();
+
+      // If it is a secondary "Login" button next to a primary "Get Started", hide it
+      if (
+        btn.id === 'hero-login-btn' ||
+        (btnText === 'log in' && btn.classList.contains('bg-indigo-100'))
+      ) {
+        btn.classList.add('hidden');
+        btn.style.display = 'none';
+        return;
+      }
+
+      // Home page Hero / General "Get Started"
+      if (btnText.includes('get started')) {
+        btn.href = '/dashboard';
+        btn.innerText = 'Go to Dashboard';
+      }
+
+      // Pricing Section buttons
+      if (btn.closest('.divide-y') || btnText.includes('choose')) {
+        const planName = btn.getAttribute('href').split('plan=')[1]?.toLowerCase() || '';
+
+        if (planName === currentPlan) {
+          btn.innerText = 'Current Plan';
+          btn.href = '#';
+          btn.classList.add(
+            'bg-indigo-100',
+            'dark:bg-indigo-900/50',
+            'text-indigo-700',
+            'dark:text-indigo-300',
+            'border-indigo-300',
+            'dark:border-indigo-700',
+            'cursor-default',
+            'shadow-inner',
+          );
+          btn.classList.remove('bg-primary');
+          btn.onclick = e => e.preventDefault();
+        } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
+          btn.innerText = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          btn.href = '/settings'; // Redirect to settings to "upgrade"
+        } else if (currentPlan !== 'free' && planName === 'free') {
+          btn.innerText = 'Downgrade to Free';
+          btn.href = '/settings';
+        } else {
+          btn.innerText = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          btn.href = '/settings';
+        }
+      }
+    });
   } else {
     // User is NOT logged in
+    console.log('No active session');
 
     // Show logged-out state
-    if (loggedOutDiv) loggedOutDiv.classList.remove('hidden');
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.remove('hidden');
+      loggedOutDiv.classList.add('flex');
+    }
     if (loggedInDiv) loggedInDiv.classList.add('hidden');
 
-    // Hide dashboard nav if visible
-    const navDashboard = document.getElementById('nav-dashboard');
+    // Hide dashboard/protected nav
     if (navDashboard) navDashboard.classList.add('hidden');
+    // Note: We might want to keep /courses visible but redirect on click
 
-    // If on dashboard or journal, prompt to login
-    if (
-      window.location.pathname.includes('/dashboard') ||
-      window.location.pathname.includes('/journal')
-    ) {
-      // Wait for modals to be available
-      setTimeout(() => {
-        if (window.openModal) {
+    // Redirect if on protected page
+    if (isProtectedPage) {
+      console.warn('Access denied. Redirecting to login.');
+      if (isAuthPage) return; // Already on login/signup
+
+      // If we have modals, use them, otherwise redirect to login page
+      const hasModals = document.getElementById('loginModal');
+      if (hasModals && (path.includes('/dashboard') || path.includes('/journal'))) {
+        setTimeout(() => {
           window.openModal('loginModal');
-        }
-      }, 500);
+        }, 500);
+      } else {
+        window.location.href = '/login';
+      }
     }
   }
 };

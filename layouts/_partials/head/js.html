@@ -1,32 +1,45 @@
 <!-- Dark mode initialization and toggle - must run early -->
 <script>
-  (function() {
+  // Theme Management
+  window.setTheme = function(theme) {
+    console.log('Setting theme to:', theme);
     const html = document.documentElement;
-    const isDark = localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const isDark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    
     if (isDark) {
       html.classList.add('dark');
-      localStorage.theme = 'dark';
     } else {
       html.classList.remove('dark');
-      localStorage.theme = 'light';
     }
+    
+    localStorage.setItem('theme-preference', theme);
+    // Compatibility with other parts of the app
+    localStorage.theme = isDark ? 'dark' : 'light';
+    
+    // Update UI if on settings page
+    if (typeof highlightTheme === 'function') highlightTheme(theme);
+    
+    document.dispatchEvent(new CustomEvent('darkModeToggled', { detail: { isDark: isDark } }));
+  };
+
+  (function() {
+    const theme = localStorage.getItem('theme-preference') || 'auto';
+    window.setTheme(theme);
   })();
   
-  // Global dark mode toggle function - must be defined early
+  // Global dark mode toggle function (for the simple moon/sun icon)
   window.toggleDarkMode = function() {
-    const html = document.documentElement;
-    const isDark = html.classList.contains('dark');
+    const currentTheme = localStorage.getItem('theme-preference') || 'auto';
+    let newTheme;
     
-    if (isDark) {
-      html.classList.remove('dark');
-      localStorage.theme = 'light';
+    if (currentTheme === 'auto') {
+      newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
     } else {
-      html.classList.add('dark');
-      localStorage.theme = 'dark';
+      newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     }
     
-    document.dispatchEvent(new CustomEvent('darkModeToggled', { detail: { isDark: !isDark } }));
-  }
+    window.setTheme(newTheme);
+  };
   
   // Set up button event listener
   document.addEventListener('DOMContentLoaded', function() {

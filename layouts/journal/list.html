@@ -1,23 +1,22 @@
 {{ define "main" }}
-<div class="flex flex-col md:flex-row min-h-screen bg-gray-50 dark:bg-gray-900">
-  <!-- Sidebar - Fixed on desktop -->
-  <div class="w-full md:w-64 md:flex-shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-    {{ partial "dashboard/sidebar.html" . }}
-  </div>
+<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
+  <!-- Sidebar -->
+  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="sticky top-0 p-4 md:p-6">
+      {{ partial "dashboard/sidebar.html" . }}
+    </div>
+  </aside>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col min-w-0">
-    <main class="flex-1">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div class="md:flex md:items-center md:justify-between mb-8">
+  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="md:flex md:items-center md:justify-between mb-10">
           <div class="flex-1 min-w-0">
-            <h2
-              class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:text-3xl sm:truncate"
-            >
-              Private Journal
-            </h2>
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Your thoughts are safe here. (Stored locally in your browser)
+            <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+              {{ .Title }}
+            </h1>
+            <p class="mt-2 text-xl text-gray-600 dark:text-gray-400">
+              {{ .Params.description }}
             </p>
           </div>
         </div>
@@ -118,7 +117,7 @@
     }
 
     container.innerHTML = ''; // Clear container
-    
+
     entries.forEach(entry => {
       const entryDiv = document.createElement('div');
       entryDiv.className = 'bg-white dark:bg-gray-800 shadow rounded-lg p-6';
@@ -140,12 +139,14 @@
       dateSpan.textContent = entry.date;
 
       const editBtn = document.createElement('button');
-      editBtn.className = 'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-medium';
+      editBtn.className =
+        'text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs font-medium';
       editBtn.textContent = 'Edit';
       editBtn.onclick = () => editEntry(entry.id);
 
       const deleteBtn = document.createElement('button');
-      deleteBtn.className = 'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-xs font-medium';
+      deleteBtn.className =
+        'text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 text-xs font-medium';
       deleteBtn.textContent = 'Delete';
       deleteBtn.onclick = () => deleteEntry(entry.id);
 
@@ -169,13 +170,15 @@
       const editTitleInput = document.createElement('input');
       editTitleInput.type = 'text';
       editTitleInput.id = `edit-title-${entry.id}`;
-      editTitleInput.className = 'block w-full sm:text-sm border-gray-300 rounded-md p-2 border dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editTitleInput.className =
+        'block w-full sm:text-sm border-gray-300 rounded-md p-2 border dark:bg-gray-700 dark:border-gray-600 dark:text-white';
       editTitleInput.value = entry.title;
 
       const editContentTextarea = document.createElement('textarea');
       editContentTextarea.id = `edit-content-${entry.id}`;
       editContentTextarea.rows = 4;
-      editContentTextarea.className = 'block w-full sm:text-sm border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editContentTextarea.className =
+        'block w-full sm:text-sm border border-gray-300 rounded-md p-3 dark:bg-gray-700 dark:border-gray-600 dark:text-white';
       editContentTextarea.textContent = entry.content;
 
       const editActionsDiv = document.createElement('div');
@@ -217,7 +220,11 @@
     };
 
     if (window.showConfirm) {
-      window.showConfirm('Delete Entry', 'Are you sure you want to delete this journal entry?', performDelete);
+      window.showConfirm(
+        'Delete Entry',
+        'Are you sure you want to delete this journal entry?',
+        performDelete,
+      );
     } else if (confirm('Are you sure you want to delete this entry?')) {
       performDelete();
     }

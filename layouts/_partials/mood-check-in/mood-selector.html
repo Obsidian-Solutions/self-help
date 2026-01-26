@@ -27,14 +27,26 @@
   </div>
 
   <div id="mood-completed-view" style="display: none" class="text-center py-6">
-    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 mb-4">
+    <div
+      class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 mb-4"
+    >
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 13l4 4L19 7"
+        ></path>
       </svg>
     </div>
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Mood Logged!</h3>
-    <p class="text-gray-600 dark:text-gray-400 mb-4">You've already checked in for today. Great job practicing self-awareness!</p>
-    <div id="logged-mood-display" class="inline-block px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 font-medium">
+    <p class="text-gray-600 dark:text-gray-400 mb-4">
+      You've already checked in for today. Great job practicing self-awareness!
+    </p>
+    <div
+      id="logged-mood-display"
+      class="inline-block px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 font-medium"
+    >
       <!-- Will be populated by JS -->
     </div>
   </div>
@@ -106,10 +118,10 @@
           const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
           moodData[today] = selectedMood;
           localStorage.setItem('moodCheckins', JSON.stringify(moodData));
-          
+
           // Update streak
           updateMoodStreak();
-          
+
           showCompletedView(selectedMood);
           if (window.showToast) {
             window.showToast('Mood check-in saved! Keep taking care of yourself.', 'success');
@@ -128,7 +140,9 @@
 
     function updateMoodStreak() {
       // Basic streak logic
-      let streakData = JSON.parse(localStorage.getItem('moodStreak') || '{"count": 0, "lastCheckin": ""}');
+      let streakData = JSON.parse(
+        localStorage.getItem('moodStreak') || '{"count": 0, "lastCheckin": ""}',
+      );
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yesterdayStr = yesterday.toISOString().split('T')[0];
@@ -138,7 +152,7 @@
       } else if (streakData.lastCheckin !== today) {
         streakData.count = 1;
       }
-      
+
       streakData.lastCheckin = today;
       localStorage.setItem('moodStreak', JSON.stringify(streakData));
     }

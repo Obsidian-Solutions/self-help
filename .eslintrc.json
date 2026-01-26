@@ -22,7 +22,7 @@
     "quotes": ["error", "single", { "avoidEscape": true }],
     "semi": ["error", "always"],
     "no-unused-vars": ["warn"],
-    "no-console": ["warn"],
+    "no-console": "off",
     "comma-dangle": ["error", "always-multiline"],
     "object-curly-spacing": ["error", "always"],
     "array-bracket-spacing": ["error", "never"],

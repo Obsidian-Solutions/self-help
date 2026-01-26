@@ -1,16 +1,17 @@
 {{ define "main" }}
-<div class="flex flex-col md:flex-row min-h-screen">
-  <!-- Sidebar - Fixed on desktop -->
-  <div class="w-full md:w-64 md:flex-shrink-0 md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-    {{ partial "dashboard/sidebar.html" . }}
-  </div>
+<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
+  <!-- Sidebar -->
+  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="sticky top-0 p-4 md:p-6">
+      {{ partial "dashboard/sidebar.html" . }}
+    </div>
+  </aside>
 
   <!-- Main Content -->
-  <div class="flex-1 flex flex-col">
-    <main class="flex-1 p-4 md:p-0">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Demo Info Banner -->
-        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
+  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12">
+    <div class="max-w-7xl mx-auto">
+      <!-- Demo Info Banner -->
+      <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6">
           <div class="flex">
             <div class="flex-shrink-0">
               <svg
@@ -28,9 +29,7 @@
             </div>
             <div class="ml-3">
               <p class="text-sm text-blue-700">
-                <strong>Open Source Demo:</strong> You are currently using Local Authentication.
-                Data is stored in your browser. To integrate a real backend like Supabase or Go,
-                update <code class="bg-blue-100 px-1 rounded">static/js/auth.js</code>.
+                <strong>{{ .Params.demo_banner.title | default "Demo Mode" }}:</strong> {{ .Params.demo_banner.text | default "You are currently using Local Authentication." }}
               </p>
             </div>
           </div>
@@ -38,8 +37,8 @@
 
         <!-- Welcome Section -->
         <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Welcome back!</h2>
-          <p class="text-gray-600 dark:text-gray-300">You're on a 3-day streak. Keep it up!</p>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ .Params.welcome.headline | default "Welcome back!" }}</h2>
+          <p class="text-gray-600 dark:text-gray-300">{{ .Params.welcome.streak_text | default "You're on a streak!" }}</p>
         </div>
 
         <!-- Mood Check-In and Streak -->
@@ -50,15 +49,15 @@
 
         <!-- Quiz Section -->
         <div class="mt-8">
-          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Today's Learning</h3>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ .Params.sections.learning.title | default "Today's Learning" }}</h3>
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <div class="flex items-center justify-between">
               <div>
                 <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  Understanding Your Emotions
+                  {{ .Params.sections.learning.subtitle | default "Understanding Your Emotions" }}
                 </h4>
                 <p class="text-gray-600 dark:text-gray-300">
-                  Quick 5-minute quiz to test your emotional awareness
+                  {{ .Params.sections.learning.description | default "Quick quiz to test your awareness" }}
                 </p>
               </div>
               <button
@@ -86,7 +85,7 @@
             class="md:col-span-2 bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100"
           >
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              Weekly Mood Tracker
+              {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
             </h3>
             <div
               class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-100 dark:border-gray-700"
@@ -134,7 +133,7 @@
           </div>
 
           <div class="bg-white shadow rounded-lg p-6 dark:bg-gray-800 dark:text-gray-100">
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Daily Goals</h3>
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">{{ .Params.sections.tracking.goals_title | default "Daily Goals" }}</h3>
             <ul class="space-y-3" id="daily-goals-list">
               <li class="flex items-center">
                 <input
@@ -142,7 +141,9 @@
                   id="goal-meditate"
                   class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label for="goal-meditate" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                <label
+                  for="goal-meditate"
+                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
                   >Morning Meditate</label
                 >
               </li>
@@ -152,7 +153,11 @@
                   id="goal-water"
                   class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label for="goal-water" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Drink Water (2L)</label>
+                <label
+                  for="goal-water"
+                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                  >Drink Water (2L)</label
+                >
               </li>
               <li class="flex items-center">
                 <input
@@ -160,7 +165,11 @@
                   id="goal-journal"
                   class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label for="goal-journal" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Journal Entry</label>
+                <label
+                  for="goal-journal"
+                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                  >Journal Entry</label
+                >
               </li>
               <li class="flex items-center">
                 <input
@@ -168,17 +177,21 @@
                   id="goal-walk"
                   class="goal-checkbox h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
                 />
-                <label for="goal-walk" class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">Walk 15 mins</label>
+                <label
+                  for="goal-walk"
+                  class="ml-3 text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+                  >Walk 15 mins</label
+                >
               </li>
             </ul>
           </div>
         </div>
 
         <script>
-          document.addEventListener('DOMContentLoaded', function() {
+          document.addEventListener('DOMContentLoaded', function () {
             const checkboxes = document.querySelectorAll('.goal-checkbox');
             const today = new Date().toISOString().split('T')[0];
-            
+
             // Load state from localStorage
             const savedGoals = JSON.parse(localStorage.getItem('dailyGoals') || '{}');
             const goalsState = savedGoals[today] || {};
@@ -186,7 +199,7 @@
             checkboxes.forEach(checkbox => {
               const id = checkbox.id;
               const label = checkbox.nextElementSibling;
-              
+
               // Apply saved state
               if (goalsState[id]) {
                 checkbox.checked = true;
@@ -194,7 +207,7 @@
                 label.classList.remove('text-gray-700', 'dark:text-gray-300');
               }
 
-              checkbox.addEventListener('change', function() {
+              checkbox.addEventListener('change', function () {
                 if (this.checked) {
                   label.classList.add('line-through', 'text-gray-500', 'dark:text-gray-400');
                   label.classList.remove('text-gray-700', 'dark:text-gray-300');
@@ -214,7 +227,7 @@
         </script>
 
         <!-- My Courses -->
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">Continue Learning</h3>
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {{ range where .Site.RegularPages "Section" "courses" }}
           <div
@@ -223,9 +236,8 @@
             <div
               class="h-32 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center p-6"
             >
-              {{ if .Params.illustration }}
-                {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
-              {{ else }}
+              {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name"
+              .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
               <svg
                 class="h-16 w-16 text-indigo-300 dark:text-indigo-600"
                 fill="currentColor"
@@ -262,7 +274,7 @@
 
         <!-- Achievements -->
         <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-8 mb-4">
-          Your Achievements
+          {{ .Params.sections.achievements.title | default "Your Achievements" }}
         </h3>
         {{ partial "badges/achievement-badges.html" . }}
       </div>

@@ -1,91 +1,125 @@
 {{ define "main" }}
-<div class="max-w-4xl mx-auto">
-  <div class="mb-8">
-    <a href="/courses" class="text-sm text-gray-500 hover:text-gray-900">&larr; Back to Courses</a>
-    <h1 class="text-3xl font-bold text-gray-900 mt-2">{{ .Title }}</h1>
-    <p class="text-lg text-gray-600 mt-2">{{ .Params.description }}</p>
-  </div>
-
-  <div class="bg-white shadow rounded-lg overflow-hidden">
-    <!-- Course Meta -->
-    <div class="p-6 border-b border-gray-200">
-      <div class="flex items-center justify-between">
-        <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800"
-          >{{ .Params.category }}</span
-        >
-        <a href="/lessons" class="btn btn-primary">Start Course</a>
-      </div>
+<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
+  <!-- Sidebar -->
+  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+    <div class="sticky top-0 p-4 md:p-6">
+      {{ partial "dashboard/sidebar.html" . }}
     </div>
+  </aside>
 
-    <!-- Lessons List -->
-    <div class="bg-gray-50">
-      <h3 class="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-        Syllabus
-      </h3>
-      <ul class="divide-y divide-gray-200">
-        {{ $currentTitle := .Title }} {{ range where .Site.RegularPages "Section" "lessons" }} {{ if
-        eq .Params.course $currentTitle }}
-        <li>
-          <a
-            href="{{ .RelPermalink }}"
-            class="block hover:bg-gray-100 transition duration-150 ease-in-out"
-          >
-            <div class="px-6 py-4 flex items-center">
-              <div class="min-w-0 flex-1 flex items-center">
-                <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 rounded-lg overflow-hidden">
-                  {{ if .Params.illustration }}
-                    {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-10" "height" "h-10" "class" "object-contain") }}
-                  {{ else }}
-                    <!-- Play Icon Fallback -->
-                    <svg
-                      class="h-6 w-6 text-indigo-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                      />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  {{ end }}
-                </div>
-                <div class="min-w-0 flex-1 px-4">
-                  <div>
-                    <p class="text-sm font-medium text-indigo-600 dark:text-indigo-400 truncate">{{ .Title }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{{ .Params.description }}</p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <svg
-                  class="h-5 w-5 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-            </div>
+  <!-- Main Content -->
+  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12">
+    <div class="max-w-4xl mx-auto">
+      <div class="mb-8">
+          <a href="/courses" class="inline-flex items-center text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-indigo-400 transition-colors">
+            <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Courses
           </a>
-        </li>
-        {{ end }} {{ end }}
-      </ul>
-    </div>
+          <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-4">{{ .Title }}</h1>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mt-2">{{ .Params.description }}</p>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
+          <!-- Course Meta -->
+          <div class="p-6 border-b border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/20">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+                  >{{ .Params.category }}</span
+                >
+                {{ $courseLessons := where .Site.RegularPages "Section" "lessons" }}
+                {{ $thisCourseLessons := where $courseLessons "Params.course" .Title }}
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ len $thisCourseLessons }} Lessons</span>
+              </div>
+              
+              {{ if gt (len $thisCourseLessons) 0 }}
+                {{ $firstLesson := index (sort $thisCourseLessons "File.Path" "asc") 0 }}
+                <a href="{{ $firstLesson.RelPermalink }}" class="btn btn-primary px-8">Start Course</a>
+              {{ else }}
+                <button class="btn btn-primary opacity-50 cursor-not-allowed" disabled>Coming Soon</button>
+              {{ end }}
+            </div>
+          </div>
+
+          <!-- Lessons List -->
+          <div class="p-0">
+            <h3 class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide border-b border-gray-100 dark:border-gray-700">
+              Course Syllabus
+            </h3>
+            <ul class="divide-y divide-gray-100 dark:divide-gray-700">
+              {{ range sort $thisCourseLessons "File.Path" "asc" }}
+              <li>
+                <a
+                  href="{{ .RelPermalink }}"
+                  class="group block hover:bg-gray-50 dark:hover:bg-gray-700/30 transition duration-150 ease-in-out"
+                >
+                  <div class="px-6 py-5 flex items-center">
+                    <div class="min-w-0 flex-1 flex items-center">
+                      <div
+                        class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-indigo-50 dark:bg-indigo-900/30 rounded-xl overflow-hidden group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 transition-colors"
+                      >
+                        {{ if .Params.illustration }} {{ partial "undraw.html" (dict "name"
+                        .Params.illustration "width" "w-10" "height" "h-10" "class" "object-contain") }}
+                        {{ else }}
+                        <!-- Play Icon Fallback -->
+                        <svg
+                          class="h-6 w-6 text-indigo-400 dark:text-indigo-300"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                          />
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        {{ end }}
+                      </div>
+                      <div class="min-w-0 flex-1 px-4">
+                        <div>
+                          <p class="text-sm font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-indigo-400 transition-colors truncate">
+                            {{ .Title }}
+                          </p>
+                          <p class="text-xs text-gray-500 dark:text-gray-400 line-clamp-1 mt-0.5">
+                            {{ .Params.description }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <svg
+                        class="h-5 w-5 text-gray-300 dark:text-gray-600 group-hover:text-indigo-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
 </div>
 {{ end }}

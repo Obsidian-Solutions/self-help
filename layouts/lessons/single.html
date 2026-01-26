@@ -5,44 +5,61 @@
     class="w-full lg:w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 lg:sticky lg:top-0 h-auto lg:h-[calc(100vh-64px)] overflow-y-auto order-2 lg:order-1"
   >
     <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-      <div class="flex items-center justify-between mb-2">
-        <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Course Content</h2>
-        <a href="/courses" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Exit Course</a>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+          Course Content
+        </h2>
+        <div class="flex gap-2">
+          {{ $course := .Site.GetPage (printf "/courses/%s" (.Params.course | urlize)) }}
+          {{ if $course }}
+          <a href="{{ $course.RelPermalink }}" class="inline-flex items-center text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors" title="Back to Syllabus">
+            <svg class="mr-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            Syllabus
+          </a>
+          {{ end }}
+          <a href="/courses" class="inline-flex items-center text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 transition-colors" title="Exit to Catalog">
+            <svg class="mr-1 h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Exit
+          </a>
+        </div>
       </div>
-      <p class="text-lg font-bold text-gray-900 dark:text-white leading-tight">{{ .Params.course }}</p>
+      <p class="text-lg font-bold text-gray-900 dark:text-white leading-tight">
+        {{ .Params.course }}
+      </p>
     </div>
     <nav class="flex-1">
       <ul class="divide-y divide-gray-100 dark:divide-gray-700">
-        {{ $currentCourse := .Params.course }} 
-        {{ $currentPermalink := .RelPermalink }} 
-        {{ range where .Site.RegularPages "Section" "lessons" }} 
-          {{ if eq .Params.course $currentCourse }}
-          <li>
-            <a
-              href="{{ .RelPermalink }}"
-              class="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 {{ if eq .RelPermalink $currentPermalink }}bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500{{ end }}"
-            >
-              <div class="flex items-center justify-between">
-                <span
-                  class="text-sm font-medium {{ if eq .RelPermalink $currentPermalink }}text-indigo-700 dark:text-indigo-400{{ else }}text-gray-900 dark:text-gray-200{{ end }}"
-                >
-                  {{ .Title }}
-                </span>
-                {{ if eq .RelPermalink $currentPermalink }}
-                <!-- Playing Icon -->
-                <svg class="h-5 w-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ end }}
-              </div>
-            </a>
-          </li>
-          {{ end }} 
-        {{ end }}
+        {{ $currentCourse := .Params.course }} {{ $currentPermalink := .RelPermalink }} {{ range
+        where .Site.RegularPages "Section" "lessons" }} {{ if eq .Params.course $currentCourse }}
+        <li>
+          <a
+            href="{{ .RelPermalink }}"
+            class="block px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 {{ if eq .RelPermalink $currentPermalink }}bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-500{{ end }}"
+          >
+            <div class="flex items-center justify-between">
+              <span
+                class="text-sm font-medium {{ if eq .RelPermalink $currentPermalink }}text-indigo-700 dark:text-indigo-400{{ else }}text-gray-900 dark:text-gray-200{{ end }}"
+              >
+                {{ .Title }}
+              </span>
+              {{ if eq .RelPermalink $currentPermalink }}
+              <!-- Playing Icon -->
+              <svg class="h-5 w-5 text-indigo-500" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+              {{ end }}
+            </div>
+          </a>
+        </li>
+        {{ end }} {{ end }}
       </ul>
     </nav>
   </aside>
@@ -51,17 +68,15 @@
   <main class="flex-1 flex flex-col min-w-0 order-1 lg:order-2">
     <div class="flex-1 p-6 lg:p-12">
       <div class="max-w-3xl mx-auto">
-        
         <!-- Illustration (if no video) -->
-        {{ if not .Params.video_url }}
-          {{ if .Params.illustration }}
-          <div class="mb-8 flex justify-center bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-8">
-            <div class="w-full max-w-sm">
-              {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-64") }}
-            </div>
+        {{ if not .Params.video_url }} {{ if .Params.illustration }}
+        <div class="mb-8 flex justify-center bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-8">
+          <div class="w-full max-w-sm">
+            {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height"
+            "h-64") }}
           </div>
-          {{ end }}
-        {{ end }}
+        </div>
+        {{ end }} {{ end }}
 
         <!-- Video Player Mock -->
         {{ if .Params.video_url }}
@@ -120,7 +135,9 @@
         {{ end }}
 
         <!-- Navigation Buttons -->
-        <div class="mt-12 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-6">
+        <div
+          class="mt-12 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-6"
+        >
           <button class="btn btn-outline" onclick="history.back()">Previous</button>
           <button class="btn btn-primary" onclick="markComplete()">Complete & Continue</button>
         </div>
@@ -195,12 +212,14 @@
 
     if (window.showToast) {
       window.showToast('Lesson marked as complete! 🎉', 'success');
-    } else {
-      alert("Lesson marked as complete! 🎉");
     }
-    
+
     setTimeout(() => {
-      window.location.href = "/courses"; // Return to course syllabus
+      {{ if $course }}
+        window.location.href = "{{ $course.RelPermalink }}";
+      {{ else }}
+        window.location.href = "/courses";
+      {{ end }}
     }, 1500);
   }
 

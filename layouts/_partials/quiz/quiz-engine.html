@@ -42,7 +42,13 @@
           Retake Quiz
         </button>
         <button
-          onclick="if(window.onQuizFinish) { window.onQuizFinish(); } else { window.scrollTo({top: 0, behavior: 'smooth'}); }"
+          onclick="
+            if (window.onQuizFinish) {
+              window.onQuizFinish();
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          "
           class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-medium py-2 px-6 rounded-lg transition-colors"
         >
           Finish Quiz

@@ -17,17 +17,20 @@
 })();
 
 window.toggleDarkMode = function () {
-  const html = document.documentElement;
-  const isDark = html.classList.contains('dark');
+  const currentTheme = localStorage.getItem('theme-preference') || 'auto';
+  let newTheme;
 
-  if (isDark) {
-    html.classList.remove('dark');
-    localStorage.theme = 'light';
+  if (currentTheme === 'auto') {
+    newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
   } else {
-    html.classList.add('dark');
-    localStorage.theme = 'dark';
+    newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   }
 
-  // Trigger any DOM updates that depend on dark mode
-  document.dispatchEvent(new CustomEvent('darkModeToggled', { detail: { isDark: !isDark } }));
+  if (window.setTheme) {
+    window.setTheme(newTheme);
+  } else {
+    // Basic fallback
+    document.documentElement.classList.toggle('dark');
+    localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  }
 };

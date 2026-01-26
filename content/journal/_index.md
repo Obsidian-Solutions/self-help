@@ -1,4 +1,5 @@
 ---
-title: 'My Journal'
+title: 'Private Journal'
 layout: 'list'
+description: 'Your thoughts are safe here. (Stored locally in your browser)'
 ---

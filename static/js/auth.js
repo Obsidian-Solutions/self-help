@@ -21,13 +21,17 @@ if (!localStorage.getItem(DB_KEY)) {
 
 // --- Helper Functions ---
 
-async function hashPassword(password) {
+window.hashPassword = async function (password) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
   const hash = await crypto.subtle.digest('SHA-256', data);
   return Array.from(new Uint8Array(hash))
     .map(b => b.toString(16).padStart(2, '0'))
     .join('');
+};
+
+async function hashPassword(password) {
+  return await window.hashPassword(password);
 }
 
 function getUsers() {
@@ -145,19 +149,40 @@ window.handleGoogleLogin = async () => {
 
 window.checkAuth = () => {
   const user = getSession();
-  const path = window.location.pathname;
-
-  // UI Elements
   const navDashboard = document.getElementById('nav-dashboard');
   const navCourses = document.getElementById('nav-courses');
-  const heroCoursesBtn = document.getElementById('hero-courses-btn');
-  const heroLoginBtn = document.getElementById('hero-login-btn');
+  const loggedOutDiv = document.getElementById('auth-logged-out');
+  const loggedInDiv = document.getElementById('auth-logged-in');
   const userDisplay = document.getElementById('user-display-name');
-  const loginLink = document.querySelector('a[href="/login"]');
-  const signupBtn = document.querySelector('a[href="/signup"]');
+
+  const path = window.location.pathname;
+  const isAuthPage = path.includes('/login') || path.includes('/signup');
+  const isProtectedPage =
+    path.includes('/dashboard') ||
+    path.includes('/journal') ||
+    path.includes('/courses') ||
+    path.includes('/lessons');
 
   if (user) {
-    console.log('User is signed in:', user.email);
+    console.log('User is signed in:', user.email, 'Plan:', user.plan);
+
+    // Redirect away from auth pages if logged in
+    if (isAuthPage) {
+      window.location.href = '/dashboard';
+      return;
+    }
+
+    // Header UI Updates
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.add('hidden');
+      loggedOutDiv.classList.remove('sm:flex');
+      loggedOutDiv.style.display = 'none';
+    }
+    if (loggedInDiv) {
+      loggedInDiv.classList.remove('hidden');
+      loggedInDiv.classList.add('flex');
+      loggedInDiv.style.display = 'flex';
+    }
 
     // Header: Show Dashboard & Courses links
     if (navDashboard) {
@@ -172,30 +197,64 @@ window.checkAuth = () => {
     // Header: User Name
     if (userDisplay) userDisplay.innerText = user.name || user.email;
 
-    // Header: Change "Log In" to "Log Out"
-    if (loginLink) {
-      loginLink.href = '#';
-      loginLink.innerText = 'Log Out';
-      loginLink.onclick = e => {
-        e.preventDefault();
-        window.handleLogout();
-      };
-    }
+    // Update any other "Get Started" or Auth links on the page dynamically
+    const allAuthLinks = document.querySelectorAll(
+      'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
+    );
+    allAuthLinks.forEach(link => {
+      // Skip header links
+      if (link.closest('#auth-logged-out') || link.closest('#auth-logged-in')) return;
 
-    // Header: Hide "Sign Up"
-    if (signupBtn) signupBtn.style.display = 'none';
+      const linkText = link.innerText.toLowerCase();
+      const currentPlan = (user.plan || 'Free').toLowerCase();
 
-    // Homepage Hero: Swap buttons
-    if (heroLoginBtn) {
-      heroLoginBtn.href = '/dashboard';
-      heroLoginBtn.innerText = 'Go to Dashboard';
-    }
-    // "Browse Courses" button remains visible for logged-in users
+      // If it is a secondary "Login" button next to a primary "Get Started", hide it
+      if (
+        link.id === 'hero-login-btn' ||
+        (linkText === 'log in' && link.classList.contains('bg-indigo-100'))
+      ) {
+        link.classList.add('hidden');
+        link.style.display = 'none';
+        return;
+      }
 
-    // Redirect if on login/signup pages
-    if (path.includes('/login') || path.includes('/signup')) {
-      window.location.href = '/dashboard';
-    }
+      // Homepage Hero / General Traversal
+      if (linkText.includes('get started')) {
+        link.href = '/dashboard';
+        link.innerText = 'Go to Dashboard';
+      }
+
+      // Pricing Grid
+      if (link.closest('.divide-y') || linkText.includes('choose')) {
+        const planName = link.getAttribute('href').split('plan=')[1]?.toLowerCase() || '';
+
+        if (planName === currentPlan) {
+          link.innerText = 'Current Plan';
+          link.href = '#';
+          link.classList.add(
+            'bg-indigo-100',
+            'dark:bg-indigo-900/50',
+            'text-indigo-700',
+            'dark:text-indigo-300',
+            'border-indigo-300',
+            'dark:border-indigo-700',
+            'cursor-default',
+            'shadow-inner',
+          );
+          link.classList.remove('bg-primary');
+          link.onclick = e => e.preventDefault();
+        } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
+          link.innerText = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          link.href = '/settings';
+        } else if (currentPlan !== 'free' && planName === 'free') {
+          link.innerText = 'Downgrade to Free';
+          link.href = '/settings';
+        } else {
+          link.innerText = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          link.href = '/settings';
+        }
+      }
+    });
   } else {
     console.log('User is not signed in');
 
@@ -209,24 +268,10 @@ window.checkAuth = () => {
       navCourses.classList.remove('inline-flex');
     }
 
-    // Protect Routes: Dashboard, Journal, AND Courses
-    if (
-      path.includes('/dashboard') ||
-      path.includes('/journal') ||
-      path.includes('/courses') ||
-      path.includes('/lessons')
-    ) {
+    // Protect Routes
+    if (isProtectedPage && !isAuthPage) {
       console.warn('Access denied. Redirecting to login.');
-      // Store return URL? For now simple redirect.
       window.location.href = '/login';
-    }
-
-    // Homepage Hero: Ensure "Browse Courses" redirects to login if clicked (optional, but handled by protected route above)
-    // Actually, if we want to be strict "advertisement only":
-    if (heroCoursesBtn) {
-      // We can change the text or make it redirect to login explicitly
-      // But since /courses is protected, clicking it will naturally redirect.
-      // Let's leave it as "Browse Courses" -> clicks -> redirects to login.
     }
   }
 };
