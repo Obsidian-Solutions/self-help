@@ -95,6 +95,47 @@
   </div>
 </div>
 
+<!-- Popular Courses Section -->
+<div class="py-16 bg-gray-50 dark:bg-gray-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="lg:text-center mb-12">
+      <h2 class="text-base text-primary font-semibold tracking-wide uppercase">Learning</h2>
+      <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+        Expert-Led CBT Courses
+      </p>
+      <p class="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto">
+        Start your journey with our science-backed curriculum designed by licensed clinical psychologists.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {{ range first 3 (where .Site.RegularPages "Section" "courses") }}
+      <div class="flex flex-col bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
+        <div class="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/40 dark:to-purple-900/40 flex items-center justify-center p-8">
+          {{ if .Params.illustration }}
+            {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+          {{ end }}
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">{{ .Params.category }}</span>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">{{ .Title }}</h3>
+            <p class="mt-2 text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{{ .Params.description }}</p>
+          </div>
+          <div class="mt-6">
+            <a href="/courses" class="text-primary dark:text-indigo-400 font-bold text-sm hover:underline">Learn more &rarr;</a>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+    
+    <div class="mt-12 text-center">
+      <a href="/courses" class="btn btn-outline px-8 py-3">View Full Catalog</a>
+    </div>
+  </div>
+</div>
+
 <!-- Testimonials Section from Markdown -->
 <div class="bg-gray-50 dark:bg-gray-800 py-16 lg:py-24">
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

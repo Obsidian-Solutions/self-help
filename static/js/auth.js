@@ -54,6 +54,7 @@ function setSession(user) {
     email: user.email,
     name: user.name,
     id: user.id || Date.now(),
+    plan: user.plan || 'Free',
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 }
@@ -157,12 +158,9 @@ window.checkAuth = () => {
 
   const path = window.location.pathname;
   const isAuthPage = path.includes('/login') || path.includes('/signup');
-  const isProtectedPage =
-    path.includes('/dashboard') ||
-    path.includes('/journal') ||
-    path.includes('/courses') ||
-    path.includes('/lessons') ||
-    path.includes('/settings');
+  const isAppPage =
+    path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
+  const isProtectedPage = isAppPage || path.includes('/lessons');
 
   if (user) {
     console.log('User is signed in:', user.email, 'Plan:', user.plan);
@@ -187,7 +185,10 @@ window.checkAuth = () => {
 
     // Show Sidebar if it exists
     const sidebar = document.querySelector('aside');
-    if (sidebar) sidebar.classList.remove('hidden');
+    if (sidebar) {
+      sidebar.classList.remove('hidden');
+      sidebar.style.display = '';
+    }
 
     // Header: Show Dashboard & Courses links
     if (navDashboard) {
@@ -202,18 +203,16 @@ window.checkAuth = () => {
     // Header: User Name
     if (userDisplay) userDisplay.innerText = user.name || user.email;
 
-    // Update any other "Get Started" or Auth links on the page dynamically
+    // Update links logic
     const allAuthLinks = document.querySelectorAll(
       'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
     );
     allAuthLinks.forEach(link => {
-      // Skip header links
       if (link.closest('#auth-logged-out') || link.closest('#auth-logged-in')) return;
 
       const linkText = link.innerText.toLowerCase();
       const currentPlan = (user.plan || 'Free').toLowerCase();
 
-      // If it is a secondary "Login" button next to a primary "Get Started", hide it
       if (
         link.id === 'hero-login-btn' ||
         (linkText === 'log in' && link.classList.contains('bg-indigo-100'))
@@ -223,13 +222,11 @@ window.checkAuth = () => {
         return;
       }
 
-      // Homepage Hero / General Traversal
       if (linkText.includes('get started')) {
         link.href = '/dashboard';
         link.innerText = 'Go to Dashboard';
       }
 
-      // Pricing Grid
       if (link.closest('.divide-y') || linkText.includes('choose')) {
         const planName = link.getAttribute('href').split('plan=')[1]?.toLowerCase() || '';
 
@@ -248,14 +245,7 @@ window.checkAuth = () => {
           );
           link.classList.remove('bg-primary');
           link.onclick = e => e.preventDefault();
-        } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
-          link.innerText = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
-          link.href = '/settings';
-        } else if (currentPlan !== 'free' && planName === 'free') {
-          link.innerText = 'Downgrade to Free';
-          link.href = '/settings';
         } else {
-          link.innerText = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
           link.href = '/settings';
         }
       }
@@ -278,6 +268,7 @@ window.checkAuth = () => {
     const sidebar = document.querySelector('aside');
     if (sidebar) {
       sidebar.classList.add('hidden');
+      sidebar.style.display = 'none';
     }
 
     // Header: Hide Dashboard & Courses links

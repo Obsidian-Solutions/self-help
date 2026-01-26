@@ -175,12 +175,9 @@ window.checkAuth = () => {
 
   const path = window.location.pathname;
   const isAuthPage = path.includes('/login') || path.includes('/signup');
-  const isProtectedPage =
-    path.includes('/dashboard') ||
-    path.includes('/journal') ||
-    path.includes('/courses') ||
-    path.includes('/lessons') ||
-    path.includes('/settings');
+  const isAppPage =
+    path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
+  const isProtectedPage = isAppPage || path.includes('/lessons');
 
   if (user) {
     // User is logged in
@@ -196,17 +193,23 @@ window.checkAuth = () => {
     if (loggedOutDiv) {
       loggedOutDiv.classList.add('hidden');
       loggedOutDiv.classList.remove('sm:flex');
-      loggedOutDiv.style.display = 'none'; // Force hide
+      loggedOutDiv.style.display = 'none';
     }
     if (loggedInDiv) {
       loggedInDiv.classList.remove('hidden');
       loggedInDiv.classList.add('flex');
-      loggedInDiv.style.display = 'flex'; // Force show
+      loggedInDiv.style.display = 'flex';
     }
 
     // Show Sidebar if it exists
     const sidebar = document.querySelector('aside');
-    if (sidebar) sidebar.classList.remove('hidden');
+    if (sidebar) {
+      sidebar.classList.remove('hidden');
+      // On small screens it might be hidden by default, but let's ensure it's visible in app state
+      sidebar.style.display = '';
+    }
+
+    // ... (rest of logged in logic)
 
     // Display user's name
     if (userDisplayName) {
@@ -291,26 +294,30 @@ window.checkAuth = () => {
     }
 
     // Hide Sidebar if it exists
+
     const sidebar = document.querySelector('aside');
-    if (sidebar && !path.includes('/posts')) {
-      // Keep sidebar hidden on protected pages
+
+    if (sidebar) {
       sidebar.classList.add('hidden');
-    }
-    // Specific fix for blog: if logged out, hide the sidebar
-    if (path.includes('/posts') && sidebar) {
-      sidebar.classList.add('hidden');
+
+      sidebar.style.display = 'none';
     }
 
     // Hide dashboard/protected nav
+
     if (navDashboard) navDashboard.classList.add('hidden');
 
     // Redirect if on protected page
+
     if (isProtectedPage) {
       console.warn('Access denied. Redirecting to login.');
+
       if (isAuthPage) return; // Already on login/signup
 
       // If we have modals, use them, otherwise redirect to login page
+
       const hasModals = document.getElementById('loginModal');
+
       if (
         hasModals &&
         (path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings'))
