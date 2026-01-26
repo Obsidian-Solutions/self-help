@@ -1,31 +1,40 @@
 {{ define "main" }}
 <!-- Hero Section -->
-<div class="bg-white dark:bg-gray-900">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="relative bg-white dark:bg-gray-900 overflow-hidden">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-50/50 dark:bg-indigo-950/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-50/50 dark:bg-purple-950/10 rounded-full blur-3xl"></div>
+  </div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <!-- Text Content from Markdown -->
-      <div>
-        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
+      <div class="text-center lg:text-left">
+        <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-black uppercase tracking-widest mb-8">
+          <span class="flex h-2 w-2 rounded-full bg-indigo-600 mr-3 animate-pulse"></span>
+          Trusted by thousands worldwide
+        </div>
+        <h1 class="text-5xl tracking-tighter font-black text-gray-900 dark:text-white sm:text-6xl md:text-7xl leading-[1.1]">
           <span class="block">{{ .Params.hero.headline }}</span>
-          <span class="block text-primary">{{ .Params.hero.subheadline }}</span>
+          <span class="block text-indigo-600 dark:text-indigo-400 mt-2">{{ .Params.hero.subheadline }}</span>
         </h1>
-        <p class="mt-4 text-lg text-gray-500 dark:text-gray-300">
+        <p class="mt-8 text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
           {{ .Params.hero.description }}
         </p>
-        <div class="mt-8 flex flex-col sm:flex-row gap-4">
-          <a id="hero-courses-btn" href="{{ .Params.hero.primaryCtaLink }}" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-opacity-90 md:py-4 md:text-lg md:px-10">
+        <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+          <a id="hero-courses-btn" href="{{ .Params.hero.primaryCtaLink }}" class="flex items-center justify-center px-10 py-4 border border-transparent text-lg font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
             {{ .Params.hero.primaryCta }}
           </a>
-          <a id="hero-login-btn" href="{{ .Params.hero.secondaryCtaLink }}" class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900 hover:bg-indigo-200 dark:hover:bg-indigo-800 md:py-4 md:text-lg md:px-10">
+          <a id="hero-login-btn" href="{{ .Params.hero.secondaryCtaLink }}" class="flex items-center justify-center px-10 py-4 border-2 border-gray-100 dark:border-gray-800 text-lg font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
             {{ .Params.hero.secondaryCta }}
           </a>
         </div>
       </div>
 
-      <!-- Hero Illustration from Markdown -->
-      <div class="relative h-64 sm:h-72 md:h-96 lg:h-full flex items-center justify-center">
-        <div class="w-full h-full max-w-md interactive">
-          {{ partial "undraw.html" (dict "name" .Params.hero.illustration) }}
+      <!-- Hero Illustration -->
+      <div class="relative flex items-center justify-center lg:h-[500px]">
+        <div class="w-full h-full max-w-lg interactive group">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-full scale-90 group-hover:scale-95 transition-transform duration-700 blur-2xl"></div>
+          {{ partial "undraw.html" (dict "name" .Params.hero.illustration "class" "relative z-10") }}
         </div>
       </div>
     </div>
@@ -96,42 +105,53 @@
 </div>
 
 <!-- Popular Courses Section -->
-<div class="py-16 bg-gray-50 dark:bg-gray-800">
+<div class="py-24 bg-indigo-50/30 dark:bg-gray-800/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="lg:text-center mb-12">
-      <h2 class="text-base text-primary font-semibold tracking-wide uppercase">Learning</h2>
-      <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-        Expert-Led CBT Courses
+    <div class="text-center mb-16">
+      <h2 class="text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-xs mb-3">Your Journey Starts Here</h2>
+      <p class="text-4xl font-black tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+        Expert-Led Learning
       </p>
-      <p class="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto">
-        Start your journey with our science-backed curriculum designed by licensed clinical psychologists.
+      <p class="mt-4 max-w-2xl text-lg text-gray-500 dark:text-gray-400 mx-auto">
+        Science-backed curriculum designed by clinical psychologists to help you master your mental well-being.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
       {{ range first 3 (where .Site.RegularPages "Section" "courses") }}
-      <div class="flex flex-col bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-300">
-        <div class="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/40 dark:to-purple-900/40 flex items-center justify-center p-8">
+      <div class="flex flex-col bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-indigo-100/20 dark:shadow-none border border-gray-100 dark:border-gray-800 overflow-hidden hover:scale-[1.02] transition-all duration-500">
+        <div class="h-52 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-10">
           {{ if .Params.illustration }}
             {{ partial "undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
           {{ end }}
         </div>
-        <div class="p-6 flex-1 flex flex-col justify-between">
+        <div class="p-8 flex-1 flex flex-col justify-between">
           <div>
-            <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">{{ .Params.category }}</span>
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mt-2">{{ .Title }}</h3>
-            <p class="mt-2 text-gray-600 dark:text-gray-400 text-sm line-clamp-2">{{ .Params.description }}</p>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-tighter bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
+              {{ if .Params.premium }}
+              <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-tighter bg-amber-50 dark:bg-amber-900/30 px-2 py-1 rounded">Pro Tier</span>
+              {{ else }}
+              <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded">Free Access</span>
+              {{ end }}
+            </div>
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white leading-tight">{{ .Title }}</h3>
+            <p class="mt-3 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{{ .Params.description }}</p>
           </div>
-          <div class="mt-6">
-            <a href="/courses" class="text-primary dark:text-indigo-400 font-bold text-sm hover:underline">Learn more &rarr;</a>
+          <div class="mt-8">
+            <a href="/courses" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-black text-sm hover:gap-2 transition-all">
+              Explore Syllabus <span class="ml-1">&rarr;</span>
+            </a>
           </div>
         </div>
       </div>
       {{ end }}
     </div>
     
-    <div class="mt-12 text-center">
-      <a href="/courses" class="btn btn-outline px-8 py-3">View Full Catalog</a>
+    <div class="mt-16 text-center">
+      <a href="/courses" class="inline-flex items-center justify-center px-10 py-4 border-2 border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-black rounded-2xl hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-gray-900 transition-all">
+        Browse Full Catalog
+      </a>
     </div>
   </div>
 </div>
@@ -238,35 +258,42 @@
 </div>
 
 <!-- Pricing Section -->
-<div class="bg-gray-100 dark:bg-gray-900 py-12">
+<div class="bg-white dark:bg-gray-900 py-24">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center">
-      <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">{{ .Params.sections.pricingTitle }}</h2>
-      <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">{{ .Params.sections.pricingDescription }}</p>
+    <div class="text-center mb-16">
+      <h2 class="text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-xs mb-3">Simple Pricing</h2>
+      <p class="text-4xl font-black tracking-tight text-gray-900 dark:text-white sm:text-5xl">{{ .Params.sections.pricingTitle }}</p>
+      <p class="mt-4 text-xl text-gray-500 dark:text-gray-400">{{ .Params.sections.pricingDescription }}</p>
     </div>
-    <div class="mt-12 space-y-4 sm:mt-16 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-6 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:mx-0 xl:grid-cols-3">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:grid-cols-3">
       {{ range where .Site.RegularPages "Section" "plans" }}
-      <div class="border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800 flex flex-col">
-        <div class="p-6">
-          <h2 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">{{ .Title }}</h2>
-          <p class="mt-4">
-            <span class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ .Params.price }}</span>
+      <div class="relative flex flex-col p-8 bg-white dark:bg-gray-800 rounded-3xl border-2 {{ if .Params.recommended }}border-indigo-600 dark:border-indigo-500 shadow-2xl shadow-indigo-100 dark:shadow-none{{ else }}border-gray-100 dark:border-gray-800{{ end }} transition-all">
+        {{ if .Params.recommended }}
+        <div class="absolute -top-5 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-xs font-black uppercase tracking-widest rounded-full">Recommended</div>
+        {{ end }}
+        <div class="mb-8">
+          <h2 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-widest">{{ .Title }}</h2>
+          <p class="mt-4 flex items-baseline">
+            <span class="text-5xl font-black tracking-tight text-gray-900 dark:text-white">{{ .Params.price }}</span>
+            <span class="ml-1 text-sm font-semibold text-gray-500">/mo</span>
           </p>
-          <a href="/signup?plan={{ .Title }}" class="pricing-plan-btn mt-8 block w-full bg-primary border border-transparent rounded-md py-2 text-sm font-semibold text-white text-center hover:bg-indigo-700">Choose {{ .Title }}</a>
         </div>
-        <div class="pt-6 pb-8 px-6 flex-grow">
-          <h3 class="text-xs font-medium text-gray-900 dark:text-white tracking-wide uppercase">What's included</h3>
-          <ul class="mt-6 space-y-4">
+        <div class="flex-grow">
+          <h3 class="text-xs font-black text-gray-900 dark:text-white tracking-widest uppercase mb-6">Features included:</h3>
+          <ul class="space-y-4">
             {{ range .Params.features }}
-            <li class="flex space-x-3">
-              <svg class="flex-shrink-0 h-5 w-5 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            <li class="flex items-start">
+              <svg class="flex-shrink-0 h-5 w-5 text-indigo-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
               </svg>
-              <span class="text-sm text-gray-500 dark:text-gray-400">{{ . }}</span>
+              <span class="ml-3 text-sm text-gray-600 dark:text-gray-400">{{ . }}</span>
             </li>
             {{ end }}
           </ul>
         </div>
+        <a href="/signup?plan={{ .Title }}" class="mt-10 block w-full py-4 px-6 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800{{ end }}">
+          Choose {{ .Title }}
+        </a>
       </div>
       {{ end }}
     </div>

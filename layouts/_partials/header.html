@@ -1,99 +1,59 @@
-<nav class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:bg-gray-900/80 dark:border-gray-800">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
-      <div class="flex">
+    <div class="flex justify-between h-20">
+      <div class="flex items-center">
         <div class="flex-shrink-0 flex items-center">
-          <a href="/" class="text-2xl font-bold text-primary dark:text-indigo-400">MindFull</a>
-        </div>
-        <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-          <a
-            id="nav-courses"
-            href="/courses"
-            class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-          >
-            Courses
-          </a>
-          <a
-            href="/therapists"
-            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-          >
-            Therapists
-          </a>
-          <a
-            href="/posts"
-            class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-          >
-            Blog
-          </a>
-          <a
-            id="nav-dashboard"
-            href="/dashboard"
-            class="hidden border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-          >
-            Dashboard
+          <a href="/" class="text-2xl font-black tracking-tight text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+            <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg">M</span>
+            MindFull
           </a>
         </div>
       </div>
-      <div class="hidden sm:ml-6 sm:flex sm:items-center space-x-4">
+
+      <!-- Center Navigation -->
+      <div class="hidden sm:flex sm:items-center sm:space-x-1">
+        <a href="/courses" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Courses</a>
+        <a href="/therapists" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Therapists</a>
+        <a href="/posts" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Blog</a>
+        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Dashboard</a>
+      </div>
+
+      <div class="flex items-center space-x-3">
         <!-- Dark Mode Toggle -->
         <button
           type="button"
           id="dark-mode-toggle"
-          class="p-2 rounded-full text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none"
+          class="p-2 rounded-xl text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
         >
-          <!-- Moon (for light mode) / Sun (for dark mode) -->
-          <svg
-            class="h-6 w-6 hidden dark:block"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-            />
-          </svg>
-          <svg
-            class="h-6 w-6 block dark:hidden"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-            />
-          </svg>
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
         </button>
 
-        <!-- Not Logged In State (Default for Landing) -->
-        <div id="auth-logged-out" class="hidden sm:flex sm:items-center space-x-4">
+        <!-- Not Logged In -->
+        <div id="auth-logged-out" class="hidden sm:flex sm:items-center space-x-2">
           <button
             onclick="window.openModal('loginModal')"
-            class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium"
+            class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
             Log in
           </button>
-          <button onclick="window.openModal('signupModal')" class="btn btn-primary text-sm">
-            Sign Up
+          <button onclick="window.openModal('signupModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-0.5">
+            Get Started
           </button>
         </div>
 
-        <!-- Logged In State -->
+        <!-- Logged In -->
         <div id="auth-logged-in" class="hidden sm:flex sm:items-center space-x-4">
-          <span
-            id="user-display-name"
-            class="text-gray-700 dark:text-gray-300 text-sm font-medium"
-          ></span>
+          <div class="flex flex-col items-end mr-2">
+            <span id="user-display-name" class="text-gray-900 dark:text-white text-xs font-bold"></span>
+            <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-tighter leading-none">Member</span>
+          </div>
           <button
             onclick="window.handleLogout()"
-            class="text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white font-medium"
+            class="text-gray-400 hover:text-red-500 transition-colors"
+            title="Log out"
           >
-            Log out
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
           </button>
         </div>
       </div>
