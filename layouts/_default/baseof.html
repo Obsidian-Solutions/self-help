@@ -21,6 +21,10 @@
     .logged-out-cta { display: none; }
     .is-app-page:not(.user-logged-in) .logged-out-cta { display: block; }
 
+    /* Marketing elements visibility on app pages */
+    .user-logged-in .hide-on-logged-in { display: none !important; }
+    .user-logged-in .show-on-logged-in { display: flex !important; }
+
     /* Ensure sidebar stays fixed while page scrolls */
     @media (min-width: 768px) {
       .app-sidebar-sticky {

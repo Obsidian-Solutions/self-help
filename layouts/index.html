@@ -26,8 +26,11 @@
         <a href="{{ .Params.hero.primaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
           {{ .Params.hero.primaryCta }}
         </a>
-        <a href="{{ .Params.hero.secondaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+        <a href="{{ .Params.hero.secondaryCtaLink }}" class="hide-on-logged-in inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
           {{ .Params.hero.secondaryCta }}
+        </a>
+        <a href="/dashboard" class="show-on-logged-in hidden inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+          Go to Dashboard
         </a>
       </div>
     </div>
@@ -194,9 +197,12 @@
           <span class="opacity-80">{{ .Params.sections.cataSubheading }}</span>
         </h2>
         <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
-          <button onclick="window.openModal('signupModal')" class="px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
+          <button onclick="window.openModal('signupModal')" class="hide-on-logged-in px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
             {{ .Params.sections.cataButton }} &rarr;
           </button>
+          <a href="/dashboard" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
+            Go to Dashboard &rarr;
+          </a>
           <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase">7-day free trial &middot; No credit card required</p>
         </div>
       </div>
