@@ -17,21 +17,21 @@
   </div>
 
   <!-- Welcome Section -->
-  <div class="bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+  <div class="bg-white shadow-sm rounded-3xl p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
     <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-2">{{ .Params.welcome.headline | default "Welcome back!" }}</h2>
     <p class="text-gray-500 dark:text-gray-400 font-medium">{{ .Params.welcome.streak_text | default "You're on a streak!" }}</p>
   </div>
 
   <!-- Mood Check-In and Streak -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
     <div class="md:col-span-2">{{ partial "app/mood-check-in/mood-selector.html" . }}</div>
     <div>{{ partial "app/mood-check-in/streak-counter.html" . }}</div>
   </div>
 
   <!-- Quiz Section -->
-  <div class="mt-8">
+  <div class="mt-6">
     <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.learning.title | default "Today's Learning" }}</h3>
-    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-8 border border-gray-100 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-sm p-6 border border-gray-100 dark:border-gray-700">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <h4 class="text-2xl font-black text-gray-900 dark:text-white mb-2">
@@ -51,7 +51,7 @@
       <div
         id="dashboard-quiz-container"
         style="display: none"
-        class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-700"
+        class="mt-6 pt-8 border-t border-gray-100 dark:border-gray-700"
       >
         {{ partial "app/quiz/quiz-engine.html" . }}
       </div>
@@ -59,15 +59,15 @@
   </div>
 
   <!-- Mood & Goals Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-    <div class="md:col-span-2 bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+    <div class="md:col-span-2 bg-white shadow-sm rounded-3xl p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
       <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">
         {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
       </h3>
       <div id="mood-chart-container" class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-50 dark:border-gray-700">
         {{ range seq 7 }}
         <div class="mood-bar flex-1 bg-gray-50 dark:bg-gray-700 rounded-t-xl transition-all duration-500 relative group" style="height: 10%">
-          <div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 font-bold">
+          <div class="absolute -top-6 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10 font-bold">
             No Data
           </div>
         </div>
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    <div class="bg-white shadow-sm rounded-3xl p-8 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+    <div class="bg-white shadow-sm rounded-3xl p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
       <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.tracking.goals_title | default "Daily Goals" }}</h3>
       <ul class="space-y-4" id="daily-goals-list">
         {{ range slice "Morning Meditate" "Drink Water (2L)" "Journal Entry" "Walk 15 mins" }}
@@ -101,21 +101,21 @@
   </div>
 
   <!-- My Courses -->
-  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-12 mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-6 mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {{ range where .Site.RegularPages "Section" "courses" }}
     {{ $courseTitle := .Title }}
     {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
     <div class="group bg-white shadow-sm rounded-3xl overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-xl transition-all duration-500" data-course-card="{{ $courseTitle }}">
-      <div class="h-40 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-8">
+      <div class="h-40 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-6">
         {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
         <svg class="h-16 w-16 text-indigo-300 dark:text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
         </svg>
         {{ end }}
       </div>
-      <div class="p-8 flex-grow">
+      <div class="p-6 flex-grow">
         <div class="flex justify-between items-start mb-4">
           <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
           <span class="text-xs font-black text-gray-400" data-progress-text="{{ $courseTitle }}">0%</span>
@@ -137,7 +137,7 @@
   </div>
 
   <!-- Achievements -->
-  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-12 mb-6 uppercase tracking-widest text-xs">
+  <h3 class="text-xl font-black text-gray-900 dark:text-white mt-6 mb-6 uppercase tracking-widest text-xs">
     {{ .Params.sections.achievements.title | default "Your Achievements" }}
   </h3>
   {{ partial "app/badges/achievement-badges.html" . }}

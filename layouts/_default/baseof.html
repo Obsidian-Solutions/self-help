@@ -5,12 +5,14 @@
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }} {{ if (or (eq .Kind `login`) (eq .Kind `signup`) (in .RelPermalink `/login/`) (in .RelPermalink `/signup/`)) }}overflow-hidden h-screen{{ end }}">
-  {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-  {{ $isAppPage := eq .Params.useAppShell true }}
   <style>
+    /* Global UI Scaling: mimic 90% zoom for a more professional 'tight' feel */
+    html { font-size: 15px; }
+    @media (min-width: 1280px) { html { font-size: 16px; } } /* Return to standard on very large screens */
+
     /* Sidebar visibility control */
     .app-sidebar { display: none; }
-    .user-logged-in.is-app-page .app-sidebar { display: block; width: 16rem; flex-shrink: 0; }
+    .user-logged-in.is-app-page .app-sidebar { display: block; width: 15rem; flex-shrink: 0; }
 
     /* For logged-out users on app pages, we show the special CTA block */
     .app-content-wrapper { display: block; }
@@ -43,7 +45,7 @@
       <!-- Optional App Sidebar -->
       {{ if .Params.useAppShell }}
       <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700">
-        <div class="app-sidebar-sticky p-4 md:p-6">
+        <div class="app-sidebar-sticky p-4 md:p-5">
           {{ partial "app/sidebar.html" . }}
         </div>
       </aside>
@@ -51,8 +53,8 @@
 
       <!-- Content area -->
       <main class="flex-1 min-w-0">
-        <div class="p-4 md:p-8 lg:p-12">
-          <div class="max-w-6xl mx-auto">
+        <div class="p-4 md:p-6 lg:p-10">
+          <div class="max-w-5xl mx-auto">
             
             <!-- App Content (Hidden if logged out on App Page) -->
             <div class="app-content-wrapper">
