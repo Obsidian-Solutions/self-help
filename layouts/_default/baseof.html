@@ -4,62 +4,72 @@
   {{ partial "shared/head.html" . }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
-<body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
+<body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }}">
   <style>
-    /* Prevent sidebar flash when logged out */
-    .app-shell-container { display: none; }
-    .user-logged-in .app-shell-container { display: flex; }
+    /* Sidebar is hidden by default and only shows on app pages for logged-in users */
+    .app-sidebar { display: none; }
+    .user-logged-in.is-app-page .app-sidebar { display: block; width: 16rem; flex-shrink: 0; }
+
+    /* For logged-out users on app pages, we show the special CTA block */
+    .app-content-wrapper { display: block; }
+    .is-app-page:not(.user-logged-in) .app-content-wrapper { display: none; }
     
-    /* Marketing fallback when logged out on an app page */
-    .marketing-layout { display: block; }
-    .user-logged-in .marketing-layout-on-app { display: none; }
+    .logged-out-cta { display: none; }
+    .is-app-page:not(.user-logged-in) .logged-out-cta { display: block; }
   </style>
-  {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-  {{ $isAppPage := eq .Params.useAppShell true }}
 
-  <!-- App Shell (Active only when logged in) -->
-  {{ if $isAppPage }}
-  <div class="app-shell-container min-h-screen flex-col md:flex-row">
-    <!-- Sidebar -->
-    <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-      <div class="sticky top-0 p-4 md:p-6">
-        {{ partial "app/sidebar.html" . }}
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 overflow-y-auto">
-      <div class="max-w-7xl mx-auto">
-        {{ block "main" . }}{{ end }}
-      </div>
-    </main>
-  </div>
-  {{ end }}
-
-  <!-- Marketing Layout (Active when logged out OR on marketing pages) -->
-  <div class="marketing-layout {{ if $isAppPage }}marketing-layout-on-app{{ end }} min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col">
+    <!-- Global Header -->
+    {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
     {{ if not $isAuthPage }}
-    <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:bg-gray-900/80 dark:border-gray-800">
       {{ partial "shared/header.html" . }}
     </header>
     {{ end }}
-    <main class="flex-grow">
-      <!-- On app pages, we still want to render the 'main' block here for logged-out users -->
-      {{ if $isAppPage }}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {{ block "app-logged-out" . }}
-            {{ partial "auth/login-modal.html" . }}
-            <div class="text-center py-20">
-              <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-4">Unlock Your Potential</h2>
-              <p class="text-xl text-gray-500 mb-8">Please sign in to access your personal dashboard and tools.</p>
-              <button onclick="window.openModal('loginModal')" class="btn btn-primary px-8 py-3 rounded-2xl font-black">Sign In to Continue</button>
-            </div>
-          {{ end }}
+
+    <!-- Main Body Area -->
+    <div class="flex-1 flex flex-col md:flex-row">
+      <!-- Optional App Sidebar -->
+      {{ if .Params.useAppShell }}
+      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700">
+        <div class="sticky top-20 p-4 md:p-6">
+          {{ partial "app/sidebar.html" . }}
         </div>
-      {{ else }}
-        {{ block "main" . }}{{ end }}
+      </aside>
       {{ end }}
-    </main>
+
+      <!-- Content area -->
+      <main class="flex-1 min-w-0">
+        <div class="p-4 md:p-8 lg:p-12">
+          <div class="max-w-7xl mx-auto">
+            
+            <!-- App Content (Hidden if logged out on App Page) -->
+            <div class="app-content-wrapper">
+              {{ block "main" . }}{{ end }}
+            </div>
+
+            <!-- Logged Out CTA (Shown only if logged out on App Page) -->
+            {{ if .Params.useAppShell }}
+            <div class="logged-out-cta">
+              {{ block "app-logged-out" . }}
+                <div class="text-center py-20">
+                  <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
+                    {{ partial "shared/undraw.html" (dict "name" "secure_login" "class" "w-full h-auto") }}
+                  </div>
+                  <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Your Journey Awaits</h2>
+                  <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Sign in to your MindFull account to access your personalized dashboard, courses, and journal.</p>
+                  <button onclick="window.openModal('loginModal')" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-xl shadow-indigo-100">Sign In to Continue &rarr;</button>
+                </div>
+              {{ end }}
+            </div>
+            {{ end }}
+
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Global Footer -->
     {{ if not $isAuthPage }}
     <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
       {{ partial "shared/footer.html" . }}

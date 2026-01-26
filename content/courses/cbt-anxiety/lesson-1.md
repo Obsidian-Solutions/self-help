@@ -1,4 +1,5 @@
 ---
+useAppShell: true
 title: 'Understanding Anxiety: The Basics'
 course: 'CBT for Anxiety'
 description: 'Learn the fundamentals of anxiety and how CBT can help manage it.'
@@ -54,6 +55,8 @@ quiz:
       correct: 1
       explanation: 'The thought record is a key CBT tool that helps you identify automatic thoughts, examine evidence for and against them, and develop more balanced thinking.'
 ---
+
+useAppShell: true
 
 ## Welcome to CBT for Anxiety
 
@@ -128,5 +131,7 @@ By understanding this connection, you can:
 - You have more control than you think
 
 ---
+
+useAppShell: true
 
 Ready to test your understanding? Take the quiz below to reinforce what you've learned!
