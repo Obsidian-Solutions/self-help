@@ -43,6 +43,23 @@
           ],
           "correct": 1,
           "explanation": "CBT focuses on identifying and refactoring negative thought patterns."
+        },
+        {
+          "question": "What is the primary goal of mindfulness?",
+          "options": [
+            "Emptying the mind",
+            "Judging every thought",
+            "Being present in the moment",
+            "Planning for the future"
+          ],
+          "correct": 2,
+          "explanation": "Mindfulness is about non-judgmental awareness of the present moment."
+        },
+        {
+          "question": "Which tool is best for tracking long-term mood trends?",
+          "options": ["Daily check-in", "Ignoring feelings", "Social media", "Avoidance"],
+          "correct": 0,
+          "explanation": "Consistent daily check-ins help identify patterns and triggers."
         }
       ]
     }

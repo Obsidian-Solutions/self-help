@@ -8,11 +8,11 @@
     
     <div class="grid grid-cols-2 gap-4">
       <div class="bg-indigo-50 dark:bg-indigo-950/30 rounded-2xl p-4 text-center">
-        <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400" id="streak-count">{{ $labels.no_data }}</div>
+        <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400" id="streak-counter-count">{{ $labels.no_data }}</div>
         <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">{{ $labels.days_label }}</div>
       </div>
       <div class="bg-purple-50 dark:bg-purple-950/30 rounded-2xl p-4 text-center">
-        <div class="text-4xl font-bold text-purple-600 dark:text-purple-400" id="total-count">{{ $labels.no_data }}</div>
+        <div class="text-4xl font-bold text-purple-600 dark:text-purple-400" id="total-checkins-count">{{ $labels.no_data }}</div>
         <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">{{ $labels.total_label }}</div>
       </div>
     </div>
@@ -30,8 +30,8 @@
     const streakData = JSON.parse(localStorage.getItem('moodStreak') || '{"count": 0}');
     const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
     
-    const streakEl = document.getElementById('streak-count');
-    const totalEl = document.getElementById('total-count');
+    const streakEl = document.getElementById('streak-counter-count');
+    const totalEl = document.getElementById('total-checkins-count');
     
     if (streakEl) streakEl.innerText = streakData.count || 0;
     if (totalEl) totalEl.innerText = Object.keys(moodData).length || 0;

@@ -1,50 +1,50 @@
 {{ $labels := site.Data.labels.quiz }}
 <div class="quiz-container">
   <!-- Quiz Start State -->
-  <div id="quiz-start" class="text-center">
-    <h2 class="text-2xl font-bold mb-2" id="quiz-title">{{ $labels.default_title }}</h2>
-    <p class="text-indigo-100" id="quiz-description">{{ $labels.default_description }}</p>
-    <button id="start-quiz-btn" class="mt-6 bg-white text-indigo-600 font-bold py-2 px-6 rounded-lg transition-transform hover:scale-105">
+  <div id="quiz-engine-start" class="text-center">
+    <h2 class="text-2xl font-bold mb-2" id="quiz-engine-title">{{ $labels.default_title }}</h2>
+    <p class="text-indigo-100" id="quiz-engine-description">{{ $labels.default_description }}</p>
+    <button id="quiz-engine-start-btn" class="mt-6 bg-white text-indigo-600 font-bold py-2 px-6 rounded-lg transition-transform hover:scale-105">
       {{ $labels.start_btn }}
     </button>
   </div>
 
   <!-- Quiz Active State -->
-  <div id="quiz-active" style="display: none">
+  <div id="quiz-engine-active" style="display: none">
     <div class="flex justify-between items-center mb-6">
       <div class="text-xs font-black uppercase tracking-widest text-indigo-200">
-        {{ $labels.question_prefix }} <span id="question-count">0</span> {{ $labels.question_of }} <span id="total-count">0</span>
+        {{ $labels.question_prefix }} <span id="quiz-engine-question-count">0</span> {{ $labels.question_of }} <span id="quiz-engine-total-count">0</span>
       </div>
       <div class="h-1.5 w-32 bg-indigo-900 rounded-full overflow-hidden">
-        <div id="quiz-progress" class="h-full bg-white transition-all duration-300" style="width: 0%"></div>
+        <div id="quiz-engine-progress" class="h-full bg-white transition-all duration-300" style="width: 0%"></div>
       </div>
     </div>
     
-    <div id="question-container" class="mb-8">
-      <h3 id="question-text" class="text-xl font-bold text-white mb-6"></h3>
-      <div id="options-container" class="space-y-3">
+    <div id="quiz-engine-question-container" class="mb-8">
+      <h3 id="quiz-engine-question-text" class="text-xl font-bold text-white mb-6"></h3>
+      <div id="quiz-engine-options-container" class="space-y-3">
         <!-- Options will be injected here -->
       </div>
     </div>
 
-    <div id="explanation-container" style="display: none" class="mb-8 p-4 bg-indigo-900/50 rounded-xl border border-indigo-400/30 text-sm">
-      <p id="explanation-text" class="text-indigo-100"></p>
+    <div id="quiz-engine-explanation-container" style="display: none" class="mb-8 p-4 bg-indigo-900/50 rounded-xl border border-indigo-400/30 text-sm">
+      <p id="quiz-engine-explanation-text" class="text-indigo-100"></p>
     </div>
 
-    <button id="next-question-btn" style="display: none" class="w-full bg-white text-indigo-600 font-bold py-3 px-6 rounded-xl transition-all hover:bg-indigo-50">
+    <button id="quiz-engine-next-btn" style="display: none" class="w-full bg-white text-indigo-600 font-bold py-3 px-6 rounded-xl transition-all hover:bg-indigo-50">
       {{ $labels.next_btn }}
     </button>
   </div>
 
   <!-- Quiz Results State -->
-  <div id="quiz-results" style="display: none" class="text-center">
-    <div class="text-6xl mb-4" id="result-emoji">{{ $labels.default_result_emoji }}</div>
+  <div id="quiz-engine-results" style="display: none" class="text-center">
+    <div class="text-6xl mb-4" id="quiz-engine-result-emoji">{{ $labels.default_result_emoji }}</div>
     <h2 class="text-3xl font-black text-white mb-2">{{ $labels.results_title }}</h2>
-    <p class="text-indigo-100 mb-6" id="result-message"></p>
+    <p class="text-indigo-100 mb-6" id="quiz-engine-result-message"></p>
     
     <div class="bg-indigo-900/50 rounded-[2rem] p-8 mb-8 inline-block min-w-[200px]">
       <div class="text-[10px] font-black uppercase tracking-widest text-indigo-300 mb-1">{{ $labels.score_label }}</div>
-      <div class="text-5xl font-black text-white"><span id="final-score">0</span>%</div>
+      <div class="text-5xl font-black text-white"><span id="quiz-engine-final-score">0</span>%</div>
     </div>
 
     <button onclick="window.location.reload()" class="block w-full bg-white text-indigo-600 font-bold py-3 px-6 rounded-xl transition-all hover:bg-indigo-50">
@@ -64,33 +64,33 @@
     currentQuestionIndex = 0;
     score = 0;
 
-    const titleEl = document.getElementById('quiz-title');
-    const descEl = document.getElementById('quiz-description');
-    const totalCountEl = document.getElementById('total-count');
+    const titleEl = document.getElementById('quiz-engine-title');
+    const descEl = document.getElementById('quiz-engine-description');
+    const totalCountEl = document.getElementById('quiz-engine-total-count');
 
-    if (titleEl) titleEl.innerText = quizData.title;
-    if (descEl) descEl.innerText = quizData.description;
-    if (totalCountEl) totalCountEl.innerText = quizData.questions.length;
+    if (titleEl) titleEl.textContent = quizData.title;
+    if (descEl) descEl.textContent = quizData.description;
+    if (totalCountEl) totalCountEl.textContent = quizData.questions.length;
 
-    const startBtn = document.getElementById('start-quiz-btn');
+    const startBtn = document.getElementById('quiz-engine-start-btn');
     if (startBtn) {
       startBtn.onclick = startQuiz;
     }
   };
 
   function startQuiz() {
-    document.getElementById('quiz-start').style.display = 'none';
-    document.getElementById('quiz-active').style.display = 'block';
+    document.getElementById('quiz-engine-start').style.display = 'none';
+    document.getElementById('quiz-engine-active').style.display = 'block';
     renderQuestion();
   }
 
   function renderQuestion() {
     const question = currentQuiz.questions[currentQuestionIndex];
-    document.getElementById('question-text').textContent = question.question;
-    document.getElementById('question-count').textContent = currentQuestionIndex + 1;
-    document.getElementById('quiz-progress').style.width = ((currentQuestionIndex + 1) / currentQuiz.questions.length * 100) + '%';
+    document.getElementById('quiz-engine-question-text').textContent = question.question;
+    document.getElementById('quiz-engine-question-count').textContent = currentQuestionIndex + 1;
+    document.getElementById('quiz-engine-progress').style.width = ((currentQuestionIndex + 1) / currentQuiz.questions.length * 100) + '%';
 
-    const optionsContainer = document.getElementById('options-container');
+    const optionsContainer = document.getElementById('quiz-engine-options-container');
     optionsContainer.innerHTML = '';
 
     question.options.forEach((option, index) => {
@@ -101,16 +101,15 @@
       optionsContainer.appendChild(button);
     });
 
-    document.getElementById('next-question-btn').style.display = 'none';
-    document.getElementById('explanation-container').style.display = 'none';
+    document.getElementById('quiz-engine-next-btn').style.display = 'none';
+    document.getElementById('quiz-engine-explanation-container').style.display = 'none';
   }
 
   function selectOption(index, button) {
     const question = currentQuiz.questions[currentQuestionIndex];
     const isCorrect = index === question.correct;
     
-    // Disable all options
-    const allButtons = document.querySelectorAll('#options-container button');
+    const allButtons = document.querySelectorAll('#quiz-engine-options-container button');
     allButtons.forEach(btn => btn.disabled = true);
 
     if (isCorrect) {
@@ -120,18 +119,17 @@
     } else {
       button.classList.remove('border-indigo-400/30', 'bg-indigo-900/20');
       button.classList.add('bg-red-500', 'border-red-400');
-      // Highlight correct one
       allButtons[question.correct].classList.remove('border-indigo-400/30', 'bg-indigo-900/20');
       allButtons[question.correct].classList.add('bg-green-500/50', 'border-green-400');
     }
 
     if (question.explanation) {
-      document.getElementById('explanation-text').textContent = question.explanation;
-      document.getElementById('explanation-container').style.display = 'block';
+      document.getElementById('quiz-engine-explanation-text').textContent = question.explanation;
+      document.getElementById('quiz-engine-explanation-container').style.display = 'block';
     }
 
-    document.getElementById('next-question-btn').style.display = 'block';
-    document.getElementById('next-question-btn').onclick = nextQuestion;
+    document.getElementById('quiz-engine-next-btn').style.display = 'block';
+    document.getElementById('quiz-engine-next-btn').onclick = nextQuestion;
   }
 
   function nextQuestion() {
@@ -144,14 +142,13 @@
   }
 
   function showResults() {
-    document.getElementById('quiz-active').style.display = 'none';
-    document.getElementById('quiz-results').style.display = 'block';
+    document.getElementById('quiz-engine-active').style.display = 'none';
+    document.getElementById('quiz-engine-results').style.display = 'block';
     
     const finalPercentage = Math.round((score / currentQuiz.questions.length) * 100);
-    document.getElementById('final-score').textContent = finalPercentage;
-    document.getElementById('result-message').textContent = currentQuiz.resultMessage;
+    document.getElementById('quiz-engine-final-score').textContent = finalPercentage;
+    document.getElementById('quiz-engine-result-message').textContent = currentQuiz.resultMessage;
     
-    // Save score
     localStorage.setItem('lastQuizScore', finalPercentage);
     
     if (window.onQuizFinish) window.onQuizFinish();
