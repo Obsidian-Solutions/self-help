@@ -225,8 +225,15 @@
       document.getElementById('profile-name').value = user.name || '';
       document.getElementById('profile-email').value = user.email || '';
       
+      const avatarPreview = document.getElementById('avatar-preview');
       if (user.avatar) {
-        document.getElementById('avatar-preview').innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover" loading="lazy" decoding="async">`;
+        avatarPreview.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = user.avatar;
+        img.className = 'h-full w-full object-cover';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        avatarPreview.appendChild(img);
       }
       
       const currentPlan = user.plan || 'Free';
@@ -271,7 +278,12 @@
     const reader = new FileReader();
     reader.onload = (e) => {
       const base64 = e.target.result;
-      document.getElementById('avatar-preview').innerHTML = `<img src="${base64}" class="h-full w-full object-cover">`;
+      const avatarPreview = document.getElementById('avatar-preview');
+      avatarPreview.innerHTML = '';
+      const img = document.createElement('img');
+      img.src = base64;
+      img.className = 'h-full w-full object-cover';
+      avatarPreview.appendChild(img);
       
       let session = JSON.parse(localStorage.getItem('mindfull_session'));
       session.avatar = base64;

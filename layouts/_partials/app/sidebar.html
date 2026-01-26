@@ -33,7 +33,7 @@
 </div>
 
 <script>
-  // Enhanced script to update sidebar info
+  // Enhanced script to update sidebar info securely
   document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('mindfull_session'));
     if (user) {
@@ -46,7 +46,13 @@
       if (sidebarPlan) sidebarPlan.textContent = (user.plan || 'Free') + ' Plan';
       
       if (user.avatar) {
-        avatarContainer.innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover" loading="lazy" decoding="async">`;
+        avatarContainer.innerHTML = '';
+        const img = document.createElement('img');
+        img.src = user.avatar;
+        img.className = 'h-full w-full object-cover';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        avatarContainer.appendChild(img);
       } else if (sidebarInitial) {
         sidebarInitial.textContent = (user.name || user.email).charAt(0).toUpperCase();
       }
