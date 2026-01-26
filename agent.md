@@ -54,6 +54,7 @@ Transformation of the application into a cohesive, professional, and data-driven
 - [x] **Progress Tracking:** Added dynamic progress bars to the Dashboard and Course Catalog.
 - [x] **Secure Settings:** Implemented hashed password change verification and avatar upload support.
 - [x] **Empty States:** Added visual placeholders and onboarding text for empty collections (e.g., Journal).
+- [x] **Dynamic Subscriptions:** Refactored entire billing/subscription model to be 100% data-driven from Markdown.
 
 ---
 
@@ -92,9 +93,10 @@ Transformation of the application into a cohesive, professional, and data-driven
 
 **Immediate:**
 
-1. Proceed with Phase 7: CMS content modeling and admin interface.
+1. Complete Phase 7: Full CMS Admin UI for Course & Lesson management.
 2. Enhance the Journal with a rich-text or Markdown-aware editor.
+3. Integrate actual Stripe/Mock payment flow into the dynamic plan switcher.
 
-**Version:** 1.2.0 (Polished & Data-Driven)
+**Version: 1.2.1** (Dynamic & Professional)
 **Status:** Professional, Unified, Content-First
 **Last Updated:** January 26, 2026
