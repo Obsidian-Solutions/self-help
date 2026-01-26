@@ -7,47 +7,65 @@
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
   <style>
     /* Prevent sidebar flash when logged out */
-    aside { display: none; }
-    .user-logged-in aside { display: block; }
+    .app-shell-container { display: none; }
+    .user-logged-in .app-shell-container { display: flex; }
+    
+    /* Marketing fallback when logged out on an app page */
+    .marketing-layout { display: block; }
+    .user-logged-in .marketing-layout-on-app { display: none; }
   </style>
   {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-  {{ $isAppShell := eq .Params.useAppShell true }}
+  {{ $isAppPage := eq .Params.useAppShell true }}
 
-  {{ if $isAppShell }}
-    <!-- Application Shell -->
-    <div class="min-h-screen flex flex-col md:flex-row">
-      <!-- Sidebar -->
-      <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div class="sticky top-0 p-4 md:p-6">
-          {{ partial "app/sidebar.html" . }}
-        </div>
-      </aside>
+  <!-- App Shell (Active only when logged in) -->
+  {{ if $isAppPage }}
+  <div class="app-shell-container min-h-screen flex-col md:flex-row">
+    <!-- Sidebar -->
+    <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <div class="sticky top-0 p-4 md:p-6">
+        {{ partial "app/sidebar.html" . }}
+      </div>
+    </aside>
 
-      <!-- Main Content -->
-      <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 overflow-y-auto">
-        <div class="max-w-7xl mx-auto">
-          {{ block "main" . }}{{ end }}
-        </div>
-      </main>
-    </div>
-  {{ else }}
-    <!-- Standard Marketing Layout -->
-    <div class="min-h-screen flex flex-col">
-      {{ if not $isAuthPage }}
-      <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
-        {{ partial "shared/header.html" . }}
-      </header>
-      {{ end }}
-      <main class="flex-grow">
+    <!-- Main Content -->
+    <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12 overflow-y-auto">
+      <div class="max-w-7xl mx-auto">
         {{ block "main" . }}{{ end }}
-      </main>
-      {{ if not $isAuthPage }}
-      <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
-        {{ partial "shared/footer.html" . }}
-      </footer>
-      {{ end }}
-    </div>
+      </div>
+    </main>
+  </div>
   {{ end }}
+
+  <!-- Marketing Layout (Active when logged out OR on marketing pages) -->
+  <div class="marketing-layout {{ if $isAppPage }}marketing-layout-on-app{{ end }} min-h-screen flex flex-col">
+    {{ if not $isAuthPage }}
+    <header class="bg-white shadow-sm dark:bg-gray-800 dark:border-gray-700">
+      {{ partial "shared/header.html" . }}
+    </header>
+    {{ end }}
+    <main class="flex-grow">
+      <!-- On app pages, we still want to render the 'main' block here for logged-out users -->
+      {{ if $isAppPage }}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {{ block "app-logged-out" . }}
+            {{ partial "auth/login-modal.html" . }}
+            <div class="text-center py-20">
+              <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-4">Unlock Your Potential</h2>
+              <p class="text-xl text-gray-500 mb-8">Please sign in to access your personal dashboard and tools.</p>
+              <button onclick="window.openModal('loginModal')" class="btn btn-primary px-8 py-3 rounded-2xl font-black">Sign In to Continue</button>
+            </div>
+          {{ end }}
+        </div>
+      {{ else }}
+        {{ block "main" . }}{{ end }}
+      {{ end }}
+    </main>
+    {{ if not $isAuthPage }}
+    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
+      {{ partial "shared/footer.html" . }}
+    </footer>
+    {{ end }}
+  </div>
 
   <!-- Global Modals & Utilities -->
   {{ partial "auth/login-modal.html" . }}

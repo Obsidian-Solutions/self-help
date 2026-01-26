@@ -186,5 +186,20 @@
       }
     });
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    filterTherapists('all');
+  });
 </script>
+{{ end }}
+
+{{ define "app-logged-out" }}
+  <div class="text-center py-20 px-4">
+    <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
+      {{ partial "shared/undraw.html" (dict "name" "experts" "class" "w-full h-auto") }}
+    </div>
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Verified Professional Support</h2>
+    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Connect with licensed clinical psychologists and specialists when you need expert 1-on-1 guidance.</p>
+    <button onclick="window.openModal('signupModal')" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-xl shadow-indigo-100">Find Your Specialist &rarr;</button>
+  </div>
 {{ end }}

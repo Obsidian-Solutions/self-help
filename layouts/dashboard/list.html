@@ -235,3 +235,14 @@
   });
 </script>
 {{ end }}
+
+{{ define "app-logged-out" }}
+  <div class="text-center py-20 px-4">
+    <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
+      {{ partial "shared/undraw.html" (dict "name" "personal_goals" "class" "w-full h-auto") }}
+    </div>
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Your Daily Wellness Command Center</h2>
+    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Track your mood, complete daily goals, and monitor your learning progress in one unified dashboard.</p>
+    <button onclick="window.openModal('signupModal')" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-xl shadow-indigo-100">Create Your Dashboard &rarr;</button>
+  </div>
+{{ end }}

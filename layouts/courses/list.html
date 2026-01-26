@@ -36,7 +36,7 @@
               Free
             </span>
             {{ end }}
-            {{ $lessons := where .Site.RegularPages "Params.course" .Title }}
+            {{ $lessons := .Pages }}
             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">
               {{ len $lessons }} Lessons
             </span>
@@ -89,14 +89,30 @@
       const progressText = card.querySelector('[data-progress-text]');
       const totalCountEl = card.querySelector('.total-lessons-count');
       if (!totalCountEl) return;
-      const totalCount = parseInt(totalCountEl.innerText) || 1;
+      const totalLessons = parseInt(totalCountEl.innerText) || 1;
       
       const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
-      const percentage = Math.round((completedCount / totalCount) * 100);
+      const percentage = Math.round((completedCount / totalLessons) * 100);
       
       if (progressBar) progressBar.style.width = percentage + '%';
       if (progressText) progressText.innerText = percentage + '%';
     });
   });
 </script>
+{{ end }}
+
+{{ define "app-logged-out" }}
+  {{ .Content }}
+  <div class="mt-12">
+    {{ range .Pages }}
+      <!-- Minimalist Course Card for Public View -->
+      <div class="mb-6 p-6 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 flex justify-between items-center shadow-sm">
+        <div>
+          <h3 class="text-xl font-black text-gray-900 dark:text-white">{{ .Title }}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ .Params.description | truncate 80 }}</p>
+        </div>
+        <a href="{{ .RelPermalink }}" class="text-indigo-600 dark:text-indigo-400 font-black text-sm">View Syllabus &rarr;</a>
+      </div>
+    {{ end }}
+  </div>
 {{ end }}

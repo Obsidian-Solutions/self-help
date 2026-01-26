@@ -435,3 +435,14 @@
   }
 </script>
 {{ end }}
+
+{{ define "app-logged-out" }}
+  <div class="text-center py-20 px-4">
+    <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
+      {{ partial "shared/undraw.html" (dict "name" "secure_login" "class" "w-full h-auto") }}
+    </div>
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Your Account Hub</h2>
+    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Sign in to manage your subscription, update your profile, and customize your MindFull experience.</p>
+    <button onclick="window.openModal('loginModal')" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-xl shadow-indigo-100">Sign In to Your Account &rarr;</button>
+  </div>
+{{ end }}
