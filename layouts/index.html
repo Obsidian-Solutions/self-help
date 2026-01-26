@@ -8,21 +8,21 @@
   
   <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-32 z-10">
     <div class="text-center">
-      <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-[10px] font-black uppercase tracking-widest mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
+      <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-[10px] font-black uppercase tracking-widest mb-8 animate-in fade-in slide-in-from-top-4 duration-1000 mx-auto">
         <span class="flex h-2 w-2 rounded-full bg-indigo-600 mr-3 animate-pulse"></span>
         {{ .Params.hero.tagline | default "Your Science-Backed Wellness Journey" }}
       </div>
       
-      <h1 class="text-4xl sm:text-5xl tracking-tighter font-black text-gray-900 dark:text-white sm:text-6xl md:text-7xl leading-[1] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <h1 class="text-4xl sm:text-5xl tracking-tighter font-black text-gray-900 dark:text-white sm:text-6xl md:text-7xl leading-[1] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 text-center">
         {{ .Params.hero.headline }}<br/>
         <span class="text-indigo-600 dark:text-indigo-400">{{ .Params.hero.subheadline }}</span>
       </h1>
       
-      <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto mb-12 font-medium animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+      <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto mb-12 font-medium animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 text-center">
         {{ .Params.hero.description }}
       </p>
       
-      <div class="flex flex-col sm:flex-row justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 mx-auto">
         <a href="{{ .Params.hero.primaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
           {{ .Params.hero.primaryCta }}
         </a>
@@ -38,9 +38,9 @@
     <!-- Hero Mockup/Illustration -->
     <div class="mt-12 md:mt-20 relative max-w-4xl mx-auto animate-in fade-in zoom-in-95 duration-1000 delay-500">
       <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-[3rem] blur-3xl scale-95"></div>
-      <div class="relative bg-white dark:bg-gray-800 rounded-3xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square md:aspect-video flex items-center justify-center p-6 md:p-12">
-        <div class="w-full max-w-sm md:max-w-lg">
-          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto") }}
+      <div class="relative bg-white dark:bg-gray-800 rounded-3xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square md:aspect-video flex items-center justify-center p-6 md:p-12 mx-auto">
+        <div class="w-full max-w-sm md:max-w-lg mx-auto">
+          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto mx-auto") }}
         </div>
       </div>
     </div>
@@ -50,18 +50,18 @@
 <!-- Features Section -->
 <section class="py-12 sm:py-20 bg-white dark:bg-gray-900">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">{{ .Params.sections.featuresHeading }}</h2>
-      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl">
+    <div class="text-center mb-16 mx-auto">
+      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4 text-center">{{ .Params.sections.featuresHeading }}</h2>
+      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl text-center">
         {{ .Params.sections.featuresTitle }}
       </p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch">
       {{ range .Params.features }}
-      <div class="relative p-8 rounded-[2.5rem] bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-800 transition-all duration-500 hover:shadow-xl hover:shadow-indigo-100/20">
-        <div class="flex items-start gap-6">
-          <div class="flex-shrink-0 w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform group-hover:scale-110">
+      <div class="relative p-8 rounded-[2.5rem] bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-800 transition-all duration-500 hover:shadow-xl hover:shadow-indigo-100/20 flex flex-col items-center text-center">
+        <div class="flex flex-col items-center">
+          <div class="w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform group-hover:scale-110 mb-6">
             {{ if eq .icon "check-circle" }}
             <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             {{ else if eq .icon "chart" }}
@@ -69,7 +69,7 @@
             {{ else if eq .icon "lock" }}
             <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
             {{ else if eq .icon "users" }}
-            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM4.318 20H4a2 2 0 01-2-2v-2a6 6 0 0112 0v2a2 2 0 01-2 2h-.682A6.003 6.003 0 0015 20h-.019" /></svg>
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
             {{ end }}
           </div>
           <div>
@@ -86,32 +86,29 @@
 <!-- Course Preview Section -->
 <section class="py-12 sm:py-20 bg-indigo-50/30 dark:bg-gray-800/50">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-      <div class="max-w-2xl text-center md:text-left">
-        <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">Start Learning</h2>
-        <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl">Science-Backed Curriculum</p>
-      </div>
-      <a href="/courses" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-8 transition-all">Browse all 12+ courses &rarr;</a>
+    <div class="text-center mb-16 mx-auto">
+      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4 text-center">Start Learning</h2>
+      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl text-center">Science-Backed Curriculum</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
       {{ range first 3 (where .Site.Sections "Section" "courses") }}
       {{ range first 3 .Sections }}
-      <div class="group flex flex-col bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100/30 dark:hover:shadow-none transition-all duration-500">
-        <div class="h-48 bg-gray-50 dark:bg-gray-800 flex items-center justify-center p-10">
+      <div class="group flex flex-col bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100/30 dark:hover:shadow-none transition-all duration-500 mx-auto w-full">
+        <div class="h-48 bg-gray-50 dark:bg-gray-800 flex items-center justify-center p-10 mx-auto w-full">
           {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full transition-transform duration-700 group-hover:scale-110") }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full transition-transform duration-700 group-hover:scale-110 mx-auto") }}
           {{ end }}
         </div>
-        <div class="p-8 flex-1 flex flex-col">
-          <div class="flex items-center gap-2 mb-4">
+        <div class="p-8 flex-1 flex flex-col items-center text-center">
+          <div class="flex items-center gap-2 mb-4 justify-center">
             <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
             <span class="w-1 h-1 rounded-full bg-gray-300"></span>
             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ len .Pages }} Lessons</span>
           </div>
-          <h3 class="text-xl font-black text-gray-900 dark:text-white leading-tight mb-4 group-hover:text-indigo-600 transition-colors">{{ .Title }}</h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-8 flex-grow leading-relaxed">{{ .Params.description | truncate 80 }}</p>
-          <a href="{{ .RelPermalink }}" class="inline-flex items-center text-sm font-black text-indigo-600 dark:text-indigo-400 group-hover:gap-2 transition-all">
+          <h3 class="text-xl font-black text-gray-900 dark:text-white leading-tight mb-4 group-hover:text-indigo-600 transition-colors text-center">{{ .Title }}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-8 flex-grow leading-relaxed text-center">{{ .Params.description | truncate 80 }}</p>
+          <a href="{{ .RelPermalink }}" class="inline-flex items-center justify-center text-sm font-black text-indigo-600 dark:text-indigo-400 group-hover:gap-2 transition-all mx-auto">
             Explore Syllabus &rarr;
           </a>
         </div>
@@ -119,19 +116,23 @@
       {{ end }}
       {{ end }}
     </div>
+    
+    <div class="mt-16 text-center mx-auto">
+      <a href="/courses" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-8 transition-all">Browse all 12+ courses &rarr;</a>
+    </div>
   </div>
 </section>
 
 <!-- Testimonials Section -->
 <section class="py-12 sm:py-20 bg-white dark:bg-gray-900">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-16 sm:text-5xl">{{ .Params.sections.testimonialsTitle }}</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-16 sm:text-5xl text-center">{{ .Params.sections.testimonialsTitle }}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
       {{ range .Params.testimonials }}
-      <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-[2.5rem] text-left border border-gray-50 dark:border-gray-700 shadow-sm">
-        <div class="flex text-amber-400 mb-6 text-sm">★★★★★</div>
-        <p class="text-gray-600 dark:text-gray-300 font-medium italic mb-8 leading-relaxed">"{{ .quote }}"</p>
-        <div class="flex items-center gap-4">
+      <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-[2.5rem] text-left border border-gray-50 dark:border-gray-700 shadow-sm flex flex-col items-center text-center">
+        <div class="flex text-amber-400 mb-6 text-sm justify-center">★★★★★</div>
+        <p class="text-gray-600 dark:text-gray-300 font-medium italic mb-8 leading-relaxed text-center">"{{ .quote }}"</p>
+        <div class="flex flex-col items-center gap-4">
           <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shadow-lg shadow-indigo-100">{{ .initials }}</div>
           <div>
             <p class="text-sm font-black text-gray-900 dark:text-white">{{ .author }}</p>
@@ -147,29 +148,29 @@
 <!-- Pricing Section -->
 <section class="py-12 sm:py-20 bg-gray-50 dark:bg-gray-900/50">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">Pricing</h2>
-      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 sm:text-5xl">{{ .Params.sections.pricingTitle }}</p>
-      <p class="text-lg text-gray-500 dark:text-gray-400 font-medium">{{ .Params.sections.pricingDescription }}</p>
+    <div class="text-center mb-16 mx-auto">
+      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4 text-center">Pricing</h2>
+      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 sm:text-5xl text-center">{{ .Params.sections.pricingTitle }}</p>
+      <p class="text-lg text-gray-500 dark:text-gray-400 font-medium text-center">{{ .Params.sections.pricingDescription }}</p>
     </div>
     
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch">
       {{ range sort (where .Site.RegularPages "Type" "plans") "Weight" }}
-      <div class="relative bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-transparent shadow-sm{{ end }} transition-all flex flex-col h-full">
+      <div class="relative bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-transparent shadow-sm{{ end }} transition-all flex flex-col h-full items-center text-center mx-auto w-full">
         {{ if .Params.recommended }}
         <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Best Value</div>
         {{ end }}
-        <div class="mb-8">
-          <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-4">{{ .Title }}</h3>
-          <div class="flex items-baseline gap-1">
+        <div class="mb-8 w-full">
+          <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-4 text-center">{{ .Title }}</h3>
+          <div class="flex items-baseline gap-1 justify-center">
             <span class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter">{{ .Params.price }}</span>
             <span class="text-gray-400 font-bold">/mo</span>
           </div>
-          <p class="mt-4 text-xs font-medium text-gray-500 dark:text-gray-400">{{ .Params.description }}</p>
+          <p class="mt-4 text-xs font-medium text-gray-500 dark:text-gray-400 text-center">{{ .Params.description }}</p>
         </div>
-        <ul class="space-y-4 mb-10 flex-grow">
+        <ul class="space-y-4 mb-10 flex-grow w-full">
           {{ range .Params.features }}
-          <li class="flex items-start gap-3 text-sm font-medium text-gray-600 dark:text-gray-300">
+          <li class="flex items-start gap-3 text-sm font-medium text-gray-600 dark:text-gray-400 text-left">
             <div class="mt-1 flex-shrink-0 w-5 h-5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center">
               <svg class="w-3 h-3 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="4"><path d="M5 13l4 4L19 7"/></svg>
             </div>
@@ -177,7 +178,7 @@
           </li>
           {{ end }}
         </ul>
-        <a href="/signup?plan={{ .Title }}" class="w-full py-4 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100{{ end }}">
+        <a href="/signup?plan={{ .Title }}" class="w-full py-4 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100{{ end }} flex items-center justify-center">
           Choose {{ .Title }}
         </a>
       </div>
@@ -189,24 +190,24 @@
 <!-- Final CTA -->
 <section class="py-12 sm:py-20">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative bg-indigo-600 dark:bg-indigo-900 rounded-[3.5rem] p-12 lg:p-20 overflow-hidden text-center text-white shadow-2xl shadow-indigo-200 dark:shadow-none">
+    <div class="relative bg-indigo-600 dark:bg-indigo-900 rounded-[3.5rem] p-12 lg:p-20 overflow-hidden text-center text-white shadow-2xl shadow-indigo-200 dark:shadow-none mx-auto">
       <div class="absolute inset-0 opacity-10">
         {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "#ffffff" "class" "absolute top-10 left-10 w-32 h-32") }}
         {{ partial "shared/handcrafts.html" (dict "element" "fun-arrow" "stroke" "#ffffff" "class" "absolute bottom-10 right-10 w-32 h-32 rotate-12") }}
       </div>
-      <div class="relative z-10">
-        <h2 class="text-4xl font-black tracking-tighter sm:text-6xl mb-8">
+      <div class="relative z-10 mx-auto text-center">
+        <h2 class="text-4xl font-black tracking-tighter sm:text-6xl mb-8 text-center">
           {{ .Params.sections.ctaHeading }}<br/>
           <span class="opacity-80">{{ .Params.sections.cataSubheading }}</span>
         </h2>
-        <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mx-auto">
           <button onclick="window.openModal('signupModal')" class="hide-on-logged-in px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
             {{ .Params.sections.cataButton }} &rarr;
           </button>
           <a href="/dashboard" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
             Go to Dashboard &rarr;
           </a>
-          <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase">7-day free trial &middot; No credit card required</p>
+          <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase text-center">7-day free trial &middot; No credit card required</p>
         </div>
       </div>
     </div>
