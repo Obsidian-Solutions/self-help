@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" class="font-sans">
 <head>
   {{ partial "shared/head.html" . }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
@@ -7,7 +7,10 @@
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }} {{ if (or (eq .Kind `login`) (eq .Kind `signup`) (in .RelPermalink `/login/`) (in .RelPermalink `/signup/`)) }}overflow-hidden h-screen{{ end }}">
   <style>
     /* Global UI Scaling: mimic 90% zoom for a more professional 'tight' feel */
-    html { font-size: 15px; }
+    html { 
+      font-size: 15px; 
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
     @media (min-width: 1280px) { html { font-size: 16px; } } /* Return to standard on very large screens */
 
     /* Sidebar visibility control */
