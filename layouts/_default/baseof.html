@@ -5,6 +5,11 @@
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
+  <style>
+    /* Prevent sidebar flash when logged out */
+    aside { display: none; }
+    .user-logged-in aside { display: block; }
+  </style>
   {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
   {{ $isAppShell := eq .Params.useAppShell true }}
 

@@ -164,6 +164,7 @@ window.checkAuth = () => {
 
   if (user) {
     console.log('User is signed in:', user.email, 'Plan:', user.plan);
+    document.body.classList.add('user-logged-in');
 
     // Redirect away from auth pages if logged in
     if (isAuthPage) {
@@ -282,6 +283,7 @@ window.checkAuth = () => {
     });
   } else {
     console.log('User is not signed in');
+    document.body.classList.remove('user-logged-in');
 
     // Update public buttons to prompt for login
     const courseStartBtns = document.querySelectorAll('.course-start-btn');

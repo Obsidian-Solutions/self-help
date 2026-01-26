@@ -182,6 +182,7 @@ window.checkAuth = () => {
   if (user) {
     // User is logged in
     console.log('Session active for:', user.email, 'Plan:', user.plan);
+    document.body.classList.add('user-logged-in');
 
     // Redirect away from auth pages if logged in
     if (isAuthPage) {
@@ -304,6 +305,7 @@ window.checkAuth = () => {
   } else {
     // User is NOT logged in
     console.log('No active session');
+    document.body.classList.remove('user-logged-in');
 
     // Update public buttons to prompt for login
     const courseStartBtns = document.querySelectorAll('.course-start-btn');
