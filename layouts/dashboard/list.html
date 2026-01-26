@@ -59,8 +59,8 @@
   </div>
 
   <!-- Mood & Goals Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-6">
-    <div class="md:col-span-2 bg-white shadow-sm rounded-3xl p-4 sm:p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mt-6">
+    <div class="lg:col-span-2 bg-white shadow-sm rounded-3xl p-4 sm:p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
       <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">
         {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
       </h3>
@@ -102,7 +102,7 @@
 
   <!-- My Courses -->
   <h3 class="text-xl font-black text-gray-900 dark:text-white mt-6 mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
     {{ $coursesSection := .Site.GetPage "section" "courses" }}
     {{ range $coursesSection.Sections }}
     {{ $courseTitle := .Title }}
