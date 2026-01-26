@@ -1,4 +1,5 @@
 ---
+useAppShell: true
 premium: false
 title: 'Mindfulness 101'
 description: "Reconnect with the present moment. A beginner's guide to meditation and awareness."
@@ -7,6 +8,8 @@ category: 'Mindfulness'
 duration: '4 weeks'
 level: 'Beginner'
 ---
+
+useAppShell: true
 
 premium: false
 

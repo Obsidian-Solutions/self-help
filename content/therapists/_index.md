@@ -1,8 +1,6 @@
 ---
-baseof: 'app'
-title: 'Find a Therapist'
-description: 'Professional support for your mental health journey. Connect with licensed professionals for personalized care.'
+useAppShell: true
+title: 'Therapist Directory'
+description: 'Connect with licensed mental health professionals specializing in CBT and holistic wellness.'
 layout: 'list'
 ---
-
-layout: "shell"

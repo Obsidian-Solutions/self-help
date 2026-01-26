@@ -1,4 +1,5 @@
 ---
+useAppShell: true
 premium: true
 title: 'Social Anxiety Bootcamp'
 description: 'Step-by-step exposure therapy to help you feel confident in social situations.'
@@ -7,6 +8,8 @@ category: 'Anxiety'
 duration: '8 weeks'
 level: 'Intermediate'
 ---
+
+useAppShell: true
 
 premium: true
 

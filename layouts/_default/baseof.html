@@ -6,7 +6,7 @@
 </head>
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
   {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-  {{ $isAppShell := eq .Params.layout "shell" }}
+  {{ $isAppShell := eq .Params.useAppShell true }}
 
   {{ if $isAppShell }}
     <!-- Application Shell -->

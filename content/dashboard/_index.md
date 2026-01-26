@@ -1,7 +1,7 @@
 ---
-baseof: 'app'
+useAppShell: true
 title: 'User Dashboard'
-layout: 'dashboard'
+layout: 'list'
 welcome:
   headline: 'Welcome back!'
   streak_text: "You're on a 3-day streak. Keep it up!"
@@ -21,5 +21,3 @@ demo_banner:
   title: 'Open Source Demo'
   text: 'You are currently using Local Authentication. Data is stored in your browser. To integrate a real backend like Supabase or Go, update static/js/auth.js.'
 ---
-
-layout: "shell"

@@ -1,4 +1,5 @@
 ---
+useAppShell: true
 premium: true
 title: 'CBT for Anxiety'
 description: 'Master your anxiety with Cognitive Behavioral Therapy techniques.'
@@ -7,6 +8,8 @@ category: 'Anxiety'
 duration: '6 weeks'
 level: 'Beginner'
 ---
+
+useAppShell: true
 
 premium: true
 

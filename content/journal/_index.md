@@ -1,8 +1,6 @@
 ---
-baseof: 'app'
-title: 'Private Journal'
+useAppShell: true
+title: 'My Journal'
+description: 'Reflect on your thoughts, track your progress, and cultivate mindfulness through daily journaling.'
 layout: 'list'
-description: 'Your thoughts are safe here. (Stored locally in your browser)'
 ---
-
-layout: "shell"

@@ -1,7 +1,5 @@
 ---
-baseof: 'app'
+useAppShell: true
 title: 'Account Settings'
-layout: 'settings'
+layout: 'single'
 ---
-
-layout: "shell"
