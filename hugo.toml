@@ -11,7 +11,9 @@ description = 'Science-backed CBT tools and expert guidance to help you master y
 [params]
   author = 'MindFull Team'
   description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
+  keywords = 'mental health, CBT, therapy, mindfulness, mood tracking, self-help, wellness'
   og_image = '/images/og-image.png'
+  twitter_handle = '@mindfull' # Add your actual handle here
 
 # Hugo Configuration
 enableRobotsTXT = true

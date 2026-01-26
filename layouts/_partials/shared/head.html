@@ -4,6 +4,7 @@
 <!-- Basic SEO -->
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
 <meta name="description" content="{{ .Description | default site.Params.description }}" />
+<meta name="keywords" content="{{ if .Params.keywords }}{{ delimit .Params.keywords ", " }}{{ else }}{{ site.Params.keywords }}{{ end }}" />
 <meta name="author" content="{{ site.Params.author | default "MindFull" }}" />
 <link rel="canonical" href="{{ .Permalink }}" />
 
@@ -12,7 +13,7 @@
 <meta property="og:url" content="{{ .Permalink }}" />
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
 <meta property="og:description" content="{{ .Description | default site.Params.description }}" />
-<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "images/og-image.png" | absURL }}{{ end }}" />
+<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ site.Params.og_image | absURL }}{{ end }}" />
 <meta property="og:site_name" content="{{ site.Title }}" />
 
 <!-- Twitter -->
@@ -20,7 +21,11 @@
 <meta name="twitter:url" content="{{ .Permalink }}" />
 <meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
 <meta name="twitter:description" content="{{ .Description | default site.Params.description }}" />
-<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "images/og-image.png" | absURL }}{{ end }}" />
+<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ site.Params.og_image | absURL }}{{ end }}" />
+{{ with site.Params.twitter_handle }}
+<meta name="twitter:site" content="{{ . }}" />
+<meta name="twitter:creator" content="{{ . }}" />
+{{ end }}
 
 <!-- Verification & Robots -->
 <meta name="robots" content="index, follow" />
