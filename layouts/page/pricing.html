@@ -1,0 +1,83 @@
+{{ define "main" }}
+<div class="py-12 sm:py-20 animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <div class="text-center mb-16">
+    <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-6xl mb-4">Invest in Your Mind</h1>
+    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">{{ .Params.description }}</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto mb-20">
+    {{ range where .Site.RegularPages "Section" "plans" }}
+    <div class="relative bg-white dark:bg-gray-800 p-10 rounded-[3rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-gray-100 dark:border-gray-700 shadow-sm{{ end }} transition-all flex flex-col h-full">
+      {{ if .Params.recommended }}
+      <div class="absolute -top-5 left-1/2 -translate-x-1/2 px-6 py-1.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Most Popular</div>
+      {{ end }}
+      <div class="mb-10">
+        <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-4">{{ .Title }}</h3>
+        <div class="flex items-baseline gap-1">
+          <span class="text-6xl font-black text-gray-900 dark:text-white tracking-tighter">{{ .Params.price }}</span>
+          <span class="text-gray-400 font-bold text-lg">/mo</span>
+        </div>
+      </div>
+      <ul class="space-y-5 mb-12 flex-grow">
+        {{ range .Params.features }}
+        <li class="flex items-center gap-4 text-base font-medium text-gray-600 dark:text-gray-300">
+          <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center">
+            <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+          </div>
+          {{ . }}
+        </li>
+        {{ end }}
+      </ul>
+      <a href="/signup?plan={{ .Title }}" class="w-full py-5 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-xl shadow-indigo-200{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100{{ end }}">
+        Choose {{ .Title }} &rarr;
+      </a>
+    </div>
+    {{ end }}
+  </div>
+
+  <!-- Comparison Table -->
+  <div class="mt-24 max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Full Plan Comparison</h2>
+    </div>
+    <div class="overflow-hidden border border-gray-100 dark:border-gray-700 rounded-3xl bg-white dark:bg-gray-800 shadow-sm">
+      <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-700">
+        <thead class="bg-gray-50 dark:bg-gray-900/50">
+          <tr>
+            <th class="px-6 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest">Feature</th>
+            <th class="px-6 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest">Free</th>
+            <th class="px-6 py-4 text-center text-[10px] font-black text-gray-400 uppercase tracking-widest text-indigo-600">Pro</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50 dark:divide-gray-700 font-medium text-sm">
+          <tr>
+            <td class="px-6 py-4 text-gray-900 dark:text-white font-bold">Course Access</td>
+            <td class="px-6 py-4 text-center text-gray-500">Foundation only</td>
+            <td class="px-6 py-4 text-center text-gray-900 dark:text-white font-bold">Unlimited</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 text-gray-900 dark:text-white font-bold">Mood Tracking</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 text-gray-900 dark:text-white font-bold">Personal Journal</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 text-gray-900 dark:text-white font-bold">Therapist Booking</td>
+            <td class="px-6 py-4 text-center text-gray-400">—</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 text-gray-900 dark:text-white font-bold">Offline Access</td>
+            <td class="px-6 py-4 text-center text-gray-400">—</td>
+            <td class="px-6 py-4 text-center text-green-500">✓</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{{ end }}
