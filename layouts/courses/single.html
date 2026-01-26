@@ -29,6 +29,11 @@
                 <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                   >{{ .Params.category }}</span
                 >
+                {{ if .Params.premium }}
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">Pro</span>
+                {{ else }}
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400">Free</span>
+                {{ end }}
                 {{ $courseLessons := where .Site.RegularPages "Section" "lessons" }}
                 {{ $thisCourseLessons := where $courseLessons "Params.course" .Title }}
                 <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ len $thisCourseLessons }} Lessons</span>
@@ -36,7 +41,10 @@
               
               {{ if gt (len $thisCourseLessons) 0 }}
                 {{ $firstLesson := index (sort $thisCourseLessons "File.Path" "asc") 0 }}
-                <a href="{{ $firstLesson.RelPermalink }}" class="btn btn-primary px-8">Start Course</a>
+                <a href="{{ $firstLesson.RelPermalink }}" 
+                   data-auth-href="{{ $firstLesson.RelPermalink }}" 
+                   data-premium="{{ .Params.premium }}"
+                   class="course-start-btn btn btn-primary px-8">Start Course</a>
               {{ else }}
                 <button class="btn btn-primary opacity-50 cursor-not-allowed" disabled>Coming Soon</button>
               {{ end }}

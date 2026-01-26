@@ -203,6 +203,12 @@ window.checkAuth = () => {
     // Header: User Name
     if (userDisplay) userDisplay.innerText = user.name || user.email;
 
+    // Show auth-only elements
+    document.querySelectorAll('.auth-only').forEach(el => {
+      el.classList.remove('hidden');
+      el.style.display = '';
+    });
+
     // Update links logic
     const allAuthLinks = document.querySelectorAll(
       'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
@@ -245,13 +251,53 @@ window.checkAuth = () => {
           );
           link.classList.remove('bg-primary');
           link.onclick = e => e.preventDefault();
+        } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
+          link.innerText = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          link.href = '/settings';
+        } else if (currentPlan !== 'free' && planName === 'free') {
+          link.innerText = 'Downgrade to Free';
+          link.href = '/settings';
         } else {
+          link.innerText = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
           link.href = '/settings';
         }
       }
     });
+
+    // Handle Course Access per Subscription
+    const courseStartBtns = document.querySelectorAll('.course-start-btn');
+    courseStartBtns.forEach(btn => {
+      const isPremium = btn.getAttribute('data-premium') === 'true';
+      const userPlan = (user.plan || 'Free').toLowerCase();
+
+      if (isPremium && userPlan === 'free') {
+        btn.innerText = 'Upgrade to Pro to Start';
+        btn.href = '/settings';
+        btn.classList.add('opacity-90');
+        btn.onclick = null;
+      } else {
+        btn.innerText = btn.innerText.includes('Course') ? 'Start Course' : 'Start Learning';
+        btn.href = btn.getAttribute('data-auth-href') || btn.href;
+      }
+    });
   } else {
     console.log('User is not signed in');
+
+    // Update public buttons to prompt for login
+    const courseStartBtns = document.querySelectorAll('.course-start-btn');
+    courseStartBtns.forEach(btn => {
+      btn.onclick = e => {
+        e.preventDefault();
+        if (window.openModal) {
+          window.openModal('signupModal');
+        } else {
+          window.location.href = '/signup';
+        }
+      };
+    });
+
+    // Hide auth-only elements
+    document.querySelectorAll('.auth-only').forEach(el => el.classList.add('hidden'));
 
     // Header UI Updates
     if (loggedOutDiv) {

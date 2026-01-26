@@ -34,41 +34,59 @@
             </div>
             <div class="flex-1 p-6 flex flex-col justify-between">
               <div>
-                <div class="flex items-center gap-3 mb-2">
-                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
-                    {{ .Params.category }}
-                  </span>
-                  {{ $lessons := where .Site.RegularPages "Params.course" .Title }}
-                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
-                    {{ len $lessons }} Lessons
-                  </span>
-                </div>
-                <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-indigo-400 transition-colors">
-                  {{ .Title }}
-                </h3>
-                <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">
-                  {{ .Params.description }}
-                </p>
-                <!-- Progress Bar -->
-                <div class="mt-4 max-w-xs" data-course-card="{{ .Title }}">
-                  <div class="flex justify-between mb-1">
-                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Progress</span>
-                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400" data-progress-text="{{ .Title }}">0%</span>
-                  </div>
-                  <div class="overflow-hidden h-1.5 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
-                    <div data-progress-bar="{{ .Title }}" style="width: 0%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"></div>
-                  </div>
-                  <span class="hidden total-lessons-count">{{ len $lessons }}</span>
-                </div>
-              </div>
-              <div class="mt-6 flex items-center gap-4">
-                <a href="{{ .RelPermalink }}" class="btn btn-primary px-6">View Syllabus</a>
-                {{ if gt (len $lessons) 0 }}
-                  {{ $first := index (sort $lessons "File.Path" "asc") 0 }}
-                  <a href="{{ $first.RelPermalink }}" class="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors">Start Learning &rarr;</a>
-                {{ end }}
-              </div>
-            </div>
+                                <div class="flex items-center gap-3 mb-2">
+                                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
+                                    {{ .Params.category }}
+                                  </span>
+                                  {{ if .Params.premium }}
+                                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-100 dark:border-amber-800">
+                                    Pro
+                                  </span>
+                                  {{ else }}
+                                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+                                    Free
+                                  </span>
+                                  {{ end }}
+                                  {{ $lessons := where .Site.RegularPages "Params.course" .Title }}
+                                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                                    {{ len $lessons }} Lessons
+                                  </span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-indigo-400 transition-colors">
+                                  {{ .Title }}
+                                </h3>
+                                <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">
+                                  {{ .Params.description }}
+                                </p>
+                                <!-- Progress Bar (Shown via JS only if logged in) -->
+                                <div class="mt-4 max-w-xs hidden auth-only" data-course-card="{{ .Title }}">
+                                  <div class="flex justify-between mb-1">
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Your Progress</span>
+                                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400" data-progress-text="{{ .Title }}">0%</span>
+                                  </div>
+                                  <div class="overflow-hidden h-1.5 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
+                                    <div
+                                      data-progress-bar="{{ .Title }}"
+                                      style="width: 0%"
+                                      class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"
+                                    ></div>
+                                  </div>
+                                  <span class="hidden total-lessons-count">{{ len $lessons }}</span>
+                                </div>
+                              </div>
+                              <div class="mt-6 flex items-center gap-4">
+                                <a href="{{ .RelPermalink }}" class="btn btn-primary px-6">View Syllabus</a>
+                                {{ if gt (len $lessons) 0 }}
+                                  {{ $first := index (sort $lessons "File.Path" "asc") 0 }}
+                                  <a href="{{ $first.RelPermalink }}" 
+                                     data-auth-href="{{ $first.RelPermalink }}" 
+                                     data-premium="{{ .Params.premium }}"
+                                     class="course-start-btn text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors"
+                                  >
+                                    Start Learning &rarr;
+                                  </a>
+                                {{ end }}
+                              </div>            </div>
           </div>
         </div>
         {{ end }}

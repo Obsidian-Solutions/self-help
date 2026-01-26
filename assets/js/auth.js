@@ -220,6 +220,12 @@ window.checkAuth = () => {
     if (navDashboard) navDashboard.classList.remove('hidden');
     if (navCourses) navCourses.classList.remove('hidden');
 
+    // Show auth-only elements (progress bars)
+    document.querySelectorAll('.auth-only').forEach(el => {
+      el.classList.remove('hidden');
+      el.style.display = '';
+    });
+
     // Update "Get Started" and "Choose Plan" buttons dynamically
     const allAuthLinks = document.querySelectorAll(
       'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
@@ -278,9 +284,38 @@ window.checkAuth = () => {
         }
       }
     });
+
+    // Handle Course Access per Subscription
+    const courseStartBtns = document.querySelectorAll('.course-start-btn');
+    courseStartBtns.forEach(btn => {
+      const isPremium = btn.getAttribute('data-premium') === 'true';
+      const userPlan = (user.plan || 'Free').toLowerCase();
+
+      if (isPremium && userPlan === 'free') {
+        btn.innerText = 'Upgrade to Pro to Start';
+        btn.href = '/settings';
+        btn.classList.add('opacity-90');
+        btn.onclick = null;
+      } else {
+        btn.innerText = btn.innerText.includes('Course') ? 'Start Course' : 'Start Learning';
+        btn.href = btn.getAttribute('data-auth-href') || btn.href;
+      }
+    });
   } else {
     // User is NOT logged in
     console.log('No active session');
+
+    // Update public buttons to prompt for login
+    const courseStartBtns = document.querySelectorAll('.course-start-btn');
+    courseStartBtns.forEach(btn => {
+      btn.onclick = e => {
+        e.preventDefault();
+        window.openModal('signupModal');
+      };
+    });
+
+    // Hide auth-only elements
+    document.querySelectorAll('.auth-only').forEach(el => el.classList.add('hidden'));
 
     // Show logged-out state
     if (loggedOutDiv) {

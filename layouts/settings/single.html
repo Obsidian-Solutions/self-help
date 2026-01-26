@@ -86,31 +86,39 @@
           <div id="settings-tab-subscription" class="settings-tab-content hidden">
             <div class="bg-white dark:bg-gray-800 shadow-sm rounded-2xl p-6 border border-gray-100 dark:border-gray-700">
               <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Subscription Plan</h3>
-              <div class="flex items-center justify-between p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800">
+              <div class="flex items-center justify-between p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-800 mb-8">
                 <div>
                   <p class="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-widest">Current Plan</p>
                   <p id="current-plan-display" class="text-3xl font-black text-gray-900 dark:text-white mt-1">Free Tier</p>
                 </div>
-                <button id="plan-action-btn" onclick="togglePlan()" class="btn btn-primary shadow-lg shadow-indigo-200 dark:shadow-none">
-                  Upgrade to Pro
-                </button>
               </div>
-              <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/20">
-                  <h4 class="font-bold text-gray-900 dark:text-white mb-2">Free Plan</h4>
-                  <ul class="text-sm text-gray-500 space-y-2">
-                    <li class="flex items-center">✓ Basic CBT Lessons</li>
-                    <li class="flex items-center">✓ Private Journal</li>
-                  </ul>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {{ range where .Site.RegularPages "Section" "plans" }}
+                <div class="flex flex-col p-6 rounded-2xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:border-indigo-200 transition-all">
+                  <div class="flex-1">
+                    <h4 class="font-bold text-gray-900 dark:text-white text-xl">{{ .Title }}</h4>
+                    <p class="text-2xl font-black text-indigo-600 dark:text-indigo-400 mt-2">{{ .Params.price }}</p>
+                    <ul class="text-sm text-gray-500 mt-6 space-y-3">
+                      {{ range .Params.features }}
+                      <li class="flex items-center">
+                        <svg class="h-4 w-4 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {{ . }}
+                      </li>
+                      {{ end }}
+                    </ul>
+                  </div>
+                  <button 
+                    onclick="switchPlan('{{ .Title }}')" 
+                    data-plan-btn="{{ .Title }}"
+                    class="mt-8 w-full py-3 px-4 rounded-xl font-bold text-sm transition-all bg-indigo-600 text-white hover:bg-indigo-700"
+                  >
+                    Select Plan
+                  </button>
                 </div>
-                <div class="p-4 rounded-xl border border-indigo-100 dark:border-indigo-800 bg-white dark:bg-gray-800 shadow-sm">
-                  <h4 class="font-bold text-gray-900 dark:text-white mb-2">Pro Plan</h4>
-                  <ul class="text-sm text-gray-500 space-y-2">
-                    <li class="flex items-center">✓ All Premium Courses</li>
-                    <li class="flex items-center">✓ Advanced Analytics</li>
-                    <li class="flex items-center">✓ Priority Support</li>
-                  </ul>
-                </div>
+                {{ end }}
               </div>
             </div>
           </div>
@@ -246,7 +254,7 @@
       // Update plan display
       const currentPlan = user.plan || 'Free';
       document.getElementById('current-plan-display').innerText = currentPlan + ' Tier';
-      document.getElementById('plan-action-btn').innerText = currentPlan === 'Free' ? 'Upgrade to Pro' : 'Downgrade to Free';
+      updatePlanButtons(currentPlan);
     }
 
     // Load theme
@@ -258,6 +266,23 @@
     updateNotifUI('dailyReminders', notifs.dailyReminders);
     updateNotifUI('courseUpdates', notifs.courseUpdates);
   });
+
+  function updatePlanButtons(currentPlan) {
+    document.querySelectorAll('[data-plan-btn]').forEach(btn => {
+      const planName = btn.getAttribute('data-plan-btn');
+      if (planName.toLowerCase() === currentPlan.toLowerCase()) {
+        btn.innerText = 'Current Plan';
+        btn.disabled = true;
+        btn.classList.add('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-700');
+        btn.classList.remove('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
+      } else {
+        btn.innerText = 'Select Plan';
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-700');
+        btn.classList.add('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
+      }
+    });
+  }
 
   function handleAvatar(event) {
     const file = event.target.files[0];
@@ -351,11 +376,10 @@
     }, 1000);
   }
 
-  function togglePlan() {
+  function switchPlan(newPlan) {
     let session = JSON.parse(localStorage.getItem('mindfull_session'));
     if (!session) return;
 
-    const newPlan = session.plan === 'Pro' ? 'Free' : 'Pro';
     session.plan = newPlan;
     localStorage.setItem('mindfull_session', JSON.stringify(session));
 
@@ -371,9 +395,16 @@
       window.showToast(`Plan updated to ${newPlan}!`, 'success');
     }
 
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+    // Refresh UI
+    document.getElementById('current-plan-display').innerText = newPlan + ' Tier';
+    updatePlanButtons(newPlan);
+    
+    // Update sidebar if possible without full reload
+    const sidebarPlan = document.getElementById('sidebar-user-plan');
+    if (sidebarPlan) sidebarPlan.innerText = newPlan + ' Plan';
+    
+    // Force a checkAuth to update all other buttons on the page
+    if (window.checkAuth) window.checkAuth();
   }
 
   function updateThemeSetting(theme) {
