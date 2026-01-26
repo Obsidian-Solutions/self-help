@@ -15,7 +15,9 @@
 
     /* Sidebar visibility control */
     .app-sidebar { display: none; }
-    .user-logged-in.is-app-page .app-sidebar { display: block; width: 15rem; flex-shrink: 0; }
+    @media (min-width: 768px) {
+      .user-logged-in.is-app-page .app-sidebar { display: block; width: 15rem; flex-shrink: 0; }
+    }
 
     /* For logged-out users on app pages, we show the special CTA block */
     .app-content-wrapper { display: block; }

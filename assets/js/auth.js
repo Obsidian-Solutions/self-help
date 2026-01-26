@@ -169,8 +169,12 @@ window.checkAuth = () => {
   const user = getSession();
   const loggedOutDiv = document.getElementById('auth-logged-out');
   const loggedInDiv = document.getElementById('auth-logged-in');
+  const mobileLoggedOutDiv = document.getElementById('mobile-auth-logged-out');
+  const mobileLoggedInDiv = document.getElementById('mobile-auth-logged-in');
   const userDisplayName = document.getElementById('user-display-name');
+  const mobileDisplayName = document.getElementById('mobile-user-name');
   const navDashboard = document.getElementById('nav-dashboard');
+  const mobileDashboardLinks = document.querySelectorAll('.mobile-dashboard-link');
   const navCourses = document.getElementById('nav-courses');
 
   const path = window.location.pathname;
@@ -202,6 +206,12 @@ window.checkAuth = () => {
       loggedInDiv.style.display = 'flex';
     }
 
+    // Update Mobile UI
+    if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.add('hidden');
+    if (mobileLoggedInDiv) mobileLoggedInDiv.classList.remove('hidden');
+    if (mobileDisplayName) mobileDisplayName.innerText = user.name || user.email;
+    mobileDashboardLinks.forEach(link => link.classList.remove('hidden'));
+
     // Show Sidebar if it exists
     const sidebar = document.querySelector('aside');
     if (sidebar) {
@@ -209,8 +219,6 @@ window.checkAuth = () => {
       // On small screens it might be hidden by default, but let's ensure it's visible in app state
       sidebar.style.display = '';
     }
-
-    // ... (rest of logged in logic)
 
     // Display user's name
     if (userDisplayName) {
@@ -233,7 +241,7 @@ window.checkAuth = () => {
     );
     allAuthLinks.forEach(btn => {
       // Don't touch header links we already handled via hidden classes
-      if (btn.closest('#auth-logged-out')) return;
+      if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
 
       const btnText = btn.innerText.toLowerCase();
       const currentPlan = (user.plan || 'Free').toLowerCase();
@@ -330,31 +338,28 @@ window.checkAuth = () => {
       loggedInDiv.style.display = 'none';
     }
 
+    // Update Mobile UI
+    if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.remove('hidden');
+    if (mobileLoggedInDiv) mobileLoggedInDiv.classList.add('hidden');
+    mobileDashboardLinks.forEach(link => link.classList.add('hidden'));
+
     // Hide Sidebar if it exists
-
     const sidebar = document.querySelector('aside');
-
     if (sidebar) {
       sidebar.classList.add('hidden');
-
       sidebar.style.display = 'none';
     }
 
     // Hide dashboard/protected nav
-
     if (navDashboard) navDashboard.classList.add('hidden');
 
     // Redirect if on protected page
-
     if (isProtectedPage) {
       console.warn('Access denied. Redirecting to login.');
-
       if (isAuthPage) return; // Already on login/signup
 
       // If we have modals, use them, otherwise redirect to login page
-
       const hasModals = document.getElementById('loginModal');
-
       if (
         hasModals &&
         (path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings'))

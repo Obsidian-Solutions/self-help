@@ -36,10 +36,10 @@
     </div>
 
     <!-- Hero Mockup/Illustration -->
-    <div class="mt-20 relative max-w-4xl mx-auto animate-in fade-in zoom-in-95 duration-1000 delay-500">
+    <div class="mt-12 md:mt-20 relative max-w-4xl mx-auto animate-in fade-in zoom-in-95 duration-1000 delay-500">
       <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-[3rem] blur-3xl scale-95"></div>
-      <div class="relative bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-[16/9] flex items-center justify-center p-12">
-        <div class="w-full max-w-lg">
+      <div class="relative bg-white dark:bg-gray-800 rounded-3xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square md:aspect-video flex items-center justify-center p-6 md:p-12">
+        <div class="w-full max-w-sm md:max-w-lg">
           {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto") }}
         </div>
       </div>
