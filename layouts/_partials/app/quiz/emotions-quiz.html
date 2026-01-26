@@ -1,27 +1,32 @@
-<div
-  class="bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900 dark:to-indigo-900 rounded-lg p-8 my-12"
->
-  <div class="max-w-2xl mx-auto">
-    <div class="text-center mb-8">
-      <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+<div class="bg-white dark:bg-gray-800 rounded-[2.5rem] p-10 border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden relative group">
+  <!-- Decorative Background -->
+  <div class="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 dark:bg-indigo-950/20 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
+  
+  <div class="relative z-10 max-w-2xl mx-auto">
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-4">
+        Interactive Assessment
+      </div>
+      <h2 class="text-3xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-4xl mb-4">
         Understand Your Emotions
       </h2>
-      <p class="text-gray-600 dark:text-gray-300">
-        Take this quick quiz to learn more about emotional awareness
+      <p class="text-lg text-gray-500 dark:text-gray-400 font-medium">
+        Take this 2-minute quiz to explore your current emotional awareness and learn key CBT concepts.
       </p>
     </div>
 
-    {{ partial "app/quiz/quiz-engine.html" . }}
+    <div class="bg-gray-50/50 dark:bg-gray-900/30 rounded-3xl p-2">
+      {{ partial "app/quiz/quiz-engine.html" . }}
+    </div>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Initialize the "Understanding Your Emotions" quiz
     const emotionQuiz = {
-      title: 'Understanding Your Emotions',
-      description: 'Learn to identify and understand different emotions',
-      resultMessage: 'Great job! Understanding your emotions is the first step to managing them.',
+      title: 'Emotional Awareness',
+      description: 'Explore the basics of emotional intelligence',
+      resultMessage: 'Great work! You have completed the assessment.',
       questions: [
         {
           question: 'What is the primary purpose of emotions?',
@@ -81,7 +86,6 @@
       ],
     };
 
-    // Only initialize if the quiz element exists
     if (document.querySelector('.quiz-container')) {
       initializeQuiz(emotionQuiz);
     }
