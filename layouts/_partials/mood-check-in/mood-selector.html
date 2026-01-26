@@ -1,19 +1,17 @@
-{{ $moods := slice "🤗 Great" "😊 Good" "😐 Neutral" "😔 Not Great" "😢 Struggling" }}
-
 <div class="mood-selector" id="mood-selector-container">
   <div id="mood-check-in-view">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
       How are you feeling today?
     </h3>
     <div class="grid grid-cols-5 gap-2">
-      {{ range $moods }}
+      {{ range .Site.Data.labels.moods }}
       <button
         class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
-        data-mood="{{ . }}"
+        data-mood="{{ .emoji }} {{ .label }}"
       >
-        <div class="text-3xl mb-2">{{ $emoji := strings.Split . " " }}{{ index $emoji 0 }}</div>
+        <div class="text-3xl mb-2">{{ .emoji }}</div>
         <div class="text-xs font-medium text-gray-600 dark:text-gray-300">
-          {{ $label := strings.Split . " " }}{{ index $label 1 }}
+          {{ .label }}
         </div>
       </button>
       {{ end }}

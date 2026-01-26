@@ -3,7 +3,7 @@
   <div data-modal-content class="w-full max-w-md mx-4">
     <!-- Modal Header -->
     <div data-modal-header>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Create Account</h2>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ .Site.Data.labels.auth_modals.signup.title }}</h2>
       <button
         data-modal-close
         onclick="window.closeModal('signupModal')"
@@ -26,7 +26,7 @@
           <label
             for="signup-name"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Full Name</label
+            >{{ .Site.Data.labels.auth_modals.signup.name_label }}</label
           >
           <input
             id="signup-name"
@@ -40,7 +40,7 @@
           <label
             for="signup-email"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Email</label
+            >{{ .Site.Data.labels.auth_modals.signup.email_label }}</label
           >
           <input
             id="signup-email"
@@ -54,7 +54,7 @@
           <label
             for="signup-password"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Password</label
+            >{{ .Site.Data.labels.auth_modals.signup.password_label }}</label
           >
           <input
             id="signup-password"
@@ -68,16 +68,16 @@
           type="submit"
           class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600"
         >
-          Create Account
+          {{ .Site.Data.labels.auth_modals.signup.submit_btn }}
         </button>
       </form>
       <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-        Already have an account?
+        {{ .Site.Data.labels.auth_modals.signup.footer_text }}
         <a
           href="#"
           onclick="window.switchModal('signupModal', 'loginModal')"
           class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
-          >Sign in</a
+          >{{ .Site.Data.labels.auth_modals.signup.footer_link }}</a
         >
       </p>
     </div>

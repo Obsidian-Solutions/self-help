@@ -3,7 +3,7 @@
   <div data-modal-content class="w-full max-w-md mx-4">
     <!-- Modal Header -->
     <div data-modal-header>
-      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Sign In</h2>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ .Site.Data.labels.auth_modals.login.title }}</h2>
       <button
         data-modal-close
         onclick="window.closeModal('loginModal')"
@@ -26,7 +26,7 @@
           <label
             for="login-email"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Email</label
+            >{{ .Site.Data.labels.auth_modals.login.email_label }}</label
           >
           <input
             id="login-email"
@@ -40,7 +40,7 @@
           <label
             for="login-password"
             class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >Password</label
+            >{{ .Site.Data.labels.auth_modals.login.password_label }}</label
           >
           <input
             id="login-password"
@@ -54,16 +54,16 @@
           type="submit"
           class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600"
         >
-          Sign In
+          {{ .Site.Data.labels.auth_modals.login.submit_btn }}
         </button>
       </form>
       <p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-        Don't have an account?
+        {{ .Site.Data.labels.auth_modals.login.footer_text }}
         <a
           href="#"
           onclick="window.switchModal('loginModal', 'signupModal')"
           class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
-          >Sign up</a
+          >{{ .Site.Data.labels.auth_modals.login.footer_link }}</a
         >
       </p>
     </div>

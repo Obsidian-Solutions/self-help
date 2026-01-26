@@ -5,5 +5,41 @@
     "total_label": "total check-ins",
     "encouragement_bold": "Keep it up!",
     "encouragement_text": "Every day you check in, you're building awareness of your emotions. 🌱"
-  }
+  },
+  "sidebar": {
+    "nav": [
+      { "name": "Dashboard", "url": "/dashboard", "icon": "home" },
+      { "name": "My Courses", "url": "/courses", "icon": "academic-cap" },
+      { "name": "Journal", "url": "/journal", "icon": "pencil-alt" },
+      { "name": "Blog", "url": "/posts", "icon": "newspaper" },
+      { "name": "Therapists", "url": "/therapists", "icon": "user-group" },
+      { "name": "Settings", "url": "/settings", "icon": "cog" }
+    ]
+  },
+  "auth_modals": {
+    "login": {
+      "title": "Sign In",
+      "email_label": "Email",
+      "password_label": "Password",
+      "submit_btn": "Sign In",
+      "footer_text": "Don't have an account?",
+      "footer_link": "Sign up"
+    },
+    "signup": {
+      "title": "Create Account",
+      "name_label": "Full Name",
+      "email_label": "Email",
+      "password_label": "Password",
+      "submit_btn": "Create Account",
+      "footer_text": "Already have an account?",
+      "footer_link": "Sign in"
+    }
+  },
+  "moods": [
+    { "emoji": "🤗", "label": "Great" },
+    { "emoji": "😊", "label": "Good" },
+    { "emoji": "😐", "label": "Neutral" },
+    { "emoji": "😔", "label": "Not Great" },
+    { "emoji": "😢", "label": "Struggling" }
+  ]
 }
