@@ -148,16 +148,38 @@
     const container = document.getElementById('entries-list');
 
     if (entries.length === 0) {
-      container.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-12 px-4 text-center bg-white dark:bg-gray-800 rounded-[3rem] border-2 border-dashed border-gray-100 dark:border-gray-700">
-          <div class="w-full max-w-xs mb-8 opacity-80">
-            <img src="/illustrations/library/{{ $labels.empty_state.illustration }}.svg" class="w-full h-auto mx-auto" alt="No entries" loading="lazy" decoding="async">
-          </div>
-          <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">{{ $labels.empty_state.title }}</h3>
-          <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-8 font-medium">{{ $labels.empty_state.description }}</p>
-          <button onclick="document.getElementById('journal-title').focus()" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4">{{ $labels.empty_state.cta }} &rarr;</button>
-        </div>
-      `;
+      container.innerHTML = '';
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'flex flex-col items-center justify-center py-12 px-4 text-center bg-white dark:bg-gray-800 rounded-[3rem] border-2 border-dashed border-gray-100 dark:border-gray-700';
+      
+      const illuWrapper = document.createElement('div');
+      illuWrapper.className = 'w-full max-w-xs mb-8 opacity-80';
+      const img = document.createElement('img');
+      img.src = '/illustrations/library/{{ $labels.empty_state.illustration }}.svg';
+      img.className = 'w-full h-auto mx-auto';
+      img.alt = 'No entries';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      illuWrapper.appendChild(img);
+
+      const titleH3 = document.createElement('h3');
+      titleH3.className = 'text-2xl font-black text-gray-900 dark:text-white mb-2';
+      titleH3.textContent = '{{ $labels.empty_state.title }}';
+
+      const descP = document.createElement('p');
+      descP.className = 'text-gray-500 dark:text-gray-400 max-w-sm mb-8 font-medium';
+      descP.textContent = '{{ $labels.empty_state.description }}';
+
+      const ctaBtn = document.createElement('button');
+      ctaBtn.className = 'text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4';
+      ctaBtn.textContent = '{{ $labels.empty_state.cta }} →';
+      ctaBtn.onclick = () => document.getElementById('journal-title').focus();
+
+      emptyDiv.appendChild(illuWrapper);
+      emptyDiv.appendChild(titleH3);
+      emptyDiv.appendChild(descP);
+      emptyDiv.appendChild(ctaBtn);
+      container.appendChild(emptyDiv);
       return;
     }
 
@@ -168,56 +190,80 @@
       entryDiv.className = 'bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-6 border border-gray-100 dark:border-gray-700 group transition-all hover:shadow-md';
       entryDiv.id = `entry-${entry.id}`;
 
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'flex justify-between items-start mb-6';
+
+      const titleWrapper = document.createElement('div');
       const dateSpan = document.createElement('span');
       dateSpan.className = 'text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-1 block';
       dateSpan.textContent = entry.date;
-
       const titleH4 = document.createElement('h4');
       titleH4.className = 'text-2xl font-black text-gray-900 dark:text-white';
-      titleH4.id = `title-${entry.id}`;
       titleH4.textContent = entry.title;
-
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'text-gray-600 dark:text-gray-300 font-medium leading-relaxed prose prose-indigo dark:prose-invert max-w-none';
-      contentDiv.id = `content-${entry.id}`;
-      contentDiv.innerHTML = parseMarkdown(entry.content);
-
-      const headerDiv = document.createElement('div');
-      headerDiv.className = 'flex justify-between items-start mb-6';
-      
-      const titleWrapper = document.createElement('div');
       titleWrapper.appendChild(dateSpan);
       titleWrapper.appendChild(titleH4);
 
       const actionsDiv = document.createElement('div');
       actionsDiv.className = 'flex items-center space-x-3';
-      actionsDiv.innerHTML = `
-        <button onclick="editEntry(${entry.id})" class="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-        </button>
-        <button onclick="deleteEntry(${entry.id})" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-        </button>
-      `;
+      
+      const editBtn = document.createElement('button');
+      editBtn.className = 'p-2 text-gray-400 hover:text-indigo-600 transition-colors';
+      editBtn.onclick = () => editEntry(entry.id);
+      editBtn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>`;
+      
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'p-2 text-gray-400 hover:text-red-500 transition-colors';
+      deleteBtn.onclick = () => deleteEntry(entry.id);
+      deleteBtn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>`;
+      
+      actionsDiv.appendChild(editBtn);
+      actionsDiv.appendChild(deleteBtn);
 
       headerDiv.appendChild(titleWrapper);
       headerDiv.appendChild(actionsDiv);
 
-      entryDiv.appendChild(headerDiv);
-      entryDiv.appendChild(contentDiv);
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'text-gray-600 dark:text-gray-300 font-medium leading-relaxed prose prose-indigo dark:prose-invert max-w-none';
+      contentDiv.id = `content-${entry.id}`;
+      // Safe since parseMarkdown escapes HTML and only adds <strong><em><br><ul><li>
+      contentDiv.innerHTML = parseMarkdown(entry.content);
 
-      // Edit form (remains hidden until edit)
       const editForm = document.createElement('div');
       editForm.id = `edit-form-${entry.id}`;
       editForm.className = 'hidden mt-6 pt-6 border-t border-gray-100 dark:border-gray-700 space-y-6';
-      editForm.innerHTML = `
-        <input type="text" id="edit-title-${entry.id}" class="block w-full font-bold border-gray-200 rounded-xl p-3 border dark:bg-gray-700 dark:border-gray-600 dark:text-white" value="${entry.title.replace(/"/g, '&quot;')}">
-        <textarea id="edit-content-${entry.id}" rows="4" class="block w-full font-medium border border-gray-200 rounded-xl p-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white">${entry.content.replace(/</g, '&lt;')}</textarea>
-        <div class="flex justify-end space-x-3">
-          <button onclick="cancelEdit(${entry.id})" class="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 transition-colors">${journalLabels.cancel_btn}</button>
-          <button onclick="updateEntry(${entry.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-100">${journalLabels.update_btn}</button>
-        </div>
-      `;
+      
+      const editTitle = document.createElement('input');
+      editTitle.type = 'text';
+      editTitle.id = `edit-title-${entry.id}`;
+      editTitle.className = 'block w-full font-bold border-gray-200 rounded-xl p-3 border dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editTitle.value = entry.title;
+
+      const editContent = document.createElement('textarea');
+      editContent.id = `edit-content-${entry.id}`;
+      editContent.rows = 4;
+      editContent.className = 'block w-full font-medium border border-gray-200 rounded-xl p-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white';
+      editContent.value = entry.content;
+
+      const editActions = document.createElement('div');
+      editActions.className = 'flex justify-end space-x-3';
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700 transition-colors';
+      cancelBtn.textContent = journalLabels.cancel_btn;
+      cancelBtn.onclick = () => cancelEdit(entry.id);
+      const updateBtn = document.createElement('button');
+      updateBtn.className = 'bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-100';
+      updateBtn.textContent = journalLabels.update_btn;
+      updateBtn.onclick = () => updateEntry(entry.id);
+      
+      editActions.appendChild(cancelBtn);
+      editActions.appendChild(updateBtn);
+      
+      editForm.appendChild(editTitle);
+      editForm.appendChild(editContent);
+      editForm.appendChild(editActions);
+
+      entryDiv.appendChild(headerDiv);
+      entryDiv.appendChild(contentDiv);
       entryDiv.appendChild(editForm);
 
       container.appendChild(entryDiv);

@@ -48,7 +48,7 @@
       if (user.avatar) {
         avatarContainer.innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover" loading="lazy" decoding="async">`;
       } else if (sidebarInitial) {
-        sidebarInitial.innerText = (user.name || user.email).charAt(0).toUpperCase();
+        sidebarInitial.textContent = (user.name || user.email).charAt(0).toUpperCase();
       }
     }
   });

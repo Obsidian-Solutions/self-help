@@ -33,7 +33,7 @@
     const streakEl = document.getElementById('streak-counter-count');
     const totalEl = document.getElementById('total-checkins-count');
     
-    if (streakEl) streakEl.innerText = streakData.count || 0;
-    if (totalEl) totalEl.innerText = Object.keys(moodData).length || 0;
+    if (streakEl) streakEl.textContent = streakData.count || 0;
+    if (totalEl) totalEl.textContent = Object.keys(moodData).length || 0;
   });
 </script>

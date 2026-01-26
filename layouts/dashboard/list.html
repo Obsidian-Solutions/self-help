@@ -193,13 +193,13 @@
       
       const lessonCountEl = card.querySelector('.lesson-count-display');
       if (!lessonCountEl) return;
-      const totalLessons = parseInt(lessonCountEl.innerText) || 1;
+      const totalLessons = parseInt(lessonCountEl.textContent) || 1;
       
       const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
       const percentage = Math.round((completedCount / totalLessons) * 100);
       
       if (progressBar) progressBar.style.width = percentage + '%';
-      if (progressText) progressText.innerText = percentage + '%';
+      if (progressText) progressText.textContent = percentage + '%';
     });
 
     const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
@@ -232,10 +232,10 @@
         bar.style.height = config.height;
         bar.classList.remove('bg-gray-50', 'dark:bg-gray-700');
         bar.classList.add(config.color);
-        if (tooltip) tooltip.innerText = moodEntry;
+        if (tooltip) tooltip.textContent = moodEntry;
       } else {
         bar.style.height = '10%';
-        if (tooltip) tooltip.innerText = '{{ $labels.dashboard.no_data }}';
+        if (tooltip) tooltip.textContent = '{{ $labels.dashboard.no_data }}';
       }
     });
   });

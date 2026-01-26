@@ -243,7 +243,7 @@ window.checkAuth = () => {
       // Don't touch header links we already handled via hidden classes
       if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
 
-      const btnText = btn.innerText.toLowerCase();
+      const btnText = btn.textContent.toLowerCase();
       const currentPlan = (user.plan || 'Free').toLowerCase();
 
       // If it is a secondary "Login" button next to a primary "Get Started", hide it
@@ -259,7 +259,7 @@ window.checkAuth = () => {
       // Home page Hero / General "Get Started"
       if (btnText.includes('get started')) {
         btn.href = '/dashboard';
-        btn.innerText = 'Go to Dashboard';
+        btn.textContent = 'Go to Dashboard';
       }
 
       // Pricing Section buttons
@@ -267,7 +267,7 @@ window.checkAuth = () => {
         const planName = btn.getAttribute('href').split('plan=')[1]?.toLowerCase() || '';
 
         if (planName === currentPlan) {
-          btn.innerText = 'Current Plan';
+          btn.textContent = 'Current Plan';
           btn.href = '#';
           btn.classList.add(
             'bg-indigo-100',
@@ -282,13 +282,13 @@ window.checkAuth = () => {
           btn.classList.remove('bg-primary');
           btn.onclick = e => e.preventDefault();
         } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
-          btn.innerText = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          btn.textContent = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
           btn.href = '/settings'; // Redirect to settings to "upgrade"
         } else if (currentPlan !== 'free' && planName === 'free') {
-          btn.innerText = 'Downgrade to Free';
+          btn.textContent = 'Downgrade to Free';
           btn.href = '/settings';
         } else {
-          btn.innerText = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
+          btn.textContent = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
           btn.href = '/settings';
         }
       }
@@ -301,12 +301,12 @@ window.checkAuth = () => {
       const userPlan = (user.plan || 'Free').toLowerCase();
 
       if (isPremium && userPlan === 'free') {
-        btn.innerText = 'Upgrade to Pro to Start';
+        btn.textContent = 'Upgrade to Pro to Start';
         btn.href = '/settings';
         btn.classList.add('opacity-90');
         btn.onclick = null;
       } else {
-        btn.innerText = btn.innerText.includes('Course') ? 'Start Course' : 'Start Learning';
+        btn.textContent = btn.textContent.includes('Course') ? 'Start Course' : 'Start Learning';
         btn.href = btn.getAttribute('data-auth-href') || btn.href;
       }
     });

@@ -52,7 +52,7 @@
         {{ .Params.quiz.description | default "Let's review what you've learned in this lesson." }}
       </p>
       <button
-        onclick="initLessonQuiz(lessonQuizData)"
+        onclick="initLessonQuiz()"
         class="bg-white text-indigo-600 font-black py-4 px-10 rounded-2xl transition-all hover:scale-105 shadow-xl"
       >
         Start Lesson Quiz
@@ -82,24 +82,26 @@
   {{ $quizQuestions := .Params.quiz.questions }}
   {{ $questionCount := len $quizQuestions }}
   const lessonQuizData = {
-    title: "{{ .Title }}",
-    description: "{{ .Params.quiz.description | default "Knowledge check" }}",
+    title: {{ .Title }},
+    description: {{ .Params.quiz.description | default "Knowledge check" }},
     resultMessage: "Excellent work! You've mastered this lesson.",
     questions: [
       {{ range $index, $q := $quizQuestions }}
       {
-        question: `{{ $q.question }}`,
-        options: [{{ range $q.options }}`{{ . }}`,{{ end }}],
+        question: {{ $q.question }},
+        options: [{{ range $q.options }}{{ . }},{{ end }}],
         correct: {{ $q.correct }},
-        explanation: `{{ $q.explanation }}`
+        explanation: {{ $q.explanation }}
       }{{ if lt $index (sub $questionCount 1) }},{{ end }}
       {{ end }}
     ]
   };
 
-  function initLessonQuiz(data) {
+  function initLessonQuiz() {
     document.getElementById('lesson-quiz-container').style.display = 'block';
-    initializeQuiz(data);
+    if (window.initializeQuiz) {
+      window.initializeQuiz(lessonQuizData);
+    }
     document.getElementById('lesson-quiz-container').scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -110,19 +112,22 @@
   {{ end }}
 
   function markComplete() {
-    const lessonId = "{{ .Title }}";
+    const lessonId = {{ .Title }};
+    const courseTitle = {{ if $course }}{{ $course.Title }}{{ else }}"General"{{ end }};
+    const courseUrl = {{ if $course }}{{ $course.RelPermalink }}{{ else }}"/courses"{{ end }};
+    
     let progress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
     progress[lessonId] = {
       completed: true,
       completedAt: new Date().toISOString(),
-      course: "{{ $course.Title }}"
+      course: courseTitle
     };
     localStorage.setItem('courseProgress', JSON.stringify(progress));
 
     if (window.showToast) window.showToast('Lesson complete! 🎉', 'success');
 
     setTimeout(() => {
-      window.location.href = "{{ $course.RelPermalink | default `/courses` }}";
+      window.location.href = courseUrl;
     }, 1500);
   }
 </script>

@@ -89,13 +89,13 @@
       const progressText = card.querySelector('[data-progress-text]');
       const totalCountEl = card.querySelector('.total-lessons-count');
       if (!totalCountEl) return;
-      const totalLessons = parseInt(totalCountEl.innerText) || 1;
+      const totalLessons = parseInt(totalCountEl.textContent) || 1;
       
       const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
       const percentage = Math.round((completedCount / totalLessons) * 100);
       
       if (progressBar) progressBar.style.width = percentage + '%';
-      if (progressText) progressText.innerText = percentage + '%';
+      if (progressText) progressText.textContent = percentage + '%';
     });
   });
 </script>
