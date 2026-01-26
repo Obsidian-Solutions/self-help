@@ -301,18 +301,23 @@
 </div>
 
 <!-- CTA Section from Markdown -->
-<div class="bg-indigo-700 dark:bg-indigo-900">
-  <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-    <h2 class="text-3xl font-extrabold tracking-tight text-white dark:text-indigo-100 sm:text-4xl">
+<div class="relative bg-indigo-700 dark:bg-indigo-900 py-24 overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "#ffffff" "class" "absolute top-10 left-10 w-32 h-32") }}
+    {{ partial "shared/handcrafts.html" (dict "element" "fun-arrow" "stroke" "#ffffff" "class" "absolute bottom-10 right-10 w-32 h-32 rotate-12") }}
+  </div>
+  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl font-black tracking-tight text-white sm:text-5xl mb-6">
       <span class="block">{{ .Params.sections.ctaHeading }}</span>
-      <span class="block text-indigo-200 dark:text-indigo-300">{{ .Params.sections.ctaSubheading }}</span>
+      <span class="block text-indigo-200 dark:text-indigo-300 mt-2 text-3xl sm:text-4xl">{{ .Params.sections.ctaSubheading }}</span>
     </h2>
-    <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
-      <div class="inline-flex rounded-md shadow">
-        <a href="/signup" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 dark:text-indigo-700 bg-white dark:bg-indigo-100 hover:bg-indigo-50 dark:hover:bg-indigo-200">
-          {{ .Params.sections.ctaButton }}
-        </a>
-      </div>
+    <p class="text-indigo-100 text-lg mb-10 max-w-2xl mx-auto font-medium">
+      Start your journey towards a healthier mind today. Join thousands of members using CBT-backed tools every day.
+    </p>
+    <div class="flex justify-center">
+      <a href="/signup" class="inline-flex items-center justify-center px-12 py-5 border border-transparent text-lg font-black rounded-2xl text-indigo-700 bg-white hover:bg-indigo-50 transition-all hover:-translate-y-1 shadow-2xl shadow-indigo-950/20">
+        {{ .Params.sections.ctaButton }} &rarr;
+      </a>
     </div>
   </div>
 </div>

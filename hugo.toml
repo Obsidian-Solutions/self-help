@@ -13,7 +13,6 @@ copyright = 'Copyright © 2026 MindFull. All rights reserved.'
 # Hugo Configuration
 enableRobotsTXT = true
 enableGitInfo = false
-ignoreFiles = ['\\.md$']  # Ignore raw markdown if processed elsewhere
 
 # Pagination
 [pagination]

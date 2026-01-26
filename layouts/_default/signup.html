@@ -1,123 +1,48 @@
 {{ define "main" }}
-<div class="flex flex-col lg:flex-row min-h-screen bg-gray-50 dark:bg-gray-900">
-  <!-- Illustration Side -->
-  <div
-    class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-900 dark:to-purple-900 items-center justify-center p-12"
-  >
-    <div class="max-w-md text-white">
-      {{ if .Params.illustration }}
-      <div class="mb-8">
-        {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-64")
-        }}
-      </div>
-      {{ end }}
-      <h2 class="text-3xl font-bold mb-4">{{ .Params.heading }}</h2>
-      <div class="prose prose-lg text-white/90 dark:text-gray-200">{{ .Content }}</div>
-    </div>
-  </div>
-
-  <!-- Form Side -->
-  <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2 class="text-center text-3xl font-extrabold text-gray-900 dark:text-white lg:hidden">
-        {{ .Params.heading }}
-      </h2>
+<div class="min-h-[calc(100vh-80px)] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white text-3xl font-black mb-6 shadow-xl shadow-indigo-200 dark:shadow-none">M</div>
+      <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tight">Join MindFull</h2>
+      <p class="mt-3 text-lg text-gray-500 dark:text-gray-400 font-medium">Your path to a healthier mind begins here</p>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-        <form
-          class="space-y-6"
-          onsubmit="
-            window.handleSignup(event);
-            return false;
-          "
-        >
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Full Name
-            </label>
-            <div class="mt-1">
-              <input
-                id="signup-name"
-                name="name"
-                type="text"
-                required
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
-              />
-            </div>
-          </div>
+    <div class="bg-white dark:bg-gray-800 py-10 px-6 shadow-2xl shadow-indigo-100/20 dark:shadow-none sm:rounded-[2.5rem] sm:px-12 border border-gray-100 dark:border-gray-700 mx-4 sm:mx-0">
+      <form class="space-y-6" onsubmit="window.handleSignup(event); return false;">
+        <div>
+          <label for="signup-name" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Full Name</label>
+          <input id="signup-name" name="name" type="text" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="Jane Doe">
+        </div>
 
-          <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email address
-            </label>
-            <div class="mt-1">
-              <input
-                id="signup-email"
-                name="email"
-                type="email"
-                autocomplete="email"
-                required
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
-              />
-            </div>
-          </div>
+        <div>
+          <label for="signup-email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Email Address</label>
+          <input id="signup-email" name="email" type="email" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="name@example.com">
+        </div>
 
-          <div>
-            <label
-              for="password"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-            >
-              Password
-            </label>
-            <div class="mt-1">
-              <input
-                id="signup-password"
-                name="password"
-                type="password"
-                required
-                class="appearance-none block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white sm:text-sm"
-              />
-            </div>
-          </div>
+        <div>
+          <label for="signup-password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Password</label>
+          <input id="signup-password" name="password" type="password" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="••••••••">
+        </div>
 
-          <div class="flex items-center">
-            <input
-              id="terms"
-              name="terms"
-              type="checkbox"
-              required
-              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded dark:bg-gray-700 dark:border-gray-600"
-            />
-            <label for="terms" class="ml-2 block text-sm text-gray-900 dark:text-gray-300">
-              I agree to the
-              <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500"
-                >Terms and Conditions</a
-              >
-            </label>
-          </div>
+        <div>
+          <button type="submit" class="w-full flex justify-center py-4 px-6 border border-transparent rounded-2xl shadow-lg shadow-indigo-100 dark:shadow-none text-sm font-black text-white bg-indigo-600 hover:bg-indigo-700 transition-all hover:-translate-y-0.5">
+            Create Account
+          </button>
+        </div>
+      </form>
 
-          <div>
-            <button
-              type="submit"
-              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Create Account
-            </button>
+      <div class="mt-10">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-100 dark:border-gray-700"></div></div>
+          <div class="relative flex justify-center text-sm uppercase font-black tracking-widest">
+            <span class="px-4 bg-white dark:bg-gray-800 text-gray-400">Already a member?</span>
           </div>
-        </form>
+        </div>
 
-        <div class="mt-6 text-center">
-          <p class="text-sm text-gray-600 dark:text-gray-400">
-            Already have an account?
-            <a
-              href="/login"
-              class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300"
-            >
-              Log in
-            </a>
-          </p>
+        <div class="mt-8">
+          <a href="/login" class="w-full inline-flex justify-center py-4 px-6 border-2 border-gray-100 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-900 text-sm font-black text-gray-600 dark:text-gray-300 hover:bg-gray-50 transition-all">
+            Sign In &rarr;
+          </a>
         </div>
       </div>
     </div>

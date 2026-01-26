@@ -1,64 +1,37 @@
 {{ define "main" }}
-<div class="flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
-  <!-- Sidebar -->
-  <aside class="w-full md:w-64 md:flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-    <div class="sticky top-0 p-4 md:p-6">
-      {{ partial "app/sidebar.html" . }}
+<div class="mb-12">
+  <div class="mb-8 text-center md:text-left">
+    <span class="text-indigo-600 dark:text-indigo-400 font-bold tracking-widest uppercase text-xs">
+      {{ if .Params.category }}{{ .Params.category }}{{ else }}Blog Post{{ end }}
+    </span>
+    <h1 class="mt-2 text-4xl font-black tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+      {{ .Title }}
+    </h1>
+    <div class="mt-4 flex items-center justify-center md:justify-start text-gray-500 dark:text-gray-400 text-sm font-medium">
+      <span>{{ .Date.Format "January 2, 2006" }}</span>
+      <span class="mx-3">&middot;</span>
+      <span>{{ .ReadingTime }} min read</span>
     </div>
-  </aside>
+  </div>
 
-  <!-- Main Content -->
-  <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12">
-    <div class="max-w-4xl mx-auto">
-      <div class="mb-8 text-center md:text-left">
-        <span
-          class="text-indigo-600 dark:text-indigo-400 font-bold tracking-widest uppercase text-xs"
-        >
-          {{ if .Params.category }}{{ .Params.category }}{{ else }}Blog Post{{ end }}
-        </span>
-        <h1
-          class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl"
-        >
-          {{ .Title }}
-        </h1>
-        <div class="mt-4 flex items-center justify-center md:justify-start text-gray-500 dark:text-gray-400 text-sm">
-          <span>{{ .Date.Format "January 2, 2006" }}</span>
-          <span class="mx-2">&middot;</span>
-          <span>{{ .ReadingTime }} min read</span>
-        </div>
-      </div>
+  {{ if .Params.illustration }}
+  <div class="relative h-64 sm:h-80 w-full mb-12 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 rounded-3xl flex items-center justify-center p-8 border border-gray-100 dark:border-gray-800 shadow-sm">
+    {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+  </div>
+  {{ else if .Params.image }}
+  <div class="relative h-64 sm:h-96 w-full mb-12">
+    <img class="w-full h-full object-cover rounded-3xl shadow-xl" src="{{ .Params.image }}" alt="{{ .Title }}" />
+  </div>
+  {{ end }}
 
-      {{ if .Params.illustration }}
-      <div
-        class="relative h-64 sm:h-80 w-full mb-12 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl flex items-center justify-center p-8"
-      >
-        {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full"
-        "class" "max-h-full object-contain") }}
-      </div>
-      {{ else if .Params.image }}
-      <div class="relative h-64 sm:h-96 w-full mb-12">
-        <img
-          class="w-full h-full object-cover rounded-xl shadow-lg"
-          src="{{ .Params.image }}"
-          alt="{{ .Title }}"
-        />
-      </div>
-      {{ end }}
+  <div class="prose prose-indigo dark:prose-invert prose-lg mx-auto text-gray-600 dark:text-gray-300 max-w-none">
+    {{ .Content }}
+  </div>
 
-      <div
-        class="prose prose-indigo dark:prose-invert prose-lg mx-auto text-gray-600 dark:text-gray-300 first-letter:text-5xl first-letter:font-bold first-letter:text-indigo-600 dark:first-letter:text-indigo-400 first-letter:mr-3 first-letter:float-left"
-      >
-        {{ .Content }}
-      </div>
-
-      <div class="mt-12 border-t border-gray-200 dark:border-gray-700 pt-8 text-center">
-        <a
-          href="/posts"
-          class="text-indigo-600 dark:text-indigo-400 font-medium hover:text-indigo-500 dark:hover:text-indigo-300"
-          >&larr; Back to all posts</a
-        >
-      </div>
-    </div>
-  </main>
+  <div class="mt-16 border-t border-gray-100 dark:border-gray-800 pt-10 text-center">
+    <a href="/posts" class="text-indigo-600 dark:text-indigo-400 font-black text-sm uppercase tracking-widest hover:underline underline-offset-8">
+      &larr; Back to all posts
+    </a>
+  </div>
 </div>
 {{ end }}
