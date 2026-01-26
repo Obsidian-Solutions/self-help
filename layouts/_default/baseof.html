@@ -8,10 +8,11 @@
   <style>
     /* Global UI Scaling: mimic 90% zoom for a more professional 'tight' feel */
     html { 
-      font-size: 15px; 
+      font-size: 14px; 
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
-    @media (min-width: 1280px) { html { font-size: 16px; } } /* Return to standard on very large screens */
+    @media (min-width: 768px) { html { font-size: 15px; } }
+    @media (min-width: 1280px) { html { font-size: 16px; } }
 
     /* Sidebar visibility control */
     .app-sidebar { display: none; }
@@ -62,7 +63,7 @@
 
       <!-- Content area -->
       <main class="flex-1 min-w-0">
-        <div class="p-4 md:p-6 lg:p-10">
+        <div class="p-3 sm:p-6 lg:p-10">
           <div class="max-w-5xl mx-auto">
             
             <!-- App Content (Hidden if logged out on App Page) -->

@@ -40,7 +40,7 @@
         </button>
 
         <!-- Not Logged In -->
-        <div id="auth-logged-out" class="hidden sm:flex sm:items-center space-x-2">
+        <div id="auth-logged-out" class="hide-on-logged-in hidden sm:flex sm:items-center space-x-2">
           <button
             onclick="window.openModal('loginModal')"
             class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
@@ -53,7 +53,7 @@
         </div>
 
         <!-- Logged In -->
-        <div id="auth-logged-in" class="hidden flex items-center space-x-2 md:space-x-4">
+        <div id="auth-logged-in" class="show-on-logged-in hidden flex items-center space-x-2 md:space-x-4">
           <div class="hidden md:flex flex-col items-end mr-2">
             <span id="user-display-name" class="text-gray-900 dark:text-white text-xs font-bold"></span>
             <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-tighter leading-none">Member</span>
