@@ -142,13 +142,20 @@ enableGitInfo = false
 
 # Social Links & Handles (Optional)
 [params.social]
-  twitter = 'https://twitter.com/mindfull'
-  twitter_handle = '@mindfull'
+  # twitter = 'https://twitter.com/mindfull'
+  # twitter_handle = '@mindfull'
   github = 'https://github.com/Obsidian-Solutions/self-help'
   email = 'support@mindfull.com'
-  website = 'https://mindfull.example.com'
+  # website = 'https://mindfull.example.com'
   # facebook = 'https://facebook.com/mindfull'
   # instagram = 'https://instagram.com/mindfull'
+  # linkedin = 'https://linkedin.com/company/mindfull'
+  # tiktok = 'https://tiktok.com/@mindfull'
+  # youtube = 'https://youtube.com/@mindfull'
+  # threads = 'https://threads.net/@mindfull'
+  # pinterest = 'https://pinterest.com/mindfull'
+  # reddit = 'https://reddit.com/r/mindfull'
+  # discord = 'https://discord.gg/mindfull'
 
 # Analytics (Optional)
 [params.analytics]
