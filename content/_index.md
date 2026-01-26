@@ -4,6 +4,7 @@ date = 2023-01-01T08:00:00-07:00
 draft = false
 
 [hero]
+tagline = "Your Science-Backed Wellness Journey"
 headline = "Master your mind"
 subheadline = "with daily CBT."
 description = "Learn proven techniques to manage anxiety, depression, and stress. Bite-sized lessons, interactive exercises, and progress tracking."

@@ -1,324 +1,223 @@
 {{ define "main" }}
 <!-- Hero Section -->
-<div class="relative bg-white dark:bg-gray-900 overflow-hidden">
+<section class="relative bg-white dark:bg-gray-900 overflow-hidden">
   <div class="absolute inset-0 z-0">
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-50/50 dark:bg-indigo-950/10 rounded-full blur-3xl"></div>
-    <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-50/50 dark:bg-purple-950/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-0 left-1/4 w-[30rem] h-[30rem] bg-indigo-50/40 dark:bg-indigo-950/10 rounded-full blur-[80px]"></div>
+    <div class="absolute bottom-0 right-1/4 w-[30rem] h-[30rem] bg-purple-50/40 dark:bg-purple-950/10 rounded-full blur-[80px]"></div>
   </div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-      <!-- Text Content from Markdown -->
-      <div class="text-center lg:text-left">
-        <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-black uppercase tracking-widest mb-8">
-          <span class="flex h-2 w-2 rounded-full bg-indigo-600 mr-3 animate-pulse"></span>
-          Trusted by thousands worldwide
-        </div>
-        <h1 class="text-5xl tracking-tighter font-black text-gray-900 dark:text-white sm:text-6xl md:text-7xl leading-[1.1]">
-          <span class="block">{{ .Params.hero.headline }}</span>
-          <span class="block text-indigo-600 dark:text-indigo-400 mt-2">{{ .Params.hero.subheadline }}</span>
-        </h1>
-        <p class="mt-8 text-xl text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-          {{ .Params.hero.description }}
-        </p>
-        <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-          <a id="hero-courses-btn" href="{{ .Params.hero.primaryCtaLink }}" class="flex items-center justify-center px-10 py-4 border border-transparent text-lg font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
-            {{ .Params.hero.primaryCta }}
-          </a>
-          <a id="hero-login-btn" href="{{ .Params.hero.secondaryCtaLink }}" class="flex items-center justify-center px-10 py-4 border-2 border-gray-100 dark:border-gray-800 text-lg font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
-            {{ .Params.hero.secondaryCta }}
-          </a>
-        </div>
+  
+  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-20 lg:pt-24 lg:pb-32 z-10">
+    <div class="text-center">
+      <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-[10px] font-black uppercase tracking-widest mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
+        <span class="flex h-2 w-2 rounded-full bg-indigo-600 mr-3 animate-pulse"></span>
+        {{ .Params.hero.tagline | default "Your Science-Backed Wellness Journey" }}
       </div>
+      
+      <h1 class="text-5xl tracking-tighter font-black text-gray-900 dark:text-white sm:text-6xl md:text-7xl leading-[1] mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        {{ .Params.hero.headline }}<br/>
+        <span class="text-indigo-600 dark:text-indigo-400">{{ .Params.hero.subheadline }}</span>
+      </h1>
+      
+      <p class="text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto mb-12 font-medium animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+        {{ .Params.hero.description }}
+      </p>
+      
+      <div class="flex flex-col sm:flex-row justify-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+        <a href="{{ .Params.hero.primaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
+          {{ .Params.hero.primaryCta }}
+        </a>
+        <a href="{{ .Params.hero.secondaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+          {{ .Params.hero.secondaryCta }}
+        </a>
+      </div>
+    </div>
 
-      <!-- Hero Illustration -->
-      <div class="relative flex items-center justify-center lg:h-[500px]">
-        <div class="w-full h-full max-w-lg interactive group">
-          <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-full scale-90 group-hover:scale-95 transition-transform duration-700 blur-2xl"></div>
-          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "relative z-10") }}
+    <!-- Hero Mockup/Illustration -->
+    <div class="mt-20 relative max-w-4xl mx-auto animate-in fade-in zoom-in-95 duration-1000 delay-500">
+      <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-[3rem] blur-3xl scale-95"></div>
+      <div class="relative bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-[16/9] flex items-center justify-center p-12">
+        <div class="w-full max-w-lg">
+          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto") }}
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Features Section from Markdown -->
-<div class="py-12 bg-white dark:bg-gray-900">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="lg:text-center">
-      <h2 class="text-base text-primary font-semibold tracking-wide uppercase">{{ .Params.sections.featuresHeading }}</h2>
-      <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+<!-- Trust Bar -->
+<section class="py-12 border-y border-gray-50 dark:border-gray-800 bg-gray-50/30 dark:bg-gray-900/30">
+  <div class="max-w-5xl mx-auto px-4 flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale contrast-125 dark:invert">
+    <div class="font-black text-xl tracking-tighter">WELLNESS.CO</div>
+    <div class="font-black text-xl tracking-tighter">MINDSHARE</div>
+    <div class="font-black text-xl tracking-tighter">HEALTHLINE</div>
+    <div class="font-black text-xl tracking-tighter">INSIGHT</div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-20 bg-white dark:bg-gray-900">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">{{ .Params.sections.featuresHeading }}</h2>
+      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl">
         {{ .Params.sections.featuresTitle }}
       </p>
-      <p class="mt-4 max-w-2xl text-xl text-gray-500 dark:text-gray-300 lg:mx-auto">
-        {{ .Params.sections.featuresDescription }}
-      </p>
     </div>
 
-    <div class="mt-10">
-      <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-x-8 md:gap-y-10">
-        {{ range .Params.features }}
-        {{ $gradientFrom := printf "from-%s-50" .color }}
-        {{ $gradientTo := printf "to-%s-100" .color }}
-        {{ $gradientFromDark := printf "dark:from-%s-900" .color }}
-        {{ $gradientToDark := printf "dark:to-%s-800" .color }}
-        {{ $borderColor := printf "border-%s-200" .color }}
-        {{ $borderColorDark := printf "dark:border-%s-700" .color }}
-        {{ $bgColor := printf "bg-%s-600" .color }}
-        {{ $strokeColor := cond (eq .color "indigo") "#4f46e5" (cond (eq .color "purple") "#a855f7" (cond (eq .color "green") "#16a34a" "#ec4899")) }}
-
-        <div class="relative bg-gradient-to-br {{ $gradientFrom }} {{ $gradientTo }} {{ $gradientFromDark }} {{ $gradientToDark }} rounded-lg p-6 border {{ $borderColor }} {{ $borderColorDark }} hover:shadow-lg transition-shadow">
-          <div class="absolute -top-3 -right-3 w-24 h-24 opacity-10">
-            {{ partial "shared/handcrafts.html" (dict "element" .decoration "stroke" $strokeColor) }}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {{ range .Params.features }}
+      <div class="relative p-8 rounded-[2.5rem] bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-800 transition-all duration-500 hover:shadow-xl hover:shadow-indigo-100/20">
+        <div class="flex items-start gap-6">
+          <div class="flex-shrink-0 w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform group-hover:scale-110">
+            {{ if eq .icon "check-circle" }}
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            {{ else if eq .icon "chart" }}
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+            {{ else if eq .icon "lock" }}
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            {{ else if eq .icon "users" }}
+            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM4.318 20H4a2 2 0 01-2-2v-2a6 6 0 0112 0v2a2 2 0 01-2 2h-.682A6.003 6.003 0 0015 20h-.019" /></svg>
+            {{ end }}
           </div>
-          <dt>
-            <div class="flex items-center justify-center h-16 w-16 rounded-full {{ $bgColor }} text-white mb-4">
-              {{ if eq .icon "check-circle" }}
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {{ else if eq .icon "chart" }}
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              {{ else if eq .icon "lock" }}
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              {{ else if eq .icon "users" }}
-              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.856-1.487M15 10a3 3 0 11-6 0 3 3 0 016 0zM4.318 20H4a2 2 0 01-2-2v-2a6 6 0 0112 0v2a2 2 0 01-2 2h-.682A6.003 6.003 0 0015 20h-.019" />
-              </svg>
-              {{ end }}
-            </div>
-            <p class="text-lg leading-6 font-medium text-gray-900 dark:text-white">{{ .title }}</p>
-          </dt>
-          <dd class="mt-2 text-base text-gray-700 dark:text-gray-200">
-            {{ .description }}
-          </dd>
-          <div class="mt-4 h-1 w-12">
-            {{ partial "shared/handcrafts.html" (dict "element" "underline-wavy" "stroke" $strokeColor "class" "h-1") }}
-          </div>
-        </div>
-        {{ end }}
-    </div>
-  </div>
-</div>
-
-<!-- Popular Courses Section -->
-<div class="py-20 bg-indigo-50/30 dark:bg-gray-800/50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-xs mb-3">Your Journey Starts Here</h2>
-      <p class="text-4xl font-black tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-        Expert-Led Learning
-      </p>
-      <p class="mt-4 max-w-2xl text-lg text-gray-500 dark:text-gray-400 mx-auto">
-        Science-backed curriculum designed by clinical psychologists to help you master your mental well-being.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
-      {{ range first 3 (where .Site.RegularPages "Section" "courses") }}
-      <div class="flex flex-col bg-white dark:bg-gray-900 rounded-3xl shadow-xl shadow-indigo-100/20 dark:shadow-none border border-gray-100 dark:border-gray-800 overflow-hidden hover:scale-[1.02] transition-all duration-500">
-        <div class="h-52 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-10">
-          {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
-          {{ end }}
-        </div>
-        <div class="p-8 flex-1 flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-tighter bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
-              {{ if .Params.premium }}
-              <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-tighter bg-amber-50 dark:bg-amber-900/30 px-2 py-1 rounded">Pro Tier</span>
-              {{ else }}
-              <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded">Free Access</span>
-              {{ end }}
-            </div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white leading-tight">{{ .Title }}</h3>
-            <p class="mt-3 text-gray-500 dark:text-gray-400 text-sm leading-relaxed">{{ .Params.description }}</p>
-          </div>
-          <div class="mt-8">
-            <a href="/courses" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 font-black text-sm hover:gap-2 transition-all">
-              Explore Syllabus <span class="ml-1">&rarr;</span>
-            </a>
+            <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2 tracking-tight">{{ .title }}</h3>
+            <p class="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{{ .description }}</p>
           </div>
         </div>
       </div>
       {{ end }}
     </div>
-    
-    <div class="mt-16 text-center">
-      <a href="/courses" class="inline-flex items-center justify-center px-10 py-4 border-2 border-indigo-600 text-indigo-600 dark:border-indigo-400 dark:text-indigo-400 font-black rounded-2xl hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-400 dark:hover:text-gray-900 transition-all">
-        Browse Full Catalog
-      </a>
+  </div>
+</section>
+
+<!-- Course Preview Section -->
+<section class="py-20 bg-indigo-50/30 dark:bg-gray-800/50">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div class="max-w-2xl text-center md:text-left">
+        <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">Start Learning</h2>
+        <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl">Science-Backed Curriculum</p>
+      </div>
+      <a href="/courses" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-8 transition-all">Browse all 12+ courses &rarr;</a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {{ range first 3 (where .Site.Sections "Section" "courses") }}
+      {{ range first 3 .Sections }}
+      <div class="group flex flex-col bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-2xl hover:shadow-indigo-100/30 dark:hover:shadow-none transition-all duration-500">
+        <div class="h-48 bg-gray-50 dark:bg-gray-800 flex items-center justify-center p-10">
+          {{ if .Params.illustration }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full transition-transform duration-700 group-hover:scale-110") }}
+          {{ end }}
+        </div>
+        <div class="p-8 flex-1 flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ len .Pages }} Lessons</span>
+          </div>
+          <h3 class="text-xl font-black text-gray-900 dark:text-white leading-tight mb-4 group-hover:text-indigo-600 transition-colors">{{ .Title }}</h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-8 flex-grow leading-relaxed">{{ .Params.description | truncate 80 }}</p>
+          <a href="{{ .RelPermalink }}" class="inline-flex items-center text-sm font-black text-indigo-600 dark:text-indigo-400 group-hover:gap-2 transition-all">
+            Explore Syllabus &rarr;
+          </a>
+        </div>
+      </div>
+      {{ end }}
+      {{ end }}
     </div>
   </div>
-</div>
+</section>
 
-<!-- Testimonials Section from Markdown -->
-<div class="bg-gray-50 dark:bg-gray-800 py-16 lg:py-20">
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="relative">
-      <div class="text-center">
-        <h2 class="text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-          {{ .Params.sections.testimonialsTitle }}
-        </h2>
-        <p class="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-400 sm:mt-4">
-          {{ .Params.sections.testimonialsDescription }}
-        </p>
-      </div>
-      <div class="mt-12 max-w-lg mx-auto grid gap-5 lg:grid-cols-3 lg:max-w-none">
-        {{ range .Params.testimonials }}
-        {{ $bgColor := printf "bg-%s-100" .color }}
-        {{ $textColor := printf "text-%s-600" .color }}
-        <div class="flex flex-col rounded-lg shadow-lg overflow-hidden bg-white dark:bg-gray-700">
-          <div class="flex-1 p-6 flex flex-col justify-between">
-            <div class="flex-1">
-              <p class="text-gray-500 dark:text-gray-300 italic">"{{ .quote }}"</p>
-            </div>
-            <div class="mt-6 flex items-center">
-              <div class="flex-shrink-0">
-                <span class="h-10 w-10 rounded-full {{ $bgColor }} flex items-center justify-center font-bold {{ $textColor }}">{{ .initials }}</span>
-              </div>
-              <div class="ml-3">
-                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ .author }}</p>
-                <div class="flex space-x-1 text-yellow-400 text-sm">
-                   ★★★★★
-                </div>
-              </div>
-            </div>
+<!-- Testimonials Section -->
+<section class="py-20 bg-white dark:bg-gray-900">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-16 sm:text-5xl">{{ .Params.sections.testimonialsTitle }}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {{ range .Params.testimonials }}
+      <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-[2.5rem] text-left border border-gray-50 dark:border-gray-700 shadow-sm">
+        <div class="flex text-amber-400 mb-6 text-sm">★★★★★</div>
+        <p class="text-gray-600 dark:text-gray-300 font-medium italic mb-8 leading-relaxed">"{{ .quote }}"</p>
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shadow-lg shadow-indigo-100">{{ .initials }}</div>
+          <div>
+            <p class="text-sm font-black text-gray-900 dark:text-white">{{ .author }}</p>
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Verified Member</p>
           </div>
         </div>
-        {{ end }}
       </div>
+      {{ end }}
     </div>
   </div>
-</div>
+</section>
 
 <!-- Interactive Quiz Section -->
-{{ partial "app/quiz/emotions-quiz.html" . }}
-
-<!-- Blog Preview Section -->
-<div class="bg-white dark:bg-gray-900 py-16 lg:py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">{{ .Params.sections.blogTitle }}</h2>
-      <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">{{ .Params.sections.blogDescription }}</p>
-    </div>
-    <div class="grid gap-5 max-w-lg mx-auto lg:grid-cols-3 lg:max-w-none">
-      {{ range first 3 (where .Site.RegularPages "Section" "posts") }}
-      <div class="flex flex-col rounded-lg shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800">
-        <div class="flex-shrink-0 h-48 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center p-8">
-          {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full") }}
-          {{ else if .Params.image }}
-            <img class="w-full h-full object-cover" src="{{ .Params.image }}" alt="{{ .Title }}">
-          {{ else }}
-            <div class="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
-              <svg class="h-16 w-16 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V7h14v12z"/>
-              </svg>
-            </div>
-          {{ end }}
-        </div>
-        <div class="flex-1 bg-white dark:bg-gray-800 p-6 flex flex-col justify-between">
-          <div class="flex-1">
-            <a href="{{ .RelPermalink }}" class="block mt-2">
-              <p class="text-xl font-semibold text-gray-900 dark:text-white">{{ .Title }}</p>
-              <p class="mt-3 text-base text-gray-500 dark:text-gray-400">{{ .Description }}</p>
-            </a>
-          </div>
-          <div class="mt-6">
-            <a href="{{ .RelPermalink }}" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 font-medium">Read full article &rarr;</a>
-          </div>
-        </div>
-      </div>
-      {{ end }}
-    </div>
-    <div class="mt-10 text-center">
-      <a href="/posts" class="btn btn-outline">View all articles</a>
-    </div>
+<section class="py-10">
+  <div class="max-w-5xl mx-auto px-4">
+    {{ partial "app/quiz/emotions-quiz.html" . }}
   </div>
-</div>
-
-<!-- FAQ Section from Markdown -->
-<div class="bg-gray-50 dark:bg-gray-800 py-16">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white text-center mb-8">{{ .Params.sections.faqTitle }}</h2>
-    <div class="space-y-6">
-      {{ range .Params.faqs }}
-      <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
-        <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ .question }}</h3>
-        <p class="mt-2 text-gray-500 dark:text-gray-300">{{ .answer }}</p>
-      </div>
-      {{ end }}
-    </div>
-  </div>
-</div>
+</section>
 
 <!-- Pricing Section -->
-<div class="bg-white dark:bg-gray-900 py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="py-20 bg-gray-50 dark:bg-gray-900/50">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-16">
-      <h2 class="text-indigo-600 dark:text-indigo-400 font-black uppercase tracking-widest text-xs mb-3">Simple Pricing</h2>
-      <p class="text-4xl font-black tracking-tight text-gray-900 dark:text-white sm:text-5xl">{{ .Params.sections.pricingTitle }}</p>
-      <p class="mt-4 text-xl text-gray-500 dark:text-gray-400">{{ .Params.sections.pricingDescription }}</p>
+      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4">Pricing</h2>
+      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 sm:text-5xl">{{ .Params.sections.pricingTitle }}</p>
+      <p class="text-lg text-gray-500 dark:text-gray-400 font-medium">{{ .Params.sections.pricingDescription }}</p>
     </div>
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:max-w-4xl lg:mx-auto xl:max-w-none xl:grid-cols-3">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
       {{ range where .Site.RegularPages "Section" "plans" }}
-      <div class="relative flex flex-col p-8 bg-white dark:bg-gray-800 rounded-3xl border-2 {{ if .Params.recommended }}border-indigo-600 dark:border-indigo-500 shadow-2xl shadow-indigo-100 dark:shadow-none{{ else }}border-gray-100 dark:border-gray-800{{ end }} transition-all">
+      <div class="relative bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-transparent shadow-sm{{ end }} transition-all flex flex-col h-full">
         {{ if .Params.recommended }}
-        <div class="absolute -top-5 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-xs font-black uppercase tracking-widest rounded-full">Recommended</div>
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Best Value</div>
         {{ end }}
         <div class="mb-8">
-          <h2 class="text-lg font-black text-gray-900 dark:text-white uppercase tracking-widest">{{ .Title }}</h2>
-          <p class="mt-4 flex items-baseline">
-            <span class="text-5xl font-black tracking-tight text-gray-900 dark:text-white">{{ .Params.price }}</span>
-            <span class="ml-1 text-sm font-semibold text-gray-500">/mo</span>
-          </p>
+          <h3 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] mb-4">{{ .Title }}</h3>
+          <div class="flex items-baseline gap-1">
+            <span class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter">{{ .Params.price }}</span>
+            <span class="text-gray-400 font-bold">/mo</span>
+          </div>
         </div>
-        <div class="flex-grow">
-          <h3 class="text-xs font-black text-gray-900 dark:text-white tracking-widest uppercase mb-6">Features included:</h3>
-          <ul class="space-y-4">
-            {{ range .Params.features }}
-            <li class="flex items-start">
-              <svg class="flex-shrink-0 h-5 w-5 text-indigo-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span class="ml-3 text-sm text-gray-600 dark:text-gray-400">{{ . }}</span>
-            </li>
-            {{ end }}
-          </ul>
-        </div>
-        <a href="/signup?plan={{ .Title }}" class="mt-10 block w-full py-4 px-6 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200 dark:shadow-none{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800{{ end }}">
+        <ul class="space-y-4 mb-10 flex-grow">
+          {{ range .Params.features }}
+          <li class="flex items-center gap-3 text-sm font-medium text-gray-600 dark:text-gray-300">
+            <svg class="w-5 h-5 text-indigo-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
+            {{ . }}
+          </li>
+          {{ end }}
+        </ul>
+        <a href="/signup?plan={{ .Title }}" class="w-full py-4 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200{{ else }}bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-100{{ end }}">
           Choose {{ .Title }}
         </a>
       </div>
       {{ end }}
     </div>
   </div>
-</div>
+</section>
 
-<!-- CTA Section from Markdown -->
-<div class="relative bg-indigo-700 dark:bg-indigo-900 py-20 overflow-hidden">
-  <div class="absolute inset-0 opacity-10">
-    {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "#ffffff" "class" "absolute top-10 left-10 w-32 h-32") }}
-    {{ partial "shared/handcrafts.html" (dict "element" "fun-arrow" "stroke" "#ffffff" "class" "absolute bottom-10 right-10 w-32 h-32 rotate-12") }}
-  </div>
-  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h2 class="text-4xl font-black tracking-tight text-white sm:text-5xl mb-6">
-      <span class="block">{{ .Params.sections.ctaHeading }}</span>
-      <span class="block text-indigo-200 dark:text-indigo-300 mt-2 text-3xl sm:text-4xl">{{ .Params.sections.ctaSubheading }}</span>
-    </h2>
-    <p class="text-indigo-100 text-lg mb-10 max-w-2xl mx-auto font-medium">
-      Start your journey towards a healthier mind today. Join thousands of members using CBT-backed tools every day.
-    </p>
-    <div class="flex justify-center">
-      <a href="/signup" class="inline-flex items-center justify-center px-12 py-5 border border-transparent text-lg font-black rounded-2xl text-indigo-700 bg-white hover:bg-indigo-50 transition-all hover:-translate-y-1 shadow-2xl shadow-indigo-950/20">
-        {{ .Params.sections.ctaButton }} &rarr;
-      </a>
+<!-- Final CTA -->
+<section class="py-20">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="relative bg-indigo-600 dark:bg-indigo-900 rounded-[3.5rem] p-12 lg:p-20 overflow-hidden text-center text-white shadow-2xl shadow-indigo-200 dark:shadow-none">
+      <div class="absolute inset-0 opacity-10">
+        {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "#ffffff" "class" "absolute top-10 left-10 w-32 h-32") }}
+        {{ partial "shared/handcrafts.html" (dict "element" "fun-arrow" "stroke" "#ffffff" "class" "absolute bottom-10 right-10 w-32 h-32 rotate-12") }}
+      </div>
+      <div class="relative z-10">
+        <h2 class="text-4xl font-black tracking-tighter sm:text-6xl mb-8">
+          {{ .Params.sections.ctaHeading }}<br/>
+          <span class="opacity-80">{{ .Params.sections.cataSubheading }}</span>
+        </h2>
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-6">
+          <button onclick="window.openModal('signupModal')" class="px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
+            {{ .Params.sections.cataButton }} &rarr;
+          </button>
+          <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase">7-day free trial &middot; No credit card required</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</section>
 {{ end }}
