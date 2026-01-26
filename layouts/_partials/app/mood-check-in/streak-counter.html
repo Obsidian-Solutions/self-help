@@ -1,61 +1,39 @@
-<div
-  class="streak-widget bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900 rounded-lg p-6 shadow-md"
->
-  <div class="flex items-center justify-between mb-4">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ .Site.Data.labels.streak_widget.title }}</h3>
-    <span class="text-3xl">🔥</span>
+{{ $labels := site.Data.labels.streak_widget }}
+<div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-6 border border-gray-100 dark:border-gray-700 h-full flex flex-col justify-between">
+  <div>
+    <div class="flex items-center justify-between mb-6">
+      <h3 class="text-xl font-black text-gray-900 dark:text-white tracking-tight">{{ $labels.title }}</h3>
+      <span class="text-3xl">{{ $labels.emoji }}</span>
+    </div>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-indigo-50 dark:bg-indigo-950/30 rounded-2xl p-4 text-center">
+        <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400" id="streak-count">{{ $labels.no_data }}</div>
+        <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">{{ $labels.days_label }}</div>
+      </div>
+      <div class="bg-purple-50 dark:bg-purple-950/30 rounded-2xl p-4 text-center">
+        <div class="text-4xl font-bold text-purple-600 dark:text-purple-400" id="total-count">{{ $labels.no_data }}</div>
+        <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-1">{{ $labels.total_label }}</div>
+      </div>
+    </div>
   </div>
 
-  <div class="grid grid-cols-2 gap-4">
-    <div>
-      <div class="text-4xl font-bold text-indigo-600 dark:text-indigo-400" id="streak-count">0</div>
-      <div class="text-sm text-gray-600 dark:text-gray-300">{{ .Site.Data.labels.streak_widget.days_label }}</div>
-    </div>
-    <div>
-      <div class="text-4xl font-bold text-purple-600 dark:text-purple-400" id="total-count">0</div>
-      <div class="text-sm text-gray-600 dark:text-gray-300">{{ .Site.Data.labels.streak_widget.total_label }}</div>
-    </div>
-  </div>
-
-  <div class="mt-4 p-3 bg-white dark:bg-gray-700 rounded-lg">
-    <p class="text-sm text-gray-600 dark:text-gray-300">
-      <span class="font-semibold text-indigo-600 dark:text-indigo-400">{{ .Site.Data.labels.streak_widget.encouragement_bold }}</span> {{ .Site.Data.labels.streak_widget.encouragement_text }}
+  <div class="mt-8 pt-6 border-t border-gray-50 dark:border-gray-700">
+    <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+      <strong class="text-indigo-600 dark:text-indigo-400">{{ $labels.encouragement_bold }}</strong> {{ $labels.encouragement_text }}
     </p>
   </div>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
+    const streakData = JSON.parse(localStorage.getItem('moodStreak') || '{"count": 0}');
     const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
-    const dates = Object.keys(moodData).sort().reverse();
-
-    if (dates.length === 0) {
-      document.getElementById('streak-count').textContent = '0';
-      document.getElementById('total-count').textContent = '0';
-      return;
-    }
-
-    document.getElementById('total-count').textContent = dates.length;
-
-    // Calculate streak
-    let streak = 0;
-    let today = new Date();
-
-    for (let i = 0; i < dates.length; i++) {
-      const checkDate = new Date(dates[i]);
-      const expectedDate = new Date(today);
-      expectedDate.setDate(expectedDate.getDate() - i);
-
-      const checkDateStr = checkDate.toISOString().split('T')[0];
-      const expectedDateStr = expectedDate.toISOString().split('T')[0];
-
-      if (checkDateStr === expectedDateStr) {
-        streak++;
-      } else {
-        break;
-      }
-    }
-
-    document.getElementById('streak-count').textContent = streak;
+    
+    const streakEl = document.getElementById('streak-count');
+    const totalEl = document.getElementById('total-count');
+    
+    if (streakEl) streakEl.innerText = streakData.count || 0;
+    if (totalEl) totalEl.innerText = Object.keys(moodData).length || 0;
   });
 </script>

@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $labels := site.Data.labels }}
 <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
   <!-- Demo Info Banner -->
   <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded-r-xl">
@@ -45,7 +46,7 @@
           onclick="document.getElementById('dashboard-quiz-container').style.display = 'block'"
           class="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-2xl transition-all shadow-lg shadow-indigo-100 dark:shadow-none"
         >
-          Start Quiz
+          {{ $labels.quiz.start_btn }}
         </button>
       </div>
       <div
@@ -87,7 +88,7 @@
     <div class="bg-white shadow-sm rounded-3xl p-4 sm:p-6 dark:bg-gray-800 dark:text-gray-100 border border-gray-100 dark:border-gray-700">
       <h3 class="text-xl font-black text-gray-900 dark:text-white mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.tracking.goals_title | default "Daily Goals" }}</h3>
       <ul class="space-y-4" id="daily-goals-list">
-        {{ range slice "Morning Meditate" "Drink Water (2L)" "Journal Entry" "Walk 15 mins" }}
+        {{ range .Params.daily_goals_list | default (slice "Morning Meditate" "Drink Water (2L)" "Journal Entry" "Walk 15 mins") }}
         {{ $id := . | urlize }}
         <li class="flex items-center group cursor-pointer">
           <div class="relative flex items-center">
@@ -238,7 +239,7 @@
 {{ end }}
 
 {{ define "app-logged-out" }}
-  <div class="text-center py-20 px-4">
+  <div class="text-center py-12 px-4">
     <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
       {{ partial "shared/undraw.html" (dict "name" "personal_goals" "class" "w-full h-auto") }}
     </div>

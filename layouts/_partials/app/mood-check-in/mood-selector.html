@@ -1,10 +1,11 @@
+{{ $labels := site.Data.labels }}
 <div class="mood-selector" id="mood-selector-container">
   <div id="mood-check-in-view">
     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
       How are you feeling today?
     </h3>
     <div class="grid grid-cols-5 gap-2">
-      {{ range .Site.Data.labels.moods }}
+      {{ range $labels.moods }}
       <button
         class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
         data-mood="{{ .emoji }} {{ .label }}"
@@ -37,9 +38,9 @@
         ></path>
       </svg>
     </div>
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Mood Logged!</h3>
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">{{ $labels.mood_selector.success_title }}</h3>
     <p class="text-gray-600 dark:text-gray-400 mb-4">
-      You've already checked in for today. Great job practicing self-awareness!
+      {{ $labels.mood_selector.success_message }}
     </p>
     <div
       id="logged-mood-display"

@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ $labels := site.Data.labels.journal }}
 <div class="md:flex md:items-center md:justify-between mb-8">
   <div class="flex-1 min-w-0">
     <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">
@@ -37,7 +38,7 @@
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M7 15h3c.6 0 1-.4 1-1V6c0-.6-.4-1-1-1H7c-.6 0-1 .4-1 1v8c0 .6.4 1 1 1zM9 7h1v6H9V7z"/></svg>
           </button>
           <button type="button" onclick="formatText('list')" class="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-xl text-gray-600 dark:text-gray-400 transition-all" title="List">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
         </div>
         <div class="mt-0">
@@ -60,11 +61,11 @@
 
 <div class="mt-10">
   <h3 class="text-xs font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-8">
-    Your Journey History
+    {{ $labels.history_label }}
   </h3>
   <div id="entries-list" class="grid grid-cols-1 gap-6">
     <!-- Entries will be injected here via JS -->
-    <p class="text-gray-500 dark:text-gray-400 italic">No entries yet.</p>
+    <p class="text-gray-500 dark:text-gray-400 italic">{{ $labels.no_entries_fallback }}</p>
   </div>
 </div>
 
@@ -140,11 +141,11 @@
       container.innerHTML = `
         <div class="flex flex-col items-center justify-center py-12 px-4 text-center bg-white dark:bg-gray-800 rounded-[3rem] border-2 border-dashed border-gray-100 dark:border-gray-700">
           <div class="w-full max-w-xs mb-8 opacity-80">
-            <img src="/illustrations/library/taking_notes_re_3274.svg" class="w-full h-auto mx-auto" alt="No entries" loading="lazy" decoding="async">
+            <img src="/illustrations/library/{{ $labels.empty_state.illustration }}.svg" class="w-full h-auto mx-auto" alt="No entries" loading="lazy" decoding="async">
           </div>
-          <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Your journal is empty</h3>
-          <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-8 font-medium">Start documenting your thoughts and feelings. It's a great way to track your progress and clear your mind.</p>
-          <button onclick="document.getElementById('journal-title').focus()" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4">Write your first entry &rarr;</button>
+          <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">{{ $labels.empty_state.title }}</h3>
+          <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-8 font-medium">{{ $labels.empty_state.description }}</p>
+          <button onclick="document.getElementById('journal-title').focus()" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4">{{ $labels.empty_state.cta }} &rarr;</button>
         </div>
       `;
       return;
@@ -241,9 +242,10 @@
 {{ end }}
 
 {{ define "app-logged-out" }}
+  {{ $labels := site.Data.labels.journal }}
   <div class="text-center py-12 px-4">
     <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
-      {{ partial "shared/undraw.html" (dict "name" "personal_notes" "class" "w-full h-auto") }}
+      {{ partial "shared/undraw.html" (dict "name" $labels.empty_state.illustration "class" "w-full h-auto") }}
     </div>
     <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Your Private sanctuary</h2>
     <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Document your thoughts, track your progress, and clear your mind in a 100% private digital journal.</p>

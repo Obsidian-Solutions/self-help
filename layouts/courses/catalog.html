@@ -103,8 +103,8 @@
 
 {{ define "app-logged-out" }}
   <div class="text-center mb-16">
-    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4">Our Learning Journeys</h2>
-    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">Explore our library of science-backed CBT courses. Sign up to track your progress and unlock full lessons.</p>
+    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4">{{ .Params.logged_out.headline | default "Our Learning Journeys" }}</h2>
+    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">{{ .Params.logged_out.description | default "Explore our library of science-backed CBT courses. Sign up to track your progress and unlock full lessons." }}</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
@@ -140,8 +140,8 @@
   </div>
 
   <div class="mt-12 text-center bg-indigo-600 dark:bg-indigo-900 rounded-[3rem] p-12 text-white shadow-2xl shadow-indigo-200 dark:shadow-none">
-    <h3 class="text-3xl font-black mb-4">Ready to start growing?</h3>
-    <p class="text-lg opacity-90 mb-8 max-w-xl mx-auto">Create your free account today and get instant access to our mindfulness foundations and mood tracking tools.</p>
-    <button onclick="window.openModal('signupModal')" class="bg-white text-indigo-600 font-black px-10 py-4 rounded-2xl hover:scale-105 transition-all shadow-xl">Get Started for Free</button>
+    <h3 class="text-3xl font-black mb-4">{{ .Params.cta.headline | default "Ready to start growing?" }}</h3>
+    <p class="text-lg opacity-90 mb-8 max-w-xl mx-auto">{{ .Params.cta.text | default "Create your free account today and get instant access to our mindfulness foundations and mood tracking tools." }}</p>
+    <button onclick="window.openModal('signupModal')" class="bg-white text-indigo-600 font-black px-10 py-4 rounded-2xl hover:scale-105 transition-all shadow-xl">{{ .Params.cta.button | default "Get Started for Free" }}</button>
   </div>
 {{ end }}

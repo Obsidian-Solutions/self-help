@@ -1,12 +1,25 @@
 {
+  "site": {
+    "logo_text": "M",
+    "member_label": "Member",
+    "wellness_member_label": "Wellness Member"
+  },
   "streak_widget": {
     "title": "Your Check-In Streak",
     "days_label": "days in a row",
     "total_label": "total check-ins",
     "encouragement_bold": "Keep it up!",
-    "encouragement_text": "Every day you check in, you're building awareness of your emotions. 🌱"
+    "encouragement_text": "Every day you check in, you're building awareness of your emotions. 🌱",
+    "emoji": "🔥",
+    "no_data": "0"
+  },
+  "mood_selector": {
+    "success_title": "Mood Logged!",
+    "success_message": "Your reflection has been saved to your private journal."
   },
   "sidebar": {
+    "default_user": "User",
+    "default_plan": "Free Plan",
     "nav": [
       { "name": "Dashboard", "url": "/dashboard", "icon": "home" },
       { "name": "My Courses", "url": "/courses", "icon": "academic-cap" },
@@ -15,6 +28,16 @@
       { "name": "Therapists", "url": "/therapists", "icon": "user-group" },
       { "name": "Settings", "url": "/settings", "icon": "cog" }
     ]
+  },
+  "header": {
+    "nav": [
+      { "name": "Courses", "url": "/courses" },
+      { "name": "Therapists", "url": "/therapists" },
+      { "name": "Pricing", "url": "/pricing" }
+    ],
+    "login_btn": "Log in",
+    "signup_btn": "Get Started",
+    "logout_title": "Log out"
   },
   "auth_modals": {
     "login": {
@@ -42,48 +65,24 @@
     { "emoji": "😔", "label": "Not Great" },
     { "emoji": "😢", "label": "Struggling" }
   ],
-  "comparison": [
-    {
-      "name": "Course Access",
-      "free": "Foundation only",
-      "standard": "Unlimited",
-      "pro": "Unlimited"
+  "quiz": {
+    "default_title": "Knowledge Check",
+    "default_description": "Test your understanding of this lesson",
+    "start_btn": "Start Quiz",
+    "next_btn": "Next Question",
+    "finish_btn": "Finish Quiz",
+    "results_title": "Results",
+    "score_label": "Your Score",
+    "default_result_emoji": "🎉"
+  },
+  "journal": {
+    "empty_state": {
+      "title": "Your journal is empty",
+      "description": "Start documenting your thoughts and feelings. It's a great way to track your progress and clear your mind.",
+      "cta": "Write your first entry",
+      "illustration": "taking_notes_re_3274"
     },
-    {
-      "name": "Mood Tracking",
-      "free": "✓",
-      "standard": "✓",
-      "pro": "✓"
-    },
-    {
-      "name": "Personal Journal",
-      "free": "✓",
-      "standard": "✓",
-      "pro": "✓"
-    },
-    {
-      "name": "Therapist Booking",
-      "free": "—",
-      "standard": "✓",
-      "pro": "✓"
-    },
-    {
-      "name": "Offline Access",
-      "free": "—",
-      "standard": "✓",
-      "pro": "✓"
-    },
-    {
-      "name": "Consultations",
-      "free": "—",
-      "standard": "—",
-      "pro": "1-on-1 Monthly"
-    },
-    {
-      "name": "Family Seats",
-      "free": "1",
-      "standard": "1",
-      "pro": "2"
-    }
-  ]
+    "history_label": "Your Journey History",
+    "no_entries_fallback": "No entries yet."
+  }
 }

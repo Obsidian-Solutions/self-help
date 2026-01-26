@@ -1,16 +1,17 @@
+{{ $labels := site.Data.labels }}
 <div class="space-y-6">
   <div class="flex items-center space-x-3 mb-6 px-3">
     <div id="sidebar-avatar-container" class="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl overflow-hidden border border-indigo-100 dark:border-indigo-800">
-      <span id="sidebar-user-initial">U</span>
+      <span id="sidebar-user-initial">{{ substr $labels.sidebar.default_user 0 1 }}</span>
     </div>
     <div class="overflow-hidden">
-      <p class="text-sm font-medium text-gray-900 dark:text-white truncate" id="sidebar-user-name">User</p>
-      <p class="text-xs text-gray-500 dark:text-gray-400" id="sidebar-user-plan">Free Plan</p>
+      <p class="text-sm font-medium text-gray-900 dark:text-white truncate" id="sidebar-user-name">{{ $labels.sidebar.default_user }}</p>
+      <p class="text-xs text-gray-500 dark:text-gray-400" id="sidebar-user-plan">{{ $labels.sidebar.default_plan }}</p>
     </div>
   </div>
   <nav class="space-y-1">
     {{ $currentPage := .RelPermalink }}
-    {{ range .Site.Data.labels.sidebar.nav }}
+    {{ range $labels.sidebar.nav }}
     <a href="{{ .url }}" class="group flex items-center px-3 py-2 text-sm font-medium rounded-md {{ if eq $currentPage (printf "%s/" .url) }}bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200{{ else if and (eq .url "/courses") (in $currentPage "/courses/") }}bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200{{ else if and (eq .url "/posts") (in $currentPage "/posts/") }}bg-indigo-50 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-200{{ else }}text-gray-900 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white{{ end }}">
       {{ if eq .icon "home" }}
         <svg class="flex-shrink-0 -ml-1 mr-3 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
