@@ -41,5 +41,49 @@
     { "emoji": "😐", "label": "Neutral" },
     { "emoji": "😔", "label": "Not Great" },
     { "emoji": "😢", "label": "Struggling" }
+  ],
+  "comparison": [
+    {
+      "name": "Course Access",
+      "free": "Foundation only",
+      "standard": "Unlimited",
+      "pro": "Unlimited"
+    },
+    {
+      "name": "Mood Tracking",
+      "free": "✓",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Personal Journal",
+      "free": "✓",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Therapist Booking",
+      "free": "—",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Offline Access",
+      "free": "—",
+      "standard": "✓",
+      "pro": "✓"
+    },
+    {
+      "name": "Consultations",
+      "free": "—",
+      "standard": "—",
+      "pro": "1-on-1 Monthly"
+    },
+    {
+      "name": "Family Seats",
+      "free": "1",
+      "standard": "1",
+      "pro": "2"
+    }
   ]
 }
