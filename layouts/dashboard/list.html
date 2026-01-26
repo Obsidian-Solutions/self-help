@@ -103,7 +103,7 @@
   <!-- My Courses -->
   <h3 class="text-xl font-black text-gray-900 dark:text-white mt-6 mb-6 uppercase tracking-widest text-xs">{{ .Params.sections.courses.title | default "Continue Learning" }}</h3>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {{ range where .Site.RegularPages "Section" "courses" }}
+    {{ range (where .Site.RegularPages "Section" "courses") }}
     {{ $courseTitle := .Title }}
     {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
@@ -129,7 +129,7 @@
         </div>
       </div>
       <div class="px-8 py-4 bg-gray-50/50 dark:bg-gray-900/20 border-t border-gray-50 dark:border-gray-700 flex justify-between items-center">
-        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ $lessonCount }} Lessons</span>
+        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest lesson-count-display">{{ $lessonCount }} Lessons</span>
         <a href="{{ .RelPermalink }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform block">Resume &rarr;</a>
       </div>
     </div>
@@ -185,7 +185,7 @@
       const progressBar = card.querySelector(`[data-progress-bar="${courseTitle}"]`);
       const progressText = card.querySelector(`[data-progress-text="${courseTitle}"]`);
       
-      const lessonCountEl = card.querySelector('.text-xs.font-bold.text-gray-400');
+      const lessonCountEl = card.querySelector('.lesson-count-display');
       if (!lessonCountEl) return;
       const totalLessons = parseInt(lessonCountEl.innerText) || 1;
       
