@@ -1,5 +1,6 @@
 ---
 useAppShell: true
+useAppShell: true
 premium: false
 title: 'Anger Management'
 description: 'Healthy ways to process and express anger without hurting yourself or others.'
@@ -8,6 +9,8 @@ category: 'Emotional Regulation'
 duration: '5 weeks'
 level: 'Beginner'
 ---
+
+useAppShell: true
 
 useAppShell: true
 
