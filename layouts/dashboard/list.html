@@ -1,8 +1,4 @@
 {{ define "main" }}
-  {{ partial "app/shell.html" . }}
-{{ end }}
-
-{{ define "app-content" }}
 <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">
   <!-- Demo Info Banner -->
   <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-6 rounded-r-xl">
@@ -109,7 +105,7 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
     {{ range where .Site.RegularPages "Section" "courses" }}
     {{ $courseTitle := .Title }}
-    {{ $lessons := where $.Site.RegularPages "Params.course" $courseTitle }}
+    {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
     <div class="group bg-white shadow-sm rounded-3xl overflow-hidden border border-gray-100 dark:bg-gray-800 dark:border-gray-700 flex flex-col hover:shadow-xl transition-all duration-500" data-course-card="{{ $courseTitle }}">
       <div class="h-40 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30 flex items-center justify-center p-8">

@@ -1,8 +1,4 @@
 {{ define "main" }}
-  {{ partial "app/shell.html" . }}
-{{ end }}
-
-{{ define "app-content" }}
 <div class="mb-12">
   <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">
     {{ .Title }}
@@ -94,6 +90,43 @@
     </div>
   </div>
   {{ end }}
+</div>
+
+<!-- Booking Modal (Custom for Therapists) -->
+<div id="booking-modal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeBookingModal()"></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-[2.5rem] px-8 pt-10 pb-8 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-10 border border-gray-100 dark:border-gray-700">
+      <div>
+        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-3xl bg-green-50 dark:bg-green-950/30 text-green-600 dark:text-green-400 mb-6">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 v12a2 2 0 002 2z"/></svg>
+        </div>
+        <div class="text-center">
+          <h3 class="text-2xl font-black text-gray-900 dark:text-white" id="modal-title">Book with <span id="therapist-name"></span></h3>
+          <p class="text-gray-500 dark:text-gray-400 mt-3 font-medium">Select your preferred date. Our concierge team will reach out to finalize the consultation.</p>
+        </div>
+      </div>
+      <form onsubmit="handleBooking(event)" class="mt-8 space-y-6">
+        <div>
+          <label for="booking-date" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Preferred Date</label>
+          <input type="date" id="booking-date" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" />
+        </div>
+        <div>
+          <label for="booking-time" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Preferred Time</label>
+          <select id="booking-time" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
+            <option>Morning (9:00 AM - 12:00 PM)</option>
+            <option>Afternoon (1:00 PM - 5:00 PM)</option>
+            <option>Evening (6:00 PM - 9:00 PM)</option>
+          </select>
+        </div>
+        <div class="mt-10 grid grid-cols-2 gap-4">
+          <button type="button" onclick="closeBookingModal()" class="px-6 py-4 text-sm font-black text-gray-500 hover:text-gray-700 transition-colors">Cancel</button>
+          <button type="submit" class="bg-indigo-600 text-white px-6 py-4 rounded-2xl font-black shadow-lg shadow-indigo-100">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script>

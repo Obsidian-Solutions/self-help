@@ -1,8 +1,4 @@
 {{ define "main" }}
-  {{ partial "app/shell.html" . }}
-{{ end }}
-
-{{ define "app-content" }}
 <div class="md:flex md:items-center md:justify-between mb-12">
   <div class="flex-1 min-w-0">
     <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">
@@ -165,10 +161,10 @@
         <div class="flex justify-between items-start mb-6">
           <div>
             <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-1 block">
-${entry.date}
+              ${entry.date}
             </span>
             <h4 class="text-2xl font-black text-gray-900 dark:text-white" id="title-${entry.id}">
-${entry.title}
+              ${entry.title}
             </h4>
           </div>
           <div class="flex items-center space-x-3">
@@ -191,7 +187,7 @@ ${entry.title}
             <button onclick="updateEntry(${entry.id})" class="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-black shadow-lg shadow-indigo-100">Update</button>
           </div>
         </div>
-      `
+      `;
 
       container.appendChild(entryDiv);
     });

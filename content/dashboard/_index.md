@@ -1,4 +1,5 @@
 ---
+baseof: 'app'
 title: 'User Dashboard'
 layout: 'dashboard'
 welcome:
@@ -20,3 +21,5 @@ demo_banner:
   title: 'Open Source Demo'
   text: 'You are currently using Local Authentication. Data is stored in your browser. To integrate a real backend like Supabase or Go, update static/js/auth.js.'
 ---
+
+layout: "shell"

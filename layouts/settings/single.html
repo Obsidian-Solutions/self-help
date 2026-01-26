@@ -1,8 +1,4 @@
 {{ define "main" }}
-  {{ partial "app/shell.html" . }}
-{{ end }}
-
-{{ define "app-content" }}
 <div class="mb-12">
   <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">{{ .Title }}</h1>
   <p class="mt-4 text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl">Manage your account preferences and settings.</p>
@@ -405,12 +401,12 @@
 
     if (enabled) {
       btn.classList.add('bg-indigo-600');
-      btn.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+      btn.classList.remove('bg-gray-200', 'dark:bg-gray-700');
       dot.classList.add('translate-x-6');
       dot.classList.remove('translate-x-0');
     } else {
       btn.classList.remove('bg-indigo-600');
-      btn.classList.add('bg-gray-100', 'dark:bg-gray-700');
+      btn.classList.add('bg-gray-200', 'dark:bg-gray-700');
       dot.classList.add('translate-x-0');
       dot.classList.remove('translate-x-6');
     }
