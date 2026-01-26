@@ -8,7 +8,7 @@
   {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
   {{ $isAppPage := eq .Params.useAppShell true }}
   <style>
-    /* Sidebar is hidden by default and only shows on app pages for logged-in users */
+    /* Sidebar visibility control */
     .app-sidebar { display: none; }
     .user-logged-in.is-app-page .app-sidebar { display: block; width: 16rem; flex-shrink: 0; }
 
@@ -18,9 +18,19 @@
     
     .logged-out-cta { display: none; }
     .is-app-page:not(.user-logged-in) .logged-out-cta { display: block; }
+
+    /* Ensure sidebar stays fixed while page scrolls */
+    @media (min-width: 768px) {
+      .app-sidebar-sticky {
+        position: sticky;
+        top: 5rem; /* Matches header height (h-20 = 80px = 5rem) */
+        height: calc(100vh - 5rem);
+        overflow-y: auto;
+      }
+    }
   </style>
 
-  <div class="h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col">
     <!-- Global Header -->
     {{ if not (or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/")) }}
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:bg-gray-900/80 dark:border-gray-800">
@@ -29,18 +39,18 @@
     {{ end }}
 
     <!-- Main Body Area -->
-    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
+    <div class="flex-1 flex flex-col md:flex-row">
       <!-- Optional App Sidebar -->
       {{ if .Params.useAppShell }}
-      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 overflow-y-auto">
-        <div class="sticky top-0 p-4 md:p-6">
+      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700">
+        <div class="app-sidebar-sticky p-4 md:p-6">
           {{ partial "app/sidebar.html" . }}
         </div>
       </aside>
       {{ end }}
 
       <!-- Content area -->
-      <main class="flex-1 min-w-0 overflow-y-auto">
+      <main class="flex-1 min-w-0">
         <div class="p-4 md:p-8 lg:p-12">
           <div class="max-w-6xl mx-auto">
             
