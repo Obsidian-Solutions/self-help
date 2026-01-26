@@ -1,7 +1,8 @@
 {{ define "main" }}
+{{ $labels := site.Data.labels }}
 <div class="mb-12">
   <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">{{ .Title }}</h1>
-  <p class="mt-4 text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl">Manage your account preferences and settings.</p>
+  <p class="mt-4 text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl">{{ .Params.description | default "Manage your account preferences and settings." }}</p>
 </div>
 
 <!-- Tab Navigation -->
@@ -9,7 +10,7 @@
   <nav class="-mb-px flex space-x-10" aria-label="Tabs">
     {{ range slice "profile" "subscription" "security" "appearance" "data" }}
     <button onclick="switchSettingsTab('{{ . }}')" id="tab-btn-{{ . }}" class="settings-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-black text-xs uppercase tracking-widest {{ if eq . `profile` }}border-indigo-600 text-indigo-600 dark:text-indigo-400{{ else }}border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-300 dark:text-gray-500 dark:hover:text-gray-300{{ end }}" {{ if eq . `profile` }}aria-current="page"{{ end }}>
-      {{ . }}
+      {{ . | humanize }}
     </button>
     {{ end }}
   </nav>
@@ -40,12 +41,12 @@
         <form onsubmit="updateProfile(event)" class="space-y-8">
           <div class="grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6">
             <div class="sm:col-span-4">
-              <label for="profile-name" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Full Name</label>
+              <label for="profile-name" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.auth_modals.signup.name_label }}</label>
               <input type="text" name="profile-name" id="profile-name" class="block w-full text-base font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" />
             </div>
 
             <div class="sm:col-span-4">
-              <label for="profile-email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Email Address</label>
+              <label for="profile-email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.auth_modals.signup.email_label }}</label>
               <input type="email" name="profile-email" id="profile-email" disabled class="bg-gray-50 dark:bg-gray-900 text-gray-400 dark:text-gray-500 block w-full font-bold border-gray-100 dark:border-gray-800 rounded-2xl p-4 cursor-not-allowed" />
             </div>
           </div>
@@ -201,6 +202,8 @@
 </div>
 
 <script>
+  const settingsLabels = {{ $labels.settings }};
+
   function switchSettingsTab(tabId) {
     document.querySelectorAll('.settings-tab-content').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll('.settings-tab-btn').forEach(btn => {
@@ -227,7 +230,7 @@
       }
       
       const currentPlan = user.plan || 'Free';
-      document.getElementById('current-plan-display').innerText = currentPlan + ' Tier';
+      document.getElementById('current-plan-display').textContent = currentPlan + ' ' + settingsLabels.plan_tier_suffix;
       updatePlanButtons(currentPlan);
     }
 
@@ -243,12 +246,12 @@
     document.querySelectorAll('[data-plan-btn]').forEach(btn => {
       const planName = btn.getAttribute('data-plan-btn');
       if (planName.toLowerCase() === currentPlan.toLowerCase()) {
-        btn.innerText = 'Current Plan';
+        btn.textContent = settingsLabels.current_plan_btn;
         btn.disabled = true;
         btn.classList.add('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
         btn.classList.remove('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
       } else {
-        btn.innerText = 'Select Plan';
+        btn.textContent = settingsLabels.select_plan_btn;
         btn.disabled = false;
         btn.classList.remove('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
         btn.classList.add('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
@@ -281,7 +284,7 @@
         localStorage.setItem('mindfull_users', JSON.stringify(users));
       }
 
-      if (window.showToast) window.showToast('Profile picture updated!', 'success');
+      if (window.showToast) window.showToast(settingsLabels.toast_avatar_update, 'success');
     };
     reader.readAsDataURL(file);
   }
@@ -313,7 +316,7 @@
     users[userIndex].password = hashedNext;
     localStorage.setItem('mindfull_users', JSON.stringify(users));
 
-    if (window.showToast) window.showToast('Password changed successfully!', 'success');
+    if (window.showToast) window.showToast(settingsLabels.toast_password_update, 'success');
     e.target.reset();
   }
 
@@ -333,7 +336,7 @@
     }
 
     if (window.showToast) {
-      window.showToast('Profile updated!', 'success');
+      window.showToast(settingsLabels.toast_profile_update, 'success');
     }
 
     setTimeout(() => {
@@ -356,14 +359,14 @@
     }
 
     if (window.showToast) {
-      window.showToast(`Plan updated to ${newPlan}!`, 'success');
+      window.showToast(settingsLabels.toast_plan_update.replace('{plan}', newPlan), 'success');
     }
 
-    document.getElementById('current-plan-display').innerText = newPlan + ' Tier';
+    document.getElementById('current-plan-display').textContent = newPlan + ' ' + settingsLabels.plan_tier_suffix;
     updatePlanButtons(newPlan);
     
     const sidebarPlan = document.getElementById('sidebar-user-plan');
-    if (sidebarPlan) sidebarPlan.innerText = newPlan + ' Plan';
+    if (sidebarPlan) sidebarPlan.textContent = newPlan + ' ' + settingsLabels.plan_label_suffix;
     
     if (window.checkAuth) window.checkAuth();
   }

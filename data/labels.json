@@ -165,6 +165,16 @@
       }
     }
   },
+  "settings": {
+    "plan_tier_suffix": "Tier",
+    "plan_label_suffix": "Plan",
+    "current_plan_btn": "Current Plan",
+    "select_plan_btn": "Select Plan",
+    "toast_plan_update": "Plan updated to {plan}!",
+    "toast_profile_update": "Profile updated!",
+    "toast_password_update": "Password changed successfully!",
+    "toast_avatar_update": "Profile picture updated!"
+  },
   "contact": {
     "labels": {
       "first_name": "First Name",
