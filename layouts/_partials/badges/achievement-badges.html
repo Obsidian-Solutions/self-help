@@ -1,13 +1,13 @@
 <div class="achievement-badges grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
   {{ range .Site.Data.badges }}
-  <div class="badge-card group cursor-pointer" data-badge="{{ .id }}">
+  <div class="badge-card group cursor-pointer bg-white dark:bg-gray-800 rounded-2xl p-4 border border-gray-100 dark:border-gray-700 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all duration-300 shadow-sm hover:shadow-md" data-badge="{{ .id }}">
     <div
-      class="aspect-square bg-gradient-to-br from-{{ .color_from }} to-{{ .color_to }} rounded-lg flex flex-col items-center justify-center text-white shadow-md hover:shadow-lg transition-shadow opacity-40 group-hover:opacity-100"
+      class="aspect-square bg-gradient-to-br from-{{ .color_from }} to-{{ .color_to }} rounded-xl flex flex-col items-center justify-center text-white shadow-sm opacity-40 group-hover:opacity-100 transition-opacity"
     >
       <span class="text-3xl mb-2">{{ .icon }}</span>
       <span class="text-xs font-bold text-center px-2">{{ .title }}</span>
     </div>
-    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2 text-center">{{ .description }}</p>
+    <p class="text-[10px] uppercase tracking-widest font-black text-gray-400 dark:text-gray-500 mt-3 text-center">{{ .description }}</p>
   </div>
   {{ end }}
 </div>
