@@ -1,6 +1,5 @@
 ---
 useAppShell: true
-useAppShell: true
 premium: true
 title: 'Sleep Mastery'
 description: 'CBT-I techniques to cure insomnia and get the rest you deserve.'
@@ -9,8 +8,6 @@ category: 'Health'
 duration: '8 weeks'
 level: 'Intermediate'
 ---
-
-useAppShell: true
 
 useAppShell: true
 
