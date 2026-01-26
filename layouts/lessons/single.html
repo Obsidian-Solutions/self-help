@@ -89,7 +89,7 @@
       {{ range $index, $q := $quizQuestions }}
       {
         question: {{ $q.question }},
-        options: [{{ range $q.options }}{{ . }},{{ end }}],
+        options: [{{ range $idx, $opt := $q.options }}{{ $opt }}{{ if lt $idx (sub (len $q.options) 1) }},{{ end }}{{ end }}],
         correct: {{ $q.correct }},
         explanation: {{ $q.explanation }}
       }{{ if lt $index (sub $questionCount 1) }},{{ end }}
@@ -113,6 +113,7 @@
 
   function markComplete() {
     const lessonId = {{ .Title }};
+    {{ $course := .GetPage ".." }}
     const courseTitle = {{ if $course }}{{ $course.Title }}{{ else }}"General"{{ end }};
     const courseUrl = {{ if $course }}{{ $course.RelPermalink }}{{ else }}"/courses"{{ end }};
     

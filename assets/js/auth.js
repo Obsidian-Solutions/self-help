@@ -306,7 +306,8 @@ window.checkAuth = () => {
         btn.classList.add('opacity-90');
         btn.onclick = null;
       } else {
-        btn.textContent = btn.textContent.includes('Course') ? 'Start Course' : 'Start Learning';
+        const currentText = btn.textContent;
+        btn.textContent = currentText.includes('Course') ? 'Start Course' : 'Start Learning';
         btn.href = btn.getAttribute('data-auth-href') || btn.href;
       }
     });
