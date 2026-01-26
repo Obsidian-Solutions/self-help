@@ -5,10 +5,13 @@
 # Site Configuration
 baseURL = 'https://mindfull.example.com/'  # Update with your actual domain
 languageCode = 'en-US'
-title = 'MindFull - Your Mental Health Companion'
-description = 'A modern mental health and self-help platform with interactive lessons, mood tracking, and achievements.'
-author = 'Your Name'
-copyright = 'Copyright © 2026 MindFull. All rights reserved.'
+title = 'MindFull'
+description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
+
+[params]
+  author = 'MindFull Team'
+  description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
+  og_image = '/images/og-image.png'
 
 # Hugo Configuration
 enableRobotsTXT = true

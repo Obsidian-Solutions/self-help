@@ -1,7 +1,33 @@
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" />
-<title>
-  {{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}
-</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Basic SEO -->
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<meta name="description" content="{{ .Description | default site.Params.description }}" />
+<meta name="author" content="{{ site.Params.author | default "MindFull" }}" />
+<link rel="canonical" href="{{ .Permalink }}" />
+
+<!-- OpenGraph / Facebook -->
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
+<meta property="og:description" content="{{ .Description | default site.Params.description }}" />
+<meta property="og:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "images/og-image.png" | absURL }}{{ end }}" />
+<meta property="og:site_name" content="{{ site.Title }}" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content="{{ .Permalink }}" />
+<meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
+<meta name="twitter:description" content="{{ .Description | default site.Params.description }}" />
+<meta name="twitter:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "images/og-image.png" | absURL }}{{ end }}" />
+
+<!-- Verification & Robots -->
+<meta name="robots" content="index, follow" />
+{{ if site.Params.analytics.googleAnalyticsId }}
+<meta name="google-site-verification" content="{{ site.Params.analytics.googleAnalyticsId }}" />
+{{ end }}
+
 {{ partial "shared/head/favicon.html" . }}
-{{ partialCached "shared/head/css.html" . }} {{ partialCached "shared/head/js.html" . }}
+{{ partialCached "shared/head/css.html" . }}
+{{ partialCached "shared/head/js.html" . }}
