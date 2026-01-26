@@ -4,7 +4,9 @@
   {{ partial "shared/head.html" . }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
-<body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }}">
+<body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }} {{ if (or (eq .Kind `login`) (eq .Kind `signup`) (in .RelPermalink `/login/`) (in .RelPermalink `/signup/`)) }}overflow-hidden h-screen{{ end }}">
+  {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
+  {{ $isAppPage := eq .Params.useAppShell true }}
   <style>
     /* Sidebar is hidden by default and only shows on app pages for logged-in users */
     .app-sidebar { display: none; }
@@ -18,28 +20,27 @@
     .is-app-page:not(.user-logged-in) .logged-out-cta { display: block; }
   </style>
 
-  <div class="min-h-screen flex flex-col">
+  <div class="h-screen flex flex-col">
     <!-- Global Header -->
-    {{ $isAuthPage := or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/") }}
-    {{ if not $isAuthPage }}
+    {{ if not (or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/")) }}
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 dark:bg-gray-900/80 dark:border-gray-800">
       {{ partial "shared/header.html" . }}
     </header>
     {{ end }}
 
     <!-- Main Body Area -->
-    <div class="flex-1 flex flex-col md:flex-row">
+    <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
       <!-- Optional App Sidebar -->
       {{ if .Params.useAppShell }}
-      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700">
-        <div class="sticky top-20 p-4 md:p-6">
+      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 overflow-y-auto">
+        <div class="sticky top-0 p-4 md:p-6">
           {{ partial "app/sidebar.html" . }}
         </div>
       </aside>
       {{ end }}
 
       <!-- Content area -->
-      <main class="flex-1 min-w-0">
+      <main class="flex-1 min-w-0 overflow-y-auto">
         <div class="p-4 md:p-8 lg:p-12">
           <div class="max-w-6xl mx-auto">
             
@@ -70,7 +71,7 @@
     </div>
 
     <!-- Global Footer -->
-    {{ if not $isAuthPage }}
+    {{ if not (or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/")) }}
     <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
       {{ partial "shared/footer.html" . }}
     </footer>
