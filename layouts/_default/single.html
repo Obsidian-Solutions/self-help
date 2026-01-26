@@ -20,7 +20,7 @@
   </div>
   {{ else if .Params.image }}
   <div class="relative h-64 sm:h-96 w-full mb-12">
-    <img class="w-full h-full object-cover rounded-3xl shadow-xl" src="{{ .Params.image }}" alt="{{ .Title }}" />
+    <img class="w-full h-full object-cover rounded-3xl shadow-xl" src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy" decoding="async" />
   </div>
   {{ end }}
 

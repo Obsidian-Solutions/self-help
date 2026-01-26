@@ -223,7 +223,7 @@
       document.getElementById('profile-email').value = user.email || '';
       
       if (user.avatar) {
-        document.getElementById('avatar-preview').innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover">`;
+        document.getElementById('avatar-preview').innerHTML = `<img src="${user.avatar}" class="h-full w-full object-cover" loading="lazy" decoding="async">`;
       }
       
       const currentPlan = user.plan || 'Free';

@@ -37,8 +37,9 @@ $illustrationRes = index $matches 0 -}} {{- end -}} {{- else -}} {{- $illustrati
 resources.Get . -}} {{- end -}} {{- end -}} {{- end -}} {{- end -}} {{/* --- RENDER --- */}} {{- if
 and $illustrationRes (eq $illustrationRes.MediaType.MainType "image") (eq
 $illustrationRes.MediaType.SubType "svg") -}}
+{{- $svg := $illustrationRes | minify -}}
 <div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">
-  {{ $illustrationRes.Content | safeHTML }}
+  {{ $svg.Content | safeHTML }}
 </div>
 {{- else -}}
 <div

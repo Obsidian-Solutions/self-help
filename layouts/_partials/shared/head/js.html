@@ -2,7 +2,6 @@
 <script>
   // Theme Management
   window.setTheme = function(theme) {
-    console.log('Setting theme to:', theme);
     const html = document.documentElement;
     const isDark = theme === 'dark' || (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     
@@ -13,12 +12,9 @@
     }
     
     localStorage.setItem('theme-preference', theme);
-    // Compatibility with other parts of the app
     localStorage.theme = isDark ? 'dark' : 'light';
     
-    // Update UI if on settings page
     if (typeof highlightTheme === 'function') highlightTheme(theme);
-    
     document.dispatchEvent(new CustomEvent('darkModeToggled', { detail: { isDark: isDark } }));
   };
 
@@ -27,44 +23,21 @@
     window.setTheme(theme);
   })();
   
-  // Global dark mode toggle function (for the simple moon/sun icon)
   window.toggleDarkMode = function() {
     const currentTheme = localStorage.getItem('theme-preference') || 'auto';
-    let newTheme;
-    
-    if (currentTheme === 'auto') {
-      newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-    } else {
-      newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    }
-    
+    let newTheme = currentTheme === 'auto' 
+      ? (document.documentElement.classList.contains('dark') ? 'light' : 'dark')
+      : (currentTheme === 'dark' ? 'light' : 'dark');
     window.setTheme(newTheme);
   };
   
-  // Set up button event listener
   document.addEventListener('DOMContentLoaded', function() {
     const btn = document.getElementById('dark-mode-toggle');
-    if (btn) {
-      btn.addEventListener('click', window.toggleDarkMode);
-    }
+    if (btn) btn.addEventListener('click', window.toggleDarkMode);
   });
 </script>
 
-<script src="{{ "js/auth.js" | relURL }}"></script>
-
-{{- with resources.Get "js/main.js" }}
-  {{- $opts := dict
-    "minify" (not hugo.IsDevelopment)
-    "sourceMap" (cond hugo.IsDevelopment "external" "")
-    "targetPath" "js/main.js"
-  }}
-  {{- with . | js.Build $opts }}
-    {{- if hugo.IsDevelopment }}
-      <script src="{{ .RelPermalink }}"></script>
-    {{- else }}
-      {{- with . | fingerprint }}
-        <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous"></script>
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- $auth := resources.Get "js/auth.js" | js.Build (dict "minify" (not hugo.IsDevelopment) "targetPath" "js/auth.js") -}}
+{{- $main := resources.Get "js/main.js" | js.Build (dict "minify" (not hugo.IsDevelopment) "targetPath" "js/main.js") -}}
+{{- $bundle := slice $auth $main | resources.Concat "js/bundle.js" | fingerprint -}}
+<script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" crossorigin="anonymous" defer></script>

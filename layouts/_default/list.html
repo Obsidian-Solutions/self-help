@@ -18,7 +18,7 @@
         {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name" .Params.illustration
         "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else if
         .Params.image }}
-        <img class="w-full h-full object-cover" src="{{ .Params.image }}" alt="{{ .Title }}" />
+        <img class="w-full h-full object-cover" src="{{ .Params.image }}" alt="{{ .Title }}" loading="lazy" decoding="async" />
         {{ else }}
         <svg
           class="h-16 w-16 text-indigo-300 dark:text-indigo-600"
