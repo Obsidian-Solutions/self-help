@@ -88,47 +88,29 @@
               {{ .Params.sections.tracking.mood_title | default "Weekly Mood Tracker" }}
             </h3>
             <div
+              id="mood-chart-container"
               class="flex items-end space-x-2 h-32 pt-4 border-t border-gray-100 dark:border-gray-700"
             >
+              <!-- Populated via JS -->
+              {{ range seq 7 }}
               <div
-                class="w-1/7 bg-green-200 rounded-t transition hover:bg-green-300"
-                style="height: 40%; width: 14%"
-                title="Mon"
-              ></div>
-              <div
-                class="w-1/7 bg-green-300 rounded-t transition hover:bg-green-400"
-                style="height: 60%; width: 14%"
-                title="Tue"
-              ></div>
-              <div
-                class="w-1/7 bg-green-400 rounded-t transition hover:bg-green-500"
-                style="height: 50%; width: 14%"
-                title="Wed"
-              ></div>
-              <div
-                class="w-1/7 bg-green-500 rounded-t transition hover:bg-green-600"
-                style="height: 80%; width: 14%"
-                title="Thu"
-              ></div>
-              <div
-                class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                style="height: 100%; width: 14%"
-                title="Fri"
-              ></div>
-              <div
-                class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                style="height: 100%; width: 14%"
-                title="Sat"
-              ></div>
-              <div
-                class="w-1/7 bg-gray-100 rounded-t transition hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
-                style="height: 100%; width: 14%"
-                title="Sun"
-              ></div>
+                class="mood-bar flex-1 bg-gray-100 dark:bg-gray-700 rounded-t transition-all duration-500 relative group"
+                style="height: 10%"
+              >
+                <div class="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap z-10">
+                  No Data
+                </div>
+              </div>
+              {{ end }}
             </div>
-            <div class="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-2">
-              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span
-              ><span>S</span>
+            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500 mt-2">
+              <span class="flex-1 text-center">Mon</span>
+              <span class="flex-1 text-center">Tue</span>
+              <span class="flex-1 text-center">Wed</span>
+              <span class="flex-1 text-center">Thu</span>
+              <span class="flex-1 text-center">Fri</span>
+              <span class="flex-1 text-center">Sat</span>
+              <span class="flex-1 text-center">Sun</span>
             </div>
           </div>
 
@@ -238,12 +220,56 @@
               
               // Get total lessons from the card's hidden count (or we can inject it)
               // We'll use the lesson count we already calculated in the template
-              const totalLessons = parseInt(card.querySelector('.text-xs.text-gray-500').innerText) || 1;
+              const lessonCountEl = card.querySelector('.text-xs.text-gray-500');
+              if (!lessonCountEl) return;
+              const totalLessons = parseInt(lessonCountEl.innerText) || 1;
               
               const percentage = Math.round((completedCount / totalLessons) * 100);
               
               if (progressBar) progressBar.style.width = percentage + '%';
               if (progressText) progressText.innerText = percentage + '%';
+            });
+
+            // Populate Weekly Mood Tracker
+            const moodData = JSON.parse(localStorage.getItem('moodCheckins') || '{}');
+            const moodBars = document.querySelectorAll('.mood-bar');
+            const moodMap = {
+              'Great': { height: '100%', color: 'bg-indigo-500' },
+              'Good': { height: '75%', color: 'bg-indigo-400' },
+              'Neutral': { height: '50%', color: 'bg-indigo-300' },
+              'Not Great': { height: '35%', color: 'bg-gray-400' },
+              'Struggling': { height: '20%', color: 'bg-gray-500' }
+            };
+
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const todayDate = new Date();
+            
+            // Get dates for the current week (starting Monday)
+            const currentDay = todayDate.getDay(); // 0-6
+            const mondayOffset = currentDay === 0 ? -6 : 1 - currentDay;
+            const monday = new Date(todayDate);
+            monday.setDate(todayDate.getDate() + mondayOffset);
+
+            moodBars.forEach((bar, index) => {
+              const date = new Date(monday);
+              date.setDate(monday.getDate() + index);
+              const dateStr = date.toISOString().split('T')[0];
+              const moodEntry = moodData[dateStr];
+              const tooltip = bar.querySelector('.absolute');
+
+              if (moodEntry) {
+                // Mood entry is "🤗 Great" - need to split
+                const moodLabel = moodEntry.split(' ')[1] || moodEntry;
+                const config = moodMap[moodLabel] || moodMap['Neutral'];
+                
+                bar.style.height = config.height;
+                bar.classList.remove('bg-gray-100', 'dark:bg-gray-700');
+                bar.classList.add(config.color);
+                if (tooltip) tooltip.innerText = moodEntry;
+              } else {
+                bar.style.height = '10%';
+                if (tooltip) tooltip.innerText = 'No Data';
+              }
             });
           });
         </script>

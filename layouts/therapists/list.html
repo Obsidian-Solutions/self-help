@@ -11,34 +11,65 @@
   <main class="flex-1 min-w-0 p-4 md:p-8 lg:p-12">
     <div class="max-w-7xl mx-auto">
       <div class="mb-10">
-          <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
-            {{ .Title }}
-          </h1>
-          <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">
-            {{ .Params.description }}
-          </p>
-        </div>
+        <h1 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+          {{ .Title }}
+        </h1>
+        <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">
+          {{ .Params.description }}
+        </p>
+      </div>
 
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {{ range .Pages }}
-          <div
-            class="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700"
-          >
-            <div class="px-4 py-5 sm:px-6 flex items-center space-x-4">
-              <img
-                class="h-16 w-16 rounded-full object-cover"
-                src="{{ .Params.image }}"
-                alt="{{ .Title }}"
-              />
-              <div class="flex-1 min-w-0">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white truncate">
-                  {{ .Title }}
-                </h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-                  {{ .Params.specialty }}
-                </p>
+      <!-- Filters -->
+      <div class="mb-8 flex flex-wrap gap-2" id="specialty-filters">
+        <button 
+          onclick="filterTherapists('all')" 
+          data-filter="all"
+          class="filter-btn px-4 py-2 rounded-full text-sm font-bold transition-all bg-indigo-600 text-white shadow-md"
+        >
+          All Specialists
+        </button>
+        {{ $specialties := slice }}
+        {{ range .Pages }}
+          {{ range .Params.specialties }}
+            {{ $specialties = $specialties | append . }}
+          {{ end }}
+        {{ end }}
+        {{ range ($specialties | uniq | sort) }}
+        <button 
+          onclick="filterTherapists('{{ . }}')" 
+          data-filter="{{ . }}"
+          class="filter-btn px-4 py-2 rounded-full text-sm font-bold transition-all bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700"
+        >
+          {{ . }}
+        </button>
+        {{ end }}
+      </div>
+
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3" id="therapist-grid">
+        {{ range .Pages }}
+        <div
+          class="therapist-card bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg divide-y divide-gray-200 dark:divide-gray-700 transition-all duration-300"
+          data-specialties='{{ jsonify .Params.specialties }}'
+        >
+          <div class="px-4 py-5 sm:px-6 flex items-center space-x-4">
+            <img
+              class="h-16 w-16 rounded-full object-cover border-2 border-indigo-50 dark:border-indigo-900"
+              src="{{ .Params.image }}"
+              alt="{{ .Title }}"
+            />
+            <div class="flex-1 min-w-0">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white truncate">
+                {{ .Title }}
+              </h3>
+              <div class="flex flex-wrap gap-1 mt-1">
+                {{ range .Params.specialties }}
+                <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400">
+                  {{ . }}
+                </span>
+                {{ end }}
               </div>
             </div>
+          </div>
             <div class="px-4 py-5 sm:p-6">
               <div class="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 <p class="flex items-center">
@@ -233,6 +264,39 @@
       alert(message);
     }
     closeBookingModal();
+  }
+
+  function filterTherapists(specialty) {
+    const cards = document.querySelectorAll('.therapist-card');
+    const btns = document.querySelectorAll('.filter-btn');
+
+    // Update buttons
+    btns.forEach(btn => {
+      if (btn.getAttribute('data-filter') === specialty) {
+        btn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+        btn.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-600', 'dark:text-gray-400');
+      } else {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+        btn.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-600', 'dark:text-gray-400');
+      }
+    });
+
+    // Filter cards
+    cards.forEach(card => {
+      if (specialty === 'all') {
+        card.style.display = 'block';
+        card.style.opacity = '1';
+      } else {
+        const cardSpecialties = JSON.parse(card.getAttribute('data-specialties') || '[]');
+        if (cardSpecialties.includes(specialty)) {
+          card.style.display = 'block';
+          setTimeout(() => card.style.opacity = '1', 10);
+        } else {
+          card.style.opacity = '0';
+          setTimeout(() => card.style.display = 'none', 300);
+        }
+      }
+    });
   }
 </script>
 {{ end }}
