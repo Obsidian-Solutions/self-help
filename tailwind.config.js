@@ -9,11 +9,38 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+      },
       colors: {
-        primary: '#4F46E5', // Indigo 600
-        secondary: '#10B981', // Emerald 500
-        accent: '#F59E0B', // Amber 500
-        neutral: '#374151', // Gray 700
+        primary: {
+          DEFAULT: '#4F46E5',
+          50: '#EEF2FF',
+          100: '#E0E7FF',
+          200: '#C7D2FE',
+          300: '#A5B4FC',
+          400: '#818CF8',
+          500: '#6366F1',
+          600: '#4F46E5',
+          700: '#4338CA',
+          800: '#3730A3',
+          900: '#312E81',
+          950: '#1E1B4B',
+        },
+        secondary: '#10B981',
+        accent: '#F59E0B',
+        neutral: '#374151',
+        brand: {
+          soft: '#F8FAFF',
+          muted: '#64748B',
+          dark: '#0F172A',
+        },
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
       },
     },
   },

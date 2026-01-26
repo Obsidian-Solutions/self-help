@@ -54,13 +54,13 @@ blogDescription = "Expert advice and mental health tips."
 
 faqTitle = "Frequently Asked Questions"
 
-pricingTitle = "Simple, transparent pricing"
-pricingDescription = "Start for free, upgrade for more."
+pricingTitle = "Invest in your mind"
+pricingDescription = "Choose the path that fits your journey. No hidden fees, cancel anytime."
 
 ctaHeading = "Ready to dive in?"
-ctaSubheading = "Start your free trial today."
-ctaButton = "Get started"
-ctaLink = "/login"
+cataSubheading = "Start your free trial today."
+cataButton = "Get started"
+cataLink = "/login"
 
 [[testimonials]]
 quote = "I've struggled with anxiety for years. The CBT course gave me tools I use every single day. It's life-changing."
