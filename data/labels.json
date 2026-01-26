@@ -84,13 +84,23 @@
     ],
     "login_btn": "Log in",
     "signup_btn": "Get Started",
-    "logout_title": "Log out"
+    "logout_title": "Log out",
+    "mobile_menu_label": "Toggle menu"
+  },
+  "footer": {
+    "product_title": "Product",
+    "support_title": "Support",
+    "legal_title": "Legal",
+    "copyright_prefix": "All rights reserved.",
+    "status_label": "System Status: Operational"
   },
   "auth_modals": {
     "login": {
       "title": "Sign In",
       "email_label": "Email",
       "password_label": "Password",
+      "email_placeholder": "name@example.com",
+      "password_placeholder": "••••••••",
       "submit_btn": "Sign In",
       "footer_text": "Don't have an account?",
       "footer_link": "Sign up"
@@ -98,8 +108,11 @@
     "signup": {
       "title": "Create Account",
       "name_label": "Full Name",
+      "name_placeholder": "Jane Doe",
       "email_label": "Email",
+      "email_placeholder": "name@example.com",
       "password_label": "Password",
+      "password_placeholder": "••••••••",
       "submit_btn": "Create Account",
       "footer_text": "Already have an account?",
       "footer_link": "Sign in"
@@ -132,10 +145,33 @@
       "illustration": "taking_notes_re_3274"
     },
     "history_label": "Your Journey History",
-    "no_entries_fallback": "No entries yet."
+    "no_entries_fallback": "No entries yet.",
+    "labels": {
+      "entry_title": "Entry Title",
+      "entry_title_placeholder": "Reflections on today...",
+      "your_thoughts": "Your Thoughts",
+      "your_thoughts_placeholder": "Write whatever is on your mind...",
+      "save_btn": "Save Entry",
+      "update_btn": "Update",
+      "cancel_btn": "Cancel",
+      "toolbar": {
+        "bold": "Bold",
+        "italic": "Italic",
+        "list": "List"
+      }
+    }
+  },
+  "contact": {
+    "placeholders": {
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "email": "jane@example.com",
+      "message": "How can we help you?"
+    }
   },
   "shared": {
-    "close": "Close"
+    "close": "Close",
+    "pagination": "Pagination"
   },
   "comparison": [
     {

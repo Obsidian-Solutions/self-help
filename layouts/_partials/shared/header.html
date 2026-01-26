@@ -8,7 +8,7 @@
           type="button"
           onclick="window.toggleMobileMenu()"
           class="sm:hidden p-2 -ml-2 rounded-xl text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all mr-2"
-          aria-label="Toggle menu"
+          aria-label="{{ $labels.header.mobile_menu_label }}"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -26,7 +26,7 @@
         {{ range $labels.header.nav }}
         <a href="{{ .url }}" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ .name }}</a>
         {{ end }}
-        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Dashboard</a>
+        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard") 0).name }}</a>
       </div>
 
       <div class="flex items-center space-x-1 md:space-x-3">
@@ -77,9 +77,9 @@
       {{ range $labels.header.nav }}
       <a href="{{ .url }}" class="block px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
       {{ end }}
-      <a href="/dashboard" class="mobile-dashboard-link hidden px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">Dashboard</a>
-      <a href="/journal" class="mobile-dashboard-link hidden px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">Journal</a>
-      <a href="/settings" class="mobile-dashboard-link hidden px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">Settings</a>
+      {{ range where $labels.sidebar.nav "url" "in" (slice "/dashboard" "/journal" "/settings") }}
+      <a href="{{ .url }}" class="mobile-dashboard-link hidden block px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
+      {{ end }}
       
       <div class="pt-4 border-t border-gray-50 dark:border-gray-800 mt-4 mobile-auth-section">
         <div id="mobile-auth-logged-out" class="space-y-3">

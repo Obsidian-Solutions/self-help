@@ -59,7 +59,7 @@
 
   {{ if gt .Paginator.TotalPages 1 }}
   <div class="mt-12 flex justify-center">
-    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="{{ site.Data.labels.shared.pagination }}">
       {{ if .Paginator.HasPrev }}
       <a
         href="{{ .Paginator.Prev.URL }}"
