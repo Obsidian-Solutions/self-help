@@ -1,0 +1,84 @@
+<div class="my-12 flex flex-col items-center justify-center p-8 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
+  <!-- Subtle background animation -->
+  <div class="absolute inset-0 opacity-10 pointer-events-none">
+    {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "currentColor" "class" "absolute top-4 left-4 w-12 h-12 animate-pulse") }}
+  </div>
+
+  <div class="relative z-10 text-center">
+    <h3 class="text-xs font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
+    
+    <div id="breathe-circle" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex items-center justify-center transition-all duration-[4000ms] ease-in-out border-8 border-indigo-100 dark:border-indigo-900">
+      <div id="breathe-inner" class="w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-[4000ms] ease-in-out scale-100"></div>
+      <span id="breathe-text" class="absolute text-xl font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Start</span>
+    </div>
+
+    <div class="mt-10 flex gap-4 justify-center">
+      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-10">Start Session</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    let interval;
+    let active = false;
+    const circle = document.getElementById('breathe-circle');
+    const inner = document.getElementById('breathe-inner');
+    const text = document.getElementById('breathe-text');
+    const btn = document.getElementById('breathe-btn');
+
+    window.toggleBreathing = function() {
+      if (active) {
+        stop();
+      } else {
+        start();
+      }
+    };
+
+    function start() {
+      active = true;
+      btn.textContent = 'Stop Session';
+      btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
+      cycle();
+      interval = setInterval(cycle, 12000); // 4 in, 4 hold, 4 out
+    }
+
+    function stop() {
+      active = false;
+      clearInterval(interval);
+      btn.textContent = 'Start Session';
+      btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
+      text.textContent = 'Start';
+      inner.style.transform = 'scale(1)';
+      circle.style.transform = 'scale(1)';
+    }
+
+    function cycle() {
+      if (!active) return;
+      
+      // Inhale (4s)
+      text.textContent = 'Inhale';
+      inner.style.transform = 'scale(4)';
+      inner.style.opacity = '0.4';
+      circle.style.transform = 'scale(1.1)';
+      circle.style.borderColor = 'rgba(79, 70, 229, 0.3)';
+
+      setTimeout(() => {
+        if (!active) return;
+        // Hold (4s)
+        text.textContent = 'Hold';
+        inner.style.opacity = '0.6';
+      }, 4000);
+
+      setTimeout(() => {
+        if (!active) return;
+        // Exhale (4s)
+        text.textContent = 'Exhale';
+        inner.style.transform = 'scale(1)';
+        inner.style.opacity = '0.2';
+        circle.style.transform = 'scale(1)';
+        circle.style.borderColor = '';
+      }, 8000);
+    }
+  })();
+</script>

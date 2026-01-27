@@ -33,7 +33,10 @@ Explore the core sections of our documentation:
 ### 🧩 Features
 
 - [x] [Quiz System](/docs/features/quizzes)
+
 - [x] [Search & Analytics](/docs/features/analytics)
+
+- [x] [Wellness Shortcodes](/docs/features/shortcodes)
 
 ### 🎨 Design & Branding
 

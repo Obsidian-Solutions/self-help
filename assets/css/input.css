@@ -2,139 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  /* ... existing component styles ... */
-
-  /* Modal Component */
-  [data-modal-backdrop] {
-    @apply fixed inset-0 z-50 overflow-y-auto bg-gray-900/50 backdrop-blur-sm flex items-center justify-center p-4;
+@layer base {
+  :root {
+    --primary: 243 75% 59%; /* Indigo 600 */
+    --primary-foreground: 0 0% 100%;
   }
 
-  [data-modal-content] {
-    @apply relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full transform transition-all duration-300 animate-in fade-in zoom-in slide-in-from-bottom-4;
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
 
-  [data-modal-header] {
-    @apply flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700;
-  }
-
-  [data-modal-body] {
-    @apply p-6;
-  }
-
-  [data-modal-footer] {
-    @apply p-6 border-t border-gray-100 dark:border-gray-700 flex justify-end gap-3;
+  body {
+    @apply antialiased text-gray-900 bg-white dark:bg-gray-950 dark:text-gray-100;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   }
 }
 
 @layer components {
-  .btn {
-    @apply px-4 py-2 rounded-lg font-semibold transition duration-300;
-  }
-  .btn-primary {
-    @apply bg-primary text-white hover:bg-opacity-90;
-  }
-  .btn-outline {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white;
+  /* Premium UIverse-style Card */
+  .premium-card {
+    @apply relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[2.5rem] transition-all duration-500;
+    box-shadow:
+      0 10px 30px -5px rgba(0, 0, 0, 0.04),
+      0 4px 10px -5px rgba(0, 0, 0, 0.02);
   }
 
-  /* Modal Styles */
-  [data-modal-backdrop] {
-    @apply fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-70 flex flex-col items-center justify-center z-50;
+  .premium-card:hover {
+    @apply -translate-y-1;
+    box-shadow:
+      0 20px 40px -10px rgba(79, 70, 229, 0.1),
+      0 10px 20px -10px rgba(0, 0, 0, 0.04);
   }
 
-  [data-modal-backdrop].hidden {
-    display: none !important;
+  /* Interactive Button with Soft-Glow */
+  .btn-premium {
+    @apply relative inline-flex items-center justify-center px-8 py-4 rounded-2xl font-black text-sm transition-all duration-300 overflow-hidden;
   }
 
-  [data-modal-content] {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-2xl max-h-[90vh] overflow-y-auto;
-    max-width: 90vw;
-    animation: slideUp 0.3s ease-out;
+  .btn-premium-primary {
+    @apply btn-premium bg-indigo-600 text-white shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 active:scale-95;
   }
 
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .btn-premium-secondary {
+    @apply btn-premium bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-2 border-gray-50 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:bg-gray-50 dark:hover:bg-gray-800/50 shadow-sm active:scale-95;
   }
 
-  [data-modal-header] {
-    @apply flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700;
+  /* Glassmorphism Accents */
+  .glass {
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-white/10;
   }
 
-  [data-modal-header] h2 {
-    @apply text-gray-900 dark:text-white;
+  /* Animated Border Gradient (UIverse Inspired) */
+  .gradient-border {
+    position: relative;
+    border-radius: 2.5rem;
+    background: linear-gradient(to right, #4f46e5, #9333ea);
+    padding: 2px;
   }
 
-  [data-modal-close] {
-    @apply text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 cursor-pointer transition-colors;
-  }
-
-  [data-modal-body] {
-    @apply p-6 text-gray-700 dark:text-gray-200;
-  }
-
-  [data-modal-body] input {
-    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white;
-  }
-
-  [data-modal-body] label {
-    @apply dark:text-gray-300;
-  }
-
-  [data-modal-body] a {
-    @apply dark:text-indigo-400;
-  }
-
-  [data-modal-footer] {
-    @apply flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700;
+  .gradient-border-inner {
+    @apply bg-white dark:bg-gray-900 rounded-[calc(2.5rem-2px)] h-full w-full;
   }
 }
 
-/* Basic Typography for Markdown Content */
-.prose h1 {
-  @apply text-2xl font-bold mt-8 mb-4;
-}
-.prose h2 {
-  @apply text-xl font-bold mt-6 mb-3;
-}
-.prose p {
-  @apply mb-4 leading-relaxed;
-}
-.prose ul {
-  @apply list-disc list-inside mb-4;
-}
-.prose a {
-  @apply text-primary underline;
-}
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400;
+  }
 
-/* Undraw Illustrations - Dark Mode Support */
-.undraw-wrapper {
-  @apply transition-all duration-300 flex items-center justify-center;
-}
-
-.undraw-wrapper svg {
-  @apply w-full h-full;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-  margin: auto;
-}
-
-/* Dark mode: Apply subtle filter to make illustrations more visible on dark backgrounds */
-.dark .undraw-wrapper svg {
-  filter: brightness(0.9) saturate(0.95);
-}
-
-/* Optional: Add hover effect for interactive illustrations */
-.undraw-wrapper.interactive:hover svg {
-  @apply scale-105;
-  @apply transition-transform duration-300;
+  .shadow-soft {
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.05),
+      0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  }
 }

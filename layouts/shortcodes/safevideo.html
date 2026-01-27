@@ -1,0 +1,54 @@
+<div class="my-12 overflow-hidden premium-card group">
+  <div id="video-container-{{ .Get "id" }}" class="aspect-video relative bg-gray-900 flex items-center justify-center">
+    <!-- Privacy Shield -->
+    <div id="shield-{{ .Get "id" }}" class="absolute inset-0 z-10 flex flex-col items-center justify-center p-8 text-center bg-gray-900/90 backdrop-blur-sm">
+      <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mb-6 ring-1 ring-white/20">
+        <i class="fa-solid fa-shield-halved text-indigo-400 text-3xl"></i>
+      </div>
+      <h4 class="text-xl font-black text-white mb-3">Privacy Protection Active</h4>
+      <p class="text-sm text-gray-400 max-w-sm mb-8 font-medium">To protect your data, external video players are blocked until you click play. Loading this video may allow third-party tracking.</p>
+      
+      <button onclick="window.loadSafeVideo('{{ .Get "id" }}', '{{ .Get "provider" | default "youtube" }}')" class="btn-premium-primary">
+        Accept & Play Video
+      </button>
+    </div>
+
+    <!-- Video Placeholder (Low-res blurred image if available) -->
+    <div class="absolute inset-0 opacity-30">
+      {{ partial "shared/undraw.html" (dict "name" "press_play" "class" "w-full h-full object-contain p-12") }}
+    </div>
+  </div>
+  
+  <div class="p-6 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
+    <div>
+      <h5 class="font-black text-gray-900 dark:text-white">{{ .Get "title" | default "Video Session" }}</h5>
+      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ .Get "provider" | default "YouTube" }} &middot; Privacy Hardened</p>
+    </div>
+    <div class="flex gap-2">
+      <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <span class="text-[10px] font-black uppercase text-gray-400">Secure</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.loadSafeVideo = function(id, provider) {
+    const container = document.getElementById('video-container-' + id);
+    const shield = document.getElementById('shield-' + id);
+    
+    let iframe = document.createElement('iframe');
+    iframe.className = "w-full h-full absolute inset-0";
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+
+    if (provider === 'youtube') {
+      iframe.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+    } else if (provider === 'vimeo') {
+      iframe.src = `https://player.vimeo.com/video/${id}?autoplay=1`;
+    }
+
+    shield.remove();
+    container.appendChild(iframe);
+  };
+</script>

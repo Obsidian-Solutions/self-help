@@ -23,13 +23,13 @@
       </p>
       
       <div class="flex flex-col sm:flex-row justify-center items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 mx-auto">
-        <a href="{{ .Params.hero.primaryCtaLink }}" class="inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl shadow-indigo-200 dark:shadow-none transition-all hover:-translate-y-1">
+        <a href="{{ .Params.hero.primaryCtaLink }}" class="btn-premium-primary">
           {{ .Params.hero.primaryCta }}
         </a>
-        <a href="{{ .Params.hero.secondaryCtaLink }}" class="hide-on-logged-in inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+        <a href="{{ .Params.hero.secondaryCtaLink }}" class="hide-on-logged-in btn-premium-secondary">
           {{ .Params.hero.secondaryCta }}
         </a>
-        <a href="/dashboard" class="show-on-logged-in hidden inline-flex items-center justify-center px-10 py-4 text-sm font-black rounded-2xl text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all">
+        <a href="/dashboard" class="show-on-logged-in hidden btn-premium-secondary">
           Go to Dashboard
         </a>
       </div>
@@ -37,10 +37,11 @@
 
     <!-- Hero Mockup/Illustration -->
     <div class="mt-12 md:mt-20 relative max-w-4xl mx-auto animate-in fade-in zoom-in-95 duration-1000 delay-500">
-      <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-[3rem] blur-3xl scale-95"></div>
-      <div class="relative bg-white dark:bg-gray-800 rounded-3xl md:rounded-[2.5rem] shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden aspect-square md:aspect-video flex items-center justify-center p-6 md:p-12 mx-auto">
-        <div class="w-full max-w-sm md:max-w-lg mx-auto">
-          {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto mx-auto") }}
+      <div class="gradient-border shadow-2xl">
+        <div class="gradient-border-inner flex items-center justify-center p-6 md:p-12">
+          <div class="w-full max-w-sm md:max-w-lg mx-auto">
+            {{ partial "shared/undraw.html" (dict "name" .Params.hero.illustration "class" "w-full h-auto mx-auto") }}
+          </div>
         </div>
       </div>
     </div>
@@ -59,9 +60,9 @@
 
     <div class="flex flex-wrap gap-8 justify-center items-stretch max-w-5xl mx-auto">
       {{ range .Params.features }}
-      <div class="relative p-8 rounded-[2.5rem] bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 group hover:bg-white dark:hover:bg-gray-800 transition-all duration-500 hover:shadow-xl hover:shadow-indigo-100/20 flex flex-col items-center text-center w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] min-w-[280px]">
+      <div class="premium-card p-8 flex flex-col items-center text-center w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] min-w-[280px]">
         <div class="flex flex-col items-center">
-          <div class="w-14 h-14 bg-white dark:bg-gray-700 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-600 flex items-center justify-center text-indigo-600 dark:text-indigo-400 transition-transform group-hover:scale-110 mb-6">
+          <div class="w-14 h-14 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 transition-transform group-hover:scale-110">
             {{ if eq .icon "check-circle" }}
             <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             {{ else if eq .icon "chart" }}
@@ -131,7 +132,7 @@
     <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-16 sm:text-5xl text-center">{{ .Params.sections.testimonialsTitle }}</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
       {{ range .Params.testimonials }}
-      <div class="bg-gray-50 dark:bg-gray-800 p-8 rounded-[2.5rem] text-left border border-gray-50 dark:border-gray-700 shadow-sm flex flex-col items-center text-center">
+      <div class="premium-card p-8 flex flex-col items-center text-center">
         <div class="flex text-amber-400 mb-6 text-sm justify-center">★★★★★</div>
         <p class="text-gray-600 dark:text-gray-300 font-medium italic mb-8 leading-relaxed text-center">"{{ .quote }}"</p>
         <div class="flex flex-col items-center gap-4">
@@ -158,7 +159,7 @@
     
     <div class="flex flex-wrap gap-8 justify-center items-stretch max-w-5xl mx-auto">
       {{ range sort (where .Site.RegularPages "Type" "plans") "Weight" }}
-      <div class="relative bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-transparent shadow-sm{{ end }} transition-all flex flex-col items-center text-center w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] min-w-[280px]">
+      <div class="premium-card p-8 {{ if .Params.recommended }}ring-2 ring-indigo-600 ring-offset-4 ring-offset-transparent{{ end }} flex flex-col items-center text-center w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] min-w-[280px]">
         {{ if .Params.recommended }}
         <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">Best Value</div>
         {{ end }}
@@ -180,7 +181,7 @@
           </li>
           {{ end }}
         </ul>
-        <a href="/signup?plan={{ .Title }}" class="w-full py-4 text-center text-sm font-black rounded-2xl transition-all {{ if .Params.recommended }}bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-200{{ else }}bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-gray-100{{ end }} flex items-center justify-center">
+        <a href="/signup?plan={{ .Title }}" class="w-full btn-premium-primary flex items-center justify-center">
           Choose {{ .Title }}
         </a>
       </div>
@@ -203,10 +204,10 @@
           <span class="opacity-80">{{ .Params.sections.cataSubheading }}</span>
         </h2>
         <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mx-auto">
-          <button onclick="window.openModal('signupModal')" class="hide-on-logged-in px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
+          <button onclick="window.openModal('signupModal')" class="hide-on-logged-in px-12 py-5 bg-white text-indigo-600 font-black rounded-[2rem] text-lg hover:scale-105 transition-all shadow-xl">
             {{ .Params.sections.cataButton }} &rarr;
           </button>
-          <a href="/dashboard" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-2xl text-lg hover:scale-105 transition-all shadow-xl">
+          <a href="/dashboard" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-[2rem] text-lg hover:scale-105 transition-all shadow-xl">
             Go to Dashboard &rarr;
           </a>
           <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase text-center">7-day free trial &middot; No credit card required</p>
