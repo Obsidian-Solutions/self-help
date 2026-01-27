@@ -13,7 +13,7 @@
         <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
           <option value="1">Deep Zen</option>
-          <option value="2">Soft Rain</option>
+          <option value="2">Gentle Rain</option>
         </select>
       </div>
     </div>
@@ -45,8 +45,8 @@
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Deep Zen', url: 'https://cdn.pixabay.com/audio/2022/03/24/audio_783910c361.mp3' }, // Better ambient meditation track
-      { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
+      { name: 'Deep Zen', url: 'https://cdn.pixabay.com/audio/2022/02/10/audio_fc08684d00.mp3' },
+      { name: 'Gentle Rain', url: 'https://cdn.pixabay.com/audio/2021/08/09/audio_884ca90501.mp3' }
     ];
     let currentSoundscapeIdx = 0;
     let ambientAudio = new Audio();
