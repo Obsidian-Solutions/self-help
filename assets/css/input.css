@@ -64,6 +64,15 @@
   .gradient-border-inner {
     @apply bg-white dark:bg-gray-900 rounded-[calc(2.5rem-2px)] h-full w-full;
   }
+
+  /* Universal SVG Centering */
+  .undraw-wrapper {
+    @apply flex items-center justify-center overflow-hidden;
+  }
+
+  .undraw-wrapper svg {
+    @apply block max-w-full max-h-full mx-auto;
+  }
 }
 
 @layer utilities {

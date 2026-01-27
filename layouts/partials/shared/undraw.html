@@ -38,7 +38,7 @@ resources.Get . -}} {{- end -}} {{- end -}} {{- end -}} {{- end -}} {{/* --- REN
 and $illustrationRes (eq $illustrationRes.MediaType.MainType "image") (eq
 $illustrationRes.MediaType.SubType "svg") -}}
 {{- $svg := $illustrationRes | minify -}}
-<div class="{{ $wrapperClass }}" aria-label="{{ $alt }}">
+<div class="{{ $wrapperClass }} flex items-center justify-center w-full h-full" aria-label="{{ $alt }}">
   {{ $svg.Content | safeHTML }}
 </div>
 {{- else -}}
