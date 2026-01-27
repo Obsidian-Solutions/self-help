@@ -16,8 +16,8 @@
 
     /* Sidebar visibility control */
     .app-sidebar { display: none; }
-    @media (min-width: 768px) {
-      .user-logged-in.is-app-page .app-sidebar { display: block; width: 15rem; flex-shrink: 0; }
+    @media (min-width: 1024px) { /* Changed from 768px to match lg:flex in original sidebar */
+      .user-logged-in.is-app-page .app-sidebar { display: block; width: 18rem; flex-shrink: 0; }
     }
 
     /* For logged-out users on app pages, we show the special CTA block */
@@ -32,11 +32,11 @@
     .user-logged-in .show-on-logged-in { display: flex !important; }
 
     /* Ensure sidebar stays fixed while page scrolls */
-    @media (min-width: 768px) {
+    @media (min-width: 1024px) {
       .app-sidebar-sticky {
         position: sticky;
-        top: 5rem; /* Matches header height (h-20 = 80px = 5rem) */
-        height: calc(100vh - 5rem);
+        top: 0;
+        height: 100vh;
         overflow-y: auto;
       }
     }
@@ -51,11 +51,11 @@
     {{ end }}
 
     <!-- Main Body Area -->
-    <div class="flex-1 flex flex-col md:flex-row">
+    <div class="flex-1 flex flex-col lg:flex-row">
       <!-- Optional App Sidebar -->
       {{ if .Params.useAppShell }}
-      <aside class="app-sidebar bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700">
-        <div class="app-sidebar-sticky p-4 md:p-5">
+      <aside class="app-sidebar bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 hidden lg:block">
+        <div class="app-sidebar-sticky">
           {{ partial "app/sidebar.html" . }}
         </div>
       </aside>
@@ -94,7 +94,7 @@
 
     <!-- Global Footer -->
     {{ if not (or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/")) }}
-    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950">
+    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950 relative z-20">
       {{ partial "shared/footer.html" . }}
     </footer>
     {{ end }}

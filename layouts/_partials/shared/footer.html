@@ -1,14 +1,14 @@
 {{ $labels := site.Data.labels }}
-<footer class="bg-gray-950 text-white pt-24 pb-12 overflow-hidden relative">
+<footer class="bg-gray-950 text-white pt-12 pb-8 overflow-hidden relative">
   <!-- Dynamic Branding -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
       <div class="lg:col-span-1">
-        <a href="/" class="flex items-center gap-3 text-3xl font-black tracking-tighter mb-8">
+        <a href="/" class="flex items-center gap-3 text-3xl font-black tracking-tighter mb-6">
           <span class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white text-xl">{{ $labels.site.logo_text }}</span>
           {{ site.Title }}
         </a>
-        <p class="text-gray-400 font-medium leading-relaxed mb-8 max-w-sm">
+        <p class="text-gray-400 font-medium leading-relaxed mb-6 max-w-sm">
           {{ site.Params.description }}
         </p>
         <!-- Dynamic Socials -->
@@ -24,8 +24,8 @@
 
       <!-- Quick Links -->
       <div>
-        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-8">{{ $labels.footer.product_title | default "Product" }}</h4>
-        <ul class="space-y-4">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6">{{ $labels.footer.product_title | default "Product" }}</h4>
+        <ul class="space-y-3">
           {{ range $labels.header.nav }}
           <li><a href="{{ .url }}" class="text-gray-400 hover:text-white transition-colors font-medium">{{ .name }}</a></li>
           {{ end }}
@@ -34,8 +34,8 @@
       </div>
 
       <div>
-        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-8">{{ $labels.footer.support_title | default "Support" }}</h4>
-        <ul class="space-y-4">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6">{{ $labels.footer.support_title | default "Support" }}</h4>
+        <ul class="space-y-3">
           <li><a href="/contact" class="text-gray-400 hover:text-white transition-colors font-medium">Contact Us</a></li>
           <li><a href="/signup" class="text-gray-400 hover:text-white transition-colors font-medium">{{ $labels.header.signup_btn }}</a></li>
           <li><a href="/login" class="text-gray-400 hover:text-white transition-colors font-medium">Member Login</a></li>
@@ -44,8 +44,8 @@
 
       <!-- Legal -->
       <div>
-        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-8">Legal</h4>
-        <ul class="space-y-4">
+        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-gray-500 mb-6">Legal</h4>
+        <ul class="space-y-3">
           <li><a href="/privacy" class="text-gray-400 hover:text-white transition-colors font-medium">Privacy Policy</a></li>
           <li><a href="/terms" class="text-gray-400 hover:text-white transition-colors font-medium">Terms of Service</a></li>
           <li><a href="/cookie-policy" class="text-gray-400 hover:text-white transition-colors font-medium">Cookie Policy</a></li>
@@ -54,7 +54,7 @@
     </div>
 
     <!-- Bottom Bar -->
-    <div class="pt-12 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-8">
+    <div class="pt-8 border-t border-gray-900 flex flex-col md:flex-row justify-between items-center gap-6">
       <p class="text-gray-500 text-sm font-medium">&copy; {{ now.Format "2006" }} {{ site.Title }}. All rights reserved.</p>
       <div class="flex items-center gap-8">
         <span class="flex items-center gap-2 text-xs font-bold text-gray-600">
