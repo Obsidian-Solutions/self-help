@@ -105,12 +105,12 @@
         
         <div class="flex flex-col items-center gap-3 mb-3 justify-center">
           <div class="flex items-center gap-3">
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
-            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
-            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{{ len .Pages }} Lessons</span>
-            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap">{{ .Params.category }}</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700 flex-shrink-0"></span>
+            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] whitespace-nowrap">{{ len .Pages }} Lessons</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700 flex-shrink-0"></span>
             <!-- Course Rating Display -->
-            <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating" data-slug="{{ $slug }}">
+            <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating whitespace-nowrap" data-slug="{{ $slug }}">
               <i class="fa-solid fa-star"></i>
               <span class="rating-value">--</span>
             </div>
