@@ -9,6 +9,9 @@ social_links:
   github: 'https://github.com/Obsidian-Solutions/self-help'
   twitter: 'https://twitter.com/mindfull'
   email: 'research@mindfull.com'
+custom_css: |
+  .prose h2 { color: #4f46e5; border-left: 4px solid #4f46e5; padding-left: 1rem; }
+  .prose blockquote { background: #eef2ff; border-radius: 1rem; }
 ---
 
 Cognitive Behavioral Therapy (CBT) is based on the idea that our thoughts, feelings, and behaviors are interconnected. It is a highly structured, goal-oriented form of psychotherapy that focuses on the here and now rather than diving exclusively into childhood history.

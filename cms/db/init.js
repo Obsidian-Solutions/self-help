@@ -71,6 +71,23 @@ db.serialize(() => {
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
+  // Post Stats (Views, Likes, Dislikes)
+  db.run(`CREATE TABLE IF NOT EXISTS post_stats (
+    slug TEXT PRIMARY KEY,
+    views INTEGER DEFAULT 0,
+    likes INTEGER DEFAULT 0,
+    dislikes INTEGER DEFAULT 0
+  )`);
+
+  // Comments
+  db.run(`CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_slug TEXT,
+    user_name TEXT,
+    content TEXT,
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
+
   // Create default admin if not exists
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

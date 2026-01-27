@@ -4,10 +4,78 @@ const path = require('path');
 const fs = require('fs-extra');
 const matter = require('gray-matter');
 const auth = require('../middleware/auth');
+const db = require('../utils/db');
 
 const CONTENT_DIR = path.join(__dirname, '../../content');
 
-// Helper to sanitize path and ensure it is within CONTENT_DIR
+// --- Public Blog Interaction Endpoints ---
+
+// Get post stats (views, likes)
+router.get('/posts/:slug/stats', (req, res) => {
+  const { slug } = req.params;
+  db.get('SELECT * FROM post_stats WHERE slug = ?', [slug], (err, row) => {
+    if (err) return res.status(500).json({ message: 'DB Error' });
+    res.json(row || { slug, views: 0, likes: 0, dislikes: 0 });
+  });
+});
+
+// Record a view
+router.post('/posts/:slug/view', (req, res) => {
+  const { slug } = req.params;
+  db.run(
+    'INSERT INTO post_stats (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1',
+    [slug],
+    err => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json({ success: true });
+    },
+  );
+});
+
+// Record a reaction (like/dislike)
+router.post('/posts/:slug/react', (req, res) => {
+  const { slug } = req.params;
+  const { type } = req.body; // 'like' or 'dislike'
+  const column = type === 'like' ? 'likes' : 'dislikes';
+
+  db.run(
+    `INSERT INTO post_stats (slug, ${column}) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET ${column} = ${column} + 1`,
+    [slug],
+    err => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json({ success: true });
+    },
+  );
+});
+
+// Get comments for a post
+router.get('/posts/:slug/comments', (req, res) => {
+  const { slug } = req.params;
+  db.all(
+    'SELECT * FROM comments WHERE post_slug = ? ORDER BY timestamp DESC',
+    [slug],
+    (err, rows) => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json(rows);
+    },
+  );
+});
+
+// Post a new comment
+router.post('/posts/:slug/comments', (req, res) => {
+  const { slug } = req.params;
+  const { user_name, content } = req.body;
+  db.run(
+    'INSERT INTO comments (post_slug, user_name, content) VALUES (?, ?, ?)',
+    [slug, user_name, content],
+    err => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json({ success: true });
+    },
+  );
+});
+
+// --- CMS Content Management Endpoints ---
 const safePath = (...paths) => {
   const joined = path.join(CONTENT_DIR, ...paths);
   const resolved = path.resolve(joined);
