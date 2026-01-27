@@ -1,54 +1,81 @@
 const ngrok = require('ngrok');
 const { spawn } = require('child_process');
-const path = require('path');
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 async function start() {
-  console.log('🚀 Starting Public Development Environment...');
+  console.log('🚀 Starting Unified Public Development Environment (Free Tier Friendly)...');
+
+  const GATEWAY_PORT = 8080;
+  const HUGO_PORT = 1313;
+  const CMS_PORT = 3000;
 
   try {
-    // 1. Start Ngrok Tunnels
-    // Hugo (Frontend)
-    const hugoUrl = await ngrok.connect(1313);
-    console.log(`🔗 Hugo Frontend Public URL: ${hugoUrl}`);
+    // 1. Start the Unified Gateway (Reverse Proxy)
+    // This allows us to use ONE ngrok tunnel for both Frontend and Backend
+    const app = express();
 
-    // CMS (Backend)
-    const cmsUrl = await ngrok.connect(3000);
-    console.log(`🔗 CMS Backend Public URL: ${cmsUrl}`);
+    // Route /api to CMS
+    app.use(
+      '/api',
+      createProxyMiddleware({
+        target: `http://localhost:${CMS_PORT}`,
+        changeOrigin: true,
+        logLevel: 'silent',
+      }),
+    );
 
-    console.log('\n--- Press Ctrl+C to stop all services ---\n');
+    // Route everything else to Hugo
+    app.use(
+      '/',
+      createProxyMiddleware({
+        target: `http://localhost:${HUGO_PORT}`,
+        changeOrigin: true,
+        ws: true, // Support Hugo LiveReload WebSockets
+        logLevel: 'silent',
+      }),
+    );
 
-    // 2. Start Services
+    const server = app.listen(GATEWAY_PORT);
+    console.log(`✅ Unified Gateway running on port ${GATEWAY_PORT}`);
+
+    // 2. Start ONE Ngrok Tunnel
+    const publicUrl = await ngrok.connect(GATEWAY_PORT);
+
+    console.log('\n=================================================');
+    console.log(`🔗 SHAREABLE URL: ${publicUrl}`);
+    console.log('=================================================\n');
+
+    // 3. Start Services
 
     // Tailwind CSS Watcher
     const tailwind = spawn('npm', ['run', 'watch:css'], { stdio: 'inherit', shell: true });
 
     // CMS Backend
-    // We pass the public URLs as environment variables
     const cms = spawn('npm', ['run', 'dev', '--prefix', 'cms'], {
       stdio: 'inherit',
       shell: true,
       env: {
         ...process.env,
-        FRONTEND_URL: hugoUrl,
-        CMS_PORT: 3000,
+        FRONTEND_URL: publicUrl,
+        CMS_PORT: CMS_PORT,
       },
     });
 
     // Hugo Server
-    // We pass the public Hugo URL as baseURL and the CMS URL as a param
     const hugo = spawn(
       'hugo',
       [
         'server',
         '-D',
+        '--port',
+        HUGO_PORT.toString(),
         '--baseURL',
-        hugoUrl,
+        publicUrl,
         '--appendPort=false',
-        '--liveReloadPort=443', // Often needed for ngrok https
+        '--liveReloadPort=443',
         '--bind',
         '0.0.0.0',
-        '--params',
-        `cms_url=${cmsUrl}`,
       ],
       { stdio: 'inherit', shell: true },
     );
@@ -59,11 +86,17 @@ async function start() {
       tailwind.kill();
       cms.kill();
       hugo.kill();
+      server.close();
       await ngrok.kill();
       process.exit();
     });
   } catch (err) {
-    console.error('❌ Error starting pubdev:', err);
+    if (err.message.includes('authtoken')) {
+      console.error('❌ Error: Ngrok requires an authtoken for HTML content.');
+      console.error('Please run: npx ngrok config add-authtoken <your-token>');
+    } else {
+      console.error('❌ Error starting pubdev:', err.message);
+    }
     process.exit(1);
   }
 }

@@ -2,7 +2,7 @@
 <script>
   // Global Configuration
   window.mindfullConfig = {
-    cmsUrl: {{ .Site.Params.cms_url | default "http://localhost:3000" | absURL }}
+    cmsUrl: {{ .Site.Params.cms_url | default "" | absURL }} || window.location.origin
   };
 
   // Theme Management
