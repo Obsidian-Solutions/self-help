@@ -30,11 +30,11 @@
         {{ end }}
         
         {{ if eq (getenv "HUGO_ENV") "development" }}
-        <a href="/docs" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Docs</a>
-        <a href="/search" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Search</a>
+        <a href="/docs/" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Docs</a>
+        <a href="/search/" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Search</a>
         {{ end }}
 
-        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard") 0).name }}</a>
+        <a id="nav-dashboard" href="/dashboard/" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard/") 0).name }}</a>
       </div>
 
       <div class="flex items-center space-x-1 md:space-x-3">

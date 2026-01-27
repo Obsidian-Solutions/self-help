@@ -69,19 +69,19 @@
     "default_plan": "Free Plan",
     "logout": "Log out",
     "nav": [
-      { "name": "Dashboard", "url": "/dashboard", "icon": "fa-solid fa-house" },
-      { "name": "My Courses", "url": "/courses", "icon": "fa-solid fa-graduation-cap" },
-      { "name": "Journal", "url": "/journal", "icon": "fa-solid fa-pen-nib" },
-      { "name": "Blog", "url": "/posts", "icon": "fa-solid fa-newspaper" },
-      { "name": "Therapists", "url": "/therapists", "icon": "fa-solid fa-user-doctor" },
-      { "name": "Settings", "url": "/settings", "icon": "fa-solid fa-gear" }
+      { "name": "Dashboard", "url": "/dashboard/", "icon": "fa-solid fa-house" },
+      { "name": "My Courses", "url": "/courses/", "icon": "fa-solid fa-graduation-cap" },
+      { "name": "Journal", "url": "/journal/", "icon": "fa-solid fa-pen-nib" },
+      { "name": "Blog", "url": "/posts/", "icon": "fa-solid fa-newspaper" },
+      { "name": "Therapists", "url": "/therapists/", "icon": "fa-solid fa-user-doctor" },
+      { "name": "Settings", "url": "/settings/", "icon": "fa-solid fa-gear" }
     ]
   },
   "header": {
     "nav": [
-      { "name": "Courses", "url": "/courses" },
-      { "name": "Therapists", "url": "/therapists" },
-      { "name": "Pricing", "url": "/pricing" }
+      { "name": "Courses", "url": "/courses/" },
+      { "name": "Therapists", "url": "/therapists/" },
+      { "name": "Pricing", "url": "/pricing/" }
     ],
     "login_btn": "Log in",
     "signup_btn": "Get Started",
