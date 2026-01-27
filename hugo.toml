@@ -13,6 +13,15 @@ description = 'Science-backed CBT tools and expert guidance to help you master y
   description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
   keywords = 'mental health, CBT, therapy, mindfulness, mood tracking, self-help, wellness'
   og_image = '/images/og-image.png'
+  site_logo_icon = 'fa-solid fa-brain' # Configurable FontAwesome icon for the logo
+
+# ... other configs ...
+
+# SSO Configuration
+[params.auth.sso]
+  google_client_id = '' # Set via env in production
+  github_client_id = '' # Set via env in production
+  enabled = true
 
 # Hugo Configuration
 enableRobotsTXT = true
