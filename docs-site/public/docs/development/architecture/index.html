@@ -9,9 +9,8 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation.
-Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
-Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.
+1. Hybrid Data Architecture# We strictly separate static data from dynamic user engagement.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Static Content content/*.md Blog posts, lessons, and course curriculum Compliance Data data/cookies.json Legal transparency and consent manager Engagement Data cms/db/mindfull.sqlite Views, Ratings, Comments, and Reactions Auth Sessions JWT &#43; localStorage Secure identity management Dynamic Engagement System# The Node.js CMS manages real-time interactions using an optimized SQLite backend:
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
@@ -19,9 +18,8 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Architecture">
   <meta property="og:description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation.
-Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
-Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.">
+1. Hybrid Data Architecture# We strictly separate static data from dynamic user engagement.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Static Content content/*.md Blog posts, lessons, and course curriculum Compliance Data data/cookies.json Legal transparency and consent manager Engagement Data cms/db/mindfull.sqlite Views, Ratings, Comments, and Reactions Auth Sessions JWT &#43; localStorage Secure identity management Dynamic Engagement System# The Node.js CMS manages real-time interactions using an optimized SQLite backend:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -29,10 +27,9 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
 
   <meta itemprop="name" content="Architecture">
   <meta itemprop="description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation.
-Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
-Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.">
-  <meta itemprop="wordCount" content="147">
+1. Hybrid Data Architecture# We strictly separate static data from dynamic user engagement.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Static Content content/*.md Blog posts, lessons, and course curriculum Compliance Data data/cookies.json Legal transparency and consent manager Engagement Data cms/db/mindfull.sqlite Views, Ratings, Comments, and Reactions Auth Sessions JWT &#43; localStorage Secure identity management Dynamic Engagement System# The Node.js CMS manages real-time interactions using an optimized SQLite backend:">
+  <meta itemprop="wordCount" content="209">
 
 <title>Architecture | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -293,15 +290,16 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a>
+    <li><a href="#1-hybrid-data-architecture">1. Hybrid Data Architecture</a>
       <ul>
         <li><a href="#data-storage-strategy">Data Storage Strategy</a></li>
+        <li><a href="#dynamic-engagement-system">Dynamic Engagement System</a></li>
       </ul>
     </li>
     <li><a href="#2-security-standards">2. Security Standards</a>
       <ul>
         <li><a href="#security-compliance-checklist">Security Compliance Checklist</a></li>
-        <li><a href="#secure-proxy-architecture">Secure Proxy Architecture</a></li>
+        <li><a href="#sub-system-isolation">Sub-System Isolation</a></li>
       </ul>
     </li>
   </ul>
@@ -317,10 +315,9 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
       
       
   <article class="markdown book-article"><p>MindFull is designed with two core principles: <strong>Data-Driven UI</strong> and <strong>Security by Default</strong>.</p>
-<h2 id="1-data-driven-logic">1. Data-Driven Logic<a class="anchor" href="#1-data-driven-logic">#</a></h2>
-<p>We strictly separate data from presentation.</p>
-<blockquote class='book-hint caution'>
-<p><strong>Zero Hardcoding Rule:</strong> No user-facing text should be hardcoded in HTML layouts.</p></blockquote><h3 id="data-storage-strategy">Data Storage Strategy<a class="anchor" href="#data-storage-strategy">#</a></h3>
+<h2 id="1-hybrid-data-architecture">1. Hybrid Data Architecture<a class="anchor" href="#1-hybrid-data-architecture">#</a></h2>
+<p>We strictly separate static data from dynamic user engagement.</p>
+<h3 id="data-storage-strategy">Data Storage Strategy<a class="anchor" href="#data-storage-strategy">#</a></h3>
 <table>
   <thead>
       <tr>
@@ -336,9 +333,9 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
           <td style="text-align: left">Buttons, navigation, and component text</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>Page Content</strong></td>
+          <td style="text-align: left"><strong>Static Content</strong></td>
           <td style="text-align: left"><code>content/*.md</code></td>
-          <td style="text-align: left">Blog posts, lessons, and static pages</td>
+          <td style="text-align: left">Blog posts, lessons, and course curriculum</td>
       </tr>
       <tr>
           <td style="text-align: left"><strong>Compliance Data</strong></td>
@@ -346,23 +343,41 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
           <td style="text-align: left">Legal transparency and consent manager</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>User State</strong></td>
-          <td style="text-align: left">Browser <code>localStorage</code></td>
-          <td style="text-align: left">Moods, journal, and theme settings</td>
+          <td style="text-align: left"><strong>Engagement Data</strong></td>
+          <td style="text-align: left"><code>cms/db/mindfull.sqlite</code></td>
+          <td style="text-align: left">Views, Ratings, Comments, and Reactions</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Auth Sessions</strong></td>
+          <td style="text-align: left">JWT + <code>localStorage</code></td>
+          <td style="text-align: left">Secure identity management</td>
       </tr>
   </tbody>
 </table>
+<h3 id="dynamic-engagement-system">Dynamic Engagement System<a class="anchor" href="#dynamic-engagement-system">#</a></h3>
+<p>The Node.js CMS manages real-time interactions using an optimized SQLite backend:</p>
+<ul>
+<li><strong>View Locking</strong>: Prevents redundant view counts using 1-year persistent anonymous cookies.</li>
+<li><strong>Course Ratings</strong>: Prevents double-voting via Course Rating Locks.</li>
+<li><strong>Reaction Engine</strong>: Handles post likes/dislikes with instant visual feedback.</li>
+</ul>
+<hr>
 <h2 id="2-security-standards">2. Security Standards<a class="anchor" href="#2-security-standards">#</a></h2>
 <p>MindFull implements a hardened security posture across the entire application.</p>
 <h3 id="security-compliance-checklist">Security Compliance Checklist<a class="anchor" href="#security-compliance-checklist">#</a></h3>
 <ul>
-<li><input checked="" disabled="" type="checkbox"> <strong>Safe Redirects</strong>: Whitelist-based redirection via <code>window.safeRedirect()</code>.</li>
-<li><input checked="" disabled="" type="checkbox"> <strong>Native DOM APIs</strong>: Strict avoidance of <code>innerHTML</code> to prevent XSS.</li>
-<li><input checked="" disabled="" type="checkbox"> <strong>Isolated Secrets</strong>: OAuth credentials isolated in Node.js backend.</li>
-<li><input checked="" disabled="" type="checkbox"> <strong>GDPR Ready</strong>: Integrated Google Consent Mode v2.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>XSS Prevention</strong>: Strict use of <code>textContent</code> and <code>safeHTML</code> filtering.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>CSRF Hardening</strong>: Origin-restricted CORS policies on the CMS backend.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Secure Auth</strong>: JWT-based session handling with standard OAuth 2.0 flows.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Safe Redirection</strong>: Whitelist-based redirection to eliminate open-redirect risks.</li>
 </ul>
-<h3 id="secure-proxy-architecture">Secure Proxy Architecture<a class="anchor" href="#secure-proxy-architecture">#</a></h3>
-<p>The CMS and Hugo are bridged via a secure proxy during development to maintain strict CORS policies while allowing cross-site communication.</p>
+<h3 id="sub-system-isolation">Sub-System Isolation<a class="anchor" href="#sub-system-isolation">#</a></h3>
+<p>The platform consists of three isolated layers:</p>
+<ol>
+<li><strong>Static Frontend</strong>: Pre-rendered Hugo site for maximum SEO and performance.</li>
+<li><strong>Auth CMS</strong>: Minimalist Node.js API server for identity and dynamic data.</li>
+<li><strong>Docs Hub</strong>: Dedicated documentation portal for developers and content managers.</li>
+</ol>
 </article>
  
       
@@ -435,15 +450,16 @@ Data Storage Strategy# Category Storage Location Usage Global UI Labels data/lab
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a>
+    <li><a href="#1-hybrid-data-architecture">1. Hybrid Data Architecture</a>
       <ul>
         <li><a href="#data-storage-strategy">Data Storage Strategy</a></li>
+        <li><a href="#dynamic-engagement-system">Dynamic Engagement System</a></li>
       </ul>
     </li>
     <li><a href="#2-security-standards">2. Security Standards</a>
       <ul>
         <li><a href="#security-compliance-checklist">Security Compliance Checklist</a></li>
-        <li><a href="#secure-proxy-architecture">Secure Proxy Architecture</a></li>
+        <li><a href="#sub-system-isolation">Sub-System Isolation</a></li>
       </ul>
     </li>
   </ul>

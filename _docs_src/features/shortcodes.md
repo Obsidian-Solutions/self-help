@@ -3,27 +3,38 @@ title: 'Wellness Shortcodes'
 weight: 40
 ---
 
-MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
+MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, high-fidelity, and fully configurable.
 
 ## 1. Guided Breathing (`{{< breathe >}}`)
 
-Renders an interactive, animated breathing circle to help users center themselves.
+Renders a premium, cinematic breathing guide with custom rhythms, ambient soundscapes, and transition chimes.
 
 ### Usage
 
 ```markdown
-{{< breathe >}}
+{{< breathe inhale="4" hold="4" exhale="4" >}}
 ```
 
-- [x] **Inhale/Exhale Cues**: Smooth 4-second cycles.
-- [x] **Visual Feedback**: Expanding circle logic.
-- [x] **Interactive**: Simple Start/Stop controls.
+### Parameters
+
+| Parameter | Default | Description                             |
+| :-------- | :------ | :-------------------------------------- |
+| `inhale`  | `4`     | Duration of the inhale phase (seconds). |
+| `hold`    | `4`     | Duration of the hold phase (seconds).   |
+| `exhale`  | `4`     | Duration of the exhale phase (seconds). |
+
+### Features
+
+- ⏱️ **Live Countdown**: Large, high-fidelity timer synchronized with the visual cycle.
+- 🎵 **Soundscape Hub**: Integrated dropdown to select ambient tracks (e.g., "Deep Zen", "Gentle Rain").
+- 🔔 **Phase Chimes**: Meditative audio cues play automatically at each transition point.
+- ✨ **Hardware Accelerated**: GPU-optimized animations for buttery-smooth circle expansion.
 
 ---
 
 ## 2. Privacy Video (`{{< safevideo >}}`)
 
-A privacy-hardened video embed that blocks third-party trackers (cookies) until the user explicitly consents by clicking play.
+A privacy-hardened video embed that blocks third-party trackers (cookies) until the user explicitly consents.
 
 ### Usage
 
@@ -37,21 +48,23 @@ A privacy-hardened video embed that blocks third-party trackers (cookies) until 
 | `title`    | No       | Display name for the session.   |
 | `provider` | No       | `youtube` (default) or `vimeo`. |
 
-> [!IMPORTANT]
-> The YouTube implementation uses `youtube-nocookie.com` for maximum privacy even after consent.
-
 ---
 
-## 3. Branded Audio Player (`{{< audio >}}`)
+## 3. Professional Audio Player (`{{< audio >}}`)
 
-A custom, minimalist audio player for guided meditations and lectures.
+A feature-rich, "VLC-style" audio player designed for immersive guided meditations and lectures.
 
 ### Usage
 
 ```markdown
-{{< audio id="meditation-1" title="Morning Zen" duration="10:00" src="/audio/zen.mp3" >}}
+{{< audio id="meditation-1" title="Deep Mindset Reset" duration="15:00" src="/audio/reset.mp3" >}}
 ```
 
-- [x] **Custom Icons**: Branded play/pause controls.
-- [x] **Progress Bar**: Real-time session tracking.
-- [x] **Minimalist**: No heavy external library dependencies.
+### Features
+
+- 🔄 **Marquee Titles**: Long curriculum names scroll smoothly in a seamless infinite loop.
+- ⚡ **Playback Speed**: Adjustable speed selector (1.0x, 1.25x, 1.5x, 2.0x).
+- 🔊 **Volume Hub**: Dedicated volume slider and one-click mute/unmute toggle.
+- ⏩ **Precision Seeking**: Interactive scrubber and +/- 10s skip buttons.
+- 📦 **Aggressive Buffering**: State-aware engine that pre-loads content for instant playback.
+- 🌓 **High-Fidelity Rendering**: Mask-faded edges and hardware-accelerated transforms.
