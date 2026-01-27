@@ -134,21 +134,27 @@
 
   /* Marquee Effect for long titles */
   .marquee-container {
-    @apply overflow-hidden relative w-full;
+    @apply overflow-hidden relative w-full mask-fade-edges;
   }
 
   .marquee-content {
-    @apply inline-flex whitespace-nowrap;
-    animation: marquee 15s linear infinite;
+    @apply inline-flex whitespace-nowrap w-max;
+    animation: marquee 20s linear infinite;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
   }
 
   @keyframes marquee {
     0% {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
     100% {
-      transform: translateX(-50%);
+      transform: translate3d(-50%, 0, 0);
     }
+  }
+
+  .mask-fade-edges {
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   }
 }
 
