@@ -13,10 +13,10 @@
   {{ $slug := .File.BaseFileName }}
   <div class="group premium-card overflow-hidden transition-all duration-500">
     <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-64 h-64 bg-indigo-50/50 dark:bg-indigo-900/20 flex items-center justify-center p-10 overflow-hidden">
+      <div class="w-full md:w-64 h-64 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-10 overflow-hidden">
         {{ if .Params.illustration }}
-          <div class="w-full h-full flex items-center justify-center">
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+          <div class="w-full h-full flex items-center justify-center relative z-10 transform group-hover:scale-110 transition-transform duration-700">
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain drop-shadow-xl") }}
           </div>
         {{ else }}
           <svg class="h-20 w-20 text-indigo-200 dark:text-indigo-800" fill="currentColor" viewBox="0 0 24 24">
@@ -164,9 +164,9 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
     {{ range .Sections }}
       <div class="flex flex-col bg-white dark:bg-gray-800 rounded-3xl sm:rounded-[2.5rem] border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-        <div class="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-4 sm:p-6">
+        <div class="h-48 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-4 sm:p-6 overflow-hidden">
           {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-700") }}
           {{ end }}
         </div>
         <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
