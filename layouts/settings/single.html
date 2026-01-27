@@ -1,277 +1,246 @@
 {{ define "main" }}
-{{ $labels := site.Data.labels }}
-<div class="mb-12">
-  <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">{{ .Title }}</h1>
-  <p class="mt-4 text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl">{{ .Params.description | default "Manage your account preferences and settings." }}</p>
-</div>
+{{ $labels := index .Site.Data.labels "settings" }}
+<div class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+  <div class="mb-10">
+    <h1 class="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{{ $labels.title }}</h1>
+    <p class="text-gray-500 dark:text-gray-400 font-medium mt-2">{{ $labels.subtitle }}</p>
+  </div>
 
-<!-- Tab Navigation -->
-<div class="border-b border-gray-100 dark:border-gray-800 mb-10 overflow-x-auto no-scrollbar">
-  <nav class="-mb-px flex space-x-10" aria-label="Tabs">
-    {{ range slice "profile" "subscription" "security" "appearance" "data" }}
-    <button onclick="switchSettingsTab('{{ . }}')" id="tab-btn-{{ . }}" class="settings-tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-black text-xs uppercase tracking-widest {{ if eq . `profile` }}border-indigo-600 text-indigo-600 dark:text-indigo-400{{ else }}border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-300 dark:text-gray-500 dark:hover:text-gray-300{{ end }}" {{ if eq . `profile` }}aria-current="page"{{ end }}>
-      {{ . | humanize }}
-    </button>
-    {{ end }}
-  </nav>
-</div>
-
-<div class="space-y-10">
-    <!-- Profile Section -->
-    <div id="settings-tab-profile" class="settings-tab-content space-y-8">
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-        <div class="mb-10 flex flex-col md:flex-row md:items-center gap-8 pb-10 border-b border-gray-50 dark:border-gray-700">
-          <div class="relative">
-            <div id="avatar-preview" class="h-28 w-24 rounded-3xl bg-indigo-50 dark:bg-indigo-950/30 flex items-center justify-center overflow-hidden border-2 border-indigo-100 dark:border-indigo-800 shadow-inner">
-              <svg class="h-14 w-14 text-indigo-200" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-            </div>
-            <button onclick="document.getElementById('avatar-upload').click()" class="absolute -bottom-2 -right-2 bg-indigo-600 text-white rounded-2xl p-2.5 shadow-xl hover:bg-indigo-700 transition-all hover:scale-110">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </button>
-            <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatar(event)">
-          </div>
-          <div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-1">Your Identity</h3>
-            <p class="text-gray-500 dark:text-gray-400 font-medium">JPG, GIF or PNG. Recommended size 400x400.</p>
-          </div>
-        </div>
-
-        <form onsubmit="updateProfile(event)" class="space-y-8">
-          <div class="grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-6">
-            <div class="sm:col-span-4">
-              <label for="profile-name" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.auth_modals.signup.name_label }}</label>
-              <input type="text" name="profile-name" id="profile-name" class="block w-full text-base font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" />
-            </div>
-
-            <div class="sm:col-span-4">
-              <label for="profile-email" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.auth_modals.signup.email_label }}</label>
-              <input type="email" name="profile-email" id="profile-email" disabled class="bg-gray-50 dark:bg-gray-900 text-gray-400 dark:text-gray-500 block w-full font-bold border-gray-100 dark:border-gray-800 rounded-2xl p-4 cursor-not-allowed" />
-            </div>
-          </div>
-
-          <div class="pt-8 border-t border-gray-50 dark:border-gray-700 flex justify-end">
-            <button type="submit" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 dark:shadow-none">Save Changes</button>
-          </div>
-        </form>
-      </div>
+  <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-2xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-gray-700 overflow-hidden">
+    <!-- Settings Tabs -->
+    <div class="border-b border-gray-100 dark:border-gray-700">
+      <nav class="flex px-8" aria-label="Tabs">
+        {{ range $index, $tab := $labels.tabs }}
+        <button
+          onclick="switchTab('{{ $tab.id }}')"
+          id="tab-btn-{{ $tab.id }}"
+          class="py-6 px-4 text-sm font-black border-b-2 transition-all {{ if eq $index 0 }}border-indigo-600 text-indigo-600 dark:text-indigo-400{{ else }}border-transparent text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300{{ end }}"
+          {{ if eq $index 0 }}aria-current="page"{{ end }}
+        >
+          {{ $tab.name }}
+        </button>
+        {{ end }}
+      </nav>
     </div>
 
-    <!-- Subscription Section -->
-    <div id="settings-tab-subscription" class="settings-tab-content hidden">
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-8">Choose Your Path</h3>
-        <div class="flex flex-col md:flex-row items-center justify-between p-8 bg-indigo-600 dark:bg-indigo-900 rounded-[2.5rem] text-white mb-12 shadow-xl shadow-indigo-200 dark:shadow-none">
-          <div>
-            <p class="text-xs font-black uppercase tracking-widest opacity-80 mb-2">Current Subscription</p>
-            <p id="current-plan-display" class="text-4xl font-black tracking-tight">Free Tier</p>
-          </div>
-          <div class="mt-6 md:mt-0 flex items-center gap-3">
-            <span class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></span>
-            <span class="text-sm font-bold uppercase tracking-widest">Active Status</span>
-          </div>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {{ range where .Site.RegularPages "Section" "plans" }}
-          <div class="flex flex-col p-8 rounded-[2rem] border-2 border-gray-50 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm hover:border-indigo-600 dark:hover:border-indigo-400 transition-all group">
-            <div class="flex-1">
-              <h4 class="font-black text-gray-900 dark:text-white text-2xl tracking-tight">{{ .Title }}</h4>
-              <p class="text-3xl font-black text-indigo-600 dark:text-indigo-400 mt-3">{{ .Params.price }}</p>
-              <ul class="text-sm font-medium text-gray-500 dark:text-gray-400 mt-8 space-y-4">
-                {{ range .Params.features }}
-                <li class="flex items-center">
-                  <svg class="h-5 w-5 text-green-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
-                  </svg>
-                  {{ . }}
-                </li>
-                {{ end }}
-              </ul>
+    <div class="p-10">
+      <!-- Profile Settings -->
+      <div id="settings-tab-profile" class="space-y-10">
+        <form onsubmit="updateProfile(event)" class="space-y-8">
+          <div class="flex flex-col sm:flex-row sm:items-center gap-8">
+            <div class="relative group">
+              <div id="avatar-preview" class="w-24 h-24 rounded-3xl bg-indigo-600 flex items-center justify-center text-white font-black text-3xl shadow-xl shadow-indigo-100 dark:shadow-none overflow-hidden ring-4 ring-indigo-50 dark:ring-indigo-950">
+                U
+              </div>
+              <label for="avatar-upload" class="absolute -bottom-2 -right-2 w-10 h-10 bg-white dark:bg-gray-700 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-600 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                <i class="fa-solid fa-camera text-indigo-600 dark:text-indigo-400"></i>
+                <input type="file" id="avatar-upload" class="hidden" accept="image/*" onchange="handleAvatarUpload(event)">
+              </label>
             </div>
-            <button 
-              onclick="switchPlan('{{ .Title }}')" 
-              data-plan-btn="{{ .Title }}"
-              class="mt-10 w-full py-4 px-6 rounded-2xl font-black text-sm transition-all bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-100"
+            <div class="flex-1">
+              <h3 class="text-lg font-black text-gray-900 dark:text-white">{{ $labels.profile.avatar_title }}</h3>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $labels.profile.avatar_desc }}</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-1">{{ $labels.profile.name_label }}</label>
+              <input type="text" id="profile-name" class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all" placeholder="Your Name">
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 ml-1">{{ $labels.profile.email_label }}</label>
+              <input type="email" id="profile-email" class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all opacity-50" readonly placeholder="your@email.com">
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-sm shadow-lg shadow-indigo-100 dark:shadow-none transition-all hover:-translate-y-1">
+              {{ $labels.profile.save_btn }}
+            </button>
+          </div>
+        </form>
+
+        <div class="pt-10 border-t border-gray-100 dark:border-gray-700">
+          <h3 class="text-lg font-black text-gray-900 dark:text-white mb-6">{{ $labels.profile.password_title }}</h3>
+          <form onsubmit="updatePassword(event)" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <input type="password" id="current-password" placeholder="{{ $labels.profile.current_pass_placeholder }}" class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all">
+              <input type="password" id="new-password" placeholder="{{ $labels.profile.new_pass_placeholder }}" class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-900 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all">
+              <button type="submit" class="bg-white dark:bg-gray-900 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-600 dark:border-indigo-400 px-6 py-4 rounded-2xl font-black text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all">
+                {{ $labels.profile.update_pass_btn }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Subscription Settings -->
+      <div id="settings-tab-subscription" class="hidden space-y-10">
+        <div class="p-8 rounded-[2rem] bg-indigo-600 text-white relative overflow-hidden shadow-xl shadow-indigo-100 dark:shadow-none">
+          <div class="relative z-10">
+            <p class="text-indigo-100 text-xs font-black uppercase tracking-widest mb-1">{{ $labels.subscription.current_plan_label }}</p>
+            <h3 id="current-plan-display" class="text-3xl font-black tracking-tighter mb-4">Free Plan</h3>
+            <p class="text-indigo-100 text-sm font-medium max-w-sm">{{ $labels.subscription.current_plan_desc }}</p>
+          </div>
+          <!-- Decorative element -->
+          <div class="absolute -right-24 -top-24 w-64 h-64 bg-indigo-500 rounded-full opacity-50 blur-3xl"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {{ range .Site.Data.undraw_catalog.plans }}
+          <div class="p-6 rounded-[2rem] border-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex flex-col items-center text-center group hover:border-indigo-200 dark:hover:border-indigo-800 transition-all">
+            <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-2xl bg-white dark:bg-gray-800 shadow-sm group-hover:scale-110 transition-transform">
+              <i class="fa-solid {{ if eq .id "free" }}fa-leaf text-green-500{{ else if eq .id "standard" }}fa-star text-amber-500{{ else }}fa-bolt text-indigo-500{{ end }} text-2xl"></i>
+            </div>
+            <h4 class="font-black text-gray-900 dark:text-white">{{ .name }}</h4>
+            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4">{{ .price }}</p>
+            <button
+              onclick="switchPlan('{{ .name }}')"
+              data-plan-btn="{{ .name }}"
+              class="mt-auto w-full py-3 rounded-xl bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 text-xs font-black border border-gray-100 dark:border-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all"
             >
-              Select Plan
+              {{ $labels.subscription.upgrade_btn }}
             </button>
           </div>
           {{ end }}
         </div>
       </div>
-    </div>
 
-    <!-- Security Section -->
-    <div id="settings-tab-security" class="settings-tab-content hidden">
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Account Security</h3>
-        <p class="text-gray-500 dark:text-gray-400 font-medium mb-10">Manage your password and authentication methods.</p>
-        
-        <form onsubmit="changePassword(event)" class="space-y-6 max-w-md">
-          <div>
-            <label for="current-password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Current Password</label>
-            <input type="password" id="current-password" required class="block w-full font-bold border-gray-200 rounded-xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
-          </div>
-          <div>
-            <label for="new-password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">New Password</label>
-            <input type="password" id="new-password" required class="block w-full font-bold border-gray-200 rounded-xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
-          </div>
-          <div>
-            <label for="confirm-password" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Confirm New Password</label>
-            <input type="password" id="confirm-password" required class="block w-full font-bold border-gray-200 rounded-xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all">
-          </div>
-          <div class="pt-6">
-            <button type="submit" class="btn btn-outline px-8 py-3 rounded-xl font-black">Change Password</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Appearance & Notifications -->
-    <div id="settings-tab-appearance" class="settings-tab-content hidden space-y-10">
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">Visual Style</h3>
-        <p class="text-gray-500 dark:text-gray-400 font-medium mb-10">Customize how MindFull looks on your device.</p>
-
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <button onclick="updateThemeSetting('light')" id="theme-light" class="flex flex-col items-center p-6 border-2 rounded-3xl hover:border-indigo-600 transition-all dark:bg-gray-900/50">
-            <div class="w-full h-20 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center">
-              <div class="w-10 h-10 bg-white rounded-xl shadow-md border border-gray-100"></div>
-            </div>
-            <span class="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">Light</span>
-          </button>
-
-          <button onclick="updateThemeSetting('dark')" id="theme-dark" class="flex flex-col items-center p-6 border-2 rounded-3xl hover:border-indigo-600 transition-all dark:bg-gray-900/50">
-            <div class="w-full h-20 bg-gray-950 rounded-2xl mb-4 flex items-center justify-center">
-              <div class="w-10 h-10 bg-gray-800 rounded-xl shadow-md border border-gray-700"></div>
-            </div>
-            <span class="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">Dark</span>
-          </button>
-
-          <button onclick="updateThemeSetting('auto')" id="theme-auto" class="flex flex-col items-center p-6 border-2 rounded-3xl hover:border-indigo-600 transition-all dark:bg-gray-900/50">
-            <div class="w-full h-20 bg-gradient-to-r from-gray-100 to-gray-900 rounded-2xl mb-4 flex items-center justify-center">
-              <div class="w-10 h-10 bg-white rounded-l-xl shadow-sm border-r border-gray-200"></div>
-              <div class="w-10 h-10 bg-gray-800 rounded-r-xl shadow-sm"></div>
-            </div>
-            <span class="text-sm font-black uppercase tracking-widest text-gray-900 dark:text-white">System</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-3xl p-8 border border-gray-100 dark:border-gray-700">
-        <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-8">Nudges & Alerts</h3>
-        <div class="space-y-8">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-lg font-black text-gray-900 dark:text-white">Daily Reminders</p>
-              <p class="text-sm font-medium text-gray-500">Receive a gentle nudge to check in daily.</p>
-            </div>
-            <button onclick="toggleNotification('dailyReminders')" id="notif-dailyReminders" class="relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 bg-gray-100 dark:bg-gray-700">
-              <span class="translate-x-0 inline-block h-7 w-7 rounded-full bg-white shadow-lg transform transition duration-200"></span>
+      <!-- Preferences Settings -->
+      <div id="settings-tab-preferences" class="hidden space-y-10">
+        <div>
+          <h3 class="text-lg font-black text-gray-900 dark:text-white mb-6">{{ $labels.preferences.theme_title }}</h3>
+          <div class="grid grid-cols-3 gap-4">
+            <button onclick="updateThemeSetting('light')" id="theme-light" class="p-4 rounded-2xl border-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 text-center transition-all">
+              <i class="fa-solid fa-sun text-amber-500 text-xl mb-2"></i>
+              <span class="block text-xs font-black text-gray-900 dark:text-white">{{ $labels.preferences.theme_light }}</span>
             </button>
-          </div>
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-lg font-black text-gray-900 dark:text-white">Course Updates</p>
-              <p class="text-sm font-medium text-gray-500">Stay informed about new lessons and content.</p>
-            </div>
-            <button onclick="toggleNotification('courseUpdates')" id="notif-courseUpdates" class="relative inline-flex flex-shrink-0 h-8 w-14 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 bg-gray-100 dark:bg-gray-700">
-              <span class="translate-x-0 inline-block h-7 w-7 rounded-full bg-white shadow-lg transform transition duration-200"></span>
+            <button onclick="updateThemeSetting('dark')" id="theme-dark" class="p-4 rounded-2xl border-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 text-center transition-all">
+              <i class="fa-solid fa-moon text-indigo-400 text-xl mb-2"></i>
+              <span class="block text-xs font-black text-gray-900 dark:text-white">{{ $labels.preferences.theme_dark }}</span>
+            </button>
+            <button onclick="updateThemeSetting('auto')" id="theme-auto" class="p-4 rounded-2xl border-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 text-center transition-all">
+              <i class="fa-solid fa-circle-half-stroke text-gray-400 text-xl mb-2"></i>
+              <span class="block text-xs font-black text-gray-900 dark:text-white">{{ $labels.preferences.theme_auto }}</span>
             </button>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Data Section -->
-    <div id="settings-tab-data" class="settings-tab-content hidden">
-      <div class="bg-white dark:bg-gray-800 shadow-sm rounded-[3rem] p-12 border-2 border-red-50 dark:border-red-900/30 flex flex-col items-center text-center">
-        <div class="w-20 h-20 bg-red-50 dark:bg-red-900/30 rounded-3xl flex items-center justify-center text-red-600 dark:text-red-400 mb-8">
-          <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        <div class="pt-10 border-t border-gray-100 dark:border-gray-700">
+          <h3 class="text-lg font-black text-gray-900 dark:text-white mb-6">{{ $labels.preferences.notif_title }}</h3>
+          <div class="space-y-4">
+            {{ range $labels.preferences.notifications }}
+            <div class="flex items-center justify-between p-6 rounded-3xl bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800">
+              <div>
+                <h4 class="font-black text-gray-900 dark:text-white">{{ .title }}</h4>
+                <p class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ .desc }}</p>
+              </div>
+              <button onclick="toggleNotification('{{ .id }}')" id="notif-{{ .id }}" class="w-12 h-6 rounded-full bg-gray-200 dark:bg-gray-700 relative transition-colors">
+                <span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-white shadow-sm transition-transform"></span>
+              </button>
+            </div>
+            {{ end }}
+          </div>
         </div>
-        <h3 class="text-3xl font-black text-red-600 dark:text-red-400 mb-4">Danger Zone</h3>
-        <p class="text-gray-500 dark:text-gray-400 font-medium max-w-md mb-10">Permanently delete your local data. This includes all journal entries, course progress, and check-ins. This action cannot be undone.</p>
-        <button onclick="clearData()" class="px-10 py-4 rounded-2xl bg-red-600 text-white font-black hover:bg-red-700 shadow-xl shadow-red-100 dark:shadow-none transition-all hover:scale-105">
-          Reset All Local Data
-        </button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  const settingsLabels = {{ $labels.settings }};
+  const settingsLabels = {{ $labels | jsonify | safeJS }};
 
-  function switchSettingsTab(tabId) {
-    document.querySelectorAll('.settings-tab-content').forEach(el => el.classList.add('hidden'));
-    document.querySelectorAll('.settings-tab-btn').forEach(btn => {
+  function switchTab(tabId) {
+    document.querySelectorAll('[id^="settings-tab-"]').forEach(tab => tab.classList.add('hidden'));
+    document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
       btn.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400');
       btn.classList.add('border-transparent', 'text-gray-400', 'dark:text-gray-500');
       btn.removeAttribute('aria-current');
     });
     
-    document.getElementById(`settings-tab-${tabId}`).classList.remove('hidden');
+    const content = document.getElementById(`settings-tab-${tabId}`);
+    if (content) content.classList.remove('hidden');
     const btn = document.getElementById(`tab-btn-${tabId}`);
-    btn.classList.add('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400');
-    btn.classList.remove('border-transparent', 'text-gray-400', 'dark:text-gray-500');
-    btn.setAttribute('aria-current', 'page');
+    if (btn) {
+      btn.classList.add('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400');
+      btn.classList.remove('border-transparent', 'text-gray-400', 'dark:text-gray-500');
+      btn.setAttribute('aria-current', 'page');
+    }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const user = JSON.parse(localStorage.getItem('mindfull_session'));
-    if (user) {
-      document.getElementById('profile-name').value = user.name || '';
-      document.getElementById('profile-email').value = user.email || '';
+    try {
+      const userStr = localStorage.getItem('mindfull_session');
+      if (!userStr) return;
+      const user = JSON.parse(userStr);
+      
+      const nameInput = document.getElementById('profile-name');
+      const emailInput = document.getElementById('profile-email');
+      if (nameInput) nameInput.value = user.name || '';
+      if (emailInput) emailInput.value = user.email || '';
       
       const avatarPreview = document.getElementById('avatar-preview');
-      if (user.avatar) {
-        avatarPreview.innerHTML = '';
-        const img = document.createElement('img');
-        img.src = user.avatar;
-        img.className = 'h-full w-full object-cover';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        avatarPreview.appendChild(img);
+      if (user.avatar && avatarPreview) {
+        // Security: Validate avatar URL. Block SVG to prevent XSS.
+        if (typeof user.avatar === 'string') {
+           const isSafeData = user.avatar.startsWith('data:image/') && !user.avatar.includes('svg+xml');
+           const isRelative = user.avatar.startsWith('/') && !user.avatar.startsWith('//');
+           
+           if (isSafeData || isRelative) {
+              while (avatarPreview.firstChild) {
+                avatarPreview.removeChild(avatarPreview.firstChild);
+              }
+              const img = document.createElement('img');
+              img.src = user.avatar;
+              img.className = 'h-full w-full object-cover';
+              img.loading = 'lazy';
+              img.decoding = 'async';
+              img.alt = user.name || 'User Avatar';
+              avatarPreview.appendChild(img);
+           }
+        }
       }
       
       const currentPlan = user.plan || 'Free';
-      document.getElementById('current-plan-display').textContent = currentPlan + ' ' + settingsLabels.plan_tier_suffix;
+      const display = document.getElementById('current-plan-display');
+      if (display) {
+        display.textContent = currentPlan + ' ' + settingsLabels.plan_tier_suffix;
+      }
       updatePlanButtons(currentPlan);
+    } catch (e) {
+      console.error('Settings UI failed to load', e);
     }
 
     const theme = localStorage.getItem('theme-preference') || 'auto';
     highlightTheme(theme);
 
-    const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
-    updateNotifUI('dailyReminders', notifs.dailyReminders);
-    updateNotifUI('courseUpdates', notifs.courseUpdates);
+    try {
+      const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
+      updateNotifUI('dailyReminders', notifs.dailyReminders);
+      updateNotifUI('courseUpdates', notifs.courseUpdates);
+    } catch (e) {}
   });
 
   function updatePlanButtons(currentPlan) {
     document.querySelectorAll('[data-plan-btn]').forEach(btn => {
       const planName = btn.getAttribute('data-plan-btn');
-      if (planName.toLowerCase() === currentPlan.toLowerCase()) {
+      if (typeof planName === 'string' && planName.toLowerCase() === currentPlan.toLowerCase()) {
         btn.textContent = settingsLabels.current_plan_btn;
         btn.disabled = true;
         btn.classList.add('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
-        btn.classList.remove('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
-      } else {
-        btn.textContent = settingsLabels.select_plan_btn;
-        btn.disabled = false;
-        btn.classList.remove('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
-        btn.classList.add('bg-indigo-600', 'text-white', 'hover:bg-indigo-700');
+        btn.classList.remove('hover:bg-indigo-600', 'hover:text-white', 'hover:border-indigo-600');
       }
     });
   }
 
-  function handleAvatar(event) {
+  function handleAvatarUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
-      if (window.showToast) window.showToast('File too large (Max 2MB)', 'error');
+    // Client-side MIME type check
+    if (file.type && file.type.includes('svg')) {
+      if (window.showToast) window.showToast('SVG images are not allowed for security reasons.', 'error');
       return;
     }
 
@@ -279,112 +248,143 @@
     reader.onload = (e) => {
       const base64 = e.target.result;
       const avatarPreview = document.getElementById('avatar-preview');
-      avatarPreview.innerHTML = '';
-      const img = document.createElement('img');
-      img.src = base64;
-      img.className = 'h-full w-full object-cover';
-      avatarPreview.appendChild(img);
       
-      let session = JSON.parse(localStorage.getItem('mindfull_session'));
-      session.avatar = base64;
+      if (typeof base64 === 'string') {
+         const isSafeData = base64.startsWith('data:image/') && !base64.includes('svg+xml');
+         
+         if (avatarPreview && isSafeData) {
+            while (avatarPreview.firstChild) {
+              avatarPreview.removeChild(avatarPreview.firstChild);
+            }
+            const img = document.createElement('img');
+            img.src = base64;
+            img.className = 'h-full w-full object-cover';
+            img.alt = 'Preview';
+            avatarPreview.appendChild(img);
+            
+            try {
+              const sessionStr = localStorage.getItem('mindfull_session');
+              if (sessionStr) {
+                let session = JSON.parse(sessionStr);
+                session.avatar = base64;
+                localStorage.setItem('mindfull_session', JSON.stringify(session));
+
+                let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
+                const userIndex = users.findIndex(u => u.email === session.email);
+                if (userIndex !== -1) {
+                  users[userIndex].avatar = base64;
+                  localStorage.setItem('mindfull_users', JSON.stringify(users));
+                }
+              }
+            } catch (e) {}
+
+            if (window.showToast) window.showToast(settingsLabels.toast_avatar_update, 'success');
+         } else {
+            if (window.showToast) window.showToast('Invalid image format.', 'error');
+         }
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function updatePassword(e) {
+    e.preventDefault();
+    const current = document.getElementById('current-password').value;
+    const next = document.getElementById('new-password').value;
+
+    if (!current || !next) {
+      if (window.showToast) window.showToast('Please fill all fields', 'error');
+      return;
+    }
+
+    try {
+      const sessionStr = localStorage.getItem('mindfull_session');
+      if (!sessionStr) return;
+      let session = JSON.parse(sessionStr);
+      let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
+      const userIndex = users.findIndex(u => u.email === session.email);
+      
+      if (userIndex === -1) return;
+
+      const hashedCurrent = await window.hashPassword(current);
+      if (users[userIndex].password !== hashedCurrent) {
+        if (window.showToast) window.showToast('Current password incorrect', 'error');
+        return;
+      }
+
+      const hashedNext = await window.hashPassword(next);
+      users[userIndex].password = hashedNext;
+      localStorage.setItem('mindfull_users', JSON.stringify(users));
+
+      if (window.showToast) window.showToast(settingsLabels.toast_password_update, 'success');
+      e.target.reset();
+    } catch (e) {}
+  }
+
+  function updateProfile(e) {
+    e.preventDefault();
+    const newNameInput = document.getElementById('profile-name');
+    if (!newNameInput) return;
+    const newName = newNameInput.value;
+
+    try {
+      const sessionStr = localStorage.getItem('mindfull_session');
+      if (!sessionStr) return;
+      let user = JSON.parse(sessionStr);
+      user.name = newName;
+      localStorage.setItem('mindfull_session', JSON.stringify(user));
+
+      let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
+      const userIndex = users.findIndex(u => u.email === user.email);
+      if (userIndex !== -1) {
+        users[userIndex].name = newName;
+        localStorage.setItem('mindfull_users', JSON.stringify(users));
+      }
+    } catch (e) {}
+
+    if (window.showToast) {
+      window.showToast(settingsLabels.toast_profile_update, 'success');
+    }
+    
+    const sidebarName = document.getElementById('sidebar-user-name');
+    if (sidebarName) sidebarName.textContent = newName;
+  }
+
+  function switchPlan(newPlan) {
+    try {
+      const sessionStr = localStorage.getItem('mindfull_session');
+      if (!sessionStr) return;
+      let session = JSON.parse(sessionStr);
+
+      session.plan = newPlan;
       localStorage.setItem('mindfull_session', JSON.stringify(session));
 
       let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
       const userIndex = users.findIndex(u => u.email === session.email);
       if (userIndex !== -1) {
-        users[userIndex].avatar = base64;
+        users[userIndex].plan = newPlan;
         localStorage.setItem('mindfull_users', JSON.stringify(users));
       }
 
-      if (window.showToast) window.showToast(settingsLabels.toast_avatar_update, 'success');
-    };
-    reader.readAsDataURL(file);
-  }
+      if (window.showToast) {
+        window.showToast(settingsLabels.toast_plan_update.replace('{plan}', newPlan), 'success');
+      }
 
-  async function changePassword(e) {
-    e.preventDefault();
-    const current = document.getElementById('current-password').value;
-    const next = document.getElementById('new-password').value;
-    const confirm = document.getElementById('confirm-password').value;
-
-    if (next !== confirm) {
-      if (window.showToast) window.showToast('New passwords do not match', 'error');
-      return;
-    }
-
-    let session = JSON.parse(localStorage.getItem('mindfull_session'));
-    let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
-    const userIndex = users.findIndex(u => u.email === session.email);
-    
-    if (userIndex === -1) return;
-
-    const hashedCurrent = await window.hashPassword(current);
-    if (users[userIndex].password !== hashedCurrent) {
-      if (window.showToast) window.showToast('Current password incorrect', 'error');
-      return;
-    }
-
-    const hashedNext = await window.hashPassword(next);
-    users[userIndex].password = hashedNext;
-    localStorage.setItem('mindfull_users', JSON.stringify(users));
-
-    if (window.showToast) window.showToast(settingsLabels.toast_password_update, 'success');
-    e.target.reset();
-  }
-
-  function updateProfile(e) {
-    e.preventDefault();
-    const newName = document.getElementById('profile-name').value;
-
-    let user = JSON.parse(localStorage.getItem('mindfull_session'));
-    user.name = newName;
-    localStorage.setItem('mindfull_session', JSON.stringify(user));
-
-    let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
-    const userIndex = users.findIndex(u => u.email === user.email);
-    if (userIndex !== -1) {
-      users[userIndex].name = newName;
-      localStorage.setItem('mindfull_users', JSON.stringify(users));
-    }
-
-    if (window.showToast) {
-      window.showToast(settingsLabels.toast_profile_update, 'success');
-    }
-
-    setTimeout(() => {
-      location.reload(); 
-    }, 1000);
-  }
-
-  function switchPlan(newPlan) {
-    let session = JSON.parse(localStorage.getItem('mindfull_session'));
-    if (!session) return;
-
-    session.plan = newPlan;
-    localStorage.setItem('mindfull_session', JSON.stringify(session));
-
-    let users = JSON.parse(localStorage.getItem('mindfull_users') || '[]');
-    const userIndex = users.findIndex(u => u.email === session.email);
-    if (userIndex !== -1) {
-      users[userIndex].plan = newPlan;
-      localStorage.setItem('mindfull_users', JSON.stringify(users));
-    }
-
-    if (window.showToast) {
-      window.showToast(settingsLabels.toast_plan_update.replace('{plan}', newPlan), 'success');
-    }
-
-    document.getElementById('current-plan-display').textContent = newPlan + ' ' + settingsLabels.plan_tier_suffix;
-    updatePlanButtons(newPlan);
-    
-    const sidebarPlan = document.getElementById('sidebar-user-plan');
-    if (sidebarPlan) sidebarPlan.textContent = newPlan + ' ' + settingsLabels.plan_label_suffix;
-    
-    if (window.checkAuth) window.checkAuth();
+      const display = document.getElementById('current-plan-display');
+      if (display) {
+        display.textContent = newPlan + ' ' + settingsLabels.plan_tier_suffix;
+      }
+      updatePlanButtons(newPlan);
+      
+      const sidebarPlan = document.getElementById('sidebar-user-plan');
+      if (sidebarPlan) sidebarPlan.textContent = newPlan + ' ' + settingsLabels.plan_label_suffix;
+      
+      if (window.checkAuth) window.checkAuth();
+    } catch (e) {}
   }
 
   function updateThemeSetting(theme) {
-    window.setTheme(theme);
+    if (window.setTheme) window.setTheme(theme);
     highlightTheme(theme);
   }
 
@@ -393,71 +393,40 @@
       const btn = document.getElementById(`theme-${t}`);
       if (btn) {
         if (t === theme) {
-          btn.classList.add('border-indigo-600', 'ring-4', 'ring-indigo-50', 'dark:ring-indigo-950');
-          btn.classList.remove('border-gray-50', 'dark:border-gray-700');
+          btn.classList.add('border-indigo-600', 'bg-indigo-50', 'dark:bg-indigo-900/30');
+          btn.classList.remove('border-gray-100', 'dark:border-gray-700');
         } else {
-          btn.classList.remove('border-indigo-600', 'ring-4', 'ring-indigo-50', 'dark:ring-indigo-950');
-          btn.classList.add('border-gray-50', 'dark:border-gray-700');
+          btn.classList.remove('border-indigo-600', 'bg-indigo-50', 'dark:bg-indigo-900/30');
+          btn.classList.add('border-gray-100', 'dark:border-gray-700');
         }
       }
     });
   }
 
   function toggleNotification(key) {
-    const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
-    notifs[key] = !notifs[key];
-    localStorage.setItem('notification-settings', JSON.stringify(notifs));
-    updateNotifUI(key, notifs[key]);
+    try {
+      const notifs = JSON.parse(localStorage.getItem('notification-settings') || '{"dailyReminders": false, "courseUpdates": false}');
+      notifs[key] = !notifs[key];
+      localStorage.setItem('notification-settings', JSON.stringify(notifs));
+      updateNotifUI(key, notifs[key]);
+    } catch (e) {}
   }
 
   function updateNotifUI(key, enabled) {
     const btn = document.getElementById(`notif-${key}`);
+    if (!btn) return;
     const dot = btn.querySelector('span');
+    if (!dot) return;
 
     if (enabled) {
       btn.classList.add('bg-indigo-600');
       btn.classList.remove('bg-gray-200', 'dark:bg-gray-700');
       dot.classList.add('translate-x-6');
-      dot.classList.remove('translate-x-0');
     } else {
       btn.classList.remove('bg-indigo-600');
       btn.classList.add('bg-gray-200', 'dark:bg-gray-700');
-      dot.classList.add('translate-x-0');
       dot.classList.remove('translate-x-6');
     }
   }
-
-  function clearData() {
-    const performClear = () => {
-      localStorage.removeItem('courseProgress');
-      localStorage.removeItem('journalEntries');
-      localStorage.removeItem('moodCheckins');
-      localStorage.removeItem('moodStreak');
-      localStorage.removeItem('notification-settings');
-      if (window.showToast) {
-        window.showToast('Data cleared.', 'success');
-      }
-      setTimeout(() => {
-        location.reload();
-      }, 1000);
-    };
-
-    if (window.showConfirm) {
-      window.showConfirm('Clear All Data', 'Are you sure? This will permanently delete all your data.', performClear);
-    } else if (confirm('Are you sure?')) {
-      performClear();
-    }
-  }
 </script>
-{{ end }}
-
-{{ define "app-logged-out" }}
-  <div class="text-center py-20 px-4">
-    <div class="w-full max-w-sm mx-auto mb-10 opacity-90">
-      {{ partial "shared/undraw.html" (dict "name" "secure_login" "class" "w-full h-auto") }}
-    </div>
-    <h2 class="text-4xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter">Your Account Hub</h2>
-    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-xl mx-auto mb-10 font-medium leading-relaxed">Sign in to manage your subscription, update your profile, and customize your MindFull experience.</p>
-    <button onclick="window.openModal('loginModal')" class="btn btn-primary px-10 py-4 rounded-2xl font-black shadow-xl shadow-indigo-100">Sign In to Your Account &rarr;</button>
-  </div>
 {{ end }}

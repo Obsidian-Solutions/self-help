@@ -55,7 +55,12 @@ async function hashPassword(password) {
 }
 
 function getUsers() {
-  return JSON.parse(localStorage.getItem(DB_KEY) || '[]');
+  try {
+    const data = localStorage.getItem(DB_KEY);
+    return data ? JSON.parse(data) : [];
+  } catch (e) {
+    return [];
+  }
 }
 
 function saveUser(user) {
@@ -83,21 +88,80 @@ function setSession(user) {
 }
 
 function getSession() {
-  return JSON.parse(localStorage.getItem(SESSION_KEY));
+  try {
+    const data = localStorage.getItem(SESSION_KEY);
+    return data ? JSON.parse(data) : null;
+  } catch (e) {
+    return null;
+  }
 }
 
 function clearSession() {
   localStorage.removeItem(SESSION_KEY);
 }
 
+// Security: URL Whitelist for redirections
+window.safeRedirect = function (path) {
+  const whitelist = [
+    '/',
+    '/dashboard',
+    '/journal',
+    '/settings',
+    '/courses',
+    '/login',
+    '/signup',
+    '/therapists',
+    '/posts',
+    '/pricing',
+  ];
+
+  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) {
+    window.location.assign('/');
+    return;
+  }
+
+  try {
+    // Stricter parsing to avoid any possibility of cross-origin redirect
+    const url = new URL(path, window.location.origin);
+
+    // Explicitly check that origin matches current origin exactly
+    const currentOrigin = window.location.origin;
+    if (url.origin !== currentOrigin) {
+      window.location.assign('/');
+      return;
+    }
+
+    const basePath = url.pathname;
+    const isSafe = whitelist.some(
+      w => basePath === w || (w !== '/' && basePath.startsWith(w + '/')),
+    );
+
+    if (isSafe) {
+      // Re-construct the URL from parts to be absolutely certain no malicious strings bypass checks
+      const safePath = url.pathname + url.search + url.hash;
+      window.location.assign(safePath);
+    } else {
+      window.location.assign('/');
+    }
+  } catch (e) {
+    window.location.assign('/');
+  }
+};
+
 // --- Auth Actions ---
 
 // 1. Sign Up
 window.handleSignup = async e => {
   e.preventDefault();
-  const name = document.getElementById('signup-name').value;
-  const email = document.getElementById('signup-email').value;
-  const password = document.getElementById('signup-password').value;
+  const nameEl = document.getElementById('signup-name');
+  const emailEl = document.getElementById('signup-email');
+  const passwordEl = document.getElementById('signup-password');
+
+  if (!nameEl || !emailEl || !passwordEl) return;
+
+  const name = nameEl.value;
+  const email = emailEl.value;
+  const password = passwordEl.value;
 
   // Check if user exists
   if (findUser(email)) {
@@ -121,14 +185,19 @@ window.handleSignup = async e => {
   // Close modal and reload
   window.closeModal('signupModal');
   alert('Account created! Welcome, ' + name);
-  window.location.href = '/dashboard';
+  window.safeRedirect('/dashboard');
 };
 
 // 2. Login
 window.handleLogin = async e => {
   e.preventDefault();
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
+  const emailEl = document.getElementById('login-email');
+  const passwordEl = document.getElementById('login-password');
+
+  if (!emailEl || !passwordEl) return;
+
+  const email = emailEl.value;
+  const password = passwordEl.value;
 
   const user = findUser(email);
   const hashedPassword = await hashPassword(password);
@@ -136,7 +205,7 @@ window.handleLogin = async e => {
   if (user && user.password === hashedPassword) {
     setSession(user);
     window.closeModal('loginModal');
-    window.location.href = '/dashboard';
+    window.safeRedirect('/dashboard');
   } else {
     alert('Invalid email or password.');
   }
@@ -145,7 +214,7 @@ window.handleLogin = async e => {
 // 3. Logout
 window.handleLogout = async () => {
   clearSession();
-  window.location.href = '/';
+  window.safeRedirect('/');
 };
 
 // 4. Mock SSO (Google)
@@ -161,7 +230,7 @@ window.handleGoogleLogin = async () => {
     saveUser(mockGoogleUser);
   }
   setSession(mockGoogleUser);
-  window.location.href = '/dashboard';
+  window.safeRedirect('/dashboard');
 };
 
 // 5. Auth State Observer (Protect Dashboard)
@@ -185,12 +254,11 @@ window.checkAuth = () => {
 
   if (user) {
     // User is logged in
-    console.log('Session active for:', user.email, 'Plan:', user.plan);
     document.body.classList.add('user-logged-in');
 
     // Redirect away from auth pages if logged in
     if (isAuthPage) {
-      window.location.href = '/dashboard';
+      window.safeRedirect('/dashboard');
       return;
     }
 
@@ -216,7 +284,6 @@ window.checkAuth = () => {
     const sidebar = document.querySelector('aside');
     if (sidebar) {
       sidebar.classList.remove('hidden');
-      // On small screens it might be hidden by default, but let's ensure it's visible in app state
       sidebar.style.display = '';
     }
 
@@ -308,12 +375,25 @@ window.checkAuth = () => {
       } else {
         const currentText = btn.textContent;
         btn.textContent = currentText.includes('Course') ? 'Start Course' : 'Start Learning';
-        btn.href = btn.getAttribute('data-auth-href') || btn.href;
+
+        const authHref = btn.getAttribute('data-auth-href');
+        // Security check for authHref
+        if (
+          typeof authHref === 'string' &&
+          authHref.startsWith('/') &&
+          !authHref.startsWith('//') &&
+          !authHref.includes(':')
+        ) {
+          // Use event listener instead of direct href for extra safety
+          btn.addEventListener('click', e => {
+            e.preventDefault();
+            window.safeRedirect(authHref);
+          });
+        }
       }
     });
   } else {
     // User is NOT logged in
-    console.log('No active session');
     document.body.classList.remove('user-logged-in');
 
     // Update public buttons to prompt for login
@@ -356,7 +436,6 @@ window.checkAuth = () => {
 
     // Redirect if on protected page
     if (isProtectedPage) {
-      console.warn('Access denied. Redirecting to login.');
       if (isAuthPage) return; // Already on login/signup
 
       // If we have modals, use them, otherwise redirect to login page
@@ -369,7 +448,7 @@ window.checkAuth = () => {
           window.openModal('loginModal');
         }, 500);
       } else {
-        window.location.href = '/login';
+        window.safeRedirect('/login');
       }
     }
   }

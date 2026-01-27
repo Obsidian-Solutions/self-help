@@ -13,10 +13,10 @@
         </p>
         <!-- Dynamic Socials -->
         <div class="flex flex-wrap gap-4">
-          {{ range $name, $url := site.Params.social }}
-          <a href="{{ $url }}" class="w-10 h-10 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-indigo-600 transition-all hover:-translate-y-1" title="{{ $name | humanize }}">
-            <span class="sr-only">{{ $name | humanize }}</span>
-            <i class="fab fa-{{ $name }} text-lg"></i>
+          {{ range $labels.footer.social }}
+          <a href="{{ .url }}" class="w-10 h-10 rounded-xl bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-indigo-600 transition-all hover:-translate-y-1" title="{{ .name | humanize }}">
+            <span class="sr-only">{{ .name | humanize }}</span>
+            <i class="{{ .icon }} text-lg"></i>
           </a>
           {{ end }}
         </div>

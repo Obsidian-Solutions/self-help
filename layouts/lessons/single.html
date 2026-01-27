@@ -59,6 +59,15 @@
       </button>
     </div>
 
+    {{ $quizQuestions := .Params.quiz.questions }}
+    <div 
+      id="lesson-quiz-data" 
+      class="hidden" 
+      data-quiz-title="{{ .Title }}"
+      data-quiz-description="{{ .Params.quiz.description | default "Knowledge check" }}"
+      data-quiz-questions="{{ $quizQuestions | jsonify }}"
+    ></div>
+
     <div id="lesson-quiz-container" style="display: none" class="mt-10 bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-2xl p-10 border border-gray-100 dark:border-gray-700">
       {{ partial "app/quiz/quiz-engine.html" . }}
     </div>
@@ -71,33 +80,31 @@
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
       Previous
     </button>
-    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-sm shadow-lg shadow-indigo-100 transition-all hover:-translate-y-1" onclick="markComplete()">
+    {{ $course := .GetPage ".." }}
+    <button 
+      class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-4 rounded-2xl font-black text-sm shadow-lg shadow-indigo-100 transition-all hover:-translate-y-1" 
+      onclick="markComplete()"
+      data-lesson-title="{{ .Title }}"
+      data-course-title="{{ if $course }}{{ $course.Title }}{{ else }}General{{ end }}"
+      data-course-url="{{ if $course }}{{ $course.RelPermalink }}{{ else }}/courses{{ end }}"
+    >
       Complete & Continue
     </button>
   </div>
 </div>
 
 <script>
-  {{ if .Params.quiz }}
-  {{ $quizQuestions := .Params.quiz.questions }}
-  {{ $questionCount := len $quizQuestions }}
-  const lessonQuizData = {
-    title: {{ .Title }},
-    description: {{ .Params.quiz.description | default "Knowledge check" }},
-    resultMessage: "Excellent work! You've mastered this lesson.",
-    questions: [
-      {{ range $index, $q := $quizQuestions }}
-      {
-        question: {{ $q.question }},
-        options: [{{ range $idx, $opt := $q.options }}{{ $opt }}{{ if lt $idx (sub (len $q.options) 1) }},{{ end }}{{ end }}],
-        correct: {{ $q.correct }},
-        explanation: {{ $q.explanation }}
-      }{{ if lt $index (sub $questionCount 1) }},{{ end }}
-      {{ end }}
-    ]
-  };
-
   function initLessonQuiz() {
+    const dataEl = document.getElementById('lesson-quiz-data');
+    if (!dataEl) return;
+
+    const lessonQuizData = {
+      title: dataEl.getAttribute('data-quiz-title'),
+      description: dataEl.getAttribute('data-quiz-description'),
+      resultMessage: "Excellent work! You've mastered this lesson.",
+      questions: JSON.parse(dataEl.getAttribute('data-quiz-questions'))
+    };
+
     document.getElementById('lesson-quiz-container').style.display = 'block';
     if (window.initializeQuiz) {
       window.initializeQuiz(lessonQuizData);
@@ -105,19 +112,26 @@
     document.getElementById('lesson-quiz-container').scrollIntoView({ behavior: 'smooth' });
   }
 
-  window.onQuizFinish = function() {
-    document.getElementById('lesson-quiz-container').style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-  {{ end }}
+  if (document.getElementById('lesson-quiz-data')) {
+    window.onQuizFinish = function() {
+      document.getElementById('lesson-quiz-container').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  }
 
   function markComplete() {
-    const lessonId = {{ .Title }};
-    {{ $course := .GetPage ".." }}
-    const courseTitle = {{ if $course }}{{ $course.Title }}{{ else }}"General"{{ end }};
-    const courseUrl = {{ if $course }}{{ $course.RelPermalink }}{{ else }}"/courses"{{ end }};
+    const btn = event.currentTarget;
+    const lessonId = btn.getAttribute('data-lesson-title');
+    const courseTitle = btn.getAttribute('data-course-title');
+    const courseUrl = btn.getAttribute('data-course-url');
     
-    let progress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    let progress = {};
+    try {
+      progress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    } catch (e) {
+      progress = {};
+    }
+
     progress[lessonId] = {
       completed: true,
       completedAt: new Date().toISOString(),
@@ -128,7 +142,12 @@
     if (window.showToast) window.showToast('Lesson complete! 🎉', 'success');
 
     setTimeout(() => {
-      window.location.href = courseUrl;
+      // Basic validation for courseUrl to avoid unvalidated redirection
+      if (courseUrl && courseUrl.startsWith('/') && !courseUrl.startsWith('//')) {
+        window.location.href = courseUrl;
+      } else {
+        window.location.href = '/courses';
+      }
     }, 1500);
   }
 </script>

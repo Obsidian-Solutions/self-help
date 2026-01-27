@@ -99,6 +99,14 @@
       { "name": "Privacy Policy", "url": "/privacy" },
       { "name": "Terms of Service", "url": "/terms" },
       { "name": "Cookie Policy", "url": "/cookie-policy" }
+    ],
+    "social": [
+      {
+        "name": "github",
+        "url": "https://github.com/Obsidian-Solutions/self-help",
+        "icon": "fa-brands fa-github"
+      },
+      { "name": "email", "url": "mailto:support@mindfull.com", "icon": "fa-solid fa-envelope" }
     ]
   },
   "auth_modals": {
