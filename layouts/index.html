@@ -153,11 +153,11 @@
           </div>
           <div class="p-8 sm:p-10">
             <div class="flex items-center gap-4 mb-6">
-              <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-lg shadow-indigo-200">Featured</span>
+              <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-lg shadow-indigo-200">Featured Article</span>
               <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ .ReadingTime }} min read</span>
             </div>
             <h3 class="text-3xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors tracking-tight mb-4 leading-tight">{{ .Title }}</h3>
-            <p class="text-lg text-gray-500 dark:text-gray-400 font-medium line-clamp-3 mb-8">{{ .Description | default .Summary }}</p>
+            <p class="text-lg text-gray-500 dark:text-gray-400 font-medium line-clamp-2 mb-8">{{ .Description | default .Summary }}</p>
             <span class="text-sm font-black text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
               Continue Reading
               <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -183,7 +183,7 @@
               <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ .ReadingTime }} min</span>
             </div>
             <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight mb-2">{{ .Title }}</h4>
-            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium line-clamp-2">{{ .Description | default .Summary }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium line-clamp-1">{{ .Description | default .Summary }}</p>
           </div>
         </a>
         {{ end }}

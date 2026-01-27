@@ -59,16 +59,28 @@
       </div>
       
       <div class="flex items-center gap-4">
-        {{ with .Site.Params.social.github }}
+        {{ $github := .Params.social_links.github | default .Site.Params.social.github }}
+        {{ $email := .Params.social_links.email | default .Site.Params.social.email }}
+        {{ $twitter := .Params.social_links.twitter | default .Site.Params.social.twitter }}
+
+        {{ with $github }}
         <a href="{{ . }}" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="GitHub">
           <i class="fa-brands fa-github"></i>
         </a>
         {{ end }}
-        {{ with .Site.Params.social.email }}
+
+        {{ with $twitter }}
+        <a href="{{ . }}" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="Twitter/X">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        {{ end }}
+
+        {{ with $email }}
         <a href="mailto:{{ . }}" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="Email">
           <i class="fa-solid fa-envelope"></i>
         </a>
         {{ end }}
+        
         <button onclick="window.copyArticleLink()" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="Copy Link">
           <i class="fa-solid fa-link"></i>
         </button>

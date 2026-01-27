@@ -5,6 +5,10 @@ description: 'Understanding the science behind Cognitive Behavioral Therapy and 
 illustration: 'learning'
 category: 'Science'
 tags: ['CBT', 'Anxiety', 'Therapy']
+social_links:
+  github: 'https://github.com/Obsidian-Solutions/self-help'
+  twitter: 'https://twitter.com/mindfull'
+  email: 'research@mindfull.com'
 ---
 
 Cognitive Behavioral Therapy (CBT) is based on the idea that our thoughts, feelings, and behaviors are interconnected. It is a highly structured, goal-oriented form of psychotherapy that focuses on the here and now rather than diving exclusively into childhood history.
