@@ -4,46 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Command Center | MindFull CMS</title>
-    <!-- Modern Core -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Visual Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    
-    <style>
-        :root {
-            --wagtail-sidebar: #262933;
-            --wagtail-accent: #4f46e5;
-            --wagtail-bg: #f3f4f6;
-        }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--wagtail-bg); color: #1e293b; }
-        
-        .sidebar-dark { background-color: var(--wagtail-sidebar); }
-        .sidebar-link { color: #9ca3af; border-left: 4px solid transparent; transition: all 0.2s; }
-        .sidebar-link:hover { background-color: #2d313e; color: white; }
-        .sidebar-link.active { background-color: #2d313e; color: white; border-left-color: var(--wagtail-accent); }
-        
-        .glass-card { background: white; border-radius: 1rem; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-        .stat-card { border-top: 4px solid var(--wagtail-accent); }
-        
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        
-        .CodeMirror { border-radius: 0 0 1rem 1rem; border: 1px solid #e5e7eb; min-height: 500px; }
-        .editor-toolbar { border-radius: 1rem 1rem 0 0; border: 1px solid #e5e7eb; background: #f9fafb; }
-        
-        .fade-entry { animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
 </head>
-<body class="h-full flex overflow-hidden opacity-0 transition-opacity duration-500">
+<body class="h-full flex overflow-hidden bg-[#f3f4f6]">
 
-    <!-- App Sidebar -->
-    <aside class="w-64 sidebar-dark flex-shrink-0 flex flex-col z-40 overflow-y-auto">
+    <!-- Sidebar -->
+    <aside id="admin-sidebar" class="hidden w-64 bg-[#262933] flex-shrink-0 flex flex-col z-40 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl">
                 <i class="fa-solid fa-brain"></i>
@@ -53,165 +25,143 @@
                 <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Command Center</p>
             </div>
         </div>
-
         <nav class="flex-1 mt-4">
-            <div class="px-6 py-2 mb-2"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Main</p></div>
-            <button type="button" onclick="showSection('dashboard')" id="nav-btn-dashboard" class="sidebar-link active w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold">
+            <button onclick="showSection('dashboard')" id="nav-btn-dashboard" class="sidebar-link active w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
-            
-            <div class="px-6 py-2 mt-6 mb-2"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">CRM & Relationships</p></div>
-            <button type="button" onclick="showSection('inquiries')" id="nav-btn-inquiries" class="sidebar-link w-full flex items-center justify-between px-6 py-3 text-sm font-semibold">
+            <button onclick="showSection('inquiries')" id="nav-btn-inquiries" class="sidebar-link w-full flex items-center justify-between px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
                 <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads</span>
-                <span id="notif-badge" class="hidden px-1.5 py-0.5 bg-red-500 text-white text-[8px] rounded-full">0</span>
             </button>
-            <button type="button" onclick="showSection('users')" id="nav-btn-users" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold">
+            <button onclick="showSection('users')" id="nav-btn-users" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
                 <i class="fa-solid fa-users w-5"></i> User Base
             </button>
-
-            <div class="px-6 py-2 mt-6 mb-2"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Publishing</p></div>
-            <button type="button" onclick="showSection('content')" id="nav-btn-content" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold">
-                <i class="fa-solid fa-file-lines w-5"></i> Content Manager
-            </button>
-            <button type="button" onclick="showSection('media')" id="nav-btn-media" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold">
-                <i class="fa-solid fa-photo-film w-5"></i> Media Library
+            <button onclick="showSection('content')" id="nav-btn-content" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
+                <i class="fa-solid fa-file-lines w-5"></i> Content
             </button>
         </nav>
-
         <div class="p-6 mt-auto border-t border-slate-800">
-            <button type="button" onclick="logout()" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
+            <button onclick="logout()" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
             </button>
         </div>
     </aside>
 
-    <!-- Main Content Shell -->
+    <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
-        <!-- Top Nav -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
-            <div class="flex items-center gap-2 text-slate-400 text-xs font-bold">
-                <span id="breadcrumb-root">Dashboard</span>
-                <i class="fa-solid fa-chevron-right text-[8px]"></i>
-                <span id="breadcrumb-active" class="text-slate-900">Overview</span>
+        <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
+            <div class="text-xs font-bold text-slate-400">
+                Dashboard / <span id="breadcrumb-active" class="text-slate-900">Overview</span>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <p id="admin-name" class="text-xs font-bold text-slate-900">--</p>
-                    <p id="admin-role" class="text-[9px] font-black uppercase tracking-widest text-indigo-600">--</p>
+                    <p id="admin-display-name" class="text-xs font-bold text-slate-900">Admin</p>
+                    <p class="text-[9px] font-black uppercase text-indigo-600">Authorized</p>
                 </div>
-                <img id="admin-avatar" src="https://i.pravatar.cc/100?u=admin" class="w-8 h-8 rounded-lg border border-slate-200 shadow-sm">
+                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border">
             </div>
         </header>
 
-        <!-- Dynamic Viewport -->
-        <main class="flex-1 overflow-y-auto p-10">
+        <main id="admin-main" class="hidden flex-1 overflow-y-auto p-10">
+            <!-- Sections will be visible after login -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                    <div class="glass-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Users</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="glass-card p-6 border-t-4 border-emerald-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Views</p><h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="glass-card p-6 border-t-4 border-amber-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Rating</p><h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="glass-card p-6 border-t-4 border-red-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Leads</p><h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3></div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="glass-card p-8"><h4 class="font-bold mb-6">Activity Pulse</h4><div id="activity-list" class="space-y-4"></div></div>
+                    <div class="glass-card p-8"><h4 class="font-bold mb-6">Popular</h4><div id="popular-list" class="space-y-4"></div></div>
+                </div>
+            </div>
             
-            <!-- Dashboard Section -->
-            <div id="section-dashboard" class="admin-section fade-entry space-y-8">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="glass-card stat-card p-6">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Members</p>
-                        <h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3>
-                    </div>
-                    <div class="glass-card stat-card p-6 border-t-emerald-500">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Engagement</p>
-                        <h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3>
-                    </div>
-                    <div class="glass-card stat-card p-6 border-t-amber-500">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">User Satisfaction</p>
-                        <h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3>
-                    </div>
-                    <div class="glass-card stat-card p-6 border-t-red-500">
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">New Leads</p>
-                        <h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 space-y-8">
-                        <div class="glass-card p-8">
-                            <h4 class="text-sm font-bold text-slate-900 mb-6">Real-time Activity Pulse</h4>
-                            <div id="activity-list" class="divide-y divide-slate-100"></div>
-                        </div>
-                    </div>
-                    <div class="space-y-8">
-                        <div class="glass-card p-8">
-                            <h4 class="text-sm font-bold text-slate-900 mb-6">High Engagement</h4>
-                            <div id="popular-list" class="space-y-4"></div>
-                        </div>
-                    </div>
-                </div>
+            <div id="section-content" class="admin-section hidden"><div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></div>
+            <div id="section-editor" class="admin-section hidden">
+                <div class="flex justify-between mb-6"><button onclick="showSection('content')" class="text-sm font-bold text-indigo-600">&larr; Back</button><button onclick="saveContent()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold text-sm">Save</button></div>
+                <div class="grid grid-cols-3 gap-10"><div class="col-span-2"><textarea id="editor-textarea"></textarea></div><div id="frontmatter-fields" class="space-y-4"></div></div>
             </div>
-
-            <!-- Content Manager -->
-            <div id="section-content" class="admin-section hidden fade-entry space-y-6">
-                <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-            </div>
-
-            <!-- Editor -->
-            <div id="section-editor" class="admin-section hidden fade-entry space-y-6 h-full">
-                <div class="flex justify-between items-center">
-                    <button type="button" onclick="showSection('content')" class="flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-slate-900">
-                        <i class="fa-solid fa-arrow-left"></i> Cancel
-                    </button>
-                    <button type="button" onclick="saveContent()" class="bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-indigo-100">Publish Changes</button>
-                </div>
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
-                    <div class="lg:col-span-3"><textarea id="editor-textarea"></textarea></div>
-                    <div id="frontmatter-fields" class="space-y-4"></div>
-                </div>
-            </div>
-
-            <!-- CRM Leads -->
-            <div id="section-inquiries" class="admin-section hidden fade-entry">
-                <div class="glass-card overflow-hidden">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50 border-b">
-                            <tr><th class="px-8 py-4">Lead</th><th class="px-8 py-4">Subject</th><th class="px-8 py-4 text-right">Status</th></tr>
-                        </thead>
-                        <tbody id="inquiries-table-body" class="divide-y"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- User Base -->
-            <div id="section-users" class="admin-section hidden fade-entry">
-                <div class="glass-card overflow-hidden">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50 border-b">
-                            <tr><th class="px-8 py-4">Member</th><th class="px-8 py-4">Plan</th><th class="px-8 py-4">Role</th><th class="px-8 py-4 text-right">Action</th></tr>
-                        </thead>
-                        <tbody id="users-table-body" class="divide-y"></tbody>
-                    </table>
-                </div>
-            </div>
+            <div id="section-users" class="admin-section hidden"><div class="glass-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">User</th><th class="px-8 py-4">Role</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
+            <div id="section-inquiries" class="admin-section hidden"><div class="glass-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead</th><th class="px-8 py-4">Message</th><th class="px-8 py-4 text-right">Status</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
         </main>
     </div>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-[#262933]/95 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-        <div class="w-full max-w-sm bg-white rounded-3xl p-10 shadow-2xl overflow-hidden relative">
-            <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
+    <!-- Static Login Modal (Direct Logic) -->
+    <div id="login-modal" class="fixed inset-0 bg-[#262933] flex items-center justify-center z-50 p-4">
+        <div class="w-full max-w-sm bg-white rounded-[2rem] p-10 shadow-2xl relative">
+            <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
             <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-lock text-2xl"></i></div>
+                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6"><i class="fa-solid fa-lock text-2xl"></i></div>
                 <h2 class="text-2xl font-black text-slate-900 tracking-tight">Access Control</h2>
-                <p class="text-xs text-slate-400 mt-2 font-bold uppercase tracking-widest">MindFull CMS</p>
+                <p class="text-xs text-slate-400 mt-2 font-bold uppercase tracking-widest">Authorized Personnel Only</p>
             </div>
             <div class="space-y-4">
-                <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2 mb-1 block">Email</label>
-                    <input type="email" id="email" required class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
-                </div>
-                <div>
-                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2 mb-1 block">Password</label>
-                    <input type="password" id="password" required class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
-                </div>
-                <button type="button" id="auth-btn" onclick="window.handleLogin()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
+                <input type="email" id="email" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900" autofocus>
+                <input type="password" id="password" placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
+                <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
+                <div id="login-status" class="text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-4 h-4"></div>
             </div>
         </div>
     </div>
 
-    <!-- Logic -->
+    <script>
+        // --- EMERGENCY INLINE LOGIN LOGIC ---
+        const loginBtn = document.getElementById('login-submit-btn');
+        const statusEl = document.getElementById('login-status');
+
+        loginBtn.addEventListener('click', async () => {
+            console.log("Login button clicked.");
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                statusEl.textContent = "Please fill all fields";
+                statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin"></i> Authenticating...';
+            statusEl.textContent = "Connecting to API...";
+
+            try {
+                const res = await fetch(window.location.origin + '/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await res.json();
+                console.log("Response received:", res.status);
+
+                if (res.ok && data.token) {
+                    localStorage.setItem('mindfull_admin_token', data.token);
+                    localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
+                    statusEl.textContent = "Success! Redirecting...";
+                    statusEl.className = "text-center text-[10px] font-bold text-emerald-500 uppercase";
+                    setTimeout(() => location.reload(), 500);
+                } else {
+                    statusEl.textContent = data.message || "Invalid credentials";
+                    statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = 'Sign In &rarr;';
+                }
+            } catch (err) {
+                console.error("Fetch error:", err);
+                statusEl.textContent = "API Unreachable";
+                statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = 'Sign In &rarr;';
+            }
+        });
+
+        // Enter key support
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') loginBtn.click();
+        });
+    </script>
+
+    <!-- Main Logic -->
     <script src="js/admin.js"></script>
 </body>
 </html>
