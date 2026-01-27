@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MindFull uses a modular “Block” architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.
+1. Hero Block# The Hero block is the first thing users see. It’s designed for high impact and clear calls to action.
+Configuration# [hero] tagline = &#34;Your Science-Backed Wellness Journey&#34; headline = &#34;Master your mind&#34; subheadline = &#34;with daily CBT.&#34; description = &#34;Learn proven techniques to manage anxiety...&#34; illustration = &#34;meditation&#34; primaryCta = &#34;Browse Courses&#34; primaryCtaLink = &#34;/courses&#34; secondaryCta = &#34;Log In&#34; secondaryCtaLink = &#34;/login&#34;Key Properties# Property Description tagline Small text badge above the headline. illustration Slug from the UnDraw library. secondaryCta Automatically hidden if the user is logged in. 2. Features Block# The Features block displays your value propositions in a clean, responsive grid.
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/design/blocks/">
+  <meta property="og:site_name" content="MindFull Documentation">
+  <meta property="og:title" content="Block Library">
+  <meta property="og:description" content="MindFull uses a modular “Block” architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.
+1. Hero Block# The Hero block is the first thing users see. It’s designed for high impact and clear calls to action.
+Configuration# [hero] tagline = &#34;Your Science-Backed Wellness Journey&#34; headline = &#34;Master your mind&#34; subheadline = &#34;with daily CBT.&#34; description = &#34;Learn proven techniques to manage anxiety...&#34; illustration = &#34;meditation&#34; primaryCta = &#34;Browse Courses&#34; primaryCtaLink = &#34;/courses&#34; secondaryCta = &#34;Log In&#34; secondaryCtaLink = &#34;/login&#34;Key Properties# Property Description tagline Small text badge above the headline. illustration Slug from the UnDraw library. secondaryCta Automatically hidden if the user is logged in. 2. Features Block# The Features block displays your value propositions in a clean, responsive grid.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+
+
+  <meta itemprop="name" content="Block Library">
+  <meta itemprop="description" content="MindFull uses a modular “Block” architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.
+1. Hero Block# The Hero block is the first thing users see. It’s designed for high impact and clear calls to action.
+Configuration# [hero] tagline = &#34;Your Science-Backed Wellness Journey&#34; headline = &#34;Master your mind&#34; subheadline = &#34;with daily CBT.&#34; description = &#34;Learn proven techniques to manage anxiety...&#34; illustration = &#34;meditation&#34; primaryCta = &#34;Browse Courses&#34; primaryCtaLink = &#34;/courses&#34; secondaryCta = &#34;Log In&#34; secondaryCtaLink = &#34;/login&#34;Key Properties# Property Description tagline Small text badge above the headline. illustration Slug from the UnDraw library. secondaryCta Automatically hidden if the user is logged in. 2. Features Block# The Features block displays your value propositions in a clean, responsive grid.">
+  <meta itemprop="wordCount" content="346">
+
+<title>Block Library | MindFull Documentation</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1314/docs/design/blocks/">
+<link rel="stylesheet" href="/book.min.6970156cec683193d93c9c4edaf0d56574e4361df2e0c1be4f697ae81c3ba55f.css" integrity="sha256-aXAVbOxoMZPZPJxO2vDVZXTkNh3y4MG&#43;T2l66Bw7pV8=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.6e5d9dc856fcb4e625d56d97977b75b48e8769931c2781e22d56bb8cb73dd5be.js" integrity="sha256-bl2dyFb8tOYl1W2Xl3t1tI6HaZMcJ4HiLVa7jLc91b4=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/logo.svg" alt="Logo" /><span>MindFull Documentation</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/architecture/" class="">
+      Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/branding/" class="">
+      Branding</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/installation/" class="">
+      Installation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/illustrations/" class="">
+      Illustrations</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      SSO Configuration</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/blocks/" class="active">
+      Block Library</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/deployment/" class="">
+      Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/shortcodes/" class="">
+      Wellness Shortcodes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Block Library</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-hero-block">1. Hero Block</a>
+      <ul>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#key-properties">Key Properties</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-features-block">2. Features Block</a>
+      <ul>
+        <li><a href="#configuration-1">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-testimonials-block">3. Testimonials Block</a>
+      <ul>
+        <li><a href="#configuration-2">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-pricing-block">4. Pricing Block</a>
+      <ul>
+        <li><a href="#configuration-3">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-final-cta-block">5. Final CTA Block</a>
+      <ul>
+        <li><a href="#configuration-4">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#-customizing-global-blocks">🏗️ Customizing Global Blocks</a>
+      <ul>
+        <li><a href="#global-components-checklist">Global Components Checklist</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p>MindFull uses a modular &ldquo;Block&rdquo; architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.</p>
+<h2 id="1-hero-block">1. Hero Block<a class="anchor" href="#1-hero-block">#</a></h2>
+<p>The Hero block is the first thing users see. It&rsquo;s designed for high impact and clear calls to action.</p>
+<h3 id="configuration">Configuration<a class="anchor" href="#configuration">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">hero]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">tagline = &#34;Your Science-Backed Wellness Journey&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">headline = &#34;Master your mind&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">subheadline = &#34;with daily CBT.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">description = &#34;Learn proven techniques to manage anxiety...&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">illustration = &#34;meditation&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">primaryCta = &#34;Browse Courses&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">primaryCtaLink = &#34;/courses&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">secondaryCta = &#34;Log In&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">secondaryCtaLink = &#34;/login&#34;</span></span></span></code></pre></div><h3 id="key-properties">Key Properties<a class="anchor" href="#key-properties">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Property</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>tagline</code></td>
+          <td style="text-align: left">Small text badge above the headline.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>illustration</code></td>
+          <td style="text-align: left">Slug from the UnDraw library.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>secondaryCta</code></td>
+          <td style="text-align: left">Automatically hidden if the user is logged in.</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="2-features-block">2. Features Block<a class="anchor" href="#2-features-block">#</a></h2>
+<p>The Features block displays your value propositions in a clean, responsive grid.</p>
+<h3 id="configuration-1">Configuration<a class="anchor" href="#configuration-1">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[[<span style="color:#ae81ff">features]]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">title = &#34;Proven CBT Techniques&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">description = &#34;Designed by licensed therapists...&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">icon = &#34;check-circle&#34;</span> <span style="color:#75715e"># Supports: check-circle, chart, lock, users</span></span></span></code></pre></div><blockquote class='book-hint tip'>
+<p>You can add as many <code>[[features]]</code> blocks as you like. The layout automatically adjusts from a 1-column list on mobile to a 3-column grid on desktop.</p></blockquote><hr>
+<h2 id="3-testimonials-block">3. Testimonials Block<a class="anchor" href="#3-testimonials-block">#</a></h2>
+<p>Social proof is critical for wellness platforms. This block creates elegant quote cards.</p>
+<h3 id="configuration-2">Configuration<a class="anchor" href="#configuration-2">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[[<span style="color:#ae81ff">testimonials]]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">quote = &#34;I&#39;ve struggled with anxiety for years. This is life-changing.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">author = &#34;Jane Doe&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">initials = &#34;JD&#34;</span></span></span></code></pre></div><hr>
+<h2 id="4-pricing-block">4. Pricing Block<a class="anchor" href="#4-pricing-block">#</a></h2>
+<p>This block displays your subscription tiers and includes a &ldquo;Best Value&rdquo; recommendation flag.</p>
+<h3 id="configuration-3">Configuration<a class="anchor" href="#configuration-3">#</a></h3>
+<p>The pricing block automatically pulls data from <code>content/plans/*.md</code>. To modify what is shown:</p>
+<ol>
+<li>Navigate to <code>content/plans/</code>.</li>
+<li>Edit the <code>features</code> array in any plan file.</li>
+<li>Set <code>recommended: true</code> to highlight a specific plan.</li>
+</ol>
+<hr>
+<h2 id="5-final-cta-block">5. Final CTA Block<a class="anchor" href="#5-final-cta-block">#</a></h2>
+<p>The &ldquo;bottom of the page&rdquo; hook to drive conversions.</p>
+<h3 id="configuration-4">Configuration<a class="anchor" href="#configuration-4">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>[<span style="color:#ae81ff">sections]</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">ctaHeading = &#34;Ready to dive in?&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">cataSubheading = &#34;Start your free trial today.&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">cataButton = &#34;Get started&#34;</span></span></span></code></pre></div><hr>
+<h2 id="-customizing-global-blocks">🏗️ Customizing Global Blocks<a class="anchor" href="#-customizing-global-blocks">#</a></h2>
+<p>Some blocks are &ldquo;Global&rdquo; and managed in <code>data/labels.json</code>.</p>
+<h3 id="global-components-checklist">Global Components Checklist<a class="anchor" href="#global-components-checklist">#</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> <strong>Navigation</strong>: Managed in <code>labels.json</code> under <code>header.nav</code>.</li>
+<li><input disabled="" type="checkbox"> <strong>Sidebar</strong>: Managed in <code>labels.json</code> under <code>sidebar.nav</code>.</li>
+<li><input disabled="" type="checkbox"> <strong>Footer</strong>: Links and descriptions managed in <code>labels.json</code>.</li>
+</ul>
+<blockquote class='book-hint important'>
+<p>To change the <strong>Logo Icon</strong> sitewide, you must update the <code>site_logo_icon</code> parameter in your root <code>hugo.toml</code> file, not in the markdown content.</p></blockquote></article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/getting-started/sso-setup/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>SSO Configuration</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/getting-started/deployment/" class="flex align-center">
+        <span>Deployment</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-hero-block">1. Hero Block</a>
+      <ul>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#key-properties">Key Properties</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-features-block">2. Features Block</a>
+      <ul>
+        <li><a href="#configuration-1">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-testimonials-block">3. Testimonials Block</a>
+      <ul>
+        <li><a href="#configuration-2">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-pricing-block">4. Pricing Block</a>
+      <ul>
+        <li><a href="#configuration-3">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-final-cta-block">5. Final CTA Block</a>
+      <ul>
+        <li><a href="#configuration-4">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#-customizing-global-blocks">🏗️ Customizing Global Blocks</a>
+      <ul>
+        <li><a href="#global-components-checklist">Global Components Checklist</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

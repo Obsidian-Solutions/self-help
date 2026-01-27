@@ -16,9 +16,13 @@
   </url><url>
     <loc>http://localhost:1314/docs/getting-started/sso-setup/</loc>
   </url><url>
+    <loc>http://localhost:1314/docs/design/blocks/</loc>
+  </url><url>
     <loc>http://localhost:1314/docs/getting-started/deployment/</loc>
   </url><url>
     <loc>http://localhost:1314/docs/features/analytics/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/features/shortcodes/</loc>
   </url><url>
     <loc>http://localhost:1314/categories/</loc>
   </url><url>

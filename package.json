@@ -13,7 +13,7 @@
   "homepage": "https://github.com/yourusername/mindfull-theme#readme",
   "scripts": {
     "start": "hugo server -D",
-    "dev": "npm-run-all --parallel watch:css start cms:dev docs:dev",
+    "dev": "fuser -k 3000/tcp 1313/tcp 1314/tcp || true && npm-run-all --parallel watch:css start cms:dev docs:dev",
     "pubdev": "node scripts/pubdev.js",
     "cms:install": "npm install --prefix cms",
     "cms:init": "npm run init-db --prefix cms",

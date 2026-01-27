@@ -42,6 +42,9 @@ module.exports = {
         '3xl': '1.5rem',
         '4xl': '2rem',
       },
+      transitionDuration: {
+        4000: '4000ms',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

@@ -14,6 +14,24 @@ title = 'MindFull Documentation'
     source = '../_docs_src'
     target = 'content/docs'
 
+  # Mount shortcodes and partials from main site
+  [[module.mounts]]
+    source = '../layouts/shortcodes'
+    target = 'layouts/shortcodes'
+  [[module.mounts]]
+    source = '../layouts/partials/shared'
+    target = 'layouts/partials/shared'
+  
+  # Mount assets (for illustrations)
+  [[module.mounts]]
+    source = '../assets'
+    target = 'assets'
+
+  # Mount data (for catalog/mapping)
+  [[module.mounts]]
+    source = '../data'
+    target = 'data'
+
 [params]
   BookLogo = 'logo.svg'
   BookTitle = 'MindFull Docs'
@@ -23,4 +41,4 @@ title = 'MindFull Documentation'
   BookMenuBundle = false
   BookRepo = 'https://github.com/Obsidian-Solutions/self-help'
   BookEditPath = 'edit/main/_docs_src'
-  BookTheme = 'auto' # Supports light/dark automatically
+  BookTheme = 'auto'
