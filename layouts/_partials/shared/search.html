@@ -1,0 +1,30 @@
+<div id="search" class="w-full"></div>
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', (event) => {
+        new PagefindUI({ 
+          element: "#search", 
+          showSubResults: true,
+          showImages: false,
+          translations: {
+            placeholder: "Search documentation and content..."
+          }
+        });
+    });
+</script>
+<style>
+  :root {
+    --pagefind-ui-primary: #4F46E5;
+    --pagefind-ui-text: #374151;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #e5e7eb;
+    --pagefind-ui-tag: #4F46E5;
+  }
+  .dark {
+    --pagefind-ui-primary: #818cf8;
+    --pagefind-ui-text: #f3f4f6;
+    --pagefind-ui-background: #1f2937;
+    --pagefind-ui-border: #374151;
+  }
+</style>

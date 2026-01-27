@@ -81,7 +81,9 @@
     "nav": [
       { "name": "Courses", "url": "/courses" },
       { "name": "Therapists", "url": "/therapists" },
-      { "name": "Pricing", "url": "/pricing" }
+      { "name": "Pricing", "url": "/pricing" },
+      { "name": "Docs", "url": "/docs" },
+      { "name": "Search", "url": "/search" }
     ],
     "login_btn": "Log in",
     "signup_btn": "Get Started",

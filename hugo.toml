@@ -173,6 +173,18 @@ enableGitInfo = false
   googleAnalyticsId = ''
   # plausibleDomain = ''
 
+# FOSS Search Configuration
+[params.search]
+  enabled = true
+  provider = 'pagefind' # Options: 'pagefind', 'opensearch'
+
+# FOSS Analytics Configuration (Umami/Ackee)
+[params.analytics.foss]
+  enabled = false
+  provider = 'umami' # Options: 'umami', 'ackee'
+  website_id = ''    # Your Umami Website ID
+  script_url = 'https://analytics.umami.is/script.js' # Self-hosted URL here
+
 # SEO Configuration
 [params.seo]
   robotsTxt = true

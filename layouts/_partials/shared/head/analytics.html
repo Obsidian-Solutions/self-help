@@ -1,0 +1,10 @@
+{{ if .Site.Params.analytics.foss.enabled }}
+  {{ if eq .Site.Params.analytics.foss.provider "umami" }}
+    <script defer src="{{ .Site.Params.analytics.foss.script_url }}" data-website-id="{{ .Site.Params.analytics.foss.website_id }}"></script>
+  {{ end }}
+{{ end }}
+
+{{ if .Site.Params.analytics.enabled }}
+  <!-- Legacy Google Analytics if needed -->
+  {{ template "_internal/google_analytics.html" . }}
+{{ end }}
