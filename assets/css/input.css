@@ -103,6 +103,19 @@
   .group:hover .course-image-wrapper::before {
     @apply opacity-100;
   }
+
+  /* Custom Audio Player Components */
+  .js-audio-scrubber::-webkit-slider-thumb {
+    appearance: none;
+    @apply w-3 h-3 bg-indigo-600 rounded-full cursor-pointer border-2 border-white shadow-sm transition-transform duration-200;
+  }
+  .js-audio-scrubber:hover::-webkit-slider-thumb {
+    @apply scale-125;
+  }
+  .js-volume-slider::-webkit-slider-thumb {
+    appearance: none;
+    @apply w-2 h-2 bg-indigo-600 rounded-full cursor-pointer;
+  }
 }
 
 @layer utilities {

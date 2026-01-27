@@ -1,4 +1,4 @@
-{{ $id := .Get "id" | default (printf "audio-%d" (now.UnixNano)) }}
+{{ $id := .Get "id" | default (now.UnixNano | string) }}
 <div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-{{ $id }}" data-audio-id="{{ $id }}">
   <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform flex-shrink-0">
     <i class="fa-solid fa-headphones text-3xl"></i>
@@ -12,9 +12,15 @@
       </div>
       
       <div class="flex items-center gap-3">
-        <!-- Speed Control -->
-        <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1 border border-gray-100 dark:border-gray-700 w-fit">
-          <button onclick="window.cycleAudioSpeed('{{ $id }}')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
+        <!-- Speed Dropdown -->
+        <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1 border border-gray-100 dark:border-gray-700">
+          <i class="fa-solid fa-gauge-high text-[10px] text-indigo-600"></i>
+          <select onchange="window.setAudioSpeed('{{ $id }}', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+            <option value="1">1.0x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2.0x</option>
+          </select>
         </div>
 
         <!-- Volume Control -->
@@ -84,6 +90,7 @@
 
     function updatePlayIcon(id, state) {
       const player = document.getElementById('player-' + id);
+      if (!player) return;
       const btn = player.querySelector('.js-play-btn');
       if (state === 'loading') {
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i>';
@@ -99,16 +106,19 @@
       const audio = player.querySelector('audio');
 
       if (audio.paused) {
-        // Stop all other audio on page
         document.querySelectorAll('audio').forEach(a => {
           if (a !== audio) {
             a.pause();
-            const otherId = a.closest('.js-audio-player').dataset.audioId;
-            updatePlayIcon(otherId, 'paused');
+            const p = a.closest('.js-audio-player');
+            if (p) {
+              updatePlayIcon(p.dataset.audioId, 'paused');
+            }
           }
         });
 
-        audio.play().catch(e => console.error("Play blocked:", e));
+        audio.play().catch(e => {
+          if(window.showToast) window.showToast("Playback failed.", "error");
+        });
         updatePlayIcon(id, 'playing');
       } else {
         audio.pause();
@@ -135,6 +145,12 @@
       if (audio.duration && newTime > audio.duration) newTime = audio.duration;
       audio.currentTime = newTime;
       if (wasPlaying) audio.play();
+    };
+
+    window.setAudioSpeed = function(id, val) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      audio.playbackRate = parseFloat(val);
     };
 
     window.setVolume = function(id, val) {
@@ -166,19 +182,7 @@
       }
     };
 
-    window.cycleAudioSpeed = function(id) {
-      const player = document.getElementById('player-' + id);
-      const audio = player.querySelector('audio');
-      const btn = player.querySelector('.js-speed-btn');
-      const speeds = [1, 1.25, 1.5, 2];
-      let currentIdx = speeds.indexOf(audio.playbackRate);
-      let nextIdx = (currentIdx + 1) % speeds.length;
-      audio.playbackRate = speeds[nextIdx];
-      btn.textContent = speeds[nextIdx] + 'x';
-    };
-
-    // Initialize individual players
-    document.querySelectorAll('.js-audio-player').forEach(player => {
+    const initPlayer = (player) => {
       const id = player.getAttribute('data-audio-id');
       const audio = player.querySelector('audio');
       const scrubber = player.querySelector('.js-audio-scrubber');
@@ -195,7 +199,6 @@
         if (durationLabel) durationLabel.textContent = time;
       };
 
-      // Buffering / Loading logic
       audio.addEventListener('waiting', () => updatePlayIcon(id, 'loading'));
       audio.addEventListener('stalled', () => updatePlayIcon(id, 'loading'));
       audio.addEventListener('playing', () => updatePlayIcon(id, 'playing'));
@@ -223,33 +226,9 @@
 
       audio.addEventListener('error', () => {
         playBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-xl"></i>';
-        if(window.showToast) window.showToast("Error loading audio stream.", "error");
       });
-    });
+    };
+
+    document.querySelectorAll('.js-audio-player').forEach(initPlayer);
   })();
 </script>
-
-<style>
-  .js-audio-scrubber::-webkit-slider-thumb {
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    background: #4f46e5;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-  }
-  .js-audio-scrubber:hover::-webkit-slider-thumb {
-    transform: scale(1.3);
-  }
-  .js-volume-slider::-webkit-slider-thumb {
-    appearance: none;
-    width: 8px;
-    height: 8px;
-    background: #4f46e5;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-</style>

@@ -41,7 +41,7 @@
     let active = false;
     let countdown = 0;
     
-    // Audio Context for Chimes
+    // Audio State
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
@@ -51,6 +51,7 @@
     let currentSoundscapeIdx = 0;
     let ambientAudio = new Audio();
     ambientAudio.loop = true;
+    ambientAudio.crossOrigin = "anonymous"; // Needed for Pixabay sometimes
 
     const circle = document.getElementById('breathe-circle');
     const inner = document.getElementById('breathe-inner');
@@ -64,8 +65,9 @@
       
       if (scape.url) {
         ambientAudio.src = scape.url;
+        ambientAudio.load();
         if (active) {
-          ambientAudio.play().catch(e => console.log("Ambient play blocked"));
+          ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
         }
       } else {
         ambientAudio.pause();
@@ -95,6 +97,9 @@
     }
 
     window.toggleBreathing = function() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
       if (active) {
         stop();
       } else {
@@ -108,8 +113,10 @@
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
       status.textContent = 'Prepare';
       
-      if (soundscapes[currentSoundscapeIdx].url) {
-        ambientAudio.play().catch(e => console.log("Ambient play blocked"));
+      const scape = soundscapes[currentSoundscapeIdx];
+      if (scape.url) {
+        ambientAudio.src = scape.url;
+        ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
       }
 
       runCycle();
