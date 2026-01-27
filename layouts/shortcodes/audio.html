@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <audio id="raw-audio-{{ $id }}" src="{{ .Get "src" }}" class="hidden" preload="auto"></audio>
+    <audio id="raw-audio-{{ $id }}" src="{{ .Get "src" }}" class="hidden" preload="auto" crossorigin="anonymous"></audio>
     
     <div class="space-y-4">
       <!-- Scrubber -->
@@ -82,36 +82,37 @@
       return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
+    function updatePlayIcon(id, state) {
+      const player = document.getElementById('player-' + id);
+      const btn = player.querySelector('.js-play-btn');
+      if (state === 'loading') {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i>';
+      } else if (state === 'playing') {
+        btn.innerHTML = '<i class="fa-solid fa-pause text-xl"></i>';
+      } else {
+        btn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+      }
+    }
+
     window.toggleAudio = function(id) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
-      const btn = player.querySelector('.js-play-btn');
-      const icon = btn.querySelector('i');
 
       if (audio.paused) {
+        // Stop all other audio on page
         document.querySelectorAll('audio').forEach(a => {
           if (a !== audio) {
             a.pause();
-            const p = a.closest('.js-audio-player');
-            if (p) {
-              const b = p.querySelector('.js-play-btn i');
-              if (b && b.classList.contains('fa-pause')) {
-                b.classList.replace('fa-pause', 'fa-play');
-                b.classList.add('ml-1');
-              }
-            }
+            const otherId = a.closest('.js-audio-player').dataset.audioId;
+            updatePlayIcon(otherId, 'paused');
           }
         });
 
-        audio.play().catch(() => {
-          if(window.showToast) window.showToast("Playback failed. Please try again.", "error");
-        });
-        icon.classList.replace('fa-play', 'fa-pause');
-        icon.classList.remove('ml-1');
+        audio.play().catch(e => console.error("Play blocked:", e));
+        updatePlayIcon(id, 'playing');
       } else {
         audio.pause();
-        icon.classList.replace('fa-pause', 'fa-play');
-        icon.classList.add('ml-1');
+        updatePlayIcon(id, 'paused');
       }
     };
 
@@ -119,18 +120,21 @@
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
       if (audio.duration) {
-        const time = (value / 100) * audio.duration;
-        audio.currentTime = time;
+        const wasPlaying = !audio.paused;
+        audio.currentTime = (value / 100) * audio.duration;
+        if (wasPlaying) audio.play();
       }
     };
 
     window.skipAudio = function(id, seconds) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
+      const wasPlaying = !audio.paused;
       let newTime = audio.currentTime + seconds;
       if (newTime < 0) newTime = 0;
       if (audio.duration && newTime > audio.duration) newTime = audio.duration;
       audio.currentTime = newTime;
+      if (wasPlaying) audio.play();
     };
 
     window.setVolume = function(id, val) {
@@ -185,11 +189,17 @@
 
       const setReady = () => {
         playBtn.disabled = false;
-        playBtn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+        updatePlayIcon(id, audio.paused ? 'paused' : 'playing');
         const time = formatTime(audio.duration);
         totalTimeEl.textContent = time;
         if (durationLabel) durationLabel.textContent = time;
       };
+
+      // Buffering / Loading logic
+      audio.addEventListener('waiting', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('stalled', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('playing', () => updatePlayIcon(id, 'playing'));
+      audio.addEventListener('pause', () => updatePlayIcon(id, 'paused'));
 
       if (audio.readyState >= 1) {
         setReady();
@@ -206,11 +216,7 @@
       });
 
       audio.addEventListener('ended', () => {
-        const icon = player.querySelector('.js-play-btn i');
-        if (icon) {
-          icon.classList.replace('fa-pause', 'fa-play');
-          icon.classList.add('ml-1');
-        }
+        updatePlayIcon(id, 'paused');
         scrubber.value = 0;
         scrubber.style.background = '';
       });

@@ -856,7 +856,7 @@ https://github.com/alex-shpak/hugo-book
 <blockquote class='book-hint important'>
 <p>The YouTube implementation uses <code>youtube-nocookie.com</code> for maximum privacy even after consent.</p></blockquote><hr>
 <h2 id="3-branded-audio-player-hahahugoshortcode14s4hbhb">3. Branded Audio Player (<code>
-<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-audio-1769532403582153515" data-audio-id="audio-1769532403582153515">
+<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-audio-1769532559574712741" data-audio-id="audio-1769532559574712741">
   <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform flex-shrink-0">
     <i class="fa-solid fa-headphones text-3xl"></i>
   </div>
@@ -871,12 +871,12 @@ https://github.com/alex-shpak/hugo-book
       <div class="flex items-center gap-3">
         
         <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1 border border-gray-100 dark:border-gray-700 w-fit">
-          <button onclick="window.cycleAudioSpeed('audio-1769532403582153515')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
+          <button onclick="window.cycleAudioSpeed('audio-1769532559574712741')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
         </div>
 
         
         <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1 border border-gray-100 dark:border-gray-700">
-          <button onclick="window.toggleMute('audio-1769532403582153515')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
+          <button onclick="window.toggleMute('audio-1769532559574712741')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
             <i class="fa-solid fa-volume-high text-[10px]"></i>
           </button>
           <input 
@@ -886,13 +886,13 @@ https://github.com/alex-shpak/hugo-book
             step="0.1" 
             value="1" 
             class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-indigo-600 js-volume-slider"
-            oninput="window.setVolume('audio-1769532403582153515', this.value)"
+            oninput="window.setVolume('audio-1769532559574712741', this.value)"
           >
         </div>
       </div>
     </div>
 
-    <audio id="raw-audio-audio-1769532403582153515" src="" class="hidden" preload="auto"></audio>
+    <audio id="raw-audio-audio-1769532559574712741" src="" class="hidden" preload="auto" crossorigin="anonymous"></audio>
     
     <div class="space-y-4">
       
@@ -904,22 +904,22 @@ https://github.com/alex-shpak/hugo-book
           min="0" 
           max="100" 
           class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-600 js-audio-scrubber"
-          oninput="window.seekAudio('audio-1769532403582153515', this.value)"
+          oninput="window.seekAudio('audio-1769532559574712741', this.value)"
         >
       </div>
 
       <div class="flex items-center gap-6">
-        <button onclick="window.toggleAudio('audio-1769532403582153515')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn disabled:opacity-50" disabled>
+        <button onclick="window.toggleAudio('audio-1769532559574712741')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn disabled:opacity-50" disabled>
           <i class="fa-solid fa-spinner fa-spin text-xl"></i>
         </button>
 
         <div class="flex-1 flex items-center justify-between">
           <span class="text-xs font-black text-gray-900 dark:text-white font-mono js-current-time">0:00</span>
           <div class="flex gap-2">
-            <button onclick="window.skipAudio('audio-1769532403582153515', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+            <button onclick="window.skipAudio('audio-1769532559574712741', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
               <i class="fa-solid fa-backward-step"></i>
             </button>
-            <button onclick="window.skipAudio('audio-1769532403582153515', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+            <button onclick="window.skipAudio('audio-1769532559574712741', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
               <i class="fa-solid fa-forward-step"></i>
             </button>
           </div>
@@ -939,36 +939,37 @@ https://github.com/alex-shpak/hugo-book
       return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
+    function updatePlayIcon(id, state) {
+      const player = document.getElementById('player-' + id);
+      const btn = player.querySelector('.js-play-btn');
+      if (state === 'loading') {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i>';
+      } else if (state === 'playing') {
+        btn.innerHTML = '<i class="fa-solid fa-pause text-xl"></i>';
+      } else {
+        btn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+      }
+    }
+
     window.toggleAudio = function(id) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
-      const btn = player.querySelector('.js-play-btn');
-      const icon = btn.querySelector('i');
 
       if (audio.paused) {
+        
         document.querySelectorAll('audio').forEach(a => {
           if (a !== audio) {
             a.pause();
-            const p = a.closest('.js-audio-player');
-            if (p) {
-              const b = p.querySelector('.js-play-btn i');
-              if (b && b.classList.contains('fa-pause')) {
-                b.classList.replace('fa-pause', 'fa-play');
-                b.classList.add('ml-1');
-              }
-            }
+            const otherId = a.closest('.js-audio-player').dataset.audioId;
+            updatePlayIcon(otherId, 'paused');
           }
         });
 
-        audio.play().catch(() => {
-          if(window.showToast) window.showToast("Playback failed. Please try again.", "error");
-        });
-        icon.classList.replace('fa-play', 'fa-pause');
-        icon.classList.remove('ml-1');
+        audio.play().catch(e => console.error("Play blocked:", e));
+        updatePlayIcon(id, 'playing');
       } else {
         audio.pause();
-        icon.classList.replace('fa-pause', 'fa-play');
-        icon.classList.add('ml-1');
+        updatePlayIcon(id, 'paused');
       }
     };
 
@@ -976,18 +977,21 @@ https://github.com/alex-shpak/hugo-book
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
       if (audio.duration) {
-        const time = (value / 100) * audio.duration;
-        audio.currentTime = time;
+        const wasPlaying = !audio.paused;
+        audio.currentTime = (value / 100) * audio.duration;
+        if (wasPlaying) audio.play();
       }
     };
 
     window.skipAudio = function(id, seconds) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
+      const wasPlaying = !audio.paused;
       let newTime = audio.currentTime + seconds;
       if (newTime < 0) newTime = 0;
       if (audio.duration && newTime > audio.duration) newTime = audio.duration;
       audio.currentTime = newTime;
+      if (wasPlaying) audio.play();
     };
 
     window.setVolume = function(id, val) {
@@ -1042,11 +1046,17 @@ https://github.com/alex-shpak/hugo-book
 
       const setReady = () => {
         playBtn.disabled = false;
-        playBtn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+        updatePlayIcon(id, audio.paused ? 'paused' : 'playing');
         const time = formatTime(audio.duration);
         totalTimeEl.textContent = time;
         if (durationLabel) durationLabel.textContent = time;
       };
+
+      
+      audio.addEventListener('waiting', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('stalled', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('playing', () => updatePlayIcon(id, 'playing'));
+      audio.addEventListener('pause', () => updatePlayIcon(id, 'paused'));
 
       if (audio.readyState >= 1) {
         setReady();
@@ -1063,11 +1073,7 @@ https://github.com/alex-shpak/hugo-book
       });
 
       audio.addEventListener('ended', () => {
-        const icon = player.querySelector('.js-play-btn i');
-        if (icon) {
-          icon.classList.replace('fa-pause', 'fa-play');
-          icon.classList.add('ml-1');
-        }
+        updatePlayIcon(id, 'paused');
         scrubber.value = 0;
         scrubber.style.background = '';
       });
@@ -1103,7 +1109,8 @@ https://github.com/alex-shpak/hugo-book
     border-radius: 50%;
     cursor: pointer;
   }
-</style></code>)<a class="anchor" href="#3-branded-audio-player-hahahugoshortcode14s4hbhb">#</a></h2>
+</style>
+</code>)<a class="anchor" href="#3-branded-audio-player-hahahugoshortcode14s4hbhb">#</a></h2>
 <p>A custom, minimalist audio player for guided meditations and lectures.</p>
 <h3 id="usage-2">Usage<a class="anchor" href="#usage-2">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>
@@ -1143,7 +1150,7 @@ https://github.com/alex-shpak/hugo-book
       </div>
     </div>
 
-    <audio id="raw-audio-meditation-1" src="/audio/zen.mp3" class="hidden" preload="auto"></audio>
+    <audio id="raw-audio-meditation-1" src="/audio/zen.mp3" class="hidden" preload="auto" crossorigin="anonymous"></audio>
     
     <div class="space-y-4">
       
@@ -1190,36 +1197,37 @@ https://github.com/alex-shpak/hugo-book
       return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
+    function updatePlayIcon(id, state) {
+      const player = document.getElementById('player-' + id);
+      const btn = player.querySelector('.js-play-btn');
+      if (state === 'loading') {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i>';
+      } else if (state === 'playing') {
+        btn.innerHTML = '<i class="fa-solid fa-pause text-xl"></i>';
+      } else {
+        btn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+      }
+    }
+
     window.toggleAudio = function(id) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
-      const btn = player.querySelector('.js-play-btn');
-      const icon = btn.querySelector('i');
 
       if (audio.paused) {
+        
         document.querySelectorAll('audio').forEach(a => {
           if (a !== audio) {
             a.pause();
-            const p = a.closest('.js-audio-player');
-            if (p) {
-              const b = p.querySelector('.js-play-btn i');
-              if (b && b.classList.contains('fa-pause')) {
-                b.classList.replace('fa-pause', 'fa-play');
-                b.classList.add('ml-1');
-              }
-            }
+            const otherId = a.closest('.js-audio-player').dataset.audioId;
+            updatePlayIcon(otherId, 'paused');
           }
         });
 
-        audio.play().catch(() => {
-          if(window.showToast) window.showToast("Playback failed. Please try again.", "error");
-        });
-        icon.classList.replace('fa-play', 'fa-pause');
-        icon.classList.remove('ml-1');
+        audio.play().catch(e => console.error("Play blocked:", e));
+        updatePlayIcon(id, 'playing');
       } else {
         audio.pause();
-        icon.classList.replace('fa-pause', 'fa-play');
-        icon.classList.add('ml-1');
+        updatePlayIcon(id, 'paused');
       }
     };
 
@@ -1227,18 +1235,21 @@ https://github.com/alex-shpak/hugo-book
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
       if (audio.duration) {
-        const time = (value / 100) * audio.duration;
-        audio.currentTime = time;
+        const wasPlaying = !audio.paused;
+        audio.currentTime = (value / 100) * audio.duration;
+        if (wasPlaying) audio.play();
       }
     };
 
     window.skipAudio = function(id, seconds) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
+      const wasPlaying = !audio.paused;
       let newTime = audio.currentTime + seconds;
       if (newTime < 0) newTime = 0;
       if (audio.duration && newTime > audio.duration) newTime = audio.duration;
       audio.currentTime = newTime;
+      if (wasPlaying) audio.play();
     };
 
     window.setVolume = function(id, val) {
@@ -1293,11 +1304,17 @@ https://github.com/alex-shpak/hugo-book
 
       const setReady = () => {
         playBtn.disabled = false;
-        playBtn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
+        updatePlayIcon(id, audio.paused ? 'paused' : 'playing');
         const time = formatTime(audio.duration);
         totalTimeEl.textContent = time;
         if (durationLabel) durationLabel.textContent = time;
       };
+
+      
+      audio.addEventListener('waiting', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('stalled', () => updatePlayIcon(id, 'loading'));
+      audio.addEventListener('playing', () => updatePlayIcon(id, 'playing'));
+      audio.addEventListener('pause', () => updatePlayIcon(id, 'paused'));
 
       if (audio.readyState >= 1) {
         setReady();
@@ -1314,11 +1331,7 @@ https://github.com/alex-shpak/hugo-book
       });
 
       audio.addEventListener('ended', () => {
-        const icon = player.querySelector('.js-play-btn i');
-        if (icon) {
-          icon.classList.replace('fa-pause', 'fa-play');
-          icon.classList.add('ml-1');
-        }
+        updatePlayIcon(id, 'paused');
         scrubber.value = 0;
         scrubber.style.background = '';
       });
@@ -1354,7 +1367,8 @@ https://github.com/alex-shpak/hugo-book
     border-radius: 50%;
     cursor: pointer;
   }
-</style></span></span></code></pre></div><ul>
+</style>
+</span></span></code></pre></div><ul>
 <li><input checked="" disabled="" type="checkbox"> <strong>Custom Icons</strong>: Branded play/pause controls.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Progress Bar</strong>: Real-time session tracking.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Minimalist</strong>: No heavy external library dependencies.</li>
