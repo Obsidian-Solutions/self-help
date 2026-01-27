@@ -16,4 +16,16 @@ const auth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+const roleAuth = allowedRoles => {
+  return (req, res, next) => {
+    auth(req, res, () => {
+      if (allowedRoles.includes(req.user.role)) {
+        next();
+      } else {
+        res.status(403).json({ message: 'Access denied: insufficient permissions' });
+      }
+    });
+  };
+};
+
+module.exports = { auth, roleAuth };

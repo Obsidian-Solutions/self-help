@@ -3,7 +3,7 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs-extra');
 const matter = require('gray-matter');
-const auth = require('../middleware/auth');
+const { auth } = require('../middleware/auth');
 const db = require('../utils/db');
 
 const CONTENT_DIR = path.join(__dirname, '../../content');
