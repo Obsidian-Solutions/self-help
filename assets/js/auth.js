@@ -165,7 +165,8 @@ window.handleSignup = async e => {
 
   // Check if user exists
   if (findUser(email)) {
-    alert('User already exists with this email.');
+    if (window.showToast) window.showToast('User already exists with this email.', 'error');
+    else alert('User already exists with this email.');
     return;
   }
 
@@ -184,7 +185,7 @@ window.handleSignup = async e => {
 
   // Close modal and reload
   window.closeModal('signupModal');
-  alert('Account created! Welcome, ' + name);
+  if (window.showToast) window.showToast('Account created! Welcome, ' + name, 'success');
   window.safeRedirect('/dashboard');
 };
 
@@ -207,7 +208,8 @@ window.handleLogin = async e => {
     window.closeModal('loginModal');
     window.safeRedirect('/dashboard');
   } else {
-    alert('Invalid email or password.');
+    if (window.showToast) window.showToast('Invalid email or password.', 'error');
+    else alert('Invalid email or password.');
   }
 };
 
