@@ -29,7 +29,7 @@
       </div>
 
       <div class="bg-gray-50 dark:bg-gray-800 p-8 sm:p-12 rounded-[3rem] border border-gray-100 dark:border-gray-700 shadow-2xl shadow-gray-200/50 dark:shadow-none">
-        <form action="#" method="POST" class="grid grid-cols-1 gap-y-6">
+        <form id="contact-form" onsubmit="handleContactSubmit(event)" class="grid grid-cols-1 gap-y-6">
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label for="first-name" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.labels.first_name }}</label>
@@ -48,10 +48,58 @@
             <label for="message" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">{{ $labels.labels.message }}</label>
             <textarea id="message" name="message" rows="4" required class="block w-full font-bold border-gray-200 rounded-2xl p-4 border dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-indigo-500 transition-all" placeholder="{{ $labels.placeholders.message }}"></textarea>
           </div>
-          <button type="submit" class="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 hover:-translate-y-1 transition-all">{{ $labels.labels.submit_btn }}</button>
+          <button type="submit" id="submit-btn" class="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 hover:-translate-y-1 transition-all">{{ $labels.labels.submit_btn }}</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+async function handleContactSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('submit-btn');
+  const originalText = btn.textContent;
+  
+  // Update button state
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  
+  const firstName = document.getElementById('first-name').value;
+  const lastName = document.getElementById('last-name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+  
+  const payload = {
+    name: `${firstName} ${lastName}`,
+    email: email,
+    message: message,
+    subject: 'Web Contact Form'
+  };
+  
+  try {
+    const response = await fetch('http://localhost:3000/api/content/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    
+    if (response.ok) {
+      if (window.showToast) window.showToast('Message sent! We will be in touch soon.', 'success');
+      form.reset();
+    } else {
+      throw new Error('Failed to send');
+    }
+  } catch (err) {
+    console.error('Contact error:', err);
+    if (window.showToast) window.showToast('Failed to send message. Please try again later.', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }
+}
+</script>
 {{ end }}

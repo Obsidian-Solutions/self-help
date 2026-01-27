@@ -60,4 +60,64 @@ router.get('/users', (req, res) => {
   );
 });
 
+// --- CRM: Inquiries (Leads) ---
+router.get('/inquiries', (req, res) => {
+  db.all('SELECT * FROM inquiries ORDER BY created_at DESC', [], (err, rows) => {
+    if (err) return res.status(500).json({ message: 'Database error' });
+    res.json(rows);
+  });
+});
+
+router.patch('/inquiries/:id', (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  db.run('UPDATE inquiries SET status = ? WHERE id = ?', [status, id], err => {
+    if (err) return res.status(500).json({ message: 'Database error' });
+    res.json({ success: true });
+  });
+});
+
+// --- CRM: User Profile Deep-dive ---
+router.get('/users/:id/profile', (req, res) => {
+  const { id } = req.params;
+  const profile = {};
+
+  db.get('SELECT id, name, email, role, created_at FROM users WHERE id = ?', [id], (err, user) => {
+    if (err || !user) return res.status(404).json({ message: 'User not found' });
+    profile.user = user;
+
+    db.all(
+      'SELECT * FROM user_interactions WHERE user_id = ? ORDER BY created_at DESC',
+      [id],
+      (err, interactions) => {
+        profile.interactions = interactions || [];
+
+        db.all(
+          'SELECT n.*, u.name as therapist_name FROM user_notes n JOIN users u ON n.therapist_id = u.id WHERE n.user_id = ? ORDER BY n.created_at DESC',
+          [id],
+          (err, notes) => {
+            profile.notes = notes || [];
+            res.json(profile);
+          },
+        );
+      },
+    );
+  });
+});
+
+router.post('/users/:id/notes', (req, res) => {
+  const { id: user_id } = req.params;
+  const { content } = req.body;
+  const therapist_id = req.user.id;
+
+  db.run(
+    'INSERT INTO user_notes (user_id, therapist_id, content) VALUES (?, ?, ?)',
+    [user_id, therapist_id, content],
+    err => {
+      if (err) return res.status(500).json({ message: 'Database error' });
+      res.json({ success: true });
+    },
+  );
+});
+
 module.exports = router;

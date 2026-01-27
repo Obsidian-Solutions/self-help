@@ -1,9 +1,8 @@
 ---
-title: 'Terms of Service'
+title: "Terms of Service"
 date: 2026-01-26
-url: '/terms'
-layout: 'legal'
-description: 'The rules and agreements for using the MindFull platform.'
+url: "/terms"
+description: "Review the terms and conditions for using MindFull's science-backed mental wellness platform and tools."
 ---
 
 Last updated: January 26, 2026

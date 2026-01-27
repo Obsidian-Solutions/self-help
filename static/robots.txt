@@ -1,8 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /dashboard/
-Disallow: /journal/
-Disallow: /settings/
-Disallow: /admin/
 
+# Sitemap
 Sitemap: {{ "sitemap.xml" | absURL }}

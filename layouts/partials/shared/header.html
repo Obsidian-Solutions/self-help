@@ -7,17 +7,15 @@
         <button
           type="button"
           onclick="window.toggleMobileMenu()"
-          class="sm:hidden p-2 -ml-2 rounded-xl text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all mr-2"
+          class="sm:hidden p-2 -ml-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all mr-2"
           aria-label="{{ $labels.header.mobile_menu_label }}"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
 
         <div class="flex-shrink-0 flex items-center">
-          <a href="/" class="text-2xl font-black tracking-tight text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
-            <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg">
-              <i class="{{ .Site.Params.site_logo_icon | default "fa-solid fa-brain" }}"></i>
-            </span>
+          <a href="/" class="text-2xl font-black tracking-tight text-indigo-600 dark:text-indigo-400 flex items-center gap-2" aria-label="Go to MindFull home">
+            <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg" aria-hidden="true">{{ $labels.site.logo_text }}</span>
             {{ site.Title }}
           </a>
         </div>
@@ -26,15 +24,9 @@
       <!-- Center Navigation (Desktop) -->
       <div class="hidden sm:flex sm:items-center sm:space-x-1">
         {{ range $labels.header.nav }}
-        <a href="{{ .url }}" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ .name }}</a>
+        <a href="{{ .url }}" class="px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ .name }}</a>
         {{ end }}
-        
-        {{ if eq (getenv "HUGO_ENV") "development" }}
-        <a href="/docs/" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Docs</a>
-        <a href="/search/" class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">Search</a>
-        {{ end }}
-
-        <a id="nav-dashboard" href="/dashboard/" class="hidden px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard/") 0).name }}</a>
+        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard") 0).name }}</a>
       </div>
 
       <div class="flex items-center space-x-1 md:space-x-3">
@@ -42,17 +34,18 @@
         <button
           type="button"
           id="dark-mode-toggle"
-          class="p-2 rounded-xl text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+          aria-label="Toggle dark mode"
+          class="p-2 rounded-xl text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
         >
-          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+          <svg class="h-5 w-5 hidden dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <svg class="h-5 w-5 block dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
         </button>
 
         <!-- Not Logged In -->
         <div id="auth-logged-out" class="hide-on-logged-in hidden sm:flex sm:items-center space-x-2">
           <button
             onclick="window.openModal('loginModal')"
-            class="px-4 py-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            class="px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
             {{ $labels.header.login_btn }}
           </button>
@@ -69,10 +62,11 @@
           </div>
           <button
             onclick="window.handleLogout()"
-            class="p-2 rounded-xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
+            class="p-2 rounded-xl text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all"
             title="{{ $labels.header.logout_title }}"
+            aria-label="Log out"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
           </button>
         </div>
       </div>
@@ -83,15 +77,15 @@
   <div id="mobile-menu" class="hidden sm:hidden bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 animate-in slide-in-from-top-4 duration-300">
     <div class="px-4 pt-2 pb-6 space-y-1">
       {{ range $labels.header.nav }}
-      <a href="{{ .url }}" class="block px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
+      <a href="{{ .url }}" class="block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
       {{ end }}
       {{ range where $labels.sidebar.nav "url" "in" (slice "/dashboard" "/journal" "/settings") }}
-      <a href="{{ .url }}" class="mobile-dashboard-link hidden block px-4 py-3 text-base font-black text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
+      <a href="{{ .url }}" class="mobile-dashboard-link hidden block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
       {{ end }}
       
       <div class="pt-4 border-t border-gray-50 dark:border-gray-800 mt-4 mobile-auth-section">
         <div id="mobile-auth-logged-out" class="space-y-3">
-          <button onclick="window.openModal('loginModal')" class="w-full text-center py-4 text-base font-black text-gray-600 dark:text-gray-400">{{ $labels.header.login_btn }}</button>
+          <button onclick="window.openModal('loginModal')" class="w-full text-center py-4 text-base font-black text-gray-700 dark:text-gray-300">{{ $labels.header.login_btn }}</button>
           <button onclick="window.openModal('signupModal')" class="w-full text-center py-4 bg-indigo-600 text-white font-black rounded-2xl shadow-lg shadow-indigo-100">{{ $labels.header.signup_btn }}</button>
         </div>
         <div id="mobile-auth-logged-in" class="hidden space-y-3">

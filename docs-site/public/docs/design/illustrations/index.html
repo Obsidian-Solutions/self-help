@@ -32,7 +32,7 @@ Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match
 1. Visual Presentation# All illustrations in MindFull are automatically enhanced by the Premium Frame Engine.
 Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match the platform’s high-fidelity aesthetic:
 🧊 Squircle Shape: Enforces a consistent 3rem rounded “Squircle” border. цент Perfect Centering: Automatically centers SVGs without clipping. 🎨 Mesh Background: Injects a subtle, dual-radial gradient behind the image. 🚀 Interactive Scale: Automatically scales to 105% on parent card hover. &lt;div class=&#34;course-image-wrapper w-full p-12&#34;&gt; {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34;) }} &lt;/div&gt; 2. Rendering Logic# The undraw.html partial handles illustrations using a 3-tier local-first strategy.">
-  <meta itemprop="wordCount" content="193">
+  <meta itemprop="wordCount" content="214">
 
 <title>Illustrations | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -42,7 +42,7 @@ Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.f79964d6b42d8b36419b6b8a1e39a0cc7d026dcceca921e82217b81fe513f1fb.js" integrity="sha256-95lk1rQtizZBm2uKHjmgzH0CbczsqSHoIhe4H&#43;UT8fs=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.76a7100bc4207e826f34978b6f7af9a59cbd678f064bedff73f7c4aad45c44bd.js" integrity="sha256-dqcQC8QgfoJvNJeLb3r5pZy9Z48GS&#43;3/c/fEqtRcRL0=" crossorigin="anonymous"></script>
 
 
 
@@ -371,9 +371,10 @@ Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match
 <ul>
 <li><input disabled="" type="checkbox"> <strong>Download</strong>: Save an SVG from unDraw or your favorite library.</li>
 <li><input disabled="" type="checkbox"> <strong>Place</strong>: Move it to <code>assets/illustrations/library/</code>.</li>
-<li><input disabled="" type="checkbox"> <strong>Minify</strong>: Hugo automatically minifies the conten</li>
+<li><input disabled="" type="checkbox"> <strong>Minify</strong>: Hugo automatically minifies the content during the build.</li>
 </ul>
-</article>
+<blockquote class='book-hint important'>
+<p>Always prefer local illustrations. They are minified during the build process, reducing bundle size by up to 40%.</p></blockquote></article>
  
       
 

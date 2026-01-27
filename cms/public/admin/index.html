@@ -14,6 +14,7 @@
         .sidebar-link { transition: all 0.2s ease; border-radius: 0.75rem; }
         .sidebar-link.active { background: #4f46e5; color: white; }
         .sidebar-link:not(.active):hover { background: #f1f5f9; }
+        .btn-status { @apply px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all; }
     </style>
 </head>
 <body class="flex min-h-screen">
@@ -30,6 +31,9 @@
         <nav class="flex flex-col gap-2">
             <button onclick="showSection('dashboard')" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-sm font-bold">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+            </button>
+            <button onclick="showSection('inquiries')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+                <i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads
             </button>
             <button onclick="showSection('users')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-users w-5"></i> User Base
@@ -67,62 +71,61 @@
             </div>
         </header>
 
-        <!-- Sections -->
+        <!-- Section: Dashboard -->
         <div id="section-dashboard" class="animate-in fade-in slide-in-from-bottom-2">
-            <!-- Stats Grid -->
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
                 <div class="admin-card p-6">
-                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-users text-sm"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-users text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Users</p>
                     <p id="stat-users" class="text-2xl font-black text-slate-900">--</p>
                 </div>
                 <div class="admin-card p-6">
-                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-eye text-sm"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-eye text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Post Views</p>
                     <p id="stat-views" class="text-2xl font-black text-slate-900">--</p>
                 </div>
                 <div class="admin-card p-6">
-                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-star text-sm"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-star text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Avg. Rating</p>
                     <p id="stat-rating" class="text-2xl font-black text-slate-900">--</p>
                 </div>
                 <div class="admin-card p-6">
-                    <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-comment-dots text-sm"></i>
-                    </div>
+                    <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-comment-dots text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Comments</p>
                     <p id="stat-comments" class="text-2xl font-black text-slate-900">--</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <!-- Popular Content -->
                 <div class="admin-card p-8">
                     <h3 class="text-lg font-black text-slate-900 mb-6">Popular Insights</h3>
-                    <div id="popular-list" class="space-y-4">
-                        <div class="animate-pulse flex items-center gap-4">
-                            <div class="w-12 h-12 bg-slate-100 rounded-xl"></div>
-                            <div class="flex-1 h-4 bg-slate-100 rounded"></div>
-                        </div>
-                    </div>
+                    <div id="popular-list" class="space-y-4"></div>
                 </div>
-
-                <!-- Community Feed -->
                 <div class="admin-card p-8">
                     <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
-                    <div id="comments-list" class="space-y-6">
-                        <p class="text-slate-400 text-sm italic">Loading community updates...</p>
-                    </div>
+                    <div id="comments-list" class="space-y-6"></div>
                 </div>
             </div>
         </div>
 
+        <!-- Section: Inquiries (CRM Leads) -->
+        <div id="section-inquiries" class="hidden animate-in fade-in slide-in-from-bottom-2">
+            <div class="admin-card overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 border-b border-slate-100">
+                        <tr>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Lead</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Subject</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Message</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inquiries-table-body" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section: Users -->
         <div id="section-users" class="hidden animate-in fade-in slide-in-from-bottom-2">
             <div class="admin-card overflow-hidden">
                 <table class="w-full text-left">
@@ -130,31 +133,53 @@
                         <tr>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">User</th>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Role</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Joined</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Profile</th>
                         </tr>
                     </thead>
-                    <tbody id="users-table-body" class="divide-y divide-slate-100">
-                        <!-- User rows populated here -->
-                    </tbody>
+                    <tbody id="users-table-body" class="divide-y divide-slate-100"></tbody>
                 </table>
             </div>
         </div>
 
+        <!-- Section: User Profile (Deep Dive) -->
+        <div id="section-user-profile" class="hidden animate-in fade-in slide-in-from-bottom-2">
+            <button onclick="showSection('users')" class="mb-6 text-indigo-600 font-bold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Users
+            </button>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 space-y-10">
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Interaction History</h3>
+                        <div id="user-interactions" class="space-y-4"></div>
+                    </div>
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Therapist Notes</h3>
+                        <div id="user-notes" class="space-y-6 mb-8"></div>
+                        <form onsubmit="handleAddNote(event)" class="flex flex-col gap-4">
+                            <textarea id="note-content" placeholder="Add a private therapist note..." required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-100 focus:border-indigo-600 outline-none text-sm font-medium"></textarea>
+                            <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm w-fit self-end">Add Note</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="admin-card p-8 h-fit">
+                    <h3 class="text-lg font-black text-slate-900 mb-6">Member Details</h3>
+                    <div id="user-info-card" class="space-y-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Content -->
         <div id="section-content" class="hidden">
             <div class="flex items-center justify-center p-20 admin-card border-dashed">
                 <div class="text-center">
                     <i class="fa-solid fa-toolbox text-4xl text-slate-200 mb-4"></i>
-                    <p class="text-slate-500 font-bold">Content Editor Interface Coming Soon</p>
-                    <p class="text-slate-400 text-xs mt-1">Direct Markdown editing via the CMS API.</p>
+                    <p class="text-slate-500 font-bold">CMS Markdown Editor Coming Soon</p>
                 </div>
             </div>
         </div>
 
         <div id="section-community" class="hidden">
-            <div id="community-full-list" class="space-y-4">
-                <!-- Moderation view -->
-            </div>
+            <div id="community-full-list" class="space-y-4"></div>
         </div>
     </main>
 
@@ -162,186 +187,181 @@
     <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
         <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl">
             <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-indigo-200">
-                    <i class="fa-solid fa-lock text-2xl"></i>
-                </div>
+                <div class="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-indigo-200"><i class="fa-solid fa-lock text-2xl"></i></div>
                 <h2 class="text-3xl font-black text-slate-900 tracking-tight">Therapist Access</h2>
-                <p class="text-slate-500 font-medium mt-2">Please verify your credentials to continue.</p>
             </div>
             <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="email" id="email" placeholder="Email Address" required class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl focus:border-indigo-600 outline-none transition-all font-bold text-slate-900">
-                <input type="password" id="password" placeholder="Password" required class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-50 rounded-2xl focus:border-indigo-600 outline-none transition-all font-bold text-slate-900">
-                <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
+                <input type="email" id="email" placeholder="Email" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <input type="password" id="password" placeholder="Password" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-indigo-700">Authenticate</button>
             </form>
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 text-center mt-8">Secure MindFull CMS Node</p>
         </div>
     </div>
 
     <script>
-        let currentUser = null;
+        let currentUserId = null;
         const API_BASE = '/api';
 
         async function init() {
             const token = localStorage.getItem('mindfull_admin_token');
             if (token) {
-                // Verify token and role
                 const user = JSON.parse(localStorage.getItem('mindfull_admin_user') || '{}');
                 if (user.role === 'admin' || user.role === 'therapist') {
-                    currentUser = user;
                     document.getElementById('login-modal').classList.add('hidden');
                     document.getElementById('admin-name').textContent = user.name;
                     loadDashboardData();
-                } else {
-                    logout();
-                }
+                } else { logout(); }
             }
         }
 
         async function handleLogin(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            try {
-                const res = await fetch(`${API_BASE}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-
-                if (res.ok && (data.user.role === 'admin' || data.user.role === 'therapist')) {
-                    localStorage.setItem('mindfull_admin_token', data.token);
-                    localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
-                    location.reload();
-                } else {
-                    alert(data.message || 'Access denied: Therapists only.');
-                }
-            } catch (err) {
-                alert('Connection to CMS failed.');
-            }
+            const res = await fetch(`${API_BASE}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('password').value })
+            });
+            const data = await res.json();
+            if (res.ok && (data.user.role === 'admin' || data.user.role === 'therapist')) {
+                localStorage.setItem('mindfull_admin_token', data.token);
+                localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
+                location.reload();
+            } else { alert('Access denied.'); }
         }
 
-        function logout() {
-            localStorage.removeItem('mindfull_admin_token');
-            localStorage.removeItem('mindfull_admin_user');
-            location.reload();
-        }
+        function logout() { localStorage.clear(); location.reload(); }
 
-        async function fetchAdmin(endpoint) {
-            const token = localStorage.getItem('mindfull_admin_token');
+        async function fetchAdmin(endpoint, method = 'GET', body = null) {
             const res = await fetch(`${API_BASE}/admin${endpoint}`, {
-                headers: { 'Authorization': `Bearer ${token}` }
+                method,
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('mindfull_admin_token')}`, 'Content-Type': 'application/json' },
+                body: body ? JSON.stringify(body) : null
             });
             if (res.status === 401 || res.status === 403) logout();
             return res.json();
         }
 
         async function loadDashboardData() {
-            const [stats, popular, comments] = await Promise.all([
-                fetchAdmin('/stats'),
-                fetchAdmin('/popular'),
-                fetchAdmin('/comments')
-            ]);
-
+            const [stats, popular, comments] = await Promise.all([fetchAdmin('/stats'), fetchAdmin('/popular'), fetchAdmin('/comments')]);
             document.getElementById('stat-users').textContent = stats.totalUsers;
             document.getElementById('stat-views').textContent = stats.totalViews;
             document.getElementById('stat-rating').textContent = stats.averageRating;
             document.getElementById('stat-comments').textContent = stats.totalComments;
-
             renderPopular(popular);
             renderComments(comments);
         }
 
         function renderPopular(items) {
-            const list = document.getElementById('popular-list');
-            list.innerHTML = items.map(item => `
-                <div class="flex items-center justify-between group cursor-default">
+            document.getElementById('popular-list').innerHTML = items.map(item => `
+                <div class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 text-[10px] font-black uppercase">
-                            ${item.slug.substring(0, 2)}
-                        </div>
-                        <div>
-                            <p class="text-sm font-bold text-slate-900">${item.slug.replace(/-/g, ' ')}</p>
-                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">${item.views} Views</p>
-                        </div>
+                        <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-[10px] font-black">${item.slug.substring(0,2).toUpperCase()}</div>
+                        <p class="text-sm font-bold text-slate-900">${item.slug}</p>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <p class="text-xs font-bold text-emerald-600">${item.likes} Likes</p>
-                        </div>
-                    </div>
+                    <span class="text-xs font-black text-slate-400">${item.views} views</span>
                 </div>
-            `).join('') || '<p class="text-slate-400 text-sm">No engagement data yet.</p>';
+            `).join('');
         }
 
         function renderComments(items) {
-            const list = document.getElementById('comments-list');
-            list.innerHTML = items.map(item => `
-                <div class="flex flex-col gap-2">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600">${item.user_name}</span>
-                        <span class="text-[10px] font-bold text-slate-400">${new Date(item.timestamp).toLocaleDateString()}</span>
-                    </div>
-                    <p class="text-sm font-medium text-slate-600 leading-relaxed">${item.content}</p>
-                    <p class="text-[8px] font-black uppercase tracking-widest text-slate-300">Target: ${item.post_slug}</p>
+            document.getElementById('comments-list').innerHTML = items.map(item => `
+                <div class="border-l-4 border-indigo-100 pl-4 py-1">
+                    <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">${item.user_name}</p>
+                    <p class="text-sm font-medium text-slate-600">${item.content}</p>
                 </div>
-            `).join('') || '<p class="text-slate-400 text-sm italic">The community is quiet...</p>';
+            `).join('');
         }
 
-        async function loadUsers() {
-            const users = await fetchAdmin('/users');
-            const body = document.getElementById('users-table-body');
-            body.innerHTML = users.map(user => `
+        async function loadInquiries() {
+            const leads = await fetchAdmin('/inquiries');
+            document.getElementById('inquiries-table-body').innerHTML = leads.map(l => `
                 <tr>
                     <td class="px-8 py-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400">
-                                <i class="fa-solid fa-user"></i>
-                            </div>
-                            <div>
-                                <p class="text-sm font-bold text-slate-900">${user.name}</p>
-                                <p class="text-xs font-medium text-slate-500">${user.email}</p>
-                            </div>
-                        </div>
+                        <p class="text-sm font-bold text-slate-900">${l.name}</p>
+                        <p class="text-xs text-slate-500">${l.email}</p>
                     </td>
-                    <td class="px-8 py-6">
-                        <span class="px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest ${user.role === 'admin' ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-100 text-slate-500'}">
-                            ${user.role}
-                        </span>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-slate-500">
-                        ${new Date(user.created_at).toLocaleDateString()}
-                    </td>
+                    <td class="px-8 py-6 text-sm font-medium text-slate-600">${l.subject}</td>
+                    <td class="px-8 py-6 text-xs text-slate-400 truncate max-w-xs">${l.message}</td>
                     <td class="px-8 py-6 text-right">
-                        <button class="text-slate-400 hover:text-indigo-600 transition-colors"><i class="fa-solid fa-ellipsis-v"></i></button>
+                        <select onchange="updateInquiryStatus(${l.id}, this.value)" class="text-[10px] font-black uppercase bg-slate-50 rounded-lg px-2 py-1 outline-none">
+                            <option value="new" ${l.status === 'new' ? 'selected' : ''}>New</option>
+                            <option value="replied" ${l.status === 'replied' ? 'selected' : ''}>Replied</option>
+                            <option value="closed" ${l.status === 'closed' ? 'selected' : ''}>Closed</option>
+                        </select>
                     </td>
                 </tr>
             `).join('');
         }
 
-        function showSection(id) {
-            // Update UI
-            document.querySelectorAll('nav button').forEach(btn => {
-                const isActive = btn.onclick.toString().includes(`'${id}'`);
-                btn.className = `sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold ${isActive ? 'active text-white' : 'text-slate-500'}`;
-            });
+        async function updateInquiryStatus(id, status) {
+            await fetchAdmin(`/inquiries/${id}`, 'PATCH', { status });
+        }
 
-            // Switch Visibility
+        async function loadUsers() {
+            const users = await fetchAdmin('/users');
+            document.getElementById('users-table-body').innerHTML = users.map(u => `
+                <tr>
+                    <td class="px-8 py-6 font-bold text-sm text-slate-900">${u.name}<br><span class="text-[10px] font-medium text-slate-400">${u.email}</span></td>
+                    <td class="px-8 py-6"><span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-black uppercase">${u.role}</span></td>
+                    <td class="px-8 py-6 text-right"><button onclick="showUserProfile(${u.id})" class="text-indigo-600 font-black text-xs hover:underline">View Deep-dive &rarr;</button></td>
+                </tr>
+            `).join('');
+        }
+
+        async function showUserProfile(id) {
+            currentUserId = id;
+            showSection('user-profile');
+            const profile = await fetchAdmin(`/users/${id}/profile`);
+            
+            document.getElementById('user-info-card').innerHTML = `
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 text-2xl font-black">${profile.user.name[0]}</div>
+                    <div><p class="font-black text-slate-900">${profile.user.name}</p><p class="text-xs font-bold text-slate-400">${profile.user.role.toUpperCase()}</p></div>
+                </div>
+                <div class="space-y-3 pt-4 border-t">
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Email</p><p class="text-sm font-bold text-slate-700">${profile.user.email}</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Joined</p><p class="text-sm font-bold text-slate-700">${new Date(profile.user.created_at).toLocaleDateString()}</p>
+                </div>
+            `;
+
+            document.getElementById('user-interactions').innerHTML = profile.interactions.map(i => `
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                    <p class="text-sm font-bold text-slate-700"><span class="text-indigo-600 uppercase text-[10px] font-black mr-2">${i.type}</span> ${i.metadata || ''}</p>
+                    <span class="text-[10px] font-bold text-slate-400">${new Date(i.created_at).toLocaleDateString()}</span>
+                </div>
+            `).join('') || '<p class="text-slate-400 text-sm italic">No recent interactions.</p>';
+
+            document.getElementById('user-notes').innerHTML = profile.notes.map(n => `
+                <div class="p-4 bg-indigo-50/30 rounded-2xl border border-indigo-50">
+                    <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-indigo-600 uppercase">Dr. ${n.therapist_name}</span><span class="text-[10px] font-bold text-slate-400">${new Date(n.created_at).toLocaleDateString()}</span></div>
+                    <p class="text-sm font-medium text-slate-700">${n.content}</p>
+                </div>
+            `).join('') || '<p class="text-slate-400 text-sm italic">No therapist notes yet.</p>';
+        }
+
+        async function handleAddNote(e) {
+            e.preventDefault();
+            const content = document.getElementById('note-content').value;
+            await fetchAdmin(`/users/${currentUserId}/notes`, 'POST', { content });
+            document.getElementById('note-content').value = '';
+            showUserProfile(currentUserId);
+        }
+
+        function showSection(id) {
+            document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active', 'text-white'));
             document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
             document.getElementById('section-' + id).classList.remove('hidden');
-
-            // Set titles
             const titles = {
-                dashboard: { title: 'Overview', sub: 'Platform engagement at a glance.' },
-                users: { title: 'User Base', sub: 'Manage and view registered members.' },
-                content: { title: 'Content Editor', sub: 'Modify courses and blog posts.' },
-                community: { title: 'Moderation', sub: 'Manage latest discussion and feedback.' }
+                dashboard: { title: 'Overview', sub: 'Engagement at a glance.' },
+                inquiries: { title: 'CRM Leads', sub: 'Manage contact form submissions.' },
+                users: { title: 'User Base', sub: 'Detailed member directory.' },
+                'user-profile': { title: 'Member Deep-dive', sub: 'Interaction history and clinical notes.' },
+                content: { title: 'Content Editor', sub: 'Manage platform lessons.' },
+                community: { title: 'Moderation', sub: 'Latest community discussion.' }
             };
             document.getElementById('section-title').textContent = titles[id].title;
             document.getElementById('section-subtitle').textContent = titles[id].sub;
-
-            // Load data if needed
+            if (id === 'inquiries') loadInquiries();
             if (id === 'users') loadUsers();
             if (id === 'dashboard') loadDashboardData();
         }

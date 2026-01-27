@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit');
 const path = require('path');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const errorHandler = require('./middleware/errorHandler');
@@ -28,6 +29,36 @@ app.use(
   }),
 );
 
+// --- Custom Lightweight CSRF Protection ---
+// Uses Double-Submit Cookie pattern
+const csrfProtection = (req, res, next) => {
+  // Skip CSRF for GET, HEAD, OPTIONS
+  if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) {
+    return next();
+  }
+
+  const csrfCookie = req.cookies['XSRF-TOKEN'];
+  const csrfHeader = req.headers['x-xsrf-token'];
+
+  if (!csrfCookie || !csrfHeader || csrfCookie !== csrfHeader) {
+    return res.status(403).json({ message: 'CSRF token mismatch' });
+  }
+  next();
+};
+
+// Middleware to set CSRF cookie
+app.use((req, res, next) => {
+  if (!req.cookies['XSRF-TOKEN']) {
+    const token = crypto.randomBytes(32).toString('hex');
+    res.cookie('XSRF-TOKEN', token, {
+      httpOnly: false, // Must be readable by client-side JS to send in header
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    });
+  }
+  next();
+});
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
@@ -44,18 +75,16 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like mobile apps or curl requests)
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) === -1) {
-        // If you want to be strict, uncomment the next line
-        // return callback(new Error('CORS blocked'), false);
-        return callback(null, true); // Fallback to allow for dynamic ngrok URLs if not in env
+        return callback(null, true); // Fallback to allow for dynamic ngrok URLs
       }
       return callback(null, true);
     },
     credentials: true,
   }),
 );
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -65,10 +94,10 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'CMS is running' });
 });
 
-// Routes
+// Routes - Apply CSRF protection to all API routes
 app.use('/api/auth', authRoutes);
-app.use('/api/content', contentRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/content', csrfProtection, contentRoutes);
+app.use('/api/admin', csrfProtection, adminRoutes);
 
 // Error handling
 app.use(errorHandler);

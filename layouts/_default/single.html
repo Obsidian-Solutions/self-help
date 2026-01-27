@@ -2,9 +2,6 @@
 {{ if .Params.custom_css }}
 <style>{{ .Params.custom_css | safeCSS }}</style>
 {{ end }}
-{{ if .Params.custom_js }}
-<script>{{ .Params.custom_js | safeJS }}</script>
-{{ end }}
 
 <article class="animate-in fade-in slide-in-from-bottom-4 duration-700">
   <!-- Article Header -->
@@ -168,7 +165,7 @@
 
 <script>
   const POST_SLUG = {{ .File.BaseFileName | jsonify | safeJS }};
-  const CMS_URL = window.mindfullConfig.cmsUrl;
+  const CMS_URL = window.mindfullConfig ? window.mindfullConfig.cmsUrl : 'http://localhost:3000';
 
   // --- Real-time Interaction Engine ---
   
@@ -226,7 +223,9 @@
 
   window.handleCommentSubmit = async function(e) {
     e.preventDefault();
-    const text = document.getElementById('comment-text').value;
+    const textEl = document.getElementById('comment-text');
+    if (!textEl) return;
+    const text = textEl.value;
     const session = JSON.parse(localStorage.getItem('mindfull_session') || '{}');
     const userName = session.name || 'Anonymous Guest';
 
@@ -237,7 +236,7 @@
         body: JSON.stringify({ user_name: userName, content: text }),
         credentials: 'include'
       });
-      document.getElementById('comment-text').value = '';
+      textEl.value = '';
       fetchComments();
       if (window.showToast) window.showToast('Comment posted!', 'success');
     } catch (e) {}
@@ -259,4 +258,8 @@
     }).catch(() => {});
   });
 </script>
+
+{{ if .Params.custom_js }}
+<script>{{ .Params.custom_js | safeJS }}</script>
+{{ end }}
 {{ end }}

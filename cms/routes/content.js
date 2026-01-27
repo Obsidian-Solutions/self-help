@@ -5,26 +5,41 @@ const fs = require('fs-extra');
 const matter = require('gray-matter');
 const { auth } = require('../middleware/auth');
 const db = require('../utils/db');
+const jwt = require('jsonwebtoken');
 
 const CONTENT_DIR = path.join(__dirname, '../../content');
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev-only';
+
+// --- Security Helpers ---
+
+// Sanitize string for logging to prevent log injection
+const sanitizeLog = str => {
+  if (typeof str !== 'string') return '';
+  return str.replace(/[^\w\s\-\/\.]/gi, '').substring(0, 100);
+};
+
+// Validate slugs to prevent path traversal or unexpected input
+const isValidSlug = slug => {
+  return typeof slug === 'string' && /^[a-z0-9\-\/]+$/i.test(slug);
+};
 
 // --- Public Blog Interaction Endpoints ---
 
 // Get post stats (views, likes)
 router.get('/posts/:slug/stats', (req, res) => {
   const { slug } = req.params;
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+
   db.get('SELECT * FROM post_stats WHERE slug = ?', [slug], (err, row) => {
     if (err) return res.status(500).json({ message: 'DB Error' });
     res.json(row || { slug, views: 0, likes: 0, dislikes: 0 });
   });
 });
 
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev-only';
-
 // Record a view (Unique per person)
 router.post('/posts/:slug/view', (req, res) => {
   const { slug } = req.params;
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
 
   // 1. Identify the viewer
   let viewerId = req.cookies.mindfull_viewer_id;
@@ -35,6 +50,7 @@ router.post('/posts/:slug/view', (req, res) => {
     try {
       const token = authHeader.split(' ')[1];
       const decoded = jwt.verify(token, JWT_SECRET);
+      // Validated ID from JWT is safe
       viewerId = `user_${decoded.id}`;
     } catch (e) {
       /* Invalid token, fallback to cookie */
@@ -42,17 +58,23 @@ router.post('/posts/:slug/view', (req, res) => {
   }
 
   // If no viewerId yet (first time guest), create one
-  if (!viewerId) {
-    viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
-    // Set cookie with SameSite=None and Secure if on HTTPS, otherwise Lax
-    res.cookie('mindfull_viewer_id', viewerId, {
-      maxAge: 365 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'lax',
-    });
+  if (!viewerId || typeof viewerId !== 'string' || !viewerId.startsWith('user_')) {
+    // If it's a guest or invalid cookie format, regenerate/sanitize
+    const guestId = req.cookies.mindfull_viewer_id;
+    if (guestId && typeof guestId === 'string' && /^[a-z0-9_]+$/i.test(guestId)) {
+      viewerId = guestId;
+    } else {
+      viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
+      res.cookie('mindfull_viewer_id', viewerId, {
+        maxAge: 365 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+    }
   }
 
-  console.log(`[VIEW] Post: ${slug}, Viewer: ${viewerId}`);
+  console.log(`[VIEW] Post: ${sanitizeLog(slug)}, Viewer: ${sanitizeLog(viewerId)}`);
 
   // 2. Check for existing lock
   db.get(
@@ -62,7 +84,6 @@ router.post('/posts/:slug/view', (req, res) => {
       if (err) return res.status(500).json({ message: 'DB Error' });
 
       if (lock) {
-        console.log(`[VIEW] Already counted for ${viewerId}`);
         return res.json({ success: true, already_counted: true });
       }
 
@@ -78,7 +99,6 @@ router.post('/posts/:slug/view', (req, res) => {
             [slug],
             err => {
               if (err) return res.status(500).json({ message: 'DB Error updating stats' });
-              console.log(`[VIEW] Count incremented for ${slug}`);
               res.json({ success: true, new_view: true });
             },
           );
@@ -92,6 +112,10 @@ router.post('/posts/:slug/view', (req, res) => {
 router.post('/posts/:slug/react', (req, res) => {
   const { slug } = req.params;
   const { type } = req.body; // 'like' or 'dislike'
+  
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+  if (type !== 'like' && type !== 'dislike') return res.status(400).json({ message: 'Invalid type' });
+
   const column = type === 'like' ? 'likes' : 'dislikes';
 
   db.run(
@@ -107,6 +131,8 @@ router.post('/posts/:slug/react', (req, res) => {
 // Get comments for a post
 router.get('/posts/:slug/comments', (req, res) => {
   const { slug } = req.params;
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+
   db.all(
     'SELECT * FROM comments WHERE post_slug = ? ORDER BY timestamp DESC',
     [slug],
@@ -121,12 +147,43 @@ router.get('/posts/:slug/comments', (req, res) => {
 router.post('/posts/:slug/comments', (req, res) => {
   const { slug } = req.params;
   const { user_name, content } = req.body;
+
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+  if (!user_name || !content) return res.status(400).json({ message: 'Missing fields' });
+
+  // Basic sanitization for names and content
+  const cleanName = sanitizeLog(user_name);
+  const cleanContent = content.substring(0, 1000); // Simple length limit
+
   db.run(
     'INSERT INTO comments (post_slug, user_name, content) VALUES (?, ?, ?)',
-    [slug, user_name, content],
+    [slug, cleanName, cleanContent],
     err => {
       if (err) return res.status(500).json({ message: 'DB Error' });
       res.json({ success: true });
+    },
+  );
+});
+
+// --- Public CRM: Contact Form ---
+router.post('/contact', (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: 'Name, email, and message are required' });
+  }
+
+  // Basic email validation
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ message: 'Invalid email address' });
+  }
+
+  db.run(
+    'INSERT INTO inquiries (name, email, subject, message) VALUES (?, ?, ?, ?)',
+    [sanitizeLog(name), email, sanitizeLog(subject || 'General Inquiry'), message],
+    err => {
+      if (err) return res.status(500).json({ message: 'Database error' });
+      res.json({ success: true, message: 'Inquiry sent successfully' });
     },
   );
 });
@@ -136,6 +193,8 @@ router.post('/posts/:slug/comments', (req, res) => {
 // Get rating for a course
 router.get('/courses/:slug/rating', (req, res) => {
   const { slug } = req.params;
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+
   db.get('SELECT * FROM course_ratings WHERE course_slug = ?', [slug], (err, row) => {
     if (err) return res.status(500).json({ message: 'DB Error' });
     res.json(row || { course_slug: slug, avg_rating: 0, total_ratings: 0 });
@@ -146,6 +205,11 @@ router.get('/courses/:slug/rating', (req, res) => {
 router.post('/courses/:slug/rate', (req, res) => {
   const { slug } = req.params;
   const { rating } = req.body; // 1-5
+
+  if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
+  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+    return res.status(400).json({ message: 'Invalid rating' });
+  }
 
   // 1. Identify the viewer
   let viewerId = req.cookies.mindfull_viewer_id;
@@ -160,12 +224,13 @@ router.post('/courses/:slug/rate', (req, res) => {
     }
   }
 
-  if (!viewerId) {
+  if (!viewerId || typeof viewerId !== 'string' || !/^[a-z0-9_]+$/i.test(viewerId)) {
     viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
     res.cookie('mindfull_viewer_id', viewerId, {
       maxAge: 365 * 24 * 60 * 60 * 1000,
       httpOnly: true,
       sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
     });
   }
 
@@ -211,6 +276,8 @@ const safePath = (...paths) => {
 router.get('/:collection', auth, async (req, res) => {
   try {
     const { collection } = req.params;
+    if (!isValidSlug(collection)) return res.status(400).json({ message: 'Invalid collection' });
+    
     const collectionPath = safePath(collection);
 
     if (!(await fs.pathExists(collectionPath))) {
@@ -244,6 +311,10 @@ router.get('/:collection', auth, async (req, res) => {
 router.get('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
+    if (!isValidSlug(collection) || !isValidSlug(slug)) {
+      return res.status(400).json({ message: 'Invalid parameters' });
+    }
+    
     const filePath = safePath(collection, `${slug}.md`);
 
     if (!(await fs.pathExists(filePath))) {
@@ -264,6 +335,11 @@ router.post('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
     const { data, body } = req.body;
+    
+    if (!isValidSlug(collection) || !isValidSlug(slug)) {
+      return res.status(400).json({ message: 'Invalid parameters' });
+    }
+
     const filePath = safePath(collection, `${slug}.md`);
 
     const fileContent = matter.stringify(body || '', data || {});
@@ -280,6 +356,11 @@ router.post('/:collection/:slug', auth, async (req, res) => {
 router.delete('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
+    
+    if (!isValidSlug(collection) || !isValidSlug(slug)) {
+      return res.status(400).json({ message: 'Invalid parameters' });
+    }
+
     const filePath = safePath(collection, `${slug}.md`);
 
     if (!(await fs.pathExists(filePath))) {

@@ -110,6 +110,40 @@ db.serialize(() => {
     PRIMARY KEY (course_slug, viewer_id)
   )`);
 
+  // --- CRM Tables ---
+
+  // Contact/Leads
+  db.run(`CREATE TABLE IF NOT EXISTS inquiries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT,
+    subject TEXT,
+    message TEXT,
+    status TEXT DEFAULT 'new',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+  // Therapist Notes on Users
+  db.run(`CREATE TABLE IF NOT EXISTS user_notes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    therapist_id INTEGER,
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (therapist_id) REFERENCES users(id)
+  )`);
+
+  // User Interaction Logs (High-level)
+  db.run(`CREATE TABLE IF NOT EXISTS user_interactions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    type TEXT, -- 'lesson_complete', 'quiz_fail', 'quiz_pass', 'login'
+    metadata TEXT, -- JSON string for extra info
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  )`);
+
   // Create default admin if not exists
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
