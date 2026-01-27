@@ -67,13 +67,14 @@
   "sidebar": {
     "default_user": "User",
     "default_plan": "Free Plan",
+    "logout": "Log out",
     "nav": [
-      { "name": "Dashboard", "url": "/dashboard", "icon": "home" },
-      { "name": "My Courses", "url": "/courses", "icon": "academic-cap" },
-      { "name": "Journal", "url": "/journal", "icon": "pencil-alt" },
-      { "name": "Blog", "url": "/posts", "icon": "newspaper" },
-      { "name": "Therapists", "url": "/therapists", "icon": "user-group" },
-      { "name": "Settings", "url": "/settings", "icon": "cog" }
+      { "name": "Dashboard", "url": "/dashboard", "icon": "fa-solid fa-house" },
+      { "name": "My Courses", "url": "/courses", "icon": "fa-solid fa-graduation-cap" },
+      { "name": "Journal", "url": "/journal", "icon": "fa-solid fa-pen-nib" },
+      { "name": "Blog", "url": "/posts", "icon": "fa-solid fa-newspaper" },
+      { "name": "Therapists", "url": "/therapists", "icon": "fa-solid fa-user-doctor" },
+      { "name": "Settings", "url": "/settings", "icon": "fa-solid fa-gear" }
     ]
   },
   "header": {

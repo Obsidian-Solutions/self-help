@@ -10,12 +10,13 @@
   </div>
 
   <nav class="flex-1 px-4 space-y-1">
-    {{ range .Site.Menus.app }}
-    <a href="{{ .URL }}" class="flex items-center space-x-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all group {{ if $.IsMenuCurrent "app" . }} bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 {{ else }} text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white {{ end }}">
-      <div class="w-8 h-8 rounded-lg {{ if $.IsMenuCurrent "app" . }} bg-white dark:bg-indigo-900/50 shadow-sm {{ else }} bg-gray-50 dark:bg-gray-900 group-hover:bg-white dark:group-hover:bg-gray-800 {{ end }} flex items-center justify-center transition-colors">
-        <i class="{{ .Pre }} {{ if $.IsMenuCurrent "app" . }} text-indigo-600 dark:text-indigo-400 {{ else }} text-gray-400 dark:text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 {{ end }}"></i>
+    {{ range $labels.nav }}
+    {{ $isActive := in $.RelPermalink .url }}
+    <a href="{{ .url }}" class="flex items-center space-x-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all group {{ if $isActive }} bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 {{ else }} text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white {{ end }}">
+      <div class="w-8 h-8 rounded-lg {{ if $isActive }} bg-white dark:bg-indigo-900/50 shadow-sm {{ else }} bg-gray-50 dark:bg-gray-900 group-hover:bg-white dark:group-hover:bg-gray-800 {{ end }} flex items-center justify-center transition-colors">
+        <i class="{{ .icon }} {{ if $isActive }} text-indigo-600 dark:text-indigo-400 {{ else }} text-gray-400 dark:text-gray-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 {{ end }}"></i>
       </div>
-      <span>{{ .Name }}</span>
+      <span>{{ .name }}</span>
     </a>
     {{ end }}
   </nav>
