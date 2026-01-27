@@ -9,15 +9,16 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="If you need to share your local development site with a client or tester, use the Public Dev mode.
-Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL. No account or token is required. Simply share the link generated in your terminal.
-">
+Single Command Startup# npm run pubdevHow it Works# This mode uses Localtunnel to generate a public URL instantly with zero registration required.
+Gateway Routing# Path Destination Port /api/* MindFull CMS 3000 /* (Root) Hugo Frontend 1313 Gateway Local Reverse Proxy 4242 Launch Checklist# Run npm run pubdev. Wait for 🔗 SHAREABLE URL to appear. Share the URL with your external collaborator. Technical Sequence# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL. ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/development/pubdev/">
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Public Development">
   <meta property="og:description" content="If you need to share your local development site with a client or tester, use the Public Dev mode.
-Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL. No account or token is required. Simply share the link generated in your terminal.">
+Single Command Startup# npm run pubdevHow it Works# This mode uses Localtunnel to generate a public URL instantly with zero registration required.
+Gateway Routing# Path Destination Port /api/* MindFull CMS 3000 /* (Root) Hugo Frontend 1313 Gateway Local Reverse Proxy 4242 Launch Checklist# Run npm run pubdev. Wait for 🔗 SHAREABLE URL to appear. Share the URL with your external collaborator. Technical Sequence# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -25,8 +26,9 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
 
   <meta itemprop="name" content="Public Development">
   <meta itemprop="description" content="If you need to share your local development site with a client or tester, use the Public Dev mode.
-Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL. No account or token is required. Simply share the link generated in your terminal.">
-  <meta itemprop="wordCount" content="76">
+Single Command Startup# npm run pubdevHow it Works# This mode uses Localtunnel to generate a public URL instantly with zero registration required.
+Gateway Routing# Path Destination Port /api/* MindFull CMS 3000 /* (Root) Hugo Frontend 1313 Gateway Local Reverse Proxy 4242 Launch Checklist# Run npm run pubdev. Wait for 🔗 SHAREABLE URL to appear. Share the URL with your external collaborator. Technical Sequence# Proxy Gateway: A local proxy starts on port 4242. Public Tunnel: Localtunnel creates a secure random URL (e.g., https://random-id.loca.lt). Unified Link: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.">
+  <meta itemprop="wordCount" content="117">
 
 <title>Public Development | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -36,7 +38,7 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.22e8c63126806f9d6d5a99561ed9d8f2db21bbef16230784ead9752fde4788af.js" integrity="sha256-IujGMSaAb51tWplWHtnY8tshu&#43;8WIweE6tl1L95HiK8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ed1dc9eb5b378a0d55c51aff632e3691822877eeac3813dc73bb98a4fd331924.js" integrity="sha256-7R3J61s3ig1VxRr/Yy42kYIod&#43;6sOBPcc7uYpP0zGSQ=" crossorigin="anonymous"></script>
 
 
 
@@ -131,22 +133,8 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
   
 
   
-    <a href="/docs/development/pubdev/" class="active">
-      Public Development</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/features/analytics/" class="">
-      Search &amp; Analytics</a>
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
   
 
         </li>
@@ -173,8 +161,22 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
   
 
   
-    <a href="/docs/features/quizzes/" class="">
-      Quizzes</a>
+    <a href="/docs/development/pubdev/" class="active">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      SSO Configuration</a>
   
 
         </li>
@@ -201,8 +203,8 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
   
 
   
-    <a href="/docs/getting-started/sso-setup/" class="">
-      Sso Setup</a>
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
   
 
         </li>
@@ -260,7 +262,13 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
 <nav id="TableOfContents">
   <ul>
     <li><a href="#single-command-startup">Single Command Startup</a></li>
-    <li><a href="#how-it-works">How it Works</a></li>
+    <li><a href="#how-it-works">How it Works</a>
+      <ul>
+        <li><a href="#gateway-routing">Gateway Routing</a></li>
+        <li><a href="#launch-checklist">Launch Checklist</a></li>
+        <li><a href="#technical-sequence">Technical Sequence</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -276,12 +284,46 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
   <article class="markdown book-article"><p>If you need to share your local development site with a client or tester, use the <strong>Public Dev</strong> mode.</p>
 <h2 id="single-command-startup">Single Command Startup<a class="anchor" href="#single-command-startup">#</a></h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run pubdev</span></span></code></pre></div><h2 id="how-it-works">How it Works<a class="anchor" href="#how-it-works">#</a></h2>
+<blockquote class='book-hint tip'>
+<p>This mode uses <strong>Localtunnel</strong> to generate a public URL instantly with zero registration required.</p></blockquote><h3 id="gateway-routing">Gateway Routing<a class="anchor" href="#gateway-routing">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Path</th>
+          <th style="text-align: left">Destination</th>
+          <th style="text-align: left">Port</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>/api/*</code></td>
+          <td style="text-align: left"><strong>MindFull CMS</strong></td>
+          <td style="text-align: left">3000</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>/*</code> (Root)</td>
+          <td style="text-align: left"><strong>Hugo Frontend</strong></td>
+          <td style="text-align: left">1313</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Gateway</strong></td>
+          <td style="text-align: left">Local Reverse Proxy</td>
+          <td style="text-align: left">4242</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="launch-checklist">Launch Checklist<a class="anchor" href="#launch-checklist">#</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Run <code>npm run pubdev</code>.</li>
+<li><input disabled="" type="checkbox"> Wait for <code>🔗 SHAREABLE URL</code> to appear.</li>
+<li><input disabled="" type="checkbox"> Share the URL with your external collaborator.</li>
+</ul>
+<h3 id="technical-sequence">Technical Sequence<a class="anchor" href="#technical-sequence">#</a></h3>
 <ol>
 <li><strong>Proxy Gateway</strong>: A local proxy starts on port <code>4242</code>.</li>
-<li><strong>Public Tunnel</strong>: <strong>Localtunnel</strong> creates a secure random URL (e.g., <code>https://random-id.loca.lt</code>).</li>
+<li><strong>Public Tunnel</strong>: Localtunnel creates a secure random URL (e.g., <code>https://random-id.loca.lt</code>).</li>
 <li><strong>Unified Link</strong>: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.</li>
 </ol>
-<p>No account or token is required. Simply share the link generated in your terminal.</p>
 </article>
  
       
@@ -310,16 +352,16 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
   <div class="flex flex-wrap justify-between">
     <span>
     
-      <a href="/docs/getting-started/installation/" class="flex align-center">
+      <a href="/docs/design/illustrations/" class="flex align-center">
         <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
-        <span>Installation</span>
+        <span>Illustrations</span>
       </a>
     
     </span>
     <span>
     
-      <a href="/docs/features/analytics/" class="flex align-center">
-        <span>Search &amp; Analytics</span>
+      <a href="/docs/getting-started/sso-setup/" class="flex align-center">
+        <span>SSO Configuration</span>
         <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
       </a>
     
@@ -360,7 +402,13 @@ Single Command Startup# npm run pubdevHow it Works# Proxy Gateway: A local proxy
 <nav id="TableOfContents">
   <ul>
     <li><a href="#single-command-startup">Single Command Startup</a></li>
-    <li><a href="#how-it-works">How it Works</a></li>
+    <li><a href="#how-it-works">How it Works</a>
+      <ul>
+        <li><a href="#gateway-routing">Gateway Routing</a></li>
+        <li><a href="#launch-checklist">Launch Checklist</a></li>
+        <li><a href="#technical-sequence">Technical Sequence</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

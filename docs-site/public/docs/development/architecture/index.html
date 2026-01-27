@@ -9,16 +9,19 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation. No user-facing text should be hardcoded in HTML.
-UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.json. Pages: Layouts pull from markdown frontmatter in content/*.md. Compliance: Cookie and privacy definitions live in data/cookies.json. 2. Security Standards# Safe Redirects: All client-side navigation uses window.safeRedirect() to prevent open-redirect vulnerabilities. Native DOM APIs: We avoid innerHTML. All dynamic content is injected via textContent or document.createElement. CORS Handling: The CMS and Hugo are bridged via a secure proxy during development. ">
+1. Data-Driven Logic# We strictly separate data from presentation.
+Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.
+">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/development/architecture/">
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Architecture">
   <meta property="og:description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation. No user-facing text should be hardcoded in HTML.
-UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.json. Pages: Layouts pull from markdown frontmatter in content/*.md. Compliance: Cookie and privacy definitions live in data/cookies.json. 2. Security Standards# Safe Redirects: All client-side navigation uses window.safeRedirect() to prevent open-redirect vulnerabilities. Native DOM APIs: We avoid innerHTML. All dynamic content is injected via textContent or document.createElement. CORS Handling: The CMS and Hugo are bridged via a secure proxy during development.">
+1. Data-Driven Logic# We strictly separate data from presentation.
+Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -26,9 +29,10 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
 
   <meta itemprop="name" content="Architecture">
   <meta itemprop="description" content="MindFull is designed with two core principles: Data-Driven UI and Security by Default.
-1. Data-Driven Logic# We strictly separate data from presentation. No user-facing text should be hardcoded in HTML.
-UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.json. Pages: Layouts pull from markdown frontmatter in content/*.md. Compliance: Cookie and privacy definitions live in data/cookies.json. 2. Security Standards# Safe Redirects: All client-side navigation uses window.safeRedirect() to prevent open-redirect vulnerabilities. Native DOM APIs: We avoid innerHTML. All dynamic content is injected via textContent or document.createElement. CORS Handling: The CMS and Hugo are bridged via a secure proxy during development.">
-  <meta itemprop="wordCount" content="100">
+1. Data-Driven Logic# We strictly separate data from presentation.
+Zero Hardcoding Rule: No user-facing text should be hardcoded in HTML layouts.
+Data Storage Strategy# Category Storage Location Usage Global UI Labels data/labels.json Buttons, navigation, and component text Page Content content/*.md Blog posts, lessons, and static pages Compliance Data data/cookies.json Legal transparency and consent manager User State Browser localStorage Moods, journal, and theme settings 2. Security Standards# MindFull implements a hardened security posture across the entire application.">
+  <meta itemprop="wordCount" content="147">
 
 <title>Architecture | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -38,7 +42,7 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.22e8c63126806f9d6d5a99561ed9d8f2db21bbef16230784ead9752fde4788af.js" integrity="sha256-IujGMSaAb51tWplWHtnY8tshu&#43;8WIweE6tl1L95HiK8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ed1dc9eb5b378a0d55c51aff632e3691822877eeac3813dc73bb98a4fd331924.js" integrity="sha256-7R3J61s3ig1VxRr/Yy42kYIod&#43;6sOBPcc7uYpP0zGSQ=" crossorigin="anonymous"></script>
 
 
 
@@ -133,22 +137,8 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
   
 
   
-    <a href="/docs/development/pubdev/" class="">
-      Public Development</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/features/analytics/" class="">
-      Search &amp; Analytics</a>
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
   
 
         </li>
@@ -175,8 +165,22 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
   
 
   
-    <a href="/docs/features/quizzes/" class="">
-      Quizzes</a>
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      SSO Configuration</a>
   
 
         </li>
@@ -203,8 +207,8 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
   
 
   
-    <a href="/docs/getting-started/sso-setup/" class="">
-      Sso Setup</a>
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
   
 
         </li>
@@ -261,8 +265,17 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a></li>
-    <li><a href="#2-security-standards">2. Security Standards</a></li>
+    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a>
+      <ul>
+        <li><a href="#data-storage-strategy">Data Storage Strategy</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-security-standards">2. Security Standards</a>
+      <ul>
+        <li><a href="#security-compliance-checklist">Security Compliance Checklist</a></li>
+        <li><a href="#secure-proxy-architecture">Secure Proxy Architecture</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 
@@ -277,18 +290,51 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
       
   <article class="markdown book-article"><p>MindFull is designed with two core principles: <strong>Data-Driven UI</strong> and <strong>Security by Default</strong>.</p>
 <h2 id="1-data-driven-logic">1. Data-Driven Logic<a class="anchor" href="#1-data-driven-logic">#</a></h2>
-<p>We strictly separate data from presentation. No user-facing text should be hardcoded in HTML.</p>
-<ul>
-<li><strong>UI Labels</strong>: All global strings (buttons, tabs, navigation) live in <code>data/labels.json</code>.</li>
-<li><strong>Pages</strong>: Layouts pull from markdown frontmatter in <code>content/*.md</code>.</li>
-<li><strong>Compliance</strong>: Cookie and privacy definitions live in <code>data/cookies.json</code>.</li>
-</ul>
+<p>We strictly separate data from presentation.</p>
+<blockquote class='book-hint caution'>
+<p><strong>Zero Hardcoding Rule:</strong> No user-facing text should be hardcoded in HTML layouts.</p></blockquote><h3 id="data-storage-strategy">Data Storage Strategy<a class="anchor" href="#data-storage-strategy">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Category</th>
+          <th style="text-align: left">Storage Location</th>
+          <th style="text-align: left">Usage</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Global UI Labels</strong></td>
+          <td style="text-align: left"><code>data/labels.json</code></td>
+          <td style="text-align: left">Buttons, navigation, and component text</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Page Content</strong></td>
+          <td style="text-align: left"><code>content/*.md</code></td>
+          <td style="text-align: left">Blog posts, lessons, and static pages</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Compliance Data</strong></td>
+          <td style="text-align: left"><code>data/cookies.json</code></td>
+          <td style="text-align: left">Legal transparency and consent manager</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>User State</strong></td>
+          <td style="text-align: left">Browser <code>localStorage</code></td>
+          <td style="text-align: left">Moods, journal, and theme settings</td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="2-security-standards">2. Security Standards<a class="anchor" href="#2-security-standards">#</a></h2>
+<p>MindFull implements a hardened security posture across the entire application.</p>
+<h3 id="security-compliance-checklist">Security Compliance Checklist<a class="anchor" href="#security-compliance-checklist">#</a></h3>
 <ul>
-<li><strong>Safe Redirects</strong>: All client-side navigation uses <code>window.safeRedirect()</code> to prevent open-redirect vulnerabilities.</li>
-<li><strong>Native DOM APIs</strong>: We avoid <code>innerHTML</code>. All dynamic content is injected via <code>textContent</code> or <code>document.createElement</code>.</li>
-<li><strong>CORS Handling</strong>: The CMS and Hugo are bridged via a secure proxy during development.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Safe Redirects</strong>: Whitelist-based redirection via <code>window.safeRedirect()</code>.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Native DOM APIs</strong>: Strict avoidance of <code>innerHTML</code> to prevent XSS.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Isolated Secrets</strong>: OAuth credentials isolated in Node.js backend.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>GDPR Ready</strong>: Integrated Google Consent Mode v2.</li>
 </ul>
+<h3 id="secure-proxy-architecture">Secure Proxy Architecture<a class="anchor" href="#secure-proxy-architecture">#</a></h3>
+<p>The CMS and Hugo are bridged via a secure proxy during development to maintain strict CORS policies while allowing cross-site communication.</p>
 </article>
  
       
@@ -361,8 +407,17 @@ UI Labels: All global strings (buttons, tabs, navigation) live in data/labels.js
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a></li>
-    <li><a href="#2-security-standards">2. Security Standards</a></li>
+    <li><a href="#1-data-driven-logic">1. Data-Driven Logic</a>
+      <ul>
+        <li><a href="#data-storage-strategy">Data Storage Strategy</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-security-standards">2. Security Standards</a>
+      <ul>
+        <li><a href="#security-compliance-checklist">Security Compliance Checklist</a></li>
+        <li><a href="#secure-proxy-architecture">Secure Proxy Architecture</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
 

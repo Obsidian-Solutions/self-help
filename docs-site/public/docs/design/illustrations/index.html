@@ -8,28 +8,28 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Illustration Library &amp; System# The MindFull theme uses a hybrid illustration system designed for speed, reliability, and flexibility.
-How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy:
-Local Library (Primary): Checks assets/illustrations/library/ using flexible pattern matching (case-insensitive, handles various prefixes). This is the fastest and most reliable method. Remote Fallback (Secondary): If not found locally, it consults data/undraw_remote.json for known CDN links. Placeholder (Fallback): If both fail, it renders a styled dashed box. Usage# {{ partial &#34;undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} name: The slug of the illustration (e.g., meditation, sleep, productive-morning). width/height: Standard Tailwind classes. Available Catalog# We have indexed 1,000&#43; illustrations from the UnDraw library. You can find the full list of available slugs in:
+<meta name="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
+1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
+Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/design/illustrations/">
   <meta property="og:site_name" content="MindFull Documentation">
-  <meta property="og:title" content="MindFull Documentation">
-  <meta property="og:description" content="Illustration Library &amp; System# The MindFull theme uses a hybrid illustration system designed for speed, reliability, and flexibility.
-How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy:
-Local Library (Primary): Checks assets/illustrations/library/ using flexible pattern matching (case-insensitive, handles various prefixes). This is the fastest and most reliable method. Remote Fallback (Secondary): If not found locally, it consults data/undraw_remote.json for known CDN links. Placeholder (Fallback): If both fail, it renders a styled dashed box. Usage# {{ partial &#34;undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} name: The slug of the illustration (e.g., meditation, sleep, productive-morning). width/height: Standard Tailwind classes. Available Catalog# We have indexed 1,000&#43; illustrations from the UnDraw library. You can find the full list of available slugs in:">
+  <meta property="og:title" content="Illustrations">
+  <meta property="og:description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
+1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
+Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
 
 
-  <meta itemprop="name" content="MindFull Documentation">
-  <meta itemprop="description" content="Illustration Library &amp; System# The MindFull theme uses a hybrid illustration system designed for speed, reliability, and flexibility.
-How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy:
-Local Library (Primary): Checks assets/illustrations/library/ using flexible pattern matching (case-insensitive, handles various prefixes). This is the fastest and most reliable method. Remote Fallback (Secondary): If not found locally, it consults data/undraw_remote.json for known CDN links. Placeholder (Fallback): If both fail, it renders a styled dashed box. Usage# {{ partial &#34;undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} name: The slug of the illustration (e.g., meditation, sleep, productive-morning). width/height: Standard Tailwind classes. Available Catalog# We have indexed 1,000&#43; illustrations from the UnDraw library. You can find the full list of available slugs in:">
-  <meta itemprop="wordCount" content="226">
+  <meta itemprop="name" content="Illustrations">
+  <meta itemprop="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
+1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
+Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.">
+  <meta itemprop="wordCount" content="159">
 
 <title>Illustrations | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -39,7 +39,7 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.22e8c63126806f9d6d5a99561ed9d8f2db21bbef16230784ead9752fde4788af.js" integrity="sha256-IujGMSaAb51tWplWHtnY8tshu&#43;8WIweE6tl1L95HiK8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ed1dc9eb5b378a0d55c51aff632e3691822877eeac3813dc73bb98a4fd331924.js" integrity="sha256-7R3J61s3ig1VxRr/Yy42kYIod&#43;6sOBPcc7uYpP0zGSQ=" crossorigin="anonymous"></script>
 
 
 
@@ -134,22 +134,8 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   
 
   
-    <a href="/docs/development/pubdev/" class="">
-      Public Development</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/features/analytics/" class="">
-      Search &amp; Analytics</a>
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
   
 
         </li>
@@ -176,8 +162,22 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   
 
   
-    <a href="/docs/features/quizzes/" class="">
-      Quizzes</a>
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      SSO Configuration</a>
   
 
         </li>
@@ -204,8 +204,8 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   
 
   
-    <a href="/docs/getting-started/sso-setup/" class="">
-      Sso Setup</a>
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
   
 
         </li>
@@ -262,11 +262,13 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-it-works">How it Works</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#available-catalog">Available Catalog</a></li>
-    <li><a href="#optimizing-for-speed">Optimizing for Speed</a></li>
-    <li><a href="#maintenance">Maintenance</a></li>
+    <li><a href="#1-how-it-works">1. How it Works</a>
+      <ul>
+        <li><a href="#lookup-logic">Lookup Logic</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-usage">2. Usage</a></li>
+    <li><a href="#3-optimizing-for-speed">3. Optimizing for Speed</a></li>
   </ul>
 </nav>
 
@@ -279,43 +281,52 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
 
       
       
-  <article class="markdown book-article"><h1 id="illustration-library--system">Illustration Library &amp; System<a class="anchor" href="#illustration-library--system">#</a></h1>
-<p>The MindFull theme uses a hybrid illustration system designed for <strong>speed</strong>, <strong>reliability</strong>, and <strong>flexibility</strong>.</p>
-<h2 id="how-it-works">How it Works<a class="anchor" href="#how-it-works">#</a></h2>
-<p>The <code>undraw.html</code> partial handles illustrations using a 3-tier <strong>local-first</strong> strategy:</p>
-<ol>
-<li><strong>Local Library (Primary):</strong> Checks <code>assets/illustrations/library/</code> using flexible pattern matching (case-insensitive, handles various prefixes). This is the fastest and most reliable method.</li>
-<li><strong>Remote Fallback (Secondary):</strong> If not found locally, it consults <code>data/undraw_remote.json</code> for known CDN links.</li>
-<li><strong>Placeholder (Fallback):</strong> If both fail, it renders a styled dashed box.</li>
-</ol>
-<h2 id="usage">Usage<a class="anchor" href="#usage">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{{ partial &#34;undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }}</span></span></code></pre></div><ul>
-<li><strong>name:</strong> The slug of the illustration (e.g., <code>meditation</code>, <code>sleep</code>, <code>productive-morning</code>).</li>
-<li><strong>width/height:</strong> Standard Tailwind classes.</li>
-</ul>
-<h2 id="available-catalog">Available Catalog<a class="anchor" href="#available-catalog">#</a></h2>
-<p>We have indexed <strong>1,000+ illustrations</strong> from the UnDraw library. You can find the full list of available slugs in:</p>
-<ul>
-<li><code>data/undraw_catalog.json</code> (Local filenames)</li>
-<li><code>data/undraw_remote.json</code> (Remote CDN links)</li>
-</ul>
-<h2 id="optimizing-for-speed">Optimizing for Speed<a class="anchor" href="#optimizing-for-speed">#</a></h2>
+  <article class="markdown book-article"><p>MindFull uses a hybrid illustration system designed for <strong>speed</strong>, <strong>reliability</strong>, and <strong>flexibility</strong>.</p>
+<h2 id="1-how-it-works">1. How it Works<a class="anchor" href="#1-how-it-works">#</a></h2>
+<p>The <code>undraw.html</code> partial handles illustrations using a 3-tier <strong>local-first</strong> strategy.</p>
+<h3 id="lookup-logic">Lookup Logic<a class="anchor" href="#lookup-logic">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Tier</th>
+          <th style="text-align: left">Priority</th>
+          <th style="text-align: left">Method</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Local</strong></td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"><code>assets/illustrations/</code></td>
+          <td style="text-align: left">Fastest. Flexible pattern matching.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Remote</strong></td>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"><code>data/undraw_remote.json</code></td>
+          <td style="text-align: left">Fallback to CDN for unindexed SVGs.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Box</strong></td>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left">CSS Placeholder</td>
+          <td style="text-align: left">Last resort. Styled dashed box.</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="2-usage">2. Usage<a class="anchor" href="#2-usage">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }}</span></span></code></pre></div><blockquote class='book-hint note'>
+<p>The <code>name</code> parameter can be the slug (e.g., <code>meditation</code>) or the full filename. The system handles case-insensitivity and prefix matching automatically.</p></blockquote><h2 id="3-optimizing-for-speed">3. Optimizing for Speed<a class="anchor" href="#3-optimizing-for-speed">#</a></h2>
 <p>To keep your production builds fast and your site independent of external repos:</p>
-<ol>
-<li><strong>Bulk Download:</strong> You can download the entire UnDraw library mirror into your <code>assets/illustrations/library/</code> folder to ensure every possible illustration loads instantly from your disk.
 <ul>
-<li>Path: <code>assets/illustrations/library/</code></li>
+<li><input disabled="" type="checkbox"> <strong>Individual Pick</strong>: Find an SVG you like in the <code>data/undraw_catalog.json</code> list.</li>
+<li><input disabled="" type="checkbox"> <strong>Download</strong>: Save the SVG from unDraw.</li>
+<li><input disabled="" type="checkbox"> <strong>Place</strong>: Move it to <code>assets/illustrations/library/</code>.</li>
+<li><input disabled="" type="checkbox"> <strong>Verify</strong>: Hugo will now bake it into the site instantly during build.</li>
 </ul>
-</li>
-<li><strong>Individual Pick:</strong> Find an illustration you like in the catalog, download the SVG, and move it to <code>assets/illustrations/[name].svg</code>.</li>
-<li>Hugo will now pick it up from your local disk instantly during every subsequent build.</li>
-</ol>
-<h2 id="maintenance">Maintenance<a class="anchor" href="#maintenance">#</a></h2>
-<ul>
-<li><strong>Adding new illustrations:</strong> Simply drop any SVG into <code>assets/illustrations/</code>.</li>
-<li><strong>Updating the library:</strong> The remote fallback is powered by the <code>cuuupid/undraw-illustrations</code> mirror.</li>
-</ul>
-</article>
+<blockquote class='book-hint important'>
+<p>Local illustrations are minified during the build process, reducing bundle size by up to 40% compared to CDN links.</p></blockquote></article>
  
       
 
@@ -343,16 +354,16 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   <div class="flex flex-wrap justify-between">
     <span>
     
-      <a href="/docs/features/analytics/" class="flex align-center">
+      <a href="/docs/features/quizzes/" class="flex align-center">
         <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
-        <span>Search &amp; Analytics</span>
+        <span>Quizzes</span>
       </a>
     
     </span>
     <span>
     
-      <a href="/docs/features/quizzes/" class="flex align-center">
-        <span>Quizzes</span>
+      <a href="/docs/development/pubdev/" class="flex align-center">
+        <span>Public Development</span>
         <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
       </a>
     
@@ -392,11 +403,13 @@ Local Library (Primary): Checks assets/illustrations/library/ using flexible pat
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-it-works">How it Works</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#available-catalog">Available Catalog</a></li>
-    <li><a href="#optimizing-for-speed">Optimizing for Speed</a></li>
-    <li><a href="#maintenance">Maintenance</a></li>
+    <li><a href="#1-how-it-works">1. How it Works</a>
+      <ul>
+        <li><a href="#lookup-logic">Lookup Logic</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-usage">2. Usage</a></li>
+    <li><a href="#3-optimizing-for-speed">3. Optimizing for Speed</a></li>
   </ul>
 </nav>
 

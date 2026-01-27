@@ -9,9 +9,8 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
-Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
-Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
-npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.
+1. Static Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Search Providers# Provider Type Privacy Scale Pagefind Static (WASM) 100% Small to Medium OpenSearch Server-side 100% (Self-hosted) Large/Enterprise Features# Zero-Server: Runs entirely in the browser. High Performance: Instant results as you type. FOSS: MIT Licensed. To update the search index, you must run the build command:
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
@@ -19,9 +18,8 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Search & Analytics">
   <meta property="og:description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
-Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
-Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
-npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.">
+1. Static Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Search Providers# Provider Type Privacy Scale Pagefind Static (WASM) 100% Small to Medium OpenSearch Server-side 100% (Self-hosted) Large/Enterprise Features# Zero-Server: Runs entirely in the browser. High Performance: Instant results as you type. FOSS: MIT Licensed. To update the search index, you must run the build command:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -29,10 +27,9 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
 
   <meta itemprop="name" content="Search & Analytics">
   <meta itemprop="description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
-Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
-Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
-npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.">
-  <meta itemprop="wordCount" content="136">
+1. Static Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Search Providers# Provider Type Privacy Scale Pagefind Static (WASM) 100% Small to Medium OpenSearch Server-side 100% (Self-hosted) Large/Enterprise Features# Zero-Server: Runs entirely in the browser. High Performance: Instant results as you type. FOSS: MIT Licensed. To update the search index, you must run the build command:">
+  <meta itemprop="wordCount" content="201">
 
 <title>Search &amp; Analytics | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -42,7 +39,7 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.22e8c63126806f9d6d5a99561ed9d8f2db21bbef16230784ead9752fde4788af.js" integrity="sha256-IujGMSaAb51tWplWHtnY8tshu&#43;8WIweE6tl1L95HiK8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ed1dc9eb5b378a0d55c51aff632e3691822877eeac3813dc73bb98a4fd331924.js" integrity="sha256-7R3J61s3ig1VxRr/Yy42kYIod&#43;6sOBPcc7uYpP0zGSQ=" crossorigin="anonymous"></script>
 
 
 
@@ -137,22 +134,8 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   
 
   
-    <a href="/docs/development/pubdev/" class="">
-      Public Development</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/features/analytics/" class="active">
-      Search &amp; Analytics</a>
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
   
 
         </li>
@@ -179,8 +162,22 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   
 
   
-    <a href="/docs/features/quizzes/" class="">
-      Quizzes</a>
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      SSO Configuration</a>
   
 
         </li>
@@ -207,8 +204,8 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   
 
   
-    <a href="/docs/getting-started/sso-setup/" class="">
-      Sso Setup</a>
+    <a href="/docs/features/analytics/" class="active">
+      Search &amp; Analytics</a>
   
 
         </li>
@@ -265,9 +262,18 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#search-pagefind">Search (Pagefind)</a></li>
-    <li><a href="#analytics-umami">Analytics (Umami)</a></li>
-    <li><a href="#opensearch-integration">OpenSearch Integration</a></li>
+    <li><a href="#1-static-search-pagefind">1. Static Search (Pagefind)</a>
+      <ul>
+        <li><a href="#search-providers">Search Providers</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-foss-analytics-umami">2. FOSS Analytics (Umami)</a>
+      <ul>
+        <li><a href="#setup-checklist">Setup Checklist</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-opensearch-integration">3. OpenSearch Integration</a></li>
   </ul>
 </nav>
 
@@ -281,27 +287,59 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
       
       
   <article class="markdown book-article"><p>MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.</p>
-<h2 id="search-pagefind">Search (Pagefind)<a class="anchor" href="#search-pagefind">#</a></h2>
+<h2 id="1-static-search-pagefind">1. Static Search (Pagefind)<a class="anchor" href="#1-static-search-pagefind">#</a></h2>
 <p>By default, MindFull uses <strong>Pagefind</strong>, a static search library that runs entirely in the browser.</p>
+<h3 id="search-providers">Search Providers<a class="anchor" href="#search-providers">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Provider</th>
+          <th style="text-align: left">Type</th>
+          <th style="text-align: left">Privacy</th>
+          <th style="text-align: left">Scale</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Pagefind</strong></td>
+          <td style="text-align: left">Static (WASM)</td>
+          <td style="text-align: left">100%</td>
+          <td style="text-align: left">Small to Medium</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>OpenSearch</strong></td>
+          <td style="text-align: left">Server-side</td>
+          <td style="text-align: left">100% (Self-hosted)</td>
+          <td style="text-align: left">Large/Enterprise</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="features">Features<a class="anchor" href="#features">#</a></h3>
 <ul>
-<li><strong>Privacy</strong>: No tracking, no external server calls.</li>
-<li><strong>Speed</strong>: Instant results as you type.</li>
-<li><strong>FOSS</strong>: MIT Licensed.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>Zero-Server</strong>: Runs entirely in the browser.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>High Performance</strong>: Instant results as you type.</li>
+<li><input checked="" disabled="" type="checkbox"> <strong>FOSS</strong>: MIT Licensed.</li>
 </ul>
-<p>To update the search index, run:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run build</span></span></code></pre></div><h2 id="analytics-umami">Analytics (Umami)<a class="anchor" href="#analytics-umami">#</a></h2>
+<blockquote class='book-hint note'>
+<p>To update the search index, you must run the build command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run build</span></span></code></pre></div></blockquote><h2 id="2-foss-analytics-umami">2. FOSS Analytics (Umami)<a class="anchor" href="#2-foss-analytics-umami">#</a></h2>
 <p>We recommend <strong>Umami</strong> as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.</p>
-<ol>
-<li>Sign up for <a href="https://umami.is/">Umami Cloud</a> or host your own instance.</li>
-<li>Add your <code>website_id</code> to <code>hugo.toml</code>:</li>
-</ol>
+<h3 id="setup-checklist">Setup Checklist<a class="anchor" href="#setup-checklist">#</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"> Sign up for <a href="https://umami.is/">Umami Cloud</a> or host your own instance.</li>
+<li><input disabled="" type="checkbox"> Add your website to the Umami dashboard.</li>
+<li><input disabled="" type="checkbox"> Copy the <code>Website ID</code>.</li>
+<li><input disabled="" type="checkbox"> Update <code>hugo.toml</code> with the configuration below.</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">analytics</span>.<span style="color:#a6e22e">foss</span>]
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">enabled</span> = <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">website_id</span> = <span style="color:#e6db74">&#34;your-uuid-here&#34;</span></span></span></code></pre></div><h2 id="opensearch-integration">OpenSearch Integration<a class="anchor" href="#opensearch-integration">#</a></h2>
-<p>If you require a dedicated search cluster, you can export the Pagefind index to <strong>OpenSearch</strong>.</p>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">provider</span> = <span style="color:#e6db74">&#34;umami&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">website_id</span> = <span style="color:#e6db74">&#34;your-uuid-here&#34;</span></span></span></code></pre></div><blockquote class='book-hint important'>
+<p>Umami does not use cookies and does not collect personal data, making it fully compliant with MindFull&rsquo;s privacy-first philosophy.</p></blockquote><h2 id="3-opensearch-integration">3. OpenSearch Integration<a class="anchor" href="#3-opensearch-integration">#</a></h2>
+<p>If you require a dedicated search cluster for large-scale deployments:</p>
 <ol>
 <li>Build the site to generate the <code>public/</code> folder.</li>
-<li>Use the OpenSearch <code>bulk</code> API to ingest the generated JSON data.</li>
+<li>Use the OpenSearch <code>bulk</code> API to ingest the generated JSON data from the Pagefind output.</li>
 <li>Update <code>hugo.toml</code> to set <code>provider = 'opensearch'</code>.</li>
 </ol>
 </article>
@@ -332,18 +370,13 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   <div class="flex flex-wrap justify-between">
     <span>
     
-      <a href="/docs/development/pubdev/" class="flex align-center">
+      <a href="/docs/getting-started/deployment/" class="flex align-center">
         <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
-        <span>Public Development</span>
+        <span>Deployment</span>
       </a>
     
     </span>
     <span>
-    
-      <a href="/docs/design/illustrations/" class="flex align-center">
-        <span>Illustrations</span>
-        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
-      </a>
     
     </span>
   </div>
@@ -381,9 +414,18 @@ npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Goog
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#search-pagefind">Search (Pagefind)</a></li>
-    <li><a href="#analytics-umami">Analytics (Umami)</a></li>
-    <li><a href="#opensearch-integration">OpenSearch Integration</a></li>
+    <li><a href="#1-static-search-pagefind">1. Static Search (Pagefind)</a>
+      <ul>
+        <li><a href="#search-providers">Search Providers</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-foss-analytics-umami">2. FOSS Analytics (Umami)</a>
+      <ul>
+        <li><a href="#setup-checklist">Setup Checklist</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-opensearch-integration">3. OpenSearch Integration</a></li>
   </ul>
 </nav>
 

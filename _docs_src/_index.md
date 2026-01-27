@@ -38,7 +38,10 @@ Explore the core sections of our documentation:
 ### 🎨 Design & Branding
 
 - [ ] [Branding & Icons](/docs/design/branding)
+
 - [ ] [Illustration Library](/docs/design/illustrations)
+
+- [x] [Block Library](/docs/design/blocks)
 
 ### 💻 Development
 

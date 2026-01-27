@@ -8,30 +8,27 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Single Sign-On (SSO) Setup Guide# MindFull supports authenticating users via Google and GitHub. Because these services require secure secret management, the logic is handled by the MindFull CMS (Node.js backend), not the static theme itself.
-To enable SSO, you must configure your API keys in the CMS environment.
-1. Google OAuth Setup# Go to the Google Cloud Console. Create a new project (e.g., “MindFull SSO”). Navigate to APIs &amp; Services &gt; Credentials. Click Create Credentials -&gt; OAuth client ID. Select Web application. Authorized JavaScript origins: http://localhost:3000 (for local CMS dev) http://localhost:1313 (for local Hugo dev) Your production domain (e.g., https://api.yourdomain.com) Authorized redirect URIs: http://localhost:3000/api/auth/google/callback https://api.yourdomain.com/api/auth/google/callback Copy the Client ID and Client Secret. 2. GitHub OAuth Setup# Go to GitHub Developer Settings. Click New OAuth App. Application Name: MindFull (or your app name). Homepage URL: http://localhost:1313 (or your production frontend). Authorization callback URL: http://localhost:3000/api/auth/github/callback https://api.yourdomain.com/api/auth/github/callback Click Register application. Copy the Client ID and generate a new Client Secret. 3. Configure the CMS# Create or edit the .env file inside the cms/ directory:
+<meta name="description" content="MindFull supports authenticating users via Google and GitHub. These services require secure secret management, which is handled by the MindFull CMS.
+1. Provider Setup# Google OAuth Setup# Create a project in the Google Cloud Console. Navigate to APIs &amp; Services &gt; Credentials. Create an OAuth client ID for a “Web Application”. Configure the redirect URIs (see table below). GitHub OAuth Setup# Go to GitHub Developer Settings. Register a New OAuth App. Configure the homepage and callback URLs (see table below). Required Redirect URIs# Provider Environment Redirect URI Google Local http://localhost:3000/api/auth/google/callback GitHub Local http://localhost:3000/api/auth/github/callback 2. Configure the CMS# Create or edit the .env file inside the cms/ directory:
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/getting-started/sso-setup/">
   <meta property="og:site_name" content="MindFull Documentation">
-  <meta property="og:title" content="MindFull Documentation">
-  <meta property="og:description" content="Single Sign-On (SSO) Setup Guide# MindFull supports authenticating users via Google and GitHub. Because these services require secure secret management, the logic is handled by the MindFull CMS (Node.js backend), not the static theme itself.
-To enable SSO, you must configure your API keys in the CMS environment.
-1. Google OAuth Setup# Go to the Google Cloud Console. Create a new project (e.g., “MindFull SSO”). Navigate to APIs &amp; Services &gt; Credentials. Click Create Credentials -&gt; OAuth client ID. Select Web application. Authorized JavaScript origins: http://localhost:3000 (for local CMS dev) http://localhost:1313 (for local Hugo dev) Your production domain (e.g., https://api.yourdomain.com) Authorized redirect URIs: http://localhost:3000/api/auth/google/callback https://api.yourdomain.com/api/auth/google/callback Copy the Client ID and Client Secret. 2. GitHub OAuth Setup# Go to GitHub Developer Settings. Click New OAuth App. Application Name: MindFull (or your app name). Homepage URL: http://localhost:1313 (or your production frontend). Authorization callback URL: http://localhost:3000/api/auth/github/callback https://api.yourdomain.com/api/auth/github/callback Click Register application. Copy the Client ID and generate a new Client Secret. 3. Configure the CMS# Create or edit the .env file inside the cms/ directory:">
+  <meta property="og:title" content="SSO Configuration">
+  <meta property="og:description" content="MindFull supports authenticating users via Google and GitHub. These services require secure secret management, which is handled by the MindFull CMS.
+1. Provider Setup# Google OAuth Setup# Create a project in the Google Cloud Console. Navigate to APIs &amp; Services &gt; Credentials. Create an OAuth client ID for a “Web Application”. Configure the redirect URIs (see table below). GitHub OAuth Setup# Go to GitHub Developer Settings. Register a New OAuth App. Configure the homepage and callback URLs (see table below). Required Redirect URIs# Provider Environment Redirect URI Google Local http://localhost:3000/api/auth/google/callback GitHub Local http://localhost:3000/api/auth/github/callback 2. Configure the CMS# Create or edit the .env file inside the cms/ directory:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
 
 
-  <meta itemprop="name" content="MindFull Documentation">
-  <meta itemprop="description" content="Single Sign-On (SSO) Setup Guide# MindFull supports authenticating users via Google and GitHub. Because these services require secure secret management, the logic is handled by the MindFull CMS (Node.js backend), not the static theme itself.
-To enable SSO, you must configure your API keys in the CMS environment.
-1. Google OAuth Setup# Go to the Google Cloud Console. Create a new project (e.g., “MindFull SSO”). Navigate to APIs &amp; Services &gt; Credentials. Click Create Credentials -&gt; OAuth client ID. Select Web application. Authorized JavaScript origins: http://localhost:3000 (for local CMS dev) http://localhost:1313 (for local Hugo dev) Your production domain (e.g., https://api.yourdomain.com) Authorized redirect URIs: http://localhost:3000/api/auth/google/callback https://api.yourdomain.com/api/auth/google/callback Copy the Client ID and Client Secret. 2. GitHub OAuth Setup# Go to GitHub Developer Settings. Click New OAuth App. Application Name: MindFull (or your app name). Homepage URL: http://localhost:1313 (or your production frontend). Authorization callback URL: http://localhost:3000/api/auth/github/callback https://api.yourdomain.com/api/auth/github/callback Click Register application. Copy the Client ID and generate a new Client Secret. 3. Configure the CMS# Create or edit the .env file inside the cms/ directory:">
-  <meta itemprop="wordCount" content="317">
+  <meta itemprop="name" content="SSO Configuration">
+  <meta itemprop="description" content="MindFull supports authenticating users via Google and GitHub. These services require secure secret management, which is handled by the MindFull CMS.
+1. Provider Setup# Google OAuth Setup# Create a project in the Google Cloud Console. Navigate to APIs &amp; Services &gt; Credentials. Create an OAuth client ID for a “Web Application”. Configure the redirect URIs (see table below). GitHub OAuth Setup# Go to GitHub Developer Settings. Register a New OAuth App. Configure the homepage and callback URLs (see table below). Required Redirect URIs# Provider Environment Redirect URI Google Local http://localhost:3000/api/auth/google/callback GitHub Local http://localhost:3000/api/auth/github/callback 2. Configure the CMS# Create or edit the .env file inside the cms/ directory:">
+  <meta itemprop="wordCount" content="210">
 
-<title>Sso Setup | MindFull Documentation</title>
+<title>SSO Configuration | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
 <link rel="manifest" href="/manifest.json">
 <link rel="canonical" href="http://localhost:1314/docs/getting-started/sso-setup/">
@@ -39,7 +36,7 @@ To enable SSO, you must configure your API keys in the CMS environment.
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.22e8c63126806f9d6d5a99561ed9d8f2db21bbef16230784ead9752fde4788af.js" integrity="sha256-IujGMSaAb51tWplWHtnY8tshu&#43;8WIweE6tl1L95HiK8=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.ed1dc9eb5b378a0d55c51aff632e3691822877eeac3813dc73bb98a4fd331924.js" integrity="sha256-7R3J61s3ig1VxRr/Yy42kYIod&#43;6sOBPcc7uYpP0zGSQ=" crossorigin="anonymous"></script>
 
 
 
@@ -134,22 +131,8 @@ To enable SSO, you must configure your API keys in the CMS environment.
   
 
   
-    <a href="/docs/development/pubdev/" class="">
-      Public Development</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="/docs/features/analytics/" class="">
-      Search &amp; Analytics</a>
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
   
 
         </li>
@@ -176,8 +159,22 @@ To enable SSO, you must configure your API keys in the CMS environment.
   
 
   
-    <a href="/docs/features/quizzes/" class="">
-      Quizzes</a>
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="active">
+      SSO Configuration</a>
   
 
         </li>
@@ -204,8 +201,8 @@ To enable SSO, you must configure your API keys in the CMS environment.
   
 
   
-    <a href="/docs/getting-started/sso-setup/" class="active">
-      Sso Setup</a>
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
   
 
         </li>
@@ -246,7 +243,7 @@ To enable SSO, you must configure your API keys in the CMS environment.
     <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <h3>Sso Setup</h3>
+  <h3>SSO Configuration</h3>
 
   <label for="toc-control">
     
@@ -262,10 +259,15 @@ To enable SSO, you must configure your API keys in the CMS environment.
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-google-oauth-setup">1. Google OAuth Setup</a></li>
-    <li><a href="#2-github-oauth-setup">2. GitHub OAuth Setup</a></li>
-    <li><a href="#3-configure-the-cms">3. Configure the CMS</a></li>
-    <li><a href="#4-how-it-works">4. How it Works</a></li>
+    <li><a href="#1-provider-setup">1. Provider Setup</a>
+      <ul>
+        <li><a href="#google-oauth-setup">Google OAuth Setup</a></li>
+        <li><a href="#github-oauth-setup">GitHub OAuth Setup</a></li>
+        <li><a href="#required-redirect-uris">Required Redirect URIs</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-configure-the-cms">2. Configure the CMS</a></li>
+    <li><a href="#3-how-it-works">3. How it Works</a></li>
   </ul>
 </nav>
 
@@ -278,47 +280,44 @@ To enable SSO, you must configure your API keys in the CMS environment.
 
       
       
-  <article class="markdown book-article"><h1 id="single-sign-on-sso-setup-guide">Single Sign-On (SSO) Setup Guide<a class="anchor" href="#single-sign-on-sso-setup-guide">#</a></h1>
-<p>MindFull supports authenticating users via <strong>Google</strong> and <strong>GitHub</strong>. Because these services require secure secret management, the logic is handled by the <strong>MindFull CMS</strong> (Node.js backend), not the static theme itself.</p>
-<p>To enable SSO, you must configure your API keys in the CMS environment.</p>
-<h2 id="1-google-oauth-setup">1. Google OAuth Setup<a class="anchor" href="#1-google-oauth-setup">#</a></h2>
-<ol>
-<li>Go to the <a href="https://console.cloud.google.com/">Google Cloud Console</a>.</li>
-<li>Create a new project (e.g., &ldquo;MindFull SSO&rdquo;).</li>
-<li>Navigate to <strong>APIs &amp; Services &gt; Credentials</strong>.</li>
-<li>Click <strong>Create Credentials</strong> -&gt; <strong>OAuth client ID</strong>.</li>
-<li>Select <strong>Web application</strong>.</li>
-<li><strong>Authorized JavaScript origins</strong>:
+  <article class="markdown book-article"><p>MindFull supports authenticating users via <strong>Google</strong> and <strong>GitHub</strong>. These services require secure secret management, which is handled by the <strong>MindFull CMS</strong>.</p>
+<h2 id="1-provider-setup">1. Provider Setup<a class="anchor" href="#1-provider-setup">#</a></h2>
+<h3 id="google-oauth-setup">Google OAuth Setup<a class="anchor" href="#google-oauth-setup">#</a></h3>
 <ul>
-<li><code>http://localhost:3000</code> (for local CMS dev)</li>
-<li><code>http://localhost:1313</code> (for local Hugo dev)</li>
-<li>Your production domain (e.g., <code>https://api.yourdomain.com</code>)</li>
+<li><input disabled="" type="checkbox"> Create a project in the <a href="https://console.cloud.google.com/">Google Cloud Console</a>.</li>
+<li><input disabled="" type="checkbox"> Navigate to <strong>APIs &amp; Services &gt; Credentials</strong>.</li>
+<li><input disabled="" type="checkbox"> Create an <strong>OAuth client ID</strong> for a &ldquo;Web Application&rdquo;.</li>
+<li><input disabled="" type="checkbox"> Configure the redirect URIs (see table below).</li>
 </ul>
-</li>
-<li><strong>Authorized redirect URIs</strong>:
+<h3 id="github-oauth-setup">GitHub OAuth Setup<a class="anchor" href="#github-oauth-setup">#</a></h3>
 <ul>
-<li><code>http://localhost:3000/api/auth/google/callback</code></li>
-<li><code>https://api.yourdomain.com/api/auth/google/callback</code></li>
+<li><input disabled="" type="checkbox"> Go to <a href="https://github.com/settings/developers">GitHub Developer Settings</a>.</li>
+<li><input disabled="" type="checkbox"> Register a <strong>New OAuth App</strong>.</li>
+<li><input disabled="" type="checkbox"> Configure the homepage and callback URLs (see table below).</li>
 </ul>
-</li>
-<li>Copy the <strong>Client ID</strong> and <strong>Client Secret</strong>.</li>
-</ol>
-<h2 id="2-github-oauth-setup">2. GitHub OAuth Setup<a class="anchor" href="#2-github-oauth-setup">#</a></h2>
-<ol>
-<li>Go to <a href="https://github.com/settings/developers">GitHub Developer Settings</a>.</li>
-<li>Click <strong>New OAuth App</strong>.</li>
-<li><strong>Application Name</strong>: MindFull (or your app name).</li>
-<li><strong>Homepage URL</strong>: <code>http://localhost:1313</code> (or your production frontend).</li>
-<li><strong>Authorization callback URL</strong>:
-<ul>
-<li><code>http://localhost:3000/api/auth/github/callback</code></li>
-<li><code>https://api.yourdomain.com/api/auth/github/callback</code></li>
-</ul>
-</li>
-<li>Click <strong>Register application</strong>.</li>
-<li>Copy the <strong>Client ID</strong> and generate a new <strong>Client Secret</strong>.</li>
-</ol>
-<h2 id="3-configure-the-cms">3. Configure the CMS<a class="anchor" href="#3-configure-the-cms">#</a></h2>
+<h3 id="required-redirect-uris">Required Redirect URIs<a class="anchor" href="#required-redirect-uris">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Provider</th>
+          <th style="text-align: left">Environment</th>
+          <th style="text-align: left">Redirect URI</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Google</strong></td>
+          <td style="text-align: left">Local</td>
+          <td style="text-align: left"><code>http://localhost:3000/api/auth/google/callback</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>GitHub</strong></td>
+          <td style="text-align: left">Local</td>
+          <td style="text-align: left"><code>http://localhost:3000/api/auth/github/callback</code></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="2-configure-the-cms">2. Configure the CMS<a class="anchor" href="#2-configure-the-cms">#</a></h2>
 <p>Create or edit the <code>.env</code> file inside the <code>cms/</code> directory:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># cms/.env</span>
 </span></span><span style="display:flex;"><span>
@@ -333,24 +332,51 @@ To enable SSO, you must configure your API keys in the CMS environment.
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># GitHub SSO</span>
 </span></span><span style="display:flex;"><span>GITHUB_CLIENT_ID<span style="color:#f92672">=</span>your-github-client-id
-</span></span><span style="display:flex;"><span>GITHUB_CLIENT_SECRET<span style="color:#f92672">=</span>your-github-client-secret</span></span></code></pre></div><h2 id="4-how-it-works">4. How it Works<a class="anchor" href="#4-how-it-works">#</a></h2>
-<ol>
-<li><strong>User Clicks Login</strong>: The frontend (<code>auth.js</code>) redirects the browser to <code>http://localhost:3000/api/auth/google</code>.</li>
-<li><strong>Provider Redirect</strong>: The CMS constructs the correct OAuth URL and sends the user to Google/GitHub.</li>
-<li><strong>Authentication</strong>: The user logs in on the provider&rsquo;s site.</li>
-<li><strong>Callback</strong>: Google/GitHub redirects the user back to <code>/api/auth/google/callback</code> with a secure code.</li>
-<li><strong>Token Exchange</strong>: The CMS securely exchanges this code for the user&rsquo;s profile (Email, Name, Avatar) using the Client Secret.</li>
-<li><strong>Account Creation</strong>:
-<ul>
-<li>If the user exists in <code>mindfull.sqlite</code>, they are logged in.</li>
-<li>If not, a new account is automatically created.</li>
-</ul>
-</li>
-<li><strong>Final Redirect</strong>: The CMS redirects the user back to your frontend dashboard (<code>http://localhost:1313/dashboard</code>) with a secure session token.</li>
-</ol>
-<blockquote class='book-hint '>
-<p><strong>Note:</strong> For this flow to work locally, you must have the CMS running (<code>npm start</code> inside <code>cms/</code>) alongside your Hugo server.</p>
-</blockquote></article>
+</span></span><span style="display:flex;"><span>GITHUB_CLIENT_SECRET<span style="color:#f92672">=</span>your-github-client-secret</span></span></code></pre></div><blockquote class='book-hint important'>
+<p>Never commit your <code>.env</code> file to version control. It contains sensitive API secrets.</p></blockquote><h2 id="3-how-it-works">3. How it Works<a class="anchor" href="#3-how-it-works">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Sequence</th>
+          <th style="text-align: left">Actor</th>
+          <th style="text-align: left">Action</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"><strong>User</strong></td>
+          <td style="text-align: left">Clicks &ldquo;Login with Google/GitHub&rdquo;</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">2</td>
+          <td style="text-align: left"><strong>Frontend</strong></td>
+          <td style="text-align: left">Redirects to CMS Auth Route</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">3</td>
+          <td style="text-align: left"><strong>CMS</strong></td>
+          <td style="text-align: left">Redirects to Provider (Google/GitHub)</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"><strong>Provider</strong></td>
+          <td style="text-align: left">Authenticates user and redirects to CMS Callback</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">5</td>
+          <td style="text-align: left"><strong>CMS</strong></td>
+          <td style="text-align: left">Validates code, creates/finds user, and issues JWT</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">6</td>
+          <td style="text-align: left"><strong>Frontend</strong></td>
+          <td style="text-align: left">Receives JWT and logs user in</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote class='book-hint tip'>
+<p>For this flow to work locally, you must have the CMS running (<code>npm start</code> inside <code>cms/</code>) alongside your Hugo server.</p></blockquote></article>
  
       
 
@@ -378,13 +404,18 @@ To enable SSO, you must configure your API keys in the CMS environment.
   <div class="flex flex-wrap justify-between">
     <span>
     
-      <a href="/docs/getting-started/deployment/" class="flex align-center">
+      <a href="/docs/development/pubdev/" class="flex align-center">
         <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
-        <span>Deployment</span>
+        <span>Public Development</span>
       </a>
     
     </span>
     <span>
+    
+      <a href="/docs/getting-started/deployment/" class="flex align-center">
+        <span>Deployment</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
     
     </span>
   </div>
@@ -422,10 +453,15 @@ To enable SSO, you must configure your API keys in the CMS environment.
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-google-oauth-setup">1. Google OAuth Setup</a></li>
-    <li><a href="#2-github-oauth-setup">2. GitHub OAuth Setup</a></li>
-    <li><a href="#3-configure-the-cms">3. Configure the CMS</a></li>
-    <li><a href="#4-how-it-works">4. How it Works</a></li>
+    <li><a href="#1-provider-setup">1. Provider Setup</a>
+      <ul>
+        <li><a href="#google-oauth-setup">Google OAuth Setup</a></li>
+        <li><a href="#github-oauth-setup">GitHub OAuth Setup</a></li>
+        <li><a href="#required-redirect-uris">Required Redirect URIs</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-configure-the-cms">2. Configure the CMS</a></li>
+    <li><a href="#3-how-it-works">3. How it Works</a></li>
   </ul>
 </nav>
 
