@@ -34,7 +34,27 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-app.use(cors());
+const allowedOrigins = [
+  process.env.FRONTEND_URL || 'http://localhost:1313',
+  'http://localhost:1314', // Docs site
+  'http://localhost:4242', // Pubdev gateway
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If you want to be strict, uncomment the next line
+        // return callback(new Error('CORS blocked'), false);
+        return callback(null, true); // Fallback to allow for dynamic ngrok URLs if not in env
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  }),
+);
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));

@@ -216,7 +216,8 @@
       await fetch(`${CMS_URL}/api/content/posts/${POST_SLUG}/react`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type })
+        body: JSON.stringify({ type }),
+        credentials: 'include'
       });
       fetchPostStats();
       if (window.showToast) window.showToast(`Feedback recorded!`, 'success');
@@ -233,7 +234,8 @@
       await fetch(`${CMS_URL}/api/content/posts/${POST_SLUG}/comments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_name: userName, content: text })
+        body: JSON.stringify({ user_name: userName, content: text }),
+        credentials: 'include'
       });
       document.getElementById('comment-text').value = '';
       fetchComments();
@@ -252,7 +254,8 @@
     
     fetch(`${CMS_URL}/api/content/posts/${POST_SLUG}/view`, { 
       method: 'POST',
-      headers: headers
+      headers: headers,
+      credentials: 'include'
     }).catch(() => {});
   });
 </script>

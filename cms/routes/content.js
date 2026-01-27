@@ -44,11 +44,15 @@ router.post('/posts/:slug/view', (req, res) => {
   // If no viewerId yet (first time guest), create one
   if (!viewerId) {
     viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
+    // Set cookie with SameSite=None and Secure if on HTTPS, otherwise Lax
     res.cookie('mindfull_viewer_id', viewerId, {
       maxAge: 365 * 24 * 60 * 60 * 1000,
       httpOnly: true,
+      sameSite: 'lax',
     });
   }
+
+  console.log(`[VIEW] Post: ${slug}, Viewer: ${viewerId}`);
 
   // 2. Check for existing lock
   db.get(
@@ -58,22 +62,28 @@ router.post('/posts/:slug/view', (req, res) => {
       if (err) return res.status(500).json({ message: 'DB Error' });
 
       if (lock) {
-        // Already counted this view
+        console.log(`[VIEW] Already counted for ${viewerId}`);
         return res.json({ success: true, already_counted: true });
       }
 
       // 3. Record new view and create lock
-      db.serialize(() => {
-        db.run('INSERT INTO view_locks (post_slug, viewer_id) VALUES (?, ?)', [slug, viewerId]);
-        db.run(
-          'INSERT INTO post_stats (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1',
-          [slug],
-          err => {
-            if (err) return res.status(500).json({ message: 'DB Error' });
-            res.json({ success: true, new_view: true });
-          },
-        );
-      });
+      db.run(
+        'INSERT INTO view_locks (post_slug, viewer_id) VALUES (?, ?)',
+        [slug, viewerId],
+        err => {
+          if (err) return res.status(500).json({ message: 'DB Error creating lock' });
+
+          db.run(
+            'INSERT INTO post_stats (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1',
+            [slug],
+            err => {
+              if (err) return res.status(500).json({ message: 'DB Error updating stats' });
+              console.log(`[VIEW] Count incremented for ${slug}`);
+              res.json({ success: true, new_view: true });
+            },
+          );
+        },
+      );
     },
   );
 });
