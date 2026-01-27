@@ -1,10 +1,10 @@
 ---
-title: 'Dr. Sarah Miller, PsyD'
-specialty: 'CBT & Trauma'
-location: 'New York, NY (Online Available)'
-image: '/images/therapist-1.jpg'
+title: 'Dr. Sarah Miller'
+specialty: 'Mindfulness & Meditation'
+location: 'New York, NY'
+illustration: 'woman_mevk'
 available: true
-rate: '$150/hr'
+rate: '$125/hr'
 ---
 
-Dr. Miller specializes in Cognitive Behavioral Therapy and has over 15 years of experience helping patients overcome trauma and anxiety disorders.
+Dr. Miller integrates mindfulness-based stress reduction into clinical practice for holistic healing.

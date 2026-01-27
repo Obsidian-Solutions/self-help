@@ -42,13 +42,25 @@
   >
     <div class="px-8 py-10">
       <div class="flex flex-col items-center text-center">
-        <img
-          class="h-24 w-24 rounded-3xl object-cover border-4 border-indigo-50 dark:border-indigo-900 shadow-md mb-6"
-          src="{{ .Params.image }}"
-          alt="{{ .Title }}"
-          loading="lazy"
-          decoding="async"
-        />
+        <div class="h-24 w-24 rounded-3xl overflow-hidden border-4 border-indigo-50 dark:border-indigo-900 shadow-md mb-6 flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+          {{ if .Params.illustration }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "class" "w-full h-full object-contain p-2") }}
+          {{ else if .Params.image }}
+            <img
+              class="h-full w-full object-cover"
+              src="{{ .Params.image }}"
+              alt="{{ .Title }}"
+              loading="lazy"
+              decoding="async"
+              onerror="this.parentElement.innerHTML = '<div class=\'flex items-center justify-center h-full w-full bg-indigo-600 text-white font-black text-2xl\'>{{ substr .Title 0 1 }}</div>'"
+            />
+          {{ else }}
+            <div class="flex items-center justify-center h-full w-full bg-indigo-600 text-white font-black text-2xl">
+              {{ substr .Title 0 1 }}
+            </div>
+          {{ end }}
+        </div>
+        
         <h3 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
           {{ .Title }}
         </h3>
@@ -97,7 +109,7 @@
 <!-- Booking Modal (Custom for Therapists) -->
 <div id="booking-modal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="closeBookingModal()"></div>
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeBookingModal()"></div>
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
     <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-[2.5rem] px-8 pt-10 pb-8 text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-10 border border-gray-100 dark:border-gray-700">
       <div>

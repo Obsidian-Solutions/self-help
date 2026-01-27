@@ -1,10 +1,10 @@
 ---
-title: 'James Chen, LCSW'
-specialty: 'Relationships & Family'
+title: 'Dr. James Chen'
+specialty: 'Cognitive Behavioral Therapy'
 location: 'San Francisco, CA'
-image: '/images/therapist-2.jpg'
+illustration: 'businessman_97x4'
 available: true
-rate: '$120/hr'
+rate: '$150/hr'
 ---
 
-James focuses on family dynamics and relationship counseling, using a compassionate, solution-focused approach.
+Dr. Chen specializes in helping patients overcome anxiety disorders using data-driven CBT techniques.
