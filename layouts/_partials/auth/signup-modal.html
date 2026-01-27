@@ -1,84 +1,80 @@
-<!-- Signup Modal -->
-<div id="signupModal" class="hidden fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+{{ $labels := .Site.Data.labels.auth_modals.signup }}
+<div id="signupModal" class="hidden fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
   <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
     <!-- Backdrop -->
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onclick="window.closeModal('signupModal')"></div>
+    <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="window.closeModal('signupModal')"></div>
 
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
     <!-- Modal Panel -->
-    <div class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
-      <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-        <div class="sm:flex sm:items-start">
-          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-            <h3 class="text-2xl leading-6 font-bold text-gray-900 dark:text-white" id="modal-title">
-              {{ .Site.Data.labels.auth_modals.signup.title }}
-            </h3>
-            
-            <form class="mt-6 space-y-6" onsubmit="window.handleSignup(event)">
-              <div>
-                <label for="signup-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {{ .Site.Data.labels.auth_modals.signup.name_label }}
-                </label>
-                <input type="text" name="name" id="signup-name" required 
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm py-2 px-3"
-                  placeholder="{{ .Site.Data.labels.auth_modals.signup.name_placeholder }}">
-              </div>
+    <div class="inline-block align-bottom bg-white dark:bg-gray-900 rounded-[2.5rem] text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full border border-gray-100 dark:border-gray-800">
+      <div class="p-8 sm:p-10">
+        <div class="flex items-center justify-between mb-8">
+          <h3 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight" id="modal-title">
+            {{ $labels.title }}
+          </h3>
+          <button onclick="window.closeModal('signupModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+        
+        <form class="space-y-6" onsubmit="window.handleSignup(event)">
+          <div>
+            <label for="signup-name-modal" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 ml-1">
+              {{ $labels.name_label }}
+            </label>
+            <input type="text" name="name" id="signup-name-modal" required 
+              class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all sm:text-sm"
+              placeholder="{{ $labels.name_placeholder }}">
+          </div>
 
-              <div>
-                <label for="signup-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {{ .Site.Data.labels.auth_modals.signup.email_label }}
-                </label>
-                <input type="email" name="email" id="signup-email" required 
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm py-2 px-3"
-                  placeholder="{{ .Site.Data.labels.auth_modals.signup.email_placeholder }}">
-              </div>
+          <div>
+            <label for="signup-email-modal" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 ml-1">
+              {{ $labels.email_label }}
+            </label>
+            <input type="email" name="email" id="signup-email-modal" required 
+              class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all sm:text-sm"
+              placeholder="{{ $labels.email_placeholder }}">
+          </div>
 
-              <div>
-                <label for="signup-password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {{ .Site.Data.labels.auth_modals.signup.password_label }}
-                </label>
-                <input type="password" name="password" id="signup-password" required 
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm py-2 px-3"
-                  placeholder="{{ .Site.Data.labels.auth_modals.signup.password_placeholder }}">
-              </div>
+          <div>
+            <label for="signup-password-modal" class="block text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-2 ml-1">
+              {{ $labels.password_label }}
+            </label>
+            <input type="password" name="password" id="signup-password-modal" required 
+              class="w-full px-6 py-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border-transparent focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-white font-bold transition-all sm:text-sm"
+              placeholder="{{ $labels.password_placeholder }}">
+          </div>
 
-              <div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
-                  {{ .Site.Data.labels.auth_modals.signup.submit_btn }}
-                </button>
-              </div>
-            </form>
+          <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-black text-sm shadow-lg shadow-indigo-100 dark:shadow-none transition-all hover:-translate-y-1">
+            {{ $labels.submit_btn }}
+          </button>
+        </form>
 
-            <div class="mt-6">
-              <div class="relative">
-                <div class="absolute inset-0 flex items-center">
-                  <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
-                </div>
-                <div class="relative flex justify-center text-sm">
-                  <span class="px-2 bg-white dark:bg-gray-800 text-gray-500">
-                    {{ .Site.Data.labels.auth_modals.signup.sso_divider }}
-                  </span>
-                </div>
-              </div>
+        <div class="mt-8">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-100 dark:border-gray-700"></div></div>
+            <div class="relative flex justify-center text-sm font-bold"><span class="px-4 bg-white dark:bg-gray-900 text-gray-400 uppercase tracking-widest text-[10px]">{{ $labels.sso_divider }}</span></div>
+          </div>
 
-              <div class="mt-6">
-                <button onclick="window.handleGoogleLogin()" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-500 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.18 1-.78 1.85-1.63 2.42v2.77h2.64c1.55-2.43 2.43-6.01 2.43-9.45Z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-2.64-2.77c-.73.49-1.66.78-2.64.78-2.03 0-3.74-1.37-4.35-3.22H3.88v2.13A10.996 10.996 0 0 0 12 23Z"/><path fill="currentColor" d="M7.65 15.13c-.15-.45-.24-.93-.24-1.43s.09-1.43.24-1.43V10.14H3.88c-.56 1.1-.88 2.34-.88 3.61s.32 2.51.88 3.61l3.77-2.13Z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-3.19 3.71-5.53 12-5.53Z"/></svg>
-                  {{ .Site.Data.labels.auth_modals.signup.sso_google }}
-                </button>
-              </div>
-            </div>
+          <div class="mt-8 space-y-3">
+            <button onclick="window.handleGoogleLogin()" class="w-full inline-flex items-center justify-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-2xl bg-white dark:bg-gray-800 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">
+              <svg class="w-5 h-5 mr-3" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
+              Continue with Google
+            </button>
+            <button onclick="window.handleGithubLogin()" class="w-full inline-flex items-center justify-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-2xl bg-white dark:bg-gray-700 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">
+              <i class="fa-brands fa-github text-lg mr-3"></i>
+              Continue with GitHub
+            </button>
           </div>
         </div>
-      </div>
-      <div class="bg-gray-50 dark:bg-gray-700 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-        <span class="text-sm text-gray-500 dark:text-gray-400">
-          {{ .Site.Data.labels.auth_modals.signup.footer_text }} 
-          <a href="#" onclick="window.switchModal('signupModal', 'loginModal')" class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
-            {{ .Site.Data.labels.auth_modals.signup.footer_link }}
+
+        <p class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400 font-medium">
+          {{ $labels.footer_text }} 
+          <a href="#" onclick="window.switchModal('signupModal', 'loginModal')" class="font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">
+            {{ $labels.footer_link }}
           </a>
-        </span>
+        </p>
       </div>
     </div>
   </div>

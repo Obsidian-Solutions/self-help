@@ -153,9 +153,12 @@ window.safeRedirect = function (path) {
 // 1. Sign Up
 window.handleSignup = async e => {
   e.preventDefault();
-  const nameEl = document.getElementById('signup-name');
-  const emailEl = document.getElementById('signup-email');
-  const passwordEl = document.getElementById('signup-password');
+  const nameEl =
+    document.getElementById('signup-name-modal') || document.getElementById('signup-name');
+  const emailEl =
+    document.getElementById('signup-email-modal') || document.getElementById('signup-email');
+  const passwordEl =
+    document.getElementById('signup-password-modal') || document.getElementById('signup-password');
 
   if (!nameEl || !emailEl || !passwordEl) return;
 
@@ -192,8 +195,11 @@ window.handleSignup = async e => {
 // 2. Login
 window.handleLogin = async e => {
   e.preventDefault();
-  const emailEl = document.getElementById('login-email');
-  const passwordEl = document.getElementById('login-password');
+  // Try modal IDs first, then standalone page IDs
+  const emailEl =
+    document.getElementById('login-email-modal') || document.getElementById('login-email');
+  const passwordEl =
+    document.getElementById('login-password-modal') || document.getElementById('login-password');
 
   if (!emailEl || !passwordEl) return;
 
@@ -223,8 +229,8 @@ window.handleLogout = async () => {
 window.handleGoogleLogin = async () => {
   // Simulate a Google User
   const mockGoogleUser = {
-    name: 'Demo User',
-    email: 'demo@gmail.com',
+    name: 'Google User',
+    email: 'google@gmail.com',
     password: 'sso-placeholder-hashed', // Mock hash
   };
 
@@ -232,10 +238,27 @@ window.handleGoogleLogin = async () => {
     saveUser(mockGoogleUser);
   }
   setSession(mockGoogleUser);
+  if (window.showToast) window.showToast('Logged in with Google', 'success');
   window.safeRedirect('/dashboard');
 };
 
-// 5. One-Click Demo Login
+// 5. Mock SSO (GitHub)
+window.handleGithubLogin = async () => {
+  const mockGithubUser = {
+    name: 'GitHub Dev',
+    email: 'github@example.com',
+    password: 'sso-placeholder-hashed',
+  };
+
+  if (!findUser(mockGithubUser.email)) {
+    saveUser(mockGithubUser);
+  }
+  setSession(mockGithubUser);
+  if (window.showToast) window.showToast('Logged in with GitHub', 'success');
+  window.safeRedirect('/dashboard');
+};
+
+// 6. One-Click Demo Login
 window.handleDemoLogin = async () => {
   const demoEmail = 'demo@gmail.com';
   const demoPass = 'password'; // Plain text for recreating hash
