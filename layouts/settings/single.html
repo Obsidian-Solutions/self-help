@@ -94,6 +94,10 @@
                 <option value="CHF" class="text-gray-900">CHF (Fr.)</option>
                 <option value="JPY" class="text-gray-900">JPY (¥)</option>
                 <option value="CAD" class="text-gray-900">CAD ($)</option>
+                <option value="AUD" class="text-gray-900">AUD ($)</option>
+                <option value="CNY" class="text-gray-900">CNY (¥)</option>
+                <option value="INR" class="text-gray-900">INR (₹)</option>
+                <option value="BRL" class="text-gray-900">BRL (R$)</option>
               </select>
             </div>
           </div>
@@ -112,8 +116,9 @@
             <h4 class="font-black text-gray-900 dark:text-white">{{ .Title }}</h4>
             <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4 js-price" data-price-base="{{ .Params.price_amount }}">{{ .Params.price }}</p>
             <button
-              onclick="switchPlan('{{ .Title }}')"
+              onclick="switchPlan('{{ .Title }}', {{ .Params.weight }})"
               data-plan-btn="{{ .Title }}"
+              data-plan-weight="{{ .Params.weight }}"
               class="mt-auto w-full py-3 rounded-xl bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 text-xs font-black border border-gray-100 dark:border-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all"
             >
               {{ $labels.subscription.upgrade_btn }}
@@ -245,13 +250,38 @@
   });
 
   function updatePlanButtons(currentPlan) {
-    document.querySelectorAll('[data-plan-btn]').forEach(btn => {
+    const sessionStr = localStorage.getItem('mindfull_session');
+    if (!sessionStr) return;
+    const session = JSON.parse(sessionStr);
+    
+    // Find weight of current plan from buttons (which get it from Hugo frontmatter)
+    let currentWeight = 0;
+    const allButtons = document.querySelectorAll('[data-plan-btn]');
+    allButtons.forEach(btn => {
+      if (btn.getAttribute('data-plan-btn').toLowerCase() === currentPlan.toLowerCase()) {
+        currentWeight = parseInt(btn.getAttribute('data-plan-weight')) || 0;
+      }
+    });
+
+    allButtons.forEach(btn => {
       const planName = btn.getAttribute('data-plan-btn');
-      if (typeof planName === 'string' && planName.toLowerCase() === currentPlan.toLowerCase()) {
+      const planWeight = parseInt(btn.getAttribute('data-plan-weight')) || 0;
+
+      if (planName.toLowerCase() === currentPlan.toLowerCase()) {
         btn.textContent = settingsLabels.current_plan_btn;
         btn.disabled = true;
         btn.classList.add('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
-        btn.classList.remove('hover:bg-indigo-600', 'hover:text-white', 'hover:border-indigo-600');
+        btn.classList.remove('hover:bg-indigo-600', 'hover:text-white', 'hover:border-indigo-600', 'bg-white', 'dark:bg-gray-800', 'text-indigo-600');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-100', 'text-gray-400', 'cursor-default', 'dark:bg-gray-800');
+        btn.classList.add('bg-white', 'dark:bg-gray-800', 'text-indigo-600');
+        
+        if (planWeight > currentWeight) {
+          btn.textContent = "Upgrade Plan";
+        } else {
+          btn.textContent = "Downgrade Plan";
+        }
       }
     });
   }
@@ -372,7 +402,7 @@
     if (sidebarName) sidebarName.textContent = newName;
   }
 
-  function switchPlan(newPlan) {
+  function switchPlan(newPlan, weight) {
     try {
       const sessionStr = localStorage.getItem('mindfull_session');
       if (!sessionStr) return;
