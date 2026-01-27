@@ -8,7 +8,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Editor Dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .CodeMirror { border-radius: 1.5rem; border: 1px solid #e2e8f0; padding: 10px; font-family: inherit; }
+        .editor-toolbar { border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem; border: 1px solid #e2e8f0; border-bottom: none; background: #f8fafc; }
+    </style>
 </head>
 <body class="flex min-h-screen opacity-0 transition-opacity duration-500">
 
@@ -56,7 +63,7 @@
 
     <!-- Main Content -->
     <main class="flex-1 ml-64 p-10">
-        <header class="flex justify-between items-center mb-10">
+        <header id="main-header" class="flex justify-between items-center mb-10">
             <div>
                 <h1 id="section-title" class="text-3xl font-black text-slate-900 tracking-tight">Overview</h1>
                 <p id="section-subtitle" class="text-slate-500 font-medium mt-1">Platform engagement at a glance.</p>
@@ -108,12 +115,7 @@
                                 <span class="px-2 py-1 bg-amber-50 text-amber-600 text-[8px] font-black uppercase rounded">Leads</span>
                             </div>
                         </div>
-                        <div id="activity-list" class="space-y-4">
-                            <!-- Shimmer Loading State -->
-                            <div class="h-16 w-full shimmer rounded-2xl"></div>
-                            <div class="h-16 w-full shimmer rounded-2xl"></div>
-                            <div class="h-16 w-full shimmer rounded-2xl"></div>
-                        </div>
+                        <div id="activity-list" class="space-y-4"></div>
                     </div>
                     
                     <!-- Popular Insights -->
@@ -128,6 +130,49 @@
                     <div class="admin-card p-8 h-full">
                         <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
                         <div id="comments-list" class="space-y-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Content -->
+        <div id="section-content" class="admin-section hidden space-y-8">
+            <div class="flex gap-4 mb-8">
+                <button onclick="loadCollection('posts')" class="px-6 py-3 rounded-2xl bg-indigo-50 text-indigo-600 font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">Blog Posts</button>
+                <button onclick="loadCollection('courses')" class="px-6 py-3 rounded-2xl bg-slate-50 text-slate-600 font-black text-xs uppercase tracking-widest border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Courses</button>
+            </div>
+            
+            <div id="collection-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards injected here -->
+            </div>
+        </div>
+
+        <!-- Section: Editor -->
+        <div id="section-editor" class="admin-section hidden">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="showSection('content')" class="text-indigo-600 font-bold text-sm flex items-center gap-2 group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Collection
+                </button>
+                <div class="flex gap-4">
+                    <button onclick="saveContent()" class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-black text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">Save Changes</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2">
+                    <div class="admin-card p-8 space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Content Body (Markdown)</label>
+                            <textarea id="editor-textarea"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-10">
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Frontmatter</h3>
+                        <div id="frontmatter-fields" class="space-y-4">
+                            <!-- Injected fields -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -204,16 +249,6 @@
                 <div class="admin-card p-8 h-fit sticky top-10">
                     <h3 class="text-lg font-black text-slate-900 mb-6">Member Details</h3>
                     <div id="user-info-card" class="space-y-4"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Content -->
-        <div id="section-content" class="admin-section hidden">
-            <div class="flex items-center justify-center p-20 admin-card border-dashed">
-                <div class="text-center">
-                    <i class="fa-solid fa-toolbox text-4xl text-slate-200 mb-4"></i>
-                    <p class="text-slate-500 font-bold">CMS Markdown Editor Coming Soon</p>
                 </div>
             </div>
         </div>

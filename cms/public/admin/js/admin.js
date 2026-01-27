@@ -1,9 +1,12 @@
 /**
  * MindFull CMS / CRM Dashboard Logic
- * Version: 2.0 (Hardened & Modular)
+ * Version: 2.5 (Content Management Edition)
  */
 
 let currentUserId = null;
+let currentCollection = null;
+let currentSlug = null;
+let simplemde = null;
 const API_BASE = '/api';
 
 // --- Initialization ---
@@ -23,7 +26,7 @@ async function init() {
             document.body.classList.remove('opacity-0');
             loadDashboardData();
             
-            // Auto-refresh every 60s
+            // Auto-refresh stats every 60s
             setInterval(loadDashboardData, 60000);
         } else {
             logout();
@@ -32,6 +35,15 @@ async function init() {
         document.getElementById('login-modal').classList.remove('hidden');
         document.body.classList.remove('opacity-0');
     }
+
+    // Init Editor
+    simplemde = new SimpleMDE({ 
+        element: document.getElementById("editor-textarea"),
+        spellChecker: false,
+        placeholder: "Write your masterpiece...",
+        status: false,
+        autosave: { enabled: true, uniqueId: "mindfull-cms-editor", delay: 1000 }
+    });
 }
 
 // --- Auth ---
@@ -75,7 +87,7 @@ function logout() {
 }
 
 // --- API Wrapper ---
-async function fetchAdmin(endpoint, method = 'GET', body = null) {
+async function fetchCMS(endpoint, method = 'GET', body = null) {
     const token = localStorage.getItem('mindfull_admin_token');
     const headers = { 
         'Authorization': `Bearer ${token}`, 
@@ -84,7 +96,7 @@ async function fetchAdmin(endpoint, method = 'GET', body = null) {
     };
 
     try {
-        const res = await fetch(`${API_BASE}/admin${endpoint}`, {
+        const res = await fetch(`${API_BASE}${endpoint}`, {
             method,
             headers,
             body: body ? JSON.stringify(body) : null
@@ -113,10 +125,10 @@ function getCookie(name) {
 // --- Dashboard Loading ---
 async function loadDashboardData() {
     const [stats, popular, comments, activity] = await Promise.all([
-        fetchAdmin('/stats'), 
-        fetchAdmin('/popular'), 
-        fetchAdmin('/comments'),
-        fetchAdmin('/activity')
+        fetchCMS('/admin/stats'), 
+        fetchCMS('/admin/popular'), 
+        fetchCMS('/admin/comments'),
+        fetchCMS('/admin/activity')
     ]);
     
     if (!stats) return;
@@ -126,7 +138,6 @@ async function loadDashboardData() {
     updateStat('stat-rating', stats.averageRating);
     updateStat('stat-new-leads', stats.newInquiries);
     
-    // Notification Badge
     const badge = document.getElementById('notif-badge');
     if (stats.newInquiries > 0) {
         badge.textContent = stats.newInquiries;
@@ -143,6 +154,91 @@ async function loadDashboardData() {
 function updateStat(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
+}
+
+// --- Content Management ---
+
+async function loadCollection(name) {
+    currentCollection = name;
+    showSection('content');
+    const items = await fetchCMS(`/content/${name}`);
+    const container = document.getElementById('collection-view');
+    if (!container) return;
+
+    container.innerHTML = items.map(item => `
+        <div class="admin-card p-6 flex flex-col group h-full">
+            <div class="flex justify-between items-start mb-4">
+                <span class="px-2 py-1 bg-indigo-50 text-indigo-600 text-[8px] font-black uppercase rounded">${item.data.category || 'General'}</span>
+                <span class="text-[10px] font-bold text-slate-400 uppercase">${item.data.date ? new Date(item.data.date).toLocaleDateString() : 'Draft'}</span>
+            </div>
+            <h4 class="font-black text-slate-900 mb-2 leading-tight group-hover:text-indigo-600 transition-colors">${item.data.title || item.slug}</h4>
+            <p class="text-xs text-slate-500 font-medium line-clamp-2 mb-6">${item.body.substring(0, 100)}...</p>
+            <div class="mt-auto pt-4 border-t border-slate-50 flex gap-2">
+                <button onclick="editContent('${name}', '${item.slug}')" class="flex-1 py-2 rounded-lg bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-indigo-100">Edit Entry</button>
+                <button onclick="deleteContent('${name}', '${item.slug}')" class="p-2 rounded-lg bg-slate-50 text-slate-400 hover:text-red-500 transition-colors"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function editContent(collection, slug) {
+    currentCollection = collection;
+    currentSlug = slug;
+    showSection('editor');
+    
+    const entry = await fetchCMS(`/content/${collection}/${slug}`);
+    if (!entry) return;
+
+    // Load Body
+    simplemde.value(entry.body);
+
+    // Load Frontmatter Fields
+    const fmContainer = document.getElementById('frontmatter-fields');
+    const fields = [
+        { key: 'title', label: 'Title', type: 'text' },
+        { key: 'description', label: 'Description', type: 'textarea' },
+        { key: 'category', label: 'Category', type: 'text' },
+        { key: 'illustration', label: 'Illustration (Slug)', type: 'text' },
+        { key: 'date', label: 'Date', type: 'datetime-local' }
+    ];
+
+    fmContainer.innerHTML = fields.map(f => {
+        let val = entry.data[f.key] || '';
+        if (f.key === 'date' && val) val = new Date(val).toISOString().slice(0, 16);
+        
+        return `
+            <div class="space-y-1">
+                <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">${f.label}</label>
+                ${f.type === 'textarea' 
+                    ? `<textarea id="fm-${f.key}" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-bold">${val}</textarea>`
+                    : `<input type="${f.type}" id="fm-${f.key}" value="${val}" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-bold">`
+                }
+            </div>
+        `;
+    }).join('');
+}
+
+async function saveContent() {
+    const body = simplemde.value();
+    const data = {
+        title: document.getElementById('fm-title').value,
+        description: document.getElementById('fm-description').value,
+        category: document.getElementById('fm-category').value,
+        illustration: document.getElementById('fm-illustration').value,
+        date: document.getElementById('fm-date').value
+    };
+
+    const res = await fetchCMS(`/content/${currentCollection}/${currentSlug}`, 'POST', { data, body });
+    if (res) {
+        alert('Content saved successfully!');
+        loadCollection(currentCollection);
+    }
+}
+
+async function deleteContent(collection, slug) {
+    if (!confirm('Are you sure you want to delete this? This cannot be undone.')) return;
+    const res = await fetchCMS(`/content/${collection}/${slug}`, 'DELETE');
+    if (res) loadCollection(collection);
 }
 
 // --- Renderers ---
@@ -206,7 +302,7 @@ function renderComments(items) {
 }
 
 async function loadInquiries() {
-    const leads = await fetchAdmin('/inquiries');
+    const leads = await fetchCMS('/admin/inquiries');
     const container = document.getElementById('inquiries-table-body');
     if (!container) return;
 
@@ -232,11 +328,11 @@ async function loadInquiries() {
 async function loadUsers() {
     const plan = document.getElementById('filter-plan').value;
     const role = document.getElementById('filter-role').value;
-    let endpoint = '/users?';
+    let endpoint = '/admin/users?';
     if (plan) endpoint += `plan=${plan}&`;
     if (role) endpoint += `role=${role}`;
 
-    const users = await fetchAdmin(endpoint);
+    const users = await fetchCMS(endpoint);
     const container = document.getElementById('users-table-body');
     if (!container) return;
 
@@ -262,7 +358,7 @@ async function loadUsers() {
 async function showUserProfile(id) {
     currentUserId = id;
     showSection('user-profile');
-    const profile = await fetchAdmin(`/users/${id}/profile`);
+    const profile = await fetchCMS(`/admin/users/${id}/profile`);
     if (!profile) return;
     
     document.getElementById('user-info-card').innerHTML = `
@@ -315,23 +411,21 @@ function formatTime(dateStr) {
 }
 
 function showSection(id) {
-    // Nav highlight
     document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active'));
-    const activeBtn = document.getElementById('nav-btn-' + id);
+    const activeBtn = document.getElementById('nav-btn-' + (id === 'editor' ? 'content' : id));
     if (activeBtn) activeBtn.classList.add('active');
 
-    // Section visibility
     document.querySelectorAll('.admin-section').forEach(div => div.classList.add('hidden'));
     const target = document.getElementById('section-' + id);
     if (target) target.classList.remove('hidden');
 
-    // Title update
     const titles = {
         dashboard: { title: 'Overview', sub: 'Engagement at a glance.' },
         inquiries: { title: 'CRM Leads', sub: 'Manage contact form submissions.' },
         users: { title: 'User Base', sub: 'Detailed member directory.' },
         'user-profile': { title: 'Member Deep-dive', sub: 'Interaction history and clinical notes.' },
-        content: { title: 'Content Editor', sub: 'Manage platform lessons.' },
+        content: { title: 'Content Manager', sub: 'Write and publish platform content.' },
+        editor: { title: 'Editor', sub: 'Modifying site content.' },
         community: { title: 'Moderation', sub: 'Latest community discussion.' }
     };
     
@@ -340,10 +434,10 @@ function showSection(id) {
         document.getElementById('section-subtitle').textContent = titles[id].sub;
     }
 
-    // Loaders
     if (id === 'inquiries') loadInquiries();
     if (id === 'users') loadUsers();
     if (id === 'dashboard') loadDashboardData();
+    if (id === 'content') loadCollection('posts');
 }
 
 // Start
