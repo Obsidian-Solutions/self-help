@@ -7,23 +7,23 @@
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
     
     <!-- Left Sidebar: Progress & Navigation (Sticky) -->
-    <aside class="hidden lg:block lg:col-span-3">
+    <aside class="hidden lg:block lg:col-span-4">
       <div class="sticky top-24 space-y-8">
-        <div class="premium-card p-6 bg-gray-50/50 dark:bg-gray-900/50">
-          <div class="mb-6 pb-4 border-b border-gray-100 dark:border-gray-800">
+        <div class="premium-card p-8 bg-gray-50/50 dark:bg-gray-900/50">
+          <div class="mb-8 pb-4 border-b border-gray-100 dark:border-gray-800">
             <h3 class="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-1">Course Content</h3>
-            <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest line-clamp-1">{{ $course.Title }}</p>
+            <p class="text-xs font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest line-clamp-1">{{ $course.Title }}</p>
           </div>
           
-          <div class="space-y-3">
+          <div class="space-y-4">
             {{ range $index, $lesson := $allLessons }}
             {{ $isCurrent := eq .Title $currentTitle }}
-            <a href="{{ .RelPermalink }}" class="group flex items-start gap-4 p-4 rounded-2xl transition-all {{ if $isCurrent }} bg-white dark:bg-gray-800 shadow-md border border-gray-100 dark:border-gray-700 {{ else }} hover:bg-white dark:hover:bg-gray-800 {{ end }}">
-              <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[10px] font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white {{ else }} text-gray-400 group-hover:text-indigo-600 {{ end }}">
+            <a href="{{ .RelPermalink }}" class="group flex items-center gap-5 transition-all">
+              <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white shadow-lg shadow-indigo-200 {{ else }} bg-white dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 border border-gray-100 dark:border-gray-700 {{ end }}">
                 {{ printf "%02d" (add $index 1) }}
               </div>
-              <div class="min-w-0 pt-1.5">
-                <span class="text-xs font-bold leading-tight block break-words {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
+              <div class="min-w-0">
+                <span class="text-sm font-bold leading-tight block {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
                   {{ .Title }}
                 </span>
               </div>
@@ -32,11 +32,11 @@
           </div>
         </div>
 
-        <div class="p-6 rounded-[2rem] bg-indigo-600 text-white shadow-xl shadow-indigo-200 dark:shadow-none relative overflow-hidden">
+        <div class="p-8 rounded-[2.5rem] bg-indigo-600 text-white shadow-xl shadow-indigo-200 dark:shadow-none relative overflow-hidden">
           <div class="relative z-10">
             <p class="text-[10px] font-black uppercase tracking-widest opacity-80 mb-2">Course Progress</p>
-            <p class="text-2xl font-black mb-4" id="course-progress-percent">0%</p>
-            <div class="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <p class="text-3xl font-black mb-4" id="course-progress-percent">0%</p>
+            <div class="w-full h-2 bg-white/20 rounded-full overflow-hidden">
               <div id="course-progress-bar" class="h-full bg-white transition-all duration-1000" style="width: 0%"></div>
             </div>
           </div>
@@ -45,7 +45,7 @@
     </aside>
 
     <!-- Main Content: Lesson engine -->
-    <div class="lg:col-span-9">
+    <div class="lg:col-span-8">
       <!-- Lesson Header -->
       <header class="mb-16">
         <div class="flex items-center gap-4 mb-8 lg:hidden">
