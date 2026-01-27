@@ -14,11 +14,14 @@
       <div class="flex-1 p-6 md:p-8 flex flex-col justify-between min-w-0 bg-white dark:bg-gray-900">
         <div>
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                  <div class="min-w-0 max-w-full overflow-hidden">
-                    <div class="marquee-container">
-                      <h4 class="text-xl font-black text-gray-900 dark:text-white mb-1 tracking-tight whitespace-nowrap marquee-text">{{ .Get "title" | default "Guided Audio Session" }}</h4>
-                    </div>
-                    <div class="flex items-center gap-3">                <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">Audio Lesson</span>
+                        <div class="min-w-0 max-w-full overflow-hidden">
+                          <div class="marquee-container">
+                            <div class="marquee-content flex items-center">
+                              <h4 class="text-xl font-black text-gray-900 dark:text-white mb-1 tracking-tight whitespace-nowrap pr-12">{{ .Get "title" | default "Guided Audio Session" }}</h4>
+                              <h4 class="text-xl font-black text-gray-900 dark:text-white mb-1 tracking-tight whitespace-nowrap pr-12" aria-hidden="true">{{ .Get "title" | default "Guided Audio Session" }}</h4>
+                            </div>
+                          </div>
+                          <div class="flex items-center gap-3">                <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">Audio Lesson</span>
                 <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest js-audio-duration-label">{{ .Get "duration" | default "Loading..." }}</span>
               </div>

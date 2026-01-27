@@ -122,10 +122,9 @@
     @apply overflow-hidden relative w-full;
   }
 
-  .marquee-text {
-    @apply inline-block whitespace-nowrap;
-    animation: marquee 20s linear infinite;
-    padding-right: 100%; /* Add buffer after text */
+  .marquee-content {
+    @apply inline-flex whitespace-nowrap;
+    animation: marquee 15s linear infinite;
   }
 
   @keyframes marquee {
@@ -133,7 +132,7 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-50%);
     }
   }
 }
