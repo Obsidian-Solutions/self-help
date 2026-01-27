@@ -14,8 +14,17 @@ db.serialize(() => {
     email TEXT UNIQUE,
     password_hash TEXT,
     role TEXT DEFAULT 'admin',
+    plan TEXT DEFAULT 'Free',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
+
+  // --- Migration: Check if plan column exists, add if not ---
+  db.all("PRAGMA table_info(users)", (err, rows) => {
+    const hasPlan = rows.some(r => r.name === 'plan');
+    if (!hasPlan) {
+      db.run("ALTER TABLE users ADD COLUMN plan TEXT DEFAULT 'Free'");
+    }
+  });
 
   // Courses
   db.run(`CREATE TABLE IF NOT EXISTS courses (
@@ -153,8 +162,8 @@ db.serialize(() => {
     if (!row) {
       const hash = bcrypt.hashSync(adminPassword, 10);
       db.run(
-        'INSERT INTO users (name, email, password_hash) VALUES (?, ?, ?)',
-        ['Admin', adminEmail, hash],
+        'INSERT INTO users (name, email, password_hash, role, plan) VALUES (?, ?, ?, ?, ?)',
+        ['Admin', adminEmail, hash, 'admin', 'Pro'],
         err => {
           if (err) console.error(err);
           else console.log(`Default admin created: ${adminEmail}`);

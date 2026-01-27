@@ -15,6 +15,11 @@
         .sidebar-link.active { background: #4f46e5; color: white; }
         .sidebar-link:not(.active):hover { background: #f1f5f9; }
         .btn-status { @apply px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all; }
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        .pulse-interaction { background-color: #4f46e5; box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); animation: pulse-indigo 2s infinite; }
+        .pulse-inquiry { background-color: #f59e0b; box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); animation: pulse-amber 2s infinite; }
+        @keyframes pulse-indigo { 0% { transform: scale(0.95); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); } 100% { transform: scale(0.95); } }
+        @keyframes pulse-amber { 0% { transform: scale(0.95); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); } 100% { transform: scale(0.95); } }
     </style>
 </head>
 <body class="flex min-h-screen">
@@ -32,8 +37,9 @@
             <button onclick="showSection('dashboard')" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-sm font-bold">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
-            <button onclick="showSection('inquiries')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
-                <i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads
+            <button onclick="showSection('inquiries')" class="sidebar-link flex items-center justify-between px-4 py-3 text-sm font-bold text-slate-500">
+                <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads</span>
+                <span id="notif-badge" class="hidden px-1.5 py-0.5 bg-red-500 text-white text-[8px] rounded-full">0</span>
             </button>
             <button onclick="showSection('users')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-users w-5"></i> User Base
@@ -62,11 +68,11 @@
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <p id="admin-name" class="text-sm font-bold text-slate-900">Dr. Sarah Miller</p>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-indigo-600">Platform Therapist</p>
+                    <p id="admin-name" class="text-sm font-bold text-slate-900">--</p>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-indigo-600">Platform Admin</p>
                 </div>
                 <div class="w-12 h-12 bg-slate-200 rounded-2xl overflow-hidden border-2 border-white shadow-sm">
-                    <img src="https://i.pravatar.cc/150?u=therapist" alt="Admin">
+                    <img id="admin-avatar" src="https://i.pravatar.cc/150?u=therapist" alt="Admin">
                 </div>
             </div>
         </header>
@@ -74,36 +80,47 @@
         <!-- Section: Dashboard -->
         <div id="section-dashboard" class="animate-in fade-in slide-in-from-bottom-2">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-                <div class="admin-card p-6">
+                <div class="admin-card p-6 border-l-4 border-l-indigo-500">
                     <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-users text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Users</p>
                     <p id="stat-users" class="text-2xl font-black text-slate-900">--</p>
                 </div>
-                <div class="admin-card p-6">
+                <div class="admin-card p-6 border-l-4 border-l-emerald-500">
                     <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-eye text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Post Views</p>
                     <p id="stat-views" class="text-2xl font-black text-slate-900">--</p>
                 </div>
-                <div class="admin-card p-6">
+                <div class="admin-card p-6 border-l-4 border-l-amber-500">
                     <div class="w-10 h-10 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-star text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Avg. Rating</p>
                     <p id="stat-rating" class="text-2xl font-black text-slate-900">--</p>
                 </div>
-                <div class="admin-card p-6">
-                    <div class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-comment-dots text-sm"></i></div>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Comments</p>
-                    <p id="stat-comments" class="text-2xl font-black text-slate-900">--</p>
+                <div class="admin-card p-6 border-l-4 border-l-red-500">
+                    <div class="w-10 h-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-envelope text-sm"></i></div>
+                    <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">New Leads</p>
+                    <p id="stat-new-leads" class="text-2xl font-black text-slate-900">--</p>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <div class="admin-card p-8">
-                    <h3 class="text-lg font-black text-slate-900 mb-6">Popular Insights</h3>
-                    <div id="popular-list" class="space-y-4"></div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 space-y-10">
+                    <div class="admin-card p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-lg font-black text-slate-900">Activity Pulse</h3>
+                            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[8px] font-black uppercase rounded-lg">Live</span>
+                        </div>
+                        <div id="activity-list" class="space-y-4"></div>
+                    </div>
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Popular Insights</h3>
+                        <div id="popular-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+                    </div>
                 </div>
-                <div class="admin-card p-8">
-                    <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
-                    <div id="comments-list" class="space-y-6"></div>
+                <div class="space-y-10">
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
+                        <div id="comments-list" class="space-y-6"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,11 +144,26 @@
 
         <!-- Section: Users -->
         <div id="section-users" class="hidden animate-in fade-in slide-in-from-bottom-2">
+            <div class="mb-6 flex gap-4">
+                <select id="filter-plan" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:border-indigo-600">
+                    <option value="">All Plans</option>
+                    <option value="Free">Free</option>
+                    <option value="Standard">Standard</option>
+                    <option value="Pro">Pro</option>
+                </select>
+                <select id="filter-role" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:border-indigo-600">
+                    <option value="">All Roles</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                    <option value="therapist">Therapist</option>
+                </select>
+            </div>
             <div class="admin-card overflow-hidden">
                 <table class="w-full text-left">
                     <thead class="bg-slate-50 border-b border-slate-100">
                         <tr>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">User</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Plan</th>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Role</th>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Profile</th>
                         </tr>
@@ -210,6 +242,8 @@
                     document.getElementById('login-modal').classList.add('hidden');
                     document.getElementById('admin-name').textContent = user.name;
                     loadDashboardData();
+                    // Auto-refresh stats every 30s
+                    setInterval(loadDashboardData, 30000);
                 } else { logout(); }
             }
         }
@@ -234,31 +268,85 @@
         async function fetchAdmin(endpoint, method = 'GET', body = null) {
             const res = await fetch(`${API_BASE}/admin${endpoint}`, {
                 method,
-                headers: { 'Authorization': `Bearer ${localStorage.getItem('mindfull_admin_token')}`, 'Content-Type': 'application/json' },
+                headers: { 
+                    'Authorization': `Bearer ${localStorage.getItem('mindfull_admin_token')}`, 
+                    'Content-Type': 'application/json',
+                    'x-xsrf-token': getCookie('XSRF-TOKEN')
+                },
                 body: body ? JSON.stringify(body) : null
             });
-            if (res.status === 401 || res.status === 403) logout();
+            if (res.status === 401 || res.status === 403) {
+                const data = await res.json();
+                if (data.message === 'CSRF token mismatch') {
+                    console.error('CSRF Error');
+                } else {
+                    logout();
+                }
+            }
             return res.json();
         }
 
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
         async function loadDashboardData() {
-            const [stats, popular, comments] = await Promise.all([fetchAdmin('/stats'), fetchAdmin('/popular'), fetchAdmin('/comments')]);
+            const [stats, popular, comments, activity] = await Promise.all([
+                fetchAdmin('/stats'), 
+                fetchAdmin('/popular'), 
+                fetchAdmin('/comments'),
+                fetchAdmin('/activity')
+            ]);
+            
             document.getElementById('stat-users').textContent = stats.totalUsers;
             document.getElementById('stat-views').textContent = stats.totalViews;
             document.getElementById('stat-rating').textContent = stats.averageRating;
-            document.getElementById('stat-comments').textContent = stats.totalComments;
+            document.getElementById('stat-new-leads').textContent = stats.newInquiries;
+            
+            // Notif badge
+            const badge = document.getElementById('notif-badge');
+            if (stats.newInquiries > 0) {
+                badge.textContent = stats.newInquiries;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+
             renderPopular(popular);
             renderComments(comments);
+            renderActivity(activity);
+        }
+
+        function renderActivity(items) {
+            document.getElementById('activity-list').innerHTML = items.map(item => `
+                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-indigo-100 transition-all">
+                    <div class="flex items-center gap-4">
+                        <span class="pulse-dot ${item.activity_type === 'inquiry' ? 'pulse-inquiry' : 'pulse-interaction'}"></span>
+                        <div>
+                            <p class="text-sm font-bold text-slate-900">${item.user_name} <span class="text-slate-400 font-medium text-xs ml-1">${item.event}</span></p>
+                            <p class="text-[10px] text-slate-500 font-medium">${item.metadata || ''}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-400 uppercase">${formatTime(item.created_at)}</span>
+                </div>
+            `).join('') || '<p class="text-slate-400 text-sm italic p-4">No recent activity detected.</p>';
+        }
+
+        function formatTime(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
 
         function renderPopular(items) {
             document.getElementById('popular-list').innerHTML = items.map(item => `
-                <div class="flex items-center justify-between p-3 hover:bg-slate-50 rounded-xl transition-all">
+                <div class="flex items-center justify-between p-4 hover:bg-slate-50 rounded-xl transition-all border border-slate-50">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-[10px] font-black">${item.slug.substring(0,2).toUpperCase()}</div>
-                        <p class="text-sm font-bold text-slate-900">${item.slug}</p>
+                        <p class="text-sm font-bold text-slate-900 truncate max-w-[100px]">${item.slug}</p>
                     </div>
-                    <span class="text-xs font-black text-slate-400">${item.views} views</span>
+                    <span class="text-[10px] font-black text-emerald-600">${item.views} views</span>
                 </div>
             `).join('');
         }
@@ -267,15 +355,15 @@
             document.getElementById('comments-list').innerHTML = items.map(item => `
                 <div class="border-l-4 border-indigo-100 pl-4 py-1">
                     <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">${item.user_name}</p>
-                    <p class="text-sm font-medium text-slate-600">${item.content}</p>
+                    <p class="text-sm font-medium text-slate-600 line-clamp-2">${item.content}</p>
                 </div>
-            `).join('');
+            `).join('') || '<p class="text-slate-400 text-xs italic">No comments yet.</p>';
         }
 
         async function loadInquiries() {
             const leads = await fetchAdmin('/inquiries');
             document.getElementById('inquiries-table-body').innerHTML = leads.map(l => `
-                <tr>
+                <tr class="${l.status === 'new' ? 'bg-indigo-50/20' : ''}">
                     <td class="px-8 py-6">
                         <p class="text-sm font-bold text-slate-900">${l.name}</p>
                         <p class="text-xs text-slate-500">${l.email}</p>
@@ -283,7 +371,7 @@
                     <td class="px-8 py-6 text-sm font-medium text-slate-600">${l.subject}</td>
                     <td class="px-8 py-6 text-xs text-slate-400 truncate max-w-xs">${l.message}</td>
                     <td class="px-8 py-6 text-right">
-                        <select onchange="updateInquiryStatus(${l.id}, this.value)" class="text-[10px] font-black uppercase bg-slate-50 rounded-lg px-2 py-1 outline-none">
+                        <select onchange="updateInquiryStatus(${l.id}, this.value)" class="text-[10px] font-black uppercase bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none">
                             <option value="new" ${l.status === 'new' ? 'selected' : ''}>New</option>
                             <option value="replied" ${l.status === 'replied' ? 'selected' : ''}>Replied</option>
                             <option value="closed" ${l.status === 'closed' ? 'selected' : ''}>Closed</option>
@@ -295,13 +383,21 @@
 
         async function updateInquiryStatus(id, status) {
             await fetchAdmin(`/inquiries/${id}`, 'PATCH', { status });
+            loadDashboardData(); // Refresh lead count
         }
 
         async function loadUsers() {
-            const users = await fetchAdmin('/users');
+            const plan = document.getElementById('filter-plan').value;
+            const role = document.getElementById('filter-role').value;
+            let endpoint = '/users?';
+            if (plan) endpoint += `plan=${plan}&`;
+            if (role) endpoint += `role=${role}`;
+
+            const users = await fetchAdmin(endpoint);
             document.getElementById('users-table-body').innerHTML = users.map(u => `
                 <tr>
                     <td class="px-8 py-6 font-bold text-sm text-slate-900">${u.name}<br><span class="text-[10px] font-medium text-slate-400">${u.email}</span></td>
+                    <td class="px-8 py-6"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase">${u.plan || 'Free'}</span></td>
                     <td class="px-8 py-6"><span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-black uppercase">${u.role}</span></td>
                     <td class="px-8 py-6 text-right"><button onclick="showUserProfile(${u.id})" class="text-indigo-600 font-black text-xs hover:underline">View Deep-dive &rarr;</button></td>
                 </tr>
@@ -316,10 +412,11 @@
             document.getElementById('user-info-card').innerHTML = `
                 <div class="flex items-center gap-4 mb-6">
                     <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 text-2xl font-black">${profile.user.name[0]}</div>
-                    <div><p class="font-black text-slate-900">${profile.user.name}</p><p class="text-xs font-bold text-slate-400">${profile.user.role.toUpperCase()}</p></div>
+                    <div><p class="font-black text-slate-900">${profile.user.name}</p><p class="text-[10px] font-black uppercase tracking-widest text-slate-400">${profile.user.role}</p></div>
                 </div>
                 <div class="space-y-3 pt-4 border-t">
                     <p class="text-[10px] font-black text-slate-400 uppercase">Email</p><p class="text-sm font-bold text-slate-700">${profile.user.email}</p>
+                    <p class="text-[10px] font-black text-slate-400 uppercase">Plan</p><p class="text-sm font-bold text-indigo-600">${profile.user.plan || 'Free'}</p>
                     <p class="text-[10px] font-black text-slate-400 uppercase">Joined</p><p class="text-sm font-bold text-slate-700">${new Date(profile.user.created_at).toLocaleDateString()}</p>
                 </div>
             `;
@@ -350,7 +447,17 @@
         function showSection(id) {
             document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active', 'text-white'));
             document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
-            document.getElementById('section-' + id).classList.remove('hidden');
+            const target = document.getElementById('section-' + id);
+            if (target) target.classList.remove('hidden');
+            
+            // Find and highlight sidebar button
+            const sidebarBtns = document.querySelectorAll('.sidebar-link');
+            sidebarBtns.forEach(btn => {
+                if (btn.getAttribute('onclick')?.includes(`'${id}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+
             const titles = {
                 dashboard: { title: 'Overview', sub: 'Engagement at a glance.' },
                 inquiries: { title: 'CRM Leads', sub: 'Manage contact form submissions.' },
@@ -359,8 +466,12 @@
                 content: { title: 'Content Editor', sub: 'Manage platform lessons.' },
                 community: { title: 'Moderation', sub: 'Latest community discussion.' }
             };
-            document.getElementById('section-title').textContent = titles[id].title;
-            document.getElementById('section-subtitle').textContent = titles[id].sub;
+            
+            if (titles[id]) {
+                document.getElementById('section-title').textContent = titles[id].title;
+                document.getElementById('section-subtitle').textContent = titles[id].sub;
+            }
+
             if (id === 'inquiries') loadInquiries();
             if (id === 'users') loadUsers();
             if (id === 'dashboard') loadDashboardData();

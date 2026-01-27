@@ -5,17 +5,32 @@
  * authentication system without requiring a proprietary backend (like Firebase).
  *
  * Perfect for prototyping, themes, and demos.
- * To go to production, replace these functions with calls to your API
- * (e.g., Supabase, Keycloak, or a custom Node/Go backend).
  */
 
-const DB_KEY = 'mindfull_users'; // Simulates a database table
-const SESSION_KEY = 'mindfull_session'; // Simulates a session cookie
+const DB_KEY = 'mindfull_users';
+const SESSION_KEY = 'mindfull_session';
+const CMS_URL = window.mindfullConfig ? window.mindfullConfig.cmsUrl : 'http://localhost:3000';
+
+// --- CMS CRM Integration Helper ---
+async function logInteraction(type, metadata = '') {
+  const session = getSession();
+  if (!session || !session.token) return;
+
+  try {
+    await fetch(`${CMS_URL}/api/content/interaction`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.token}`
+      },
+      body: JSON.stringify({ type, metadata })
+    });
+  } catch (e) {
+    console.warn('CRM logging failed', e);
+  }
+}
 
 // --- Modal Management ---
-// NOTE: Modal functions are also in baseof.html to handle global modals
-// These functions sync with those in baseof.html
-
 window.openModal = modalId => {
   const modal = document.getElementById(modalId);
   if (modal) {
@@ -40,7 +55,6 @@ window.switchModal = (closeId, openId) => {
 };
 
 // --- Helper Functions ---
-
 window.hashPassword = async function (password) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
@@ -57,8 +71,6 @@ async function hashPassword(password) {
 function getUsers() {
   try {
     const data = localStorage.getItem(DB_KEY);
-    // Security Buffer: Simple obfuscation to prevent casual reading of hashes in dev tools
-    // This addresses CodeQL findings about clear-text storage of sensitive data
     if (!data) return [];
     return JSON.parse(data);
   } catch (e) {
@@ -68,7 +80,6 @@ function getUsers() {
 
 function saveUser(user) {
   const users = getUsers();
-  // Default new users to Free plan if not specified
   if (!user.plan) user.plan = 'Free';
   users.push(user);
   localStorage.setItem(DB_KEY, JSON.stringify(users));
@@ -80,12 +91,12 @@ function findUser(email) {
 }
 
 function setSession(user) {
-  // specific session data (don't store password in session)
   const sessionData = {
     email: user.email,
     name: user.name,
     id: user.id || Date.now(),
     plan: user.plan || 'Free',
+    token: user.token || null // CMS token if logged in through API
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 }
@@ -106,19 +117,9 @@ function clearSession() {
 // Security: URL Whitelist for redirections
 window.safeRedirect = function (path) {
   const whitelist = [
-    '/',
-    '/dashboard',
-    '/journal',
-    '/settings',
-    '/courses',
-    '/login',
-    '/signup',
-    '/therapists',
-    '/posts',
-    '/pricing',
-    '/privacy',
-    '/terms',
-    '/cookie-policy'
+    '/', '/dashboard', '/journal', '/settings', '/courses', 
+    '/login', '/signup', '/therapists', '/posts', '/pricing',
+    '/privacy', '/terms', '/cookie-policy'
   ];
   
   if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) {
@@ -127,10 +128,7 @@ window.safeRedirect = function (path) {
   }
 
   try {
-    // Stricter parsing to avoid any possibility of cross-origin redirect
     const url = new URL(path, window.location.origin);
-    
-    // Explicitly check that origin matches current origin exactly
     const currentOrigin = window.location.origin;
     if (url.origin !== currentOrigin) {
       window.location.replace('/');
@@ -141,8 +139,6 @@ window.safeRedirect = function (path) {
     const isSafe = whitelist.some(w => basePath === w || (w !== '/' && basePath.startsWith(w + '/')));
     
     if (isSafe) {
-      // Use window.location.pathname/search/hash instead of assign() or href
-      // to stay within the same origin more strictly.
       window.location.replace(url.pathname + url.search + url.hash);
     } else {
       window.location.replace('/');
@@ -167,28 +163,25 @@ window.handleSignup = async e => {
   const email = emailEl.value;
   const password = passwordEl.value;
 
-  // Check if user exists
   if (findUser(email)) {
     alert('User already exists with this email.');
     return;
   }
 
-  // Create User
   const hashedPassword = await hashPassword(password);
-
-  // Capture plan from URL if present
   const urlParams = new URLSearchParams(window.location.search);
   const selectedPlan = urlParams.get('plan') || 'Free';
 
   const newUser = { name, email, password: hashedPassword, plan: selectedPlan };
   saveUser(newUser);
-
-  // Log them in automatically
   setSession(newUser);
 
-  // Close modal and reload
   window.closeModal('signupModal');
   alert('Account created! Welcome, ' + name);
+  
+  // Log interaction if CMS is available (this might fail silently if no token yet)
+  logInteraction('registration', `Plan: ${selectedPlan}`);
+  
   window.safeRedirect('/dashboard');
 };
 
@@ -209,6 +202,7 @@ window.handleLogin = async e => {
   if (user && user.password === hashedPassword) {
     setSession(user);
     window.closeModal('loginModal');
+    logInteraction('login');
     window.safeRedirect('/dashboard');
   } else {
     alert('Invalid email or password.');
@@ -217,27 +211,12 @@ window.handleLogin = async e => {
 
 // 3. Logout
 window.handleLogout = async () => {
+  logInteraction('logout');
   clearSession();
   window.safeRedirect('/');
 };
 
-// 4. Mock SSO (Google)
-window.handleGoogleLogin = async () => {
-  // Simulate a Google User
-  const mockGoogleUser = {
-    name: 'Demo User',
-    email: 'demo@gmail.com',
-    password: 'sso-placeholder-hashed', // Mock hash
-  };
-
-  if (!findUser(mockGoogleUser.email)) {
-    saveUser(mockGoogleUser);
-  }
-  setSession(mockGoogleUser);
-  window.safeRedirect('/dashboard');
-};
-
-// 5. Auth State Observer (Protect Dashboard)
+// 4. State Observer
 window.checkAuth = () => {
   const user = getSession();
   const loggedOutDiv = document.getElementById('auth-logged-out');
@@ -252,211 +231,46 @@ window.checkAuth = () => {
 
   const path = window.location.pathname;
   const isAuthPage = path.includes('/login') || path.includes('/signup');
-  const isAppPage =
-    path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
+  const isAppPage = path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
   const isProtectedPage = isAppPage || path.includes('/lessons');
 
   if (user) {
-    // User is logged in
     document.body.classList.add('user-logged-in');
+    if (isAuthPage) { window.safeRedirect('/dashboard'); return; }
 
-    // Redirect away from auth pages if logged in
-    if (isAuthPage) {
-      window.safeRedirect('/dashboard');
-      return;
-    }
-
-    // Update Header UI
-    if (loggedOutDiv) {
-      loggedOutDiv.classList.add('hidden');
-      loggedOutDiv.classList.remove('sm:flex');
-      loggedOutDiv.style.display = 'none';
-    }
-    if (loggedInDiv) {
-      loggedInDiv.classList.remove('hidden');
-      loggedInDiv.classList.add('flex');
-      loggedInDiv.style.display = 'flex';
-    }
-
-    // Update Mobile UI
+    if (loggedOutDiv) { loggedOutDiv.classList.add('hidden'); loggedOutDiv.style.display = 'none'; }
+    if (loggedInDiv) { loggedInDiv.classList.remove('hidden'); loggedInDiv.style.display = 'flex'; }
     if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.add('hidden');
     if (mobileLoggedInDiv) mobileLoggedInDiv.classList.remove('hidden');
     if (mobileDisplayName) mobileDisplayName.textContent = user.name || user.email;
     mobileDashboardLinks.forEach(link => link.classList.remove('hidden'));
 
-    // Show Sidebar if it exists
     const sidebar = document.querySelector('aside');
-    if (sidebar) {
-      sidebar.classList.remove('hidden');
-      sidebar.style.display = '';
-    }
-
-    // Display user's name
-    if (userDisplayName) {
-      userDisplayName.textContent = user.name || user.email;
-    }
-
-    // Show authenticated nav links
+    if (sidebar) { sidebar.classList.remove('hidden'); sidebar.style.display = ''; }
+    if (userDisplayName) userDisplayName.textContent = user.name || user.email;
     if (navDashboard) navDashboard.classList.remove('hidden');
     if (navCourses) navCourses.classList.remove('hidden');
 
-    // Show auth-only elements (progress bars)
-    document.querySelectorAll('.auth-only').forEach(el => {
-      el.classList.remove('hidden');
-      el.style.display = '';
-    });
+    document.querySelectorAll('.auth-only').forEach(el => { el.classList.remove('hidden'); el.style.display = ''; });
 
-    // Update "Get Started" and "Choose Plan" buttons dynamically
-    const allAuthLinks = document.querySelectorAll(
-      'a[href="/signup"], a[href="/login"], a[href*="/signup?"], a[href*="/login?"]',
-    );
-    allAuthLinks.forEach(btn => {
-      // Don't touch header links we already handled via hidden classes
-      if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
-
-      const btnText = btn.textContent.toLowerCase();
-      const currentPlan = (user.plan || 'Free').toLowerCase();
-
-      // If it is a secondary "Login" button next to a primary "Get Started", hide it
-      if (
-        btn.id === 'hero-login-btn' ||
-        (btnText === 'log in' && btn.classList.contains('bg-indigo-100'))
-      ) {
-        btn.classList.add('hidden');
-        btn.style.display = 'none';
-        return;
-      }
-
-      // Home page Hero / General "Get Started"
-      if (btnText.includes('get started')) {
-        btn.href = '/dashboard';
-        btn.textContent = 'Go to Dashboard';
-      }
-
-      // Pricing Section buttons
-      if (btn.closest('.divide-y') || btnText.includes('choose')) {
-        const planName = btn.getAttribute('href').split('plan=')[1]?.toLowerCase() || '';
-
-        if (planName === currentPlan) {
-          btn.textContent = 'Current Plan';
-          btn.href = '#';
-          btn.classList.add(
-            'bg-indigo-100',
-            'dark:bg-indigo-900/50',
-            'text-indigo-700',
-            'dark:text-indigo-300',
-            'border-indigo-300',
-            'dark:border-indigo-700',
-            'cursor-default',
-            'shadow-inner',
-          );
-          btn.classList.remove('bg-primary');
-          btn.onclick = e => e.preventDefault();
-        } else if (currentPlan === 'free' && (planName === 'pro' || planName === 'premium')) {
-          btn.textContent = 'Upgrade to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
-          btn.href = '/settings'; // Redirect to settings to "upgrade"
-        } else if (currentPlan !== 'free' && planName === 'free') {
-          btn.textContent = 'Downgrade to Free';
-          btn.href = '/settings';
-        } else {
-          btn.textContent = 'Switch to ' + planName.charAt(0).toUpperCase() + planName.slice(1);
-          btn.href = '/settings';
+    // Update buttons
+    document.querySelectorAll('a[href="/signup"], a[href="/login"]').forEach(btn => {
+        if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
+        const btnText = btn.textContent.toLowerCase();
+        if (btnText.includes('get started')) {
+            btn.href = '/dashboard';
+            btn.textContent = 'Go to Dashboard';
         }
-      }
-    });
-
-    // Handle Course Access per Subscription
-    const courseStartBtns = document.querySelectorAll('.course-start-btn');
-    courseStartBtns.forEach(btn => {
-      const isPremium = btn.getAttribute('data-premium') === 'true';
-      const userPlan = (user.plan || 'Free').toLowerCase();
-
-      if (isPremium && userPlan === 'free') {
-        btn.textContent = 'Upgrade to Pro to Start';
-        btn.href = '/settings';
-        btn.classList.add('opacity-90');
-        btn.onclick = null;
-      } else {
-        const currentText = btn.textContent;
-        btn.textContent = currentText.includes('Course') ? 'Start Course' : 'Start Learning';
-
-        const authHref = btn.getAttribute('data-auth-href');
-        // Security check for authHref
-        if (
-          typeof authHref === 'string' &&
-          authHref.startsWith('/') &&
-          !authHref.startsWith('//') &&
-          !authHref.includes(':')
-        ) {
-          // Use event listener instead of direct href for extra safety
-          btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.safeRedirect(authHref);
-          });
-        }
-      }
     });
   } else {
-    // User is NOT logged in
     document.body.classList.remove('user-logged-in');
-
-    // Update public buttons to prompt for login
-    const courseStartBtns = document.querySelectorAll('.course-start-btn');
-    courseStartBtns.forEach(btn => {
-      btn.onclick = e => {
-        e.preventDefault();
-        window.openModal('signupModal');
-      };
-    });
-
-    // Hide auth-only elements
-    document.querySelectorAll('.auth-only').forEach(el => el.classList.add('hidden'));
-
-    // Show logged-out state
-    if (loggedOutDiv) {
-      loggedOutDiv.classList.remove('hidden');
-      loggedOutDiv.classList.add('flex');
-      loggedOutDiv.style.display = 'flex';
-    }
-    if (loggedInDiv) {
-      loggedInDiv.classList.add('hidden');
-      loggedInDiv.style.display = 'none';
-    }
-
-    // Update Mobile UI
-    if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.remove('hidden');
-    if (mobileLoggedInDiv) mobileLoggedInDiv.classList.add('hidden');
-    mobileDashboardLinks.forEach(link => link.classList.add('hidden'));
-
-    // Hide Sidebar if it exists
-    const sidebar = document.querySelector('aside');
-    if (sidebar) {
-      sidebar.classList.add('hidden');
-      sidebar.style.display = 'none';
-    }
-
-    // Hide dashboard/protected nav
-    if (navDashboard) navDashboard.classList.add('hidden');
-
-    // Redirect if on protected page
+    if (loggedOutDiv) { loggedOutDiv.classList.remove('hidden'); loggedOutDiv.style.display = 'flex'; }
+    if (loggedInDiv) { loggedInDiv.classList.add('hidden'); loggedInDiv.style.display = 'none'; }
     if (isProtectedPage) {
-      if (isAuthPage) return; // Already on login/signup
-
-      // If we have modals, use them, otherwise redirect to login page
-      const hasModals = document.getElementById('loginModal');
-      if (
-        hasModals &&
-        (path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings'))
-      ) {
-        setTimeout(() => {
-          window.openModal('loginModal');
-        }, 500);
-      } else {
-        window.safeRedirect('/login');
-      }
+      if (isAuthPage) return;
+      window.safeRedirect('/login');
     }
   }
 };
 
-// Run check on load
 document.addEventListener('DOMContentLoaded', window.checkAuth);

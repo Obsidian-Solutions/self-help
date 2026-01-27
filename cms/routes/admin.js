@@ -21,10 +21,33 @@ router.get('/stats', (req, res) => {
 
         db.get('SELECT AVG(avg_rating) as avg FROM course_ratings', [], (err, row) => {
           stats.averageRating = row?.avg ? row.avg.toFixed(1) : '0.0';
-          res.json(stats);
+          
+          db.get('SELECT COUNT(*) as count FROM inquiries WHERE status = "new"', [], (err, row) => {
+            stats.newInquiries = row?.count || 0;
+            res.json(stats);
+          });
         });
       });
     });
+  });
+});
+
+// --- CRM: Recent Activity Pulse ---
+router.get('/activity', (req, res) => {
+  // Combine user interactions and new inquiries for a single stream
+  const query = `
+    SELECT 'interaction' as activity_type, type as event, metadata, created_at, u.name as user_name
+    FROM user_interactions ui
+    JOIN users u ON ui.user_id = u.id
+    UNION ALL
+    SELECT 'inquiry' as activity_type, subject as event, message as metadata, created_at, name as user_name
+    FROM inquiries
+    ORDER BY created_at DESC LIMIT 15
+  `;
+
+  db.all(query, [], (err, rows) => {
+    if (err) return res.status(500).json({ message: 'Database error' });
+    res.json(rows);
   });
 });
 
@@ -48,16 +71,35 @@ router.get('/comments', (req, res) => {
   });
 });
 
-// --- User List ---
+// --- User List (Enhanced with Filtering) ---
 router.get('/users', (req, res) => {
-  db.all(
-    'SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC',
-    [],
-    (err, rows) => {
-      if (err) return res.status(500).json({ message: 'Database error' });
-      res.json(rows);
-    },
-  );
+  const { plan, role } = req.query;
+  let query = 'SELECT id, name, email, role, created_at FROM users';
+  const params = [];
+  const conditions = [];
+
+  if (plan) {
+    // Note: plan is currently stored in user_interactions or would be a column in users.
+    // Assuming we add 'plan' to users table for CRM segmentation
+    conditions.push('plan = ?');
+    params.push(plan);
+  }
+  
+  if (role) {
+    conditions.push('role = ?');
+    params.push(role);
+  }
+
+  if (conditions.length > 0) {
+    query += ' WHERE ' + conditions.join(' AND ');
+  }
+
+  query += ' ORDER BY created_at DESC';
+
+  db.all(query, params, (err, rows) => {
+    if (err) return res.status(500).json({ message: 'Database error' });
+    res.json(rows);
+  });
 });
 
 // --- CRM: Inquiries (Leads) ---
