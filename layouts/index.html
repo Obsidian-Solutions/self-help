@@ -127,33 +127,71 @@
 </section>
 
 <!-- Blog Section -->
-<section class="py-12 sm:py-20 bg-white dark:bg-gray-900">
+<section class="py-12 sm:py-24 bg-white dark:bg-gray-900">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16 mx-auto">
-      <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] mb-4 text-center">Journal</h2>
-      <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4 sm:text-5xl text-center">{{ .Params.sections.blogTitle }}</p>
-      <p class="text-lg text-gray-500 dark:text-gray-400 font-medium text-center">{{ .Params.sections.blogDescription }}</p>
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div class="max-w-2xl">
+        <h2 class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.3em] mb-4">The MindFull Journal</h2>
+        <p class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-5xl">
+          {{ .Params.sections.blogTitle }}
+        </p>
+      </div>
+      <a href="/posts" class="btn-premium-secondary px-8 py-3 hidden md:inline-flex">View All Articles &rarr;</a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {{ range first 3 (where .Site.RegularPages "Section" "posts") }}
-      <a href="{{ .RelPermalink }}" class="premium-card group p-6 flex flex-col hover:border-indigo-300 dark:hover:border-indigo-700">
-        <div class="aspect-video bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl mb-6 overflow-hidden flex items-center justify-center p-8">
-          {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "class" "w-full h-full object-contain") }}
-          {{ else }}
-            <i class="fa-solid fa-newspaper text-indigo-200 text-4xl"></i>
-          {{ end }}
-        </div>
-        <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-2">{{ .Date.Format "Jan 02, 2006" }}</span>
-        <h3 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors tracking-tight mb-3 leading-tight">{{ .Title }}</h3>
-        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium line-clamp-2">{{ .Summary }}</p>
-      </a>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
+      {{ $posts := (where .Site.RegularPages "Section" "posts") }}
+      
+      <!-- Featured Post (Larger) -->
+      {{ range first 1 $posts }}
+      <div class="lg:col-span-7">
+        <a href="{{ .RelPermalink }}" class="group block premium-card overflow-hidden h-full">
+          <div class="aspect-[16/9] bg-indigo-50 dark:bg-indigo-950/20 overflow-hidden flex items-center justify-center p-12">
+            {{ if .Params.illustration }}
+              {{ partial "shared/undraw.html" (dict "name" .Params.illustration "class" "w-full h-full object-contain group-hover:scale-105 transition-transform duration-700") }}
+            {{ end }}
+          </div>
+          <div class="p-8 sm:p-10">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-600 text-white shadow-lg shadow-indigo-200">Featured</span>
+              <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ .ReadingTime }} min read</span>
+            </div>
+            <h3 class="text-3xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors tracking-tight mb-4 leading-tight">{{ .Title }}</h3>
+            <p class="text-lg text-gray-500 dark:text-gray-400 font-medium line-clamp-3 mb-8">{{ .Description | default .Summary }}</p>
+            <span class="text-sm font-black text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+              Continue Reading
+              <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
       {{ end }}
-    </div>
 
-    <div class="mt-16 text-center">
-      <a href="/posts" class="btn-premium-secondary px-10">Read More Articles &rarr;</a>
+      <!-- Side Posts (Smaller) -->
+      <div class="lg:col-span-5 flex flex-col gap-8">
+        {{ range first 2 (after 1 $posts) }}
+        <a href="{{ .RelPermalink }}" class="group block premium-card p-6 flex items-start gap-6 hover:border-indigo-300 dark:hover:border-indigo-700">
+          <div class="hidden sm:flex flex-shrink-0 w-24 h-24 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl items-center justify-center p-4">
+            {{ if .Params.illustration }}
+              {{ partial "shared/undraw.html" (dict "name" .Params.illustration "class" "w-full h-full object-contain") }}
+            {{ end }}
+          </div>
+          <div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">{{ .Date.Format "Jan 02" }}</span>
+              <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ .ReadingTime }} min</span>
+            </div>
+            <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight mb-2">{{ .Title }}</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium line-clamp-2">{{ .Description | default .Summary }}</p>
+          </div>
+        </a>
+        {{ end }}
+        
+        <div class="mt-auto pt-4 md:hidden">
+          <a href="/posts" class="btn-premium-secondary w-full">View All Articles &rarr;</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
