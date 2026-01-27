@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Course Content &amp; Quiz Documentation# Theme Overview# This Hugo theme is designed as a reusable, feature-rich template for mental health and wellness education platforms. The content folder contains demo/example content showing how to build courses with embedded quizzes.
+Lesson Structure with Embedded Quizzes# Lessons are the core building blocks of courses. Each lesson can include an embedded quiz to test knowledge.
+Lesson Front Matter Example# --- title: &#39;Understanding Anxiety: The Basics&#39; course: &#39;CBT for Anxiety&#39; # Links lesson to a course description: &#39;Learn the fundamentals of anxiety and how CBT can help manage it.&#39; order: 1 # Display order in course draft: false quiz: # Optional - add quiz to lesson description: &#39;Test your knowledge about anxiety basics&#39; resultMessage: &#39;Excellent! You understand the foundations of anxiety management.&#39; questions: - question: &#39;What does CBT stand for?&#39; options: - &#39;Cognitive Behavioral Therapy&#39; - &#39;Cognitive Biological Theory&#39; - &#39;Consistent Behavior Training&#39; - &#39;Cognitive Bias Testing&#39; correct: 0 # Index of correct answer explanation: &#39;CBT stands for Cognitive Behavioral Therapy...&#39; # Add more questions... ---Creating a Lesson with a Quiz# Step 1: Create the Lesson File# Create a new markdown file in content/lessons/:
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/features/quizzes/">
+  <meta property="og:site_name" content="MindFull Documentation">
+  <meta property="og:title" content="MindFull Documentation">
+  <meta property="og:description" content="Course Content &amp; Quiz Documentation# Theme Overview# This Hugo theme is designed as a reusable, feature-rich template for mental health and wellness education platforms. The content folder contains demo/example content showing how to build courses with embedded quizzes.
+Lesson Structure with Embedded Quizzes# Lessons are the core building blocks of courses. Each lesson can include an embedded quiz to test knowledge.
+Lesson Front Matter Example# --- title: &#39;Understanding Anxiety: The Basics&#39; course: &#39;CBT for Anxiety&#39; # Links lesson to a course description: &#39;Learn the fundamentals of anxiety and how CBT can help manage it.&#39; order: 1 # Display order in course draft: false quiz: # Optional - add quiz to lesson description: &#39;Test your knowledge about anxiety basics&#39; resultMessage: &#39;Excellent! You understand the foundations of anxiety management.&#39; questions: - question: &#39;What does CBT stand for?&#39; options: - &#39;Cognitive Behavioral Therapy&#39; - &#39;Cognitive Biological Theory&#39; - &#39;Consistent Behavior Training&#39; - &#39;Cognitive Bias Testing&#39; correct: 0 # Index of correct answer explanation: &#39;CBT stands for Cognitive Behavioral Therapy...&#39; # Add more questions... ---Creating a Lesson with a Quiz# Step 1: Create the Lesson File# Create a new markdown file in content/lessons/:">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+
+
+  <meta itemprop="name" content="MindFull Documentation">
+  <meta itemprop="description" content="Course Content &amp; Quiz Documentation# Theme Overview# This Hugo theme is designed as a reusable, feature-rich template for mental health and wellness education platforms. The content folder contains demo/example content showing how to build courses with embedded quizzes.
+Lesson Structure with Embedded Quizzes# Lessons are the core building blocks of courses. Each lesson can include an embedded quiz to test knowledge.
+Lesson Front Matter Example# --- title: &#39;Understanding Anxiety: The Basics&#39; course: &#39;CBT for Anxiety&#39; # Links lesson to a course description: &#39;Learn the fundamentals of anxiety and how CBT can help manage it.&#39; order: 1 # Display order in course draft: false quiz: # Optional - add quiz to lesson description: &#39;Test your knowledge about anxiety basics&#39; resultMessage: &#39;Excellent! You understand the foundations of anxiety management.&#39; questions: - question: &#39;What does CBT stand for?&#39; options: - &#39;Cognitive Behavioral Therapy&#39; - &#39;Cognitive Biological Theory&#39; - &#39;Consistent Behavior Training&#39; - &#39;Cognitive Bias Testing&#39; correct: 0 # Index of correct answer explanation: &#39;CBT stands for Cognitive Behavioral Therapy...&#39; # Add more questions... ---Creating a Lesson with a Quiz# Step 1: Create the Lesson File# Create a new markdown file in content/lessons/:">
+  <meta itemprop="wordCount" content="818">
+
+<title>Quizzes | MindFull Documentation</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1314/docs/features/quizzes/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.fb05be9dac57bc1ce716e2d8de86b6323736c5d99306b507df6a84b8351acdfc.js" integrity="sha256-&#43;wW&#43;naxXvBznFuLY3oa2Mjc2xdmTBrUH32qEuDUazfw=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/logo.png" alt="Logo" /><span>MindFull Documentation</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/architecture/" class="">
+      Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/branding/" class="">
+      Branding</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/installation/" class="">
+      Installation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/analytics/" class="">
+      Search &amp; Analytics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/illustrations/" class="">
+      Illustrations</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/quizzes/" class="active">
+      Quizzes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/deployment/" class="">
+      Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      Sso Setup</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Quizzes</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#theme-overview">Theme Overview</a></li>
+    <li><a href="#lesson-structure-with-embedded-quizzes">Lesson Structure with Embedded Quizzes</a>
+      <ul>
+        <li><a href="#lesson-front-matter-example">Lesson Front Matter Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-a-lesson-with-a-quiz">Creating a Lesson with a Quiz</a>
+      <ul>
+        <li><a href="#step-1-create-the-lesson-file">Step 1: Create the Lesson File</a></li>
+        <li><a href="#step-2-add-front-matter">Step 2: Add Front Matter</a></li>
+        <li><a href="#step-3-write-lesson-content">Step 3: Write Lesson Content</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-quizzes-work">How Quizzes Work</a>
+      <ul>
+        <li><a href="#quiz-features">Quiz Features</a></li>
+        <li><a href="#quiz-data-flow">Quiz Data Flow</a></li>
+        <li><a href="#javascript-integration">JavaScript Integration</a></li>
+      </ul>
+    </li>
+    <li><a href="#quiz-scoring--achievements">Quiz Scoring &amp; Achievements</a>
+      <ul>
+        <li><a href="#score-thresholds">Score Thresholds</a></li>
+        <li><a href="#achievement-tracking">Achievement Tracking</a></li>
+      </ul>
+    </li>
+    <li><a href="#course-structure">Course Structure</a>
+      <ul>
+        <li><a href="#course-front-matter">Course Front Matter</a></li>
+      </ul>
+    </li>
+    <li><a href="#example-complete-lesson-workflow">Example: Complete Lesson Workflow</a></li>
+    <li><a href="#customization">Customization</a>
+      <ul>
+        <li><a href="#modify-quiz-styling">Modify Quiz Styling</a></li>
+        <li><a href="#extend-quiz-features">Extend Quiz Features</a></li>
+        <li><a href="#add-quiz-types">Add Quiz Types</a></li>
+      </ul>
+    </li>
+    <li><a href="#data-persistence">Data Persistence</a>
+      <ul>
+        <li><a href="#stored-in-localstorage">Stored in localStorage:</a></li>
+      </ul>
+    </li>
+    <li><a href="#best-practices">Best Practices</a></li>
+    <li><a href="#future-enhancements">Future Enhancements</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><h1 id="course-content--quiz-documentation">Course Content &amp; Quiz Documentation<a class="anchor" href="#course-content--quiz-documentation">#</a></h1>
+<h2 id="theme-overview">Theme Overview<a class="anchor" href="#theme-overview">#</a></h2>
+<p>This Hugo theme is designed as a <strong>reusable, feature-rich template</strong> for mental health and wellness education platforms. The content folder contains demo/example content showing how to build courses with embedded quizzes.</p>
+<h2 id="lesson-structure-with-embedded-quizzes">Lesson Structure with Embedded Quizzes<a class="anchor" href="#lesson-structure-with-embedded-quizzes">#</a></h2>
+<p>Lessons are the core building blocks of courses. Each lesson can include an embedded quiz to test knowledge.</p>
+<h3 id="lesson-front-matter-example">Lesson Front Matter Example<a class="anchor" href="#lesson-front-matter-example">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">title: &#39;Understanding Anxiety</span>: <span style="color:#ae81ff">The Basics&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">course</span>: <span style="color:#e6db74">&#39;CBT for Anxiety&#39;</span> <span style="color:#75715e"># Links lesson to a course</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#39;Learn the fundamentals of anxiety and how CBT can help manage it.&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">order</span>: <span style="color:#ae81ff">1</span> <span style="color:#75715e"># Display order in course</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">draft</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">quiz</span>: <span style="color:#75715e"># Optional - add quiz to lesson</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#39;Test your knowledge about anxiety basics&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resultMessage</span>: <span style="color:#e6db74">&#39;Excellent! You understand the foundations of anxiety management.&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">questions</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">question</span>: <span style="color:#e6db74">&#39;What does CBT stand for?&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">options</span>:
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;Cognitive Behavioral Therapy&#39;</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;Cognitive Biological Theory&#39;</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;Consistent Behavior Training&#39;</span>
+</span></span><span style="display:flex;"><span>        - <span style="color:#e6db74">&#39;Cognitive Bias Testing&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">correct</span>: <span style="color:#ae81ff">0</span> <span style="color:#75715e"># Index of correct answer</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">explanation</span>: <span style="color:#e6db74">&#39;CBT stands for Cognitive Behavioral Therapy...&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Add more questions...</span>
+</span></span><span style="display:flex;"><span>---</span></span></code></pre></div><h2 id="creating-a-lesson-with-a-quiz">Creating a Lesson with a Quiz<a class="anchor" href="#creating-a-lesson-with-a-quiz">#</a></h2>
+<h3 id="step-1-create-the-lesson-file">Step 1: Create the Lesson File<a class="anchor" href="#step-1-create-the-lesson-file">#</a></h3>
+<p>Create a new markdown file in <code>content/lessons/</code>:</p>
+<ul>
+<li>File: <code>content/lessons/my-lesson.md</code></li>
+<li>Name it descriptively (e.g., <code>anxiety-basics.md</code>, <code>sleep-hygiene-intro.md</code>)</li>
+</ul>
+<h3 id="step-2-add-front-matter">Step 2: Add Front Matter<a class="anchor" href="#step-2-add-front-matter">#</a></h3>
+<p>Include metadata and quiz questions:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">title</span>: <span style="color:#e6db74">&#39;Your Lesson Title&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">course</span>: <span style="color:#e6db74">&#39;Course Name That Matches a Course File&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#39;Brief description of what students will learn&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">order</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">quiz</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">description</span>: <span style="color:#e6db74">&#39;Optional description of the quiz&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">resultMessage</span>: <span style="color:#e6db74">&#39;Message shown after quiz completion&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">questions</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">question</span>: <span style="color:#e6db74">&#39;First question?&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">options</span>: [<span style="color:#e6db74">&#39;Option A&#39;</span>, <span style="color:#e6db74">&#39;Option B&#39;</span>, <span style="color:#e6db74">&#39;Option C&#39;</span>, <span style="color:#e6db74">&#39;Option D&#39;</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">correct</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">explanation</span>: <span style="color:#e6db74">&#39;Why this answer is correct&#39;</span></span></span></code></pre></div><h3 id="step-3-write-lesson-content">Step 3: Write Lesson Content<a class="anchor" href="#step-3-write-lesson-content">#</a></h3>
+<p>Add your lesson content in markdown:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>[Front matter here]
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## Welcome to Your Lesson
+</span></span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Your lesson content goes here. You can use:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> Headings (##, ###, etc.)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> **Bold** and <span style="font-style:italic">_italic_</span> text
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> Lists
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> Code blocks
+</span></span><span style="display:flex;"><span>- Links</span></span></code></pre></div><p>The quiz will automatically render at the end of the lesson content.</p>
+<h2 id="how-quizzes-work">How Quizzes Work<a class="anchor" href="#how-quizzes-work">#</a></h2>
+<h3 id="quiz-features">Quiz Features<a class="anchor" href="#quiz-features">#</a></h3>
+<ul>
+<li><strong>Multiple choice questions</strong> with 4 options</li>
+<li><strong>Immediate feedback</strong> - explanation shown after each question</li>
+<li><strong>Scoring system</strong> - calculates percentage</li>
+<li><strong>Results screen</strong> - personalized message based on score</li>
+<li><strong>Progress tracking</strong> - saves quiz attempts to localStorage</li>
+<li><strong>Achievement unlocking</strong> - scores ≥80% can unlock badges</li>
+</ul>
+<h3 id="quiz-data-flow">Quiz Data Flow<a class="anchor" href="#quiz-data-flow">#</a></h3>
+<ol>
+<li><strong>Lesson loaded</strong> - Front matter quiz data extracted</li>
+<li><strong>Quiz initiated</strong> - JavaScript initializes quiz engine with data</li>
+<li><strong>Answer selected</strong> - Feedback and explanation shown immediately</li>
+<li><strong>Results calculated</strong> - Score and percentage calculated</li>
+<li><strong>Data saved</strong> - Results saved to localStorage</li>
+<li><strong>Badges awarded</strong> - If score ≥80%, &ldquo;Feelings Expert&rdquo; badge unlocked</li>
+</ol>
+<h3 id="javascript-integration">JavaScript Integration<a class="anchor" href="#javascript-integration">#</a></h3>
+<p>The quiz uses Hugo&rsquo;s templating to convert YAML quiz data to JavaScript:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lessonQuizData</span> <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">title</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Lesson Title - Knowledge Check&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">description</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Test your understanding&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">resultMessage</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Great work!&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">questions</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">question</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Question text?&#39;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">options</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;A&#39;</span>, <span style="color:#e6db74">&#39;B&#39;</span>, <span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;D&#39;</span>],
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">correct</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">explanation</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Explanation text&#39;</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">initializeQuiz</span>(<span style="color:#a6e22e">lessonQuizData</span>);</span></span></code></pre></div><h2 id="quiz-scoring--achievements">Quiz Scoring &amp; Achievements<a class="anchor" href="#quiz-scoring--achievements">#</a></h2>
+<h3 id="score-thresholds">Score Thresholds<a class="anchor" href="#score-thresholds">#</a></h3>
+<ul>
+<li><strong>80%+</strong> → 🌟 &ldquo;Excellent Work!&rdquo; + Unlock &ldquo;Feelings Expert&rdquo; badge</li>
+<li><strong>60-79%</strong> → 👏 &ldquo;Good Job!&rdquo;</li>
+<li><strong>40-59%</strong> → 📚 &ldquo;Keep Learning!&rdquo;</li>
+<li><strong>&lt;40%</strong> → 💪 &ldquo;Time to Review&rdquo;</li>
+</ul>
+<h3 id="achievement-tracking">Achievement Tracking<a class="anchor" href="#achievement-tracking">#</a></h3>
+<p>Achievements are stored in <code>localStorage.badges</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;first-course&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,        <span style="color:#75715e">// Completed first course
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;meditation-streak&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,    <span style="color:#75715e">// 7-day check-in streak
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;feelings-explorer&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,    <span style="color:#75715e">// Completed 3 quizzes with 80%+
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;anxiety-warrior&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,      <span style="color:#75715e">// Completed Anxiety course
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;sleep-wizard&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,         <span style="color:#75715e">// Completed Sleep course
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;journaling-champ&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>      <span style="color:#75715e">// 10+ journal entries
+</span></span></span><span style="display:flex;"><span>}</span></span></code></pre></div><h2 id="course-structure">Course Structure<a class="anchor" href="#course-structure">#</a></h2>
+<p>Courses are created as simple markdown files in <code>content/courses/</code>:</p>
+<ul>
+<li>File: <code>content/courses/course-name.md</code></li>
+<li>The course automatically pulls in all lessons with matching <code>course:</code> value</li>
+</ul>
+<h3 id="course-front-matter">Course Front Matter<a class="anchor" href="#course-front-matter">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">title</span>: <span style="color:#e6db74">&#39;Course Title&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#e6db74">&#39;What students will learn&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">image</span>: <span style="color:#e6db74">&#39;/images/course-image.jpg&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">category</span>: <span style="color:#e6db74">&#39;Category Name (e.g., Anxiety, Sleep)&#39;</span>
+</span></span><span style="display:flex;"><span>---</span></span></code></pre></div><h2 id="example-complete-lesson-workflow">Example: Complete Lesson Workflow<a class="anchor" href="#example-complete-lesson-workflow">#</a></h2>
+<ol>
+<li><strong>Create</strong> → <code>content/lessons/anxiety-intro.md</code></li>
+<li><strong>Add front matter</strong> with title, course, and quiz questions</li>
+<li><strong>Write content</strong> - lesson material and explanations</li>
+<li><strong>Test</strong> - Visit lesson page, take quiz, check results</li>
+<li><strong>Verify</strong> - Check browser console localStorage for saved data</li>
+</ol>
+<h2 id="customization">Customization<a class="anchor" href="#customization">#</a></h2>
+<h3 id="modify-quiz-styling">Modify Quiz Styling<a class="anchor" href="#modify-quiz-styling">#</a></h3>
+<p>Edit <code>/layouts/_partials/quiz/quiz-engine.html</code> for:</p>
+<ul>
+<li>Colors and gradients</li>
+<li>Button styles</li>
+<li>Animations</li>
+<li>Result screen layout</li>
+</ul>
+<h3 id="extend-quiz-features">Extend Quiz Features<a class="anchor" href="#extend-quiz-features">#</a></h3>
+<p>Add to <code>quiz-engine.html</code>:</p>
+<ul>
+<li>Timed quizzes</li>
+<li>Question shuffling</li>
+<li>Passing score requirements</li>
+<li>Certificate generation</li>
+<li>Email results</li>
+</ul>
+<h3 id="add-quiz-types">Add Quiz Types<a class="anchor" href="#add-quiz-types">#</a></h3>
+<p>Create new partials in <code>layouts/_partials/quiz/</code>:</p>
+<ul>
+<li><code>true-false-quiz.html</code> - Simple yes/no questions</li>
+<li><code>matching-quiz.html</code> - Match items together</li>
+<li><code>essay-quiz.html</code> - Open-ended questions with rubrics</li>
+</ul>
+<h2 id="data-persistence">Data Persistence<a class="anchor" href="#data-persistence">#</a></h2>
+<h3 id="stored-in-localstorage">Stored in localStorage:<a class="anchor" href="#stored-in-localstorage">#</a></h3>
+<ul>
+<li><code>moodCheckins</code> - Daily mood selections</li>
+<li><code>courseProgress</code> - Completed lessons/courses</li>
+<li><code>badges</code> - Unlocked achievements</li>
+<li><code>quizHistory</code> - All quiz attempts and scores</li>
+<li><code>lastQuizScore</code> - Most recent quiz percentage</li>
+</ul>
+<h2 id="best-practices">Best Practices<a class="anchor" href="#best-practices">#</a></h2>
+<ol>
+<li><strong>Keep questions clear</strong> - 1-2 sentences max</li>
+<li><strong>Offer distinct options</strong> - Avoid obviously wrong answers</li>
+<li><strong>Provide helpful explanations</strong> - Explain why correct answer is right</li>
+<li><strong>Test difficulty</strong> - Quizzes should be challenging but fair</li>
+<li><strong>Order by difficulty</strong> - Start easier, increase difficulty</li>
+<li><strong>Multiple attempts</strong> - Allow retakes to encourage learning</li>
+<li><strong>Positive messaging</strong> - Encourage users at all score levels</li>
+</ol>
+<h2 id="future-enhancements">Future Enhancements<a class="anchor" href="#future-enhancements">#</a></h2>
+<p>This theme is built for eventual CMS integration (Phase 4):</p>
+<ul>
+<li>Admin dashboard for creating quizzes</li>
+<li>Question bank/library</li>
+<li>Quiz analytics and reporting</li>
+<li>Student progress tracking</li>
+<li>Automated grading and feedback</li>
+<li>Spaced repetition scheduling</li>
+<li>Certification system</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/design/illustrations/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Illustrations</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/getting-started/deployment/" class="flex align-center">
+        <span>Deployment</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#theme-overview">Theme Overview</a></li>
+    <li><a href="#lesson-structure-with-embedded-quizzes">Lesson Structure with Embedded Quizzes</a>
+      <ul>
+        <li><a href="#lesson-front-matter-example">Lesson Front Matter Example</a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-a-lesson-with-a-quiz">Creating a Lesson with a Quiz</a>
+      <ul>
+        <li><a href="#step-1-create-the-lesson-file">Step 1: Create the Lesson File</a></li>
+        <li><a href="#step-2-add-front-matter">Step 2: Add Front Matter</a></li>
+        <li><a href="#step-3-write-lesson-content">Step 3: Write Lesson Content</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-quizzes-work">How Quizzes Work</a>
+      <ul>
+        <li><a href="#quiz-features">Quiz Features</a></li>
+        <li><a href="#quiz-data-flow">Quiz Data Flow</a></li>
+        <li><a href="#javascript-integration">JavaScript Integration</a></li>
+      </ul>
+    </li>
+    <li><a href="#quiz-scoring--achievements">Quiz Scoring &amp; Achievements</a>
+      <ul>
+        <li><a href="#score-thresholds">Score Thresholds</a></li>
+        <li><a href="#achievement-tracking">Achievement Tracking</a></li>
+      </ul>
+    </li>
+    <li><a href="#course-structure">Course Structure</a>
+      <ul>
+        <li><a href="#course-front-matter">Course Front Matter</a></li>
+      </ul>
+    </li>
+    <li><a href="#example-complete-lesson-workflow">Example: Complete Lesson Workflow</a></li>
+    <li><a href="#customization">Customization</a>
+      <ul>
+        <li><a href="#modify-quiz-styling">Modify Quiz Styling</a></li>
+        <li><a href="#extend-quiz-features">Extend Quiz Features</a></li>
+        <li><a href="#add-quiz-types">Add Quiz Types</a></li>
+      </ul>
+    </li>
+    <li><a href="#data-persistence">Data Persistence</a>
+      <ul>
+        <li><a href="#stored-in-localstorage">Stored in localStorage:</a></li>
+      </ul>
+    </li>
+    <li><a href="#best-practices">Best Practices</a></li>
+    <li><a href="#future-enhancements">Future Enhancements</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

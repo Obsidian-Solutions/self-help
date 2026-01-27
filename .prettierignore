@@ -3,3 +3,5 @@ static/css/style.css
 public/
 resources/
 node_modules/
+cms/node_modules/
+docs-site/

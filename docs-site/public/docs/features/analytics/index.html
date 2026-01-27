@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1314&amp;path=livereload" data-no-instant defer></script>
+  <!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
+Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
+npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.
+">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
+<meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/features/analytics/">
+  <meta property="og:site_name" content="MindFull Documentation">
+  <meta property="og:title" content="Search & Analytics">
+  <meta property="og:description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
+Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
+npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+
+
+  <meta itemprop="name" content="Search & Analytics">
+  <meta itemprop="description" content="MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.
+Search (Pagefind)# By default, MindFull uses Pagefind, a static search library that runs entirely in the browser.
+Privacy: No tracking, no external server calls. Speed: Instant results as you type. FOSS: MIT Licensed. To update the search index, run:
+npm run buildAnalytics (Umami)# We recommend Umami as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.">
+  <meta itemprop="wordCount" content="136">
+
+<title>Search &amp; Analytics | MindFull Documentation</title>
+<link rel="icon" href="/favicon.png" >
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="http://localhost:1314/docs/features/analytics/">
+<link rel="stylesheet" href="/book.min.cc2c524ed250aac81b23d1f4af87344917b325208841feca0968fe450f570575.css" integrity="sha256-zCxSTtJQqsgbI9H0r4c0SRezJSCIQf7KCWj&#43;RQ9XBXU=" crossorigin="anonymous">
+
+
+  <script defer src="/fuse.min.js"></script>
+  <script defer src="/en.search.min.fb05be9dac57bc1ce716e2d8de86b6323736c5d99306b507df6a84b8351acdfc.js" integrity="sha256-&#43;wW&#43;naxXvBznFuLY3oa2Mjc2xdmTBrUH32qEuDUazfw=" crossorigin="anonymous"></script>
+
+
+
+  
+</head>
+<body dir="ltr" class="book-kind-page book-type-docs">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    
+<aside class="book-menu">
+  <div class="book-menu-content">
+    
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><img src="/logo.png" alt="Logo" /><span>MindFull Documentation</span>
+  </a>
+</h2>
+
+
+<div class="book-search hidden">
+  <input id="book-search-input" type="text" 
+    placeholder="Search"
+    aria-label="Search"
+    maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+<script>document.querySelector(".book-search").classList.remove("hidden")</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/architecture/" class="">
+      Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/branding/" class="">
+      Branding</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/installation/" class="">
+      Installation</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/development/pubdev/" class="">
+      Public Development</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/analytics/" class="active">
+      Search &amp; Analytics</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/design/illustrations/" class="">
+      Illustrations</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/features/quizzes/" class="">
+      Quizzes</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/deployment/" class="">
+      Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/getting-started/sso-setup/" class="">
+      Sso Setup</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+
+  </div>
+</aside>
+ 
+
+    <div class="book-page">
+      <header class="book-header hidden">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/icons/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <h3>Search &amp; Analytics</h3>
+
+  <label for="toc-control">
+    
+    <img src="/icons/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#search-pagefind">Search (Pagefind)</a></li>
+    <li><a href="#analytics-umami">Analytics (Umami)</a></li>
+    <li><a href="#opensearch-integration">OpenSearch Integration</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown book-article"><p>MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.</p>
+<h2 id="search-pagefind">Search (Pagefind)<a class="anchor" href="#search-pagefind">#</a></h2>
+<p>By default, MindFull uses <strong>Pagefind</strong>, a static search library that runs entirely in the browser.</p>
+<ul>
+<li><strong>Privacy</strong>: No tracking, no external server calls.</li>
+<li><strong>Speed</strong>: Instant results as you type.</li>
+<li><strong>FOSS</strong>: MIT Licensed.</li>
+</ul>
+<p>To update the search index, run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run build</span></span></code></pre></div><h2 id="analytics-umami">Analytics (Umami)<a class="anchor" href="#analytics-umami">#</a></h2>
+<p>We recommend <strong>Umami</strong> as a FOSS alternative to Google Analytics. It is privacy-focused and can be self-hosted.</p>
+<ol>
+<li>Sign up for <a href="https://umami.is/">Umami Cloud</a> or host your own instance.</li>
+<li>Add your <code>website_id</code> to <code>hugo.toml</code>:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">params</span>.<span style="color:#a6e22e">analytics</span>.<span style="color:#a6e22e">foss</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">enabled</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">website_id</span> = <span style="color:#e6db74">&#34;your-uuid-here&#34;</span></span></span></code></pre></div><h2 id="opensearch-integration">OpenSearch Integration<a class="anchor" href="#opensearch-integration">#</a></h2>
+<p>If you require a dedicated search cluster, you can export the Pagefind index to <strong>OpenSearch</strong>.</p>
+<ol>
+<li>Build the site to generate the <code>public/</code> folder.</li>
+<li>Use the OpenSearch <code>bulk</code> API to ingest the generated JSON data.</li>
+<li>Update <code>hugo.toml</code> to set <code>provider = 'opensearch'</code>.</li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+<div>
+
+</div>
+
+<div>
+
+</div>
+
+</div>
+
+
+
+
+
+  
+  
+  
+  <div class="flex flex-wrap justify-between">
+    <span>
+    
+      <a href="/docs/development/pubdev/" class="flex align-center">
+        <img src="/icons/backward.svg" class="book-icon" alt="Backward" />
+        <span>Public Development</span>
+      </a>
+    
+    </span>
+    <span>
+    
+      <a href="/docs/design/illustrations/" class="flex align-center">
+        <span>Illustrations</span>
+        <img src="/icons/forward.svg" class="book-icon" alt="Forward" />
+      </a>
+    
+    </span>
+  </div>
+  
+
+
+ 
+        
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+        
+        
+  
+ 
+        
+  
+  
+    <script>(function(){document.querySelectorAll("pre:has(code)").forEach(e=>{e.addEventListener("click",e.focus),e.addEventListener("copy",function(t){if(t.preventDefault(),navigator.clipboard){const t=window.getSelection().toString()||e.textContent;navigator.clipboard.writeText(t)}})})})()</script>
+  
+
+      </footer>
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+  
+  <aside class="book-toc">
+    <div class="book-toc-content">
+      
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#search-pagefind">Search (Pagefind)</a></li>
+    <li><a href="#analytics-umami">Analytics (Umami)</a></li>
+    <li><a href="#opensearch-integration">OpenSearch Integration</a></li>
+  </ul>
+</nav>
+
+
+
+    </div>
+  </aside>
+  
+ 
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

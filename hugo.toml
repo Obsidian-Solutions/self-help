@@ -16,8 +16,6 @@ description = 'Science-backed CBT tools and expert guidance to help you master y
   site_logo_icon = 'fa-solid fa-brain' # Configurable FontAwesome icon for the logo
   cms_url = 'http://localhost:3000' # CMS Backend URL
 
-# ... other configs ...
-
 # SSO Configuration
 [params.auth.sso]
   google_client_id = '' # Set via env in production
@@ -74,8 +72,13 @@ enableGitInfo = false
 # Hugo Module Configuration
 [module]
   [module.hugoVersion]
-    extended = true  # Changed to true for Tailwind CSS support
-    min = '0.154.0'  # Updated to current version
+    extended = true
+    min = '0.154.0'
+
+  # Main content mount
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
 
 # Markdown Configuration
 [markup]
@@ -97,6 +100,7 @@ enableGitInfo = false
 [build]
   noJSConfigInAssets = false
   useResourceCacheWhen = 'fallback'
+
   [build.cachebusters]
     [[build.cachebusters.source]]
       source = 'assets/watching/hugo_stats.json'

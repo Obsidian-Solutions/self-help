@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>http://localhost:1314/docs/development/architecture/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/design/branding/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/getting-started/installation/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/development/pubdev/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/features/analytics/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/design/illustrations/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/features/quizzes/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/getting-started/deployment/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/getting-started/sso-setup/</loc>
+  </url><url>
+    <loc>http://localhost:1314/categories/</loc>
+  </url><url>
+    <loc>http://localhost:1314/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/</loc>
+  </url><url>
+    <loc>http://localhost:1314/tags/</loc>
+  </url>
+</urlset>
