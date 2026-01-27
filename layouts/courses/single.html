@@ -18,13 +18,15 @@
           <div class="space-y-3">
             {{ range $index, $lesson := $allLessons }}
             {{ $isCurrent := eq .Title $currentTitle }}
-            <a href="{{ .RelPermalink }}" class="group flex items-start gap-5 p-4 rounded-2xl transition-all {{ if $isCurrent }} bg-white dark:bg-gray-800 shadow-md border border-gray-100 dark:border-gray-700 {{ else }} hover:bg-white dark:hover:bg-gray-800 {{ end }}">
-              <div class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white {{ else }} bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 {{ end }}">
+            <a href="{{ .RelPermalink }}" class="group flex items-start gap-4 p-4 rounded-2xl transition-all {{ if $isCurrent }} bg-white dark:bg-gray-800 shadow-md border border-gray-100 dark:border-gray-700 {{ else }} hover:bg-white dark:hover:bg-gray-800 {{ end }}">
+              <div class="flex-shrink-0 w-9 h-9 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-[10px] font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white {{ else }} text-gray-400 group-hover:text-indigo-600 {{ end }}">
                 {{ printf "%02d" (add $index 1) }}
               </div>
-              <span class="text-sm font-bold leading-snug pt-1.5 {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
-                {{ .Title }}
-              </span>
+              <div class="min-w-0 pt-1.5">
+                <span class="text-xs font-bold leading-tight block break-words {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
+                  {{ .Title }}
+                </span>
+              </div>
             </a>
             {{ end }}
           </div>
