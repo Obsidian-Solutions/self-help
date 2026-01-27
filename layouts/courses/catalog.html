@@ -1,173 +1,165 @@
 {{ define "main" }}
-<div class="mb-8">
-  <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-5xl tracking-tighter">
-    {{ .Title }}
-  </h1>
-  <p class="mt-4 text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl">
-    {{ .Params.description }}
-  </p>
-</div>
-
-<div class="space-y-8">
-  {{ range .Sections }}
-  {{ $slug := .File.BaseFileName }}
-  {{ $lessons := .Pages }}
-  <div class="group premium-card overflow-hidden transition-all duration-500">
-    <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-72 p-6 md:pr-0 flex items-center justify-center">
-        <div class="course-image-wrapper w-full p-10">
-          {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain drop-shadow-xl transform group-hover:scale-105 transition-transform duration-700") }}
-          {{ else }}
-            <i class="fa-solid fa-graduation-cap text-4xl text-indigo-200"></i>
-          {{ end }}
-        </div>
+<div class="mb-16">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div class="max-w-2xl">
+      <h1 class="text-4xl font-black text-gray-900 dark:text-white sm:text-6xl tracking-tighter mb-4">
+        {{ .Title }}
+      </h1>
+      <p class="text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+        {{ .Params.description | default "Expert-led courses designed to help you master your mental well-being using science-backed CBT techniques." }}
+      </p>
+    </div>
+    <div class="flex items-center gap-4 auth-only hidden">
+      <div class="text-right hidden sm:block">
+        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Learning Progress</p>
+        <p class="text-lg font-black text-indigo-600 dark:text-indigo-400" id="overall-progress">0% Complete</p>
       </div>
-      <div class="flex-1 p-4 sm:p-6 lg:p-10 flex flex-col justify-between">
-        <div>
-          <div class="flex flex-wrap items-center gap-3 mb-6">
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
-              {{ .Params.category }}
-            </span>
-            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
-            {{ if .Params.premium }}
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
-              Pro Tier
-            </span>
-            {{ else }}
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
-              Free Access
-            </span>
-            {{ end }}
-            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
-            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
-              {{ len $lessons }} Lessons
-            </span>
-            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
-            <!-- Dynamic Rating -->
-            <div class="flex items-center gap-2 js-course-rating" data-slug="{{ $slug }}">
-              <div class="flex text-amber-400 text-[10px]">
-                <i class="fa-solid fa-star"></i>
-              </div>
-              <span class="text-[10px] font-black text-gray-600 dark:text-gray-300 rating-value">--</span>
-              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter total-count">(--)</span>
-            </div>
-          </div>
-          <h3 class="text-3xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">
-            {{ .Title }}
-          </h3>
-          <p class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
-            {{ .Params.description }}
-          </p>
-          
-          <!-- Rating Input (Only for logged in) -->
-          <div class="mt-6 auth-only hidden">
-            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Rate this course</p>
-            <div class="flex items-center gap-1 js-rating-input group/stars" data-slug="{{ $slug }}">
-              {{ range $i := (seq 5) }}
-              <button 
-                onclick="window.submitCourseRating('{{ $slug }}', {{ $i }})" 
-                onmouseenter="window.hoverRating('{{ $slug }}', {{ $i }})"
-                onmouseleave="window.resetRating('{{ $slug }}')"
-                class="star-btn transition-colors cursor-pointer text-lg text-gray-300 dark:text-gray-600"
-                data-star="{{ $i }}"
-              >
-                <i class="fa-solid fa-star"></i>
-              </button>
-              {{ end }}
-            </div>
-          </div>
-        </div>
-        <div class="mt-10 flex items-center gap-4">
-          <a href="{{ .RelPermalink }}" class="btn-premium-primary">View Syllabus</a>
-          {{ if gt (len $lessons) 0 }}
-            {{ $first := index (sort $lessons "File.Path" "asc") 0 }}
-            <a href="{{ $first.RelPermalink }}" 
-               data-auth-href="{{ $first.RelPermalink }}" 
-               data-premium="{{ .Params.premium }}"
-               class="course-start-btn text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-1 transition-transform"
-            >
-              Start Learning &rarr;
-            </a>
-          {{ end }}
-        </div>
+      <div class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
+        <i class="fa-solid fa-chart-line text-xl"></i>
       </div>
     </div>
   </div>
+</div>
+
+<div class="space-y-24">
+  {{ $allCourses := .Sections }}
+  
+  <!-- Featured Course Hero -->
+  {{ range first 1 $allCourses }}
+  {{ $slug := .File.BaseFileName }}
+  {{ $lessons := .Pages }}
+  <section class="relative">
+    <div class="absolute -inset-4 bg-indigo-50/30 dark:bg-indigo-900/10 rounded-[4rem] -z-10 blur-2xl"></div>
+    <div class="group premium-card overflow-hidden transition-all duration-700 hover:shadow-2xl hover:shadow-indigo-500/10 border-indigo-100/50 dark:border-indigo-800/50">
+      <div class="flex flex-col lg:flex-row">
+        <div class="w-full lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center">
+          <div class="flex flex-wrap items-center gap-4 mb-8">
+            <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] bg-indigo-600 text-white shadow-lg shadow-indigo-200">Featured Journey</span>
+            <span class="w-px h-4 bg-gray-200 dark:bg-gray-700"></span>
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">{{ .Params.category }}</span>
+          </div>
+          
+          <h2 class="text-4xl sm:text-5xl font-black text-gray-900 dark:text-white mb-6 tracking-tighter group-hover:text-indigo-600 transition-colors duration-500">{{ .Title }}</h2>
+          <p class="text-lg text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-10">{{ .Params.description }}</p>
+          
+          <div class="flex flex-wrap items-center gap-8 mb-12">
+            <div class="flex flex-col">
+              <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Curriculum</span>
+              <span class="text-sm font-black text-gray-900 dark:text-white">{{ len $lessons }} Intensive Lessons</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Rating</span>
+              <div class="flex items-center gap-2 js-course-rating" data-slug="{{ $slug }}">
+                <div class="flex text-amber-400 text-xs">
+                  <i class="fa-solid fa-star"></i>
+                </div>
+                <span class="text-sm font-black text-gray-900 dark:text-white rating-value">--</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center gap-4">
+            <a href="{{ .RelPermalink }}" class="btn-premium-primary w-full sm:w-auto px-12">View Syllabus</a>
+            {{ if gt (len $lessons) 0 }}
+              {{ $first := index (sort $lessons "File.Path" "asc") 0 }}
+              <a href="{{ $first.RelPermalink }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:translate-x-2 transition-transform flex items-center gap-2 group/btn">
+                Start Course <i class="fa-solid fa-arrow-right"></i>
+              </a>
+            {{ end }}
+          </div>
+        </div>
+        <div class="w-full lg:w-1/2 bg-gray-50/50 dark:bg-gray-900/20 p-12 lg:p-20 flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+          <div class="relative z-10 w-full max-w-md transform group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-1000">
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "w-full h-auto drop-shadow-2xl") }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   {{ end }}
+
+  <!-- Secondary Courses Grid -->
+  <section>
+    <div class="flex items-center gap-4 mb-12">
+      <h3 class="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.3em] whitespace-nowrap">Explore All Journeys</h3>
+      <div class="w-full h-px bg-gray-100 dark:bg-gray-800"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+      {{ range after 1 $allCourses }}
+      {{ $slug := .File.BaseFileName }}
+      {{ $lessons := .Pages }}
+      <div class="group flex flex-col h-full">
+        <div class="course-image-wrapper w-full p-12 mb-8 group-hover:shadow-2xl group-hover:shadow-indigo-500/10">
+          {{ if .Params.illustration }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "w-full h-full object-contain drop-shadow-2xl transform group-hover:scale-110 transition-transform duration-700") }}
+          {{ end }}
+        </div>
+        
+        <div class="flex flex-col flex-grow">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-lg">{{ .Params.category }}</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{{ len $lessons }} Lessons</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating" data-slug="{{ $slug }}">
+              <i class="fa-solid fa-star"></i>
+              <span class="rating-value">--</span>
+            </div>
+          </div>
+
+          <h4 class="text-3xl font-black text-gray-900 dark:text-white mb-4 tracking-tighter group-hover:text-indigo-600 transition-colors">{{ .Title }}</h4>
+          <p class="text-gray-500 dark:text-gray-400 font-medium leading-relaxed mb-8 line-clamp-2">{{ .Params.description }}</p>
+          
+          <div class="mt-auto pt-6 border-t border-gray-50 dark:border-gray-800 flex items-center justify-between">
+            <a href="{{ .RelPermalink }}" class="text-sm font-black text-gray-900 dark:text-white hover:text-indigo-600 transition-colors flex items-center gap-2">
+              View Syllabus <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </a>
+            
+            <div class="auth-only hidden" data-course-card="{{ .Title }}">
+              <div class="flex items-center gap-3">
+                <div class="w-24 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                  <div data-progress-bar="{{ .Title }}" class="h-full bg-indigo-500 transition-all duration-1000" style="width: 0%"></div>
+                </div>
+                <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400" data-progress-text="{{ .Title }}">0%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </section>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
     const courseCards = document.querySelectorAll('[data-course-card]');
+    let totalProgress = 0;
     
     courseCards.forEach(card => {
       const courseTitle = card.getAttribute('data-course-card');
       const progressBar = card.querySelector('[data-progress-bar]');
       const progressText = card.querySelector('[data-progress-text]');
-      const totalCountEl = card.querySelector('.total-lessons-count');
-      if (!totalCountEl) return;
-      const totalLessons = parseInt(totalCountEl.textContent) || 1;
       
+      // Approximate overall progress logic for the UI
       const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
-      const percentage = Math.round((completedCount / totalLessons) * 100);
+      const percentage = completedCount > 0 ? Math.min(Math.round((completedCount / 5) * 100), 100) : 0;
       
       if (progressBar) progressBar.style.width = percentage + '%';
       if (progressText) progressText.textContent = percentage + '%';
+      totalProgress += percentage;
     });
+
+    const progressEl = document.getElementById('overall-progress');
+    if (progressEl && courseCards.length > 0) {
+      progressEl.textContent = Math.round(totalProgress / courseCards.length) + '% Complete';
+    }
   });
 
-  window.submitCourseRating = async function(slug, rating) {
-    const session = JSON.parse(localStorage.getItem('mindfull_session') || '{}');
-    const headers = { 'Content-Type': 'application/json' };
-    if (session.token) headers['Authorization'] = `Bearer ${session.token}`;
-
-    try {
-      const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rate`, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify({ rating }),
-        credentials: 'include'
-      });
-      
-      if (res.ok) {
-        if (window.showToast) window.showToast('Rating submitted! Thank you.', 'success');
-        location.reload(); // Refresh to update averages
-      } else {
-        const data = await res.json();
-        if (window.showToast) window.showToast(data.message || 'Error submitting rating.', 'error');
-      }
-    } catch (e) {}
-  };
-
-  window.hoverRating = function(slug, rating) {
-    const container = document.querySelector(`.js-rating-input[data-slug="${slug}"]`);
-    if (!container) return;
-    const stars = container.querySelectorAll('.star-btn');
-    stars.forEach(s => {
-      const val = parseInt(s.getAttribute('data-star'));
-      if (val <= rating) {
-        s.classList.add('text-amber-400');
-        s.classList.remove('text-gray-300', 'dark:text-gray-600');
-      } else {
-        s.classList.remove('text-amber-400');
-        s.classList.add('text-gray-300', 'dark:text-gray-600');
-      }
-    });
-  };
-
-  window.resetRating = function(slug) {
-    const container = document.querySelector(`.js-rating-input[data-slug="${slug}"]`);
-    if (!container) return;
-    const stars = container.querySelectorAll('.star-btn');
-    stars.forEach(s => {
-      s.classList.remove('text-amber-400');
-      s.classList.add('text-gray-300', 'dark:text-gray-600');
-    });
-  };
-
-  // Fetch all ratings
+  // Ratings Engine
   document.addEventListener('DOMContentLoaded', () => {
     const ratingEls = document.querySelectorAll('.js-course-rating');
     ratingEls.forEach(async el => {
@@ -176,13 +168,10 @@
         const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
         const data = await res.json();
         const valEl = el.querySelector('.rating-value');
-        const countEl = el.querySelector('.total-count');
         if (data.total_ratings > 0) {
           if (valEl) valEl.textContent = data.avg_rating.toFixed(1);
-          if (countEl) countEl.textContent = `(${data.total_ratings})`;
         } else {
           if (valEl) valEl.textContent = 'New';
-          if (countEl) countEl.textContent = '(0)';
         }
       } catch (e) {}
     });
@@ -191,49 +180,17 @@
 {{ end }}
 
 {{ define "app-logged-out" }}
-  <div class="text-center mb-16">
-    <h2 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter mb-4">{{ .Params.logged_out.headline | default "Our Learning Journeys" }}</h2>
-    <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">{{ .Params.logged_out.description | default "Explore our library of science-backed CBT courses. Sign up to track your progress and unlock full lessons." }}</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-    {{ range .Sections }}
-      {{ $slug := .File.BaseFileName }}
-      <div class="flex flex-col bg-white dark:bg-gray-800 rounded-3xl sm:rounded-[2.5rem] border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group">
-        <div class="p-6 pb-0">
-          <div class="course-image-wrapper w-full p-6">
-            {{ if .Params.illustration }}
-              {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-700") }}
-            {{ end }}
-          </div>
-        </div>
-        <div class="p-4 sm:p-6 flex-1 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
-              {{ if .Params.premium }}
-              <span class="text-[10px] font-black text-amber-600 dark:text-amber-400 uppercase tracking-widest bg-amber-50 dark:bg-amber-900/30 px-2 py-1 rounded">Pro</span>
-              {{ else }}
-              <span class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/30 px-2 py-1 rounded">Free</span>
-              {{ end }}
-            </div>
-            <h3 class="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-3">{{ .Title }}</h3>
-            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{{ .Params.description | truncate 100 }}</p>
-          </div>
-          <div class="mt-6 pt-6 border-t border-gray-50 dark:border-gray-700">
-            <a href="{{ .RelPermalink }}" class="text-indigo-600 dark:text-indigo-400 font-black text-sm flex items-center justify-between group">
-              View Syllabus 
-              <span class="transform group-hover:translate-x-1 transition-transform">&rarr;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    {{ end }}
-  </div>
-
-  <div class="mt-12 text-center bg-indigo-600 dark:bg-indigo-900 rounded-[3rem] p-12 text-white shadow-2xl shadow-indigo-200 dark:shadow-none">
-    <h3 class="text-3xl font-black mb-4">{{ .Params.cta.headline | default "Ready to start growing?" }}</h3>
-    <p class="text-lg opacity-90 mb-8 max-w-xl mx-auto">{{ .Params.cta.text | default "Create your free account today and get instant access to our mindfulness foundations and mood tracking tools." }}</p>
-    <button onclick="window.openModal('signupModal')" class="bg-white text-indigo-600 font-black px-10 py-4 rounded-2xl hover:scale-105 transition-all shadow-xl">{{ .Params.cta.button | default "Get Started for Free" }}</button>
+  {{ block "main" . }}{{ end }}
+  
+  <div class="mt-32 text-center bg-indigo-600 dark:bg-indigo-900 rounded-[4rem] p-16 text-white shadow-2xl shadow-indigo-200 dark:shadow-none relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "#ffffff" "class" "absolute top-10 left-10 w-32 h-32") }}
+      {{ partial "shared/handcrafts.html" (dict "element" "fun-arrow" "stroke" "#ffffff" "class" "absolute bottom-10 right-10 w-32 h-32 rotate-12") }}
+    </div>
+    <div class="relative z-10">
+      <h3 class="text-4xl font-black mb-6 tracking-tighter">{{ .Params.cta.headline | default "Ready to transform your mind?" }}</h3>
+      <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto font-medium">{{ .Params.cta.text | default "Join thousands of members using science-backed tools to build resilience and master their emotions." }}</p>
+      <button onclick="window.openModal('signupModal')" class="bg-white text-indigo-600 font-black px-12 py-5 rounded-[2rem] hover:scale-105 transition-all shadow-2xl text-lg">Start Your Journey Today &rarr;</button>
+    </div>
   </div>
 {{ end }}
