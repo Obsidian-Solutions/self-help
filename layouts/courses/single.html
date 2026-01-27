@@ -69,8 +69,14 @@
         <!-- Cinematic Illustration/Video -->
         <div class="mb-16">
           {{ if .Params.video_url }}
+          {{ $videoId := "" }}
+          {{ if in .Params.video_url "v=" }}
+            {{ $videoId = index (split (index (split .Params.video_url "v=") 1) "&") 0 }}
+          {{ else if in .Params.video_url "youtu.be/" }}
+            {{ $videoId = index (split (index (split .Params.video_url "youtu.be/") 1) "?") 0 }}
+          {{ end }}
           <div class="aspect-video bg-gray-950 rounded-[3rem] shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800 relative group">
-            <iframe class="w-full h-full opacity-90 group-hover:opacity-100 transition-opacity" src="{{ .Params.video_url | replace "watch?v=" "embed/" }}" frameborder="0" allowfullscreen></iframe>
+            <iframe class="w-full h-full opacity-90 group-hover:opacity-100 transition-opacity" src="https://www.youtube.com/embed/{{ $videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           {{ else if .Params.illustration }}
           <div class="course-image-wrapper w-full max-w-3xl mx-auto p-12 lg:p-20 shadow-2xl relative bg-white dark:bg-gray-900">
