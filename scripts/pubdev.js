@@ -58,39 +58,36 @@ async function start() {
     console.log('⏳ Waiting for Ngrok URL...');
     const publicUrl = await getNgrokUrl();
 
-    console.log('\n=================================================\n');
+    console.log('\n=================================================');
     console.log(`🔗 SHAREABLE URL: ${publicUrl}`);
     console.log('=================================================\n');
 
-    // 3. Start Services
-    const tailwind = spawn('npm', ['run', 'watch:css'], { stdio: 'inherit', shell: true });
-    const cms = spawn('npm', ['run', 'dev', '--prefix', 'cms'], {
-      stdio: 'inherit',
-      shell: true,
-      env: { ...process.env, FRONTEND_URL: publicUrl, CMS_PORT: CMS_PORT },
-    });
-    const hugo = spawn(
-      'hugo',
+    // 3. Start Services via Concurrently for beautiful logs
+    const { concurrently } = require('concurrently');
+
+    const { result } = concurrently(
       [
-        'server',
-        '-D',
-        '--port',
-        HUGO_PORT.toString(),
-        '--baseURL',
-        publicUrl,
-        '--appendPort=false',
-        '--liveReloadPort=443',
-        '--bind',
-        '0.0.0.0',
+        { command: 'npm run watch:css', name: 'CSS', prefixColor: 'magenta' },
+        {
+          command: `npm run dev --prefix cms`,
+          name: 'CMS',
+          prefixColor: 'green',
+          env: { ...process.env, FRONTEND_URL: publicUrl, CMS_PORT: CMS_PORT },
+        },
+        {
+          command: `hugo server -D --port ${HUGO_PORT} --baseURL ${publicUrl} --appendPort=false --liveReloadPort=443 --bind 0.0.0.0`,
+          name: 'HUGO',
+          prefixColor: 'blue',
+        },
       ],
-      { stdio: 'inherit', shell: true },
+      {
+        prefix: '[{name}]',
+        killOthers: ['failure', 'success'],
+      },
     );
 
-    process.on('SIGINT', () => {
+    process.on('SIGINT', async () => {
       console.log('\n👋 Shutting down...');
-      tailwind.kill();
-      cms.kill();
-      hugo.kill();
       server.close();
       ngrokProcess.kill();
       process.exit();

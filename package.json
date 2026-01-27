@@ -13,7 +13,7 @@
   "homepage": "https://github.com/yourusername/mindfull-theme#readme",
   "scripts": {
     "start": "hugo server -D",
-    "dev": "fuser -k 3000/tcp 1313/tcp 1314/tcp || true && npm-run-all --parallel watch:css start cms:dev docs:dev",
+    "dev": "fuser -k 3000/tcp 1313/tcp 1314/tcp || true && concurrently -n \"CSS,HUGO,CMS,DOCS\" -c \"magenta,blue,green,cyan\" \"npm run watch:css\" \"npm run start\" \"npm run dev --prefix cms\" \"npm run docs:dev\"",
     "pubdev": "node scripts/pubdev.js",
     "cms:install": "npm install --prefix cms",
     "cms:init": "npm run init-db --prefix cms",
@@ -28,7 +28,7 @@
     "lint:md": "markdownlint '**/*.md' --ignore node_modules --ignore cms/node_modules --ignore docs-site",
     "format": "prettier --write \"**/*.{js,json,html,css,md}\" --ignore-path .prettierignore",
     "format:check": "prettier --check \"**/*.{js,json,html,css,md}\" --ignore-path .prettierignore",
-    "test": "npm run lint && npm run format:check && npm run build",
+    "test": "node scripts/report.js",
     "test:ci": "npm run lint && npm run format:check && npm run build -- --printPathWarnings",
     "clean": "rm -rf public resources _gen && echo 'Build cache cleaned'",
     "setup": "npm install && npm run build:css && echo 'Setup complete!'",
@@ -57,6 +57,7 @@
   "devDependencies": {
     "autoprefixer": "^10.4.23",
     "axios": "^1.7.9",
+    "concurrently": "^9.2.1",
     "eslint": "^8.54.0",
     "express": "^5.2.1",
     "http-proxy-middleware": "^3.0.5",
