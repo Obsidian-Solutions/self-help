@@ -14,26 +14,27 @@
       <div class="flex-1 p-6 md:p-8 flex flex-col justify-between min-w-0 bg-white dark:bg-gray-900">
         <div>
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-            <div class="min-w-0">
-              <h4 class="text-xl font-black text-gray-900 dark:text-white mb-1 truncate tracking-tight">{{ .Get "title" | default "Guided Audio Session" }}</h4>
-              <div class="flex items-center gap-3">
-                <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">Audio Lesson</span>
+                  <div class="min-w-0 max-w-full overflow-hidden">
+                    <div class="marquee-container">
+                      <h4 class="text-xl font-black text-gray-900 dark:text-white mb-1 tracking-tight whitespace-nowrap marquee-text">{{ .Get "title" | default "Guided Audio Session" }}</h4>
+                    </div>
+                    <div class="flex items-center gap-3">                <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded">Audio Lesson</span>
                 <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest js-audio-duration-label">{{ .Get "duration" | default "Loading..." }}</span>
               </div>
             </div>
             
-            <div class="flex items-center gap-2">
-              <!-- Speed Dropdown -->
-              <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1.5 border border-gray-100 dark:border-gray-700 group/speed hover:border-indigo-200 transition-colors">
-                <i class="fa-solid fa-gauge-high text-[10px] text-gray-400 group-hover/speed:text-indigo-600 transition-colors"></i>
-                <select onchange="window.setAudioSpeed('{{ $id }}', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-500 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
-                  <option value="1">1.0x</option>
-                  <option value="1.25">1.25x</option>
-                  <option value="1.5">1.5x</option>
-                  <option value="2">2.0x</option>
-                </select>
-              </div>
+            <div class="flex items-center gap-3">
+        <!-- Speed Dropdown -->
+        <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1.5 border border-gray-100 dark:border-gray-700 group/speed hover:border-indigo-200 transition-colors">
+          <i class="fa-solid fa-gauge-high text-[10px] text-gray-400 group-hover/speed:text-indigo-600 transition-colors mr-1"></i>
+          <select onchange="window.setAudioSpeed('{{ $id }}', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-500 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+            <option value="1">1.0x</option>
+            <option value="1.25">1.25x</option>
+            <option value="1.5">1.5x</option>
+            <option value="2">2.0x</option>
+          </select>
+        </div>
 
               <!-- Volume Control -->
               <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1.5 border border-gray-100 dark:border-gray-700 group/vol hover:border-indigo-200 transition-colors">

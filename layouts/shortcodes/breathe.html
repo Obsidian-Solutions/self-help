@@ -1,4 +1,14 @@
-<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container">
+{{- $inhale := .Get "inhale" | default 4 -}}
+{{- $hold := .Get "hold" | default 4 -}}
+{{- $exhale := .Get "exhale" | default 4 -}}
+{{- $totalCycle := add (add $inhale $hold) $exhale -}}
+
+<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container" 
+     data-inhale="{{ $inhale }}" 
+     data-hold="{{ $hold }}" 
+     data-exhale="{{ $exhale }}"
+     data-total="{{ $totalCycle }}">
+  
   <div class="absolute inset-0 opacity-10 pointer-events-none">
     {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "currentColor" "class" "absolute top-4 left-4 w-12 h-12 animate-pulse") }}
   </div>
@@ -7,13 +17,14 @@
     <div class="flex items-center justify-between mb-8 gap-4">
       <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Guided Breathing</h3>
       
-      <!-- Soundscape Dropdown -->
+      <!-- Configurable Soundscape Dropdown -->
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]">
         <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
         <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
           <option value="1">Deep Zen</option>
           <option value="2">Gentle Rain</option>
+          <option value="3">White Noise</option>
         </select>
       </div>
     </div>
@@ -29,7 +40,9 @@
 
     <div class="mt-12 flex flex-col gap-4">
       <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
-      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest opacity-60">Follow the circle and the chimes</p>
+      <div class="flex justify-center gap-4">
+        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ $inhale }}-{{ $hold }}-{{ $exhale }} Rhythm</span>
+      </div>
     </div>
   </div>
 </div>
@@ -41,12 +54,21 @@
     let active = false;
     let countdown = 0;
     
+    const container = document.querySelector('.js-breathe-container');
+    const timings = {
+      inhale: parseInt(container.dataset.inhale),
+      hold: parseInt(container.dataset.hold),
+      exhale: parseInt(container.dataset.exhale),
+      total: parseInt(container.dataset.total) * 1000
+    };
+
     // Audio State
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, // Stable reliable tracks
-      { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
+      { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+      { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+      { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
     ];
     let currentSoundscapeIdx = 0;
     let ambientAudio = new Audio();
@@ -80,34 +102,23 @@
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
-        
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        
         osc.type = type;
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        
         gain.gain.setValueAtTime(volume, audioCtx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
-        
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        
         osc.start();
         osc.stop(audioCtx.currentTime + 1.5);
       } catch (e) {}
     }
 
     window.toggleBreathing = function() {
-      // Vital: Resume AudioContext on user gesture
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      if (active) {
-        stop();
-      } else {
-        start();
-      }
+      if (active) stop(); else start();
     };
 
     function start() {
@@ -115,14 +126,9 @@
       btn.textContent = 'Stop Session';
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
       status.textContent = 'Prepare';
-      
-      const scape = soundscapes[currentSoundscapeIdx];
-      if (scape.url) {
-        ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
-      }
-
+      if (soundscapes[currentSoundscapeIdx].url) ambientAudio.play().catch(e => {});
       runCycle();
-      cycleInterval = setInterval(runCycle, 12000);
+      cycleInterval = setInterval(runCycle, timings.total);
     }
 
     function stop() {
@@ -144,15 +150,10 @@
       clearInterval(timerInterval);
       countdown = seconds;
       timer.textContent = countdown;
-      
       timerInterval = setInterval(() => {
         countdown--;
-        if (countdown >= 0) {
-          timer.textContent = countdown;
-        }
-        if (countdown <= 0) {
-          clearInterval(timerInterval);
-        }
+        if (countdown >= 0) timer.textContent = countdown;
+        if (countdown <= 0) clearInterval(timerInterval);
       }, 1000);
     }
 
@@ -160,34 +161,34 @@
       if (!active) return;
       
       // Inhale
-      playChime(440, 'triangle', 0.05); // Soft A4
+      playChime(440, 'triangle', 0.05);
       status.textContent = 'Breathe In';
       inner.style.transform = 'scale(5)';
       inner.style.opacity = '0.4';
       circle.style.transform = 'scale(1.05)';
       circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
-      startTimer(4);
+      startTimer(timings.inhale);
 
       setTimeout(() => {
         if (!active) return;
         // Hold
-        playChime(554.37, 'sine', 0.03); // Soft C#5
+        playChime(554.37, 'sine', 0.03);
         status.textContent = 'Hold';
         inner.style.opacity = '0.6';
-        startTimer(4);
-      }, 4000);
+        startTimer(timings.hold);
+      }, timings.inhale * 1000);
 
       setTimeout(() => {
         if (!active) return;
         // Exhale
-        playChime(329.63, 'triangle', 0.05); // Soft E4
+        playChime(329.63, 'triangle', 0.05);
         status.textContent = 'Breathe Out';
         inner.style.transform = 'scale(1)';
         inner.style.opacity = '0.2';
         circle.style.transform = 'scale(1)';
         circle.style.borderColor = '';
-        startTimer(4);
-      }, 8000);
+        startTimer(timings.exhale);
+      }, (timings.inhale + timings.hold) * 1000);
     }
   })();
 </script>
