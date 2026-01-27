@@ -7,12 +7,14 @@
     <div class="flex items-center justify-between mb-8">
       <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">Guided Breathing</h3>
       
-      <!-- Soundscape Toggle -->
+      <!-- Soundscape Dropdown -->
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <button onclick="window.cycleSoundscape()" id="soundscape-btn" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-2">
-          <i class="fa-solid fa-wind"></i>
-          <span id="soundscape-name">Silent</span>
-        </button>
+        <i class="fa-solid fa-wind text-[10px] text-indigo-600"></i>
+        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+          <option value="0">Silent</option>
+          <option value="1">Zen Garden</option>
+          <option value="2">Soft Rain</option>
+        </select>
       </div>
     </div>
     
@@ -43,7 +45,7 @@
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, // Placeholder for real ambient
+      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
       { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
     ];
     let currentSoundscapeIdx = 0;
@@ -55,12 +57,10 @@
     const status = document.getElementById('breathe-status');
     const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
-    const scapeName = document.getElementById('soundscape-name');
 
-    window.cycleSoundscape = function() {
-      currentSoundscapeIdx = (currentSoundscapeIdx + 1) % soundscapes.length;
+    window.setSoundscape = function(index) {
+      currentSoundscapeIdx = parseInt(index);
       const scape = soundscapes[currentSoundscapeIdx];
-      scapeName.textContent = scape.name;
       
       if (scape.url) {
         ambientAudio.src = scape.url;

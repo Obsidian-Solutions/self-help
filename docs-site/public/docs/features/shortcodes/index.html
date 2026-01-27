@@ -9,7 +9,7 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Silent Ready 0 Start Session Follow the circle and the chimes
+1. Guided Breathing ( Guided Breathing Silent Zen Garden Soft Rain Ready 0 Start Session Follow the circle and the chimes
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
@@ -17,7 +17,7 @@ https://github.com/alex-shpak/hugo-book
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Wellness Shortcodes">
   <meta property="og:description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Silent Ready 0 Start Session Follow the circle and the chimes">
+1. Guided Breathing ( Guided Breathing Silent Zen Garden Soft Rain Ready 0 Start Session Follow the circle and the chimes">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -25,8 +25,8 @@ https://github.com/alex-shpak/hugo-book
 
   <meta itemprop="name" content="Wellness Shortcodes">
   <meta itemprop="description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Silent Ready 0 Start Session Follow the circle and the chimes">
-  <meta itemprop="wordCount" content="255">
+1. Guided Breathing ( Guided Breathing Silent Zen Garden Soft Rain Ready 0 Start Session Follow the circle and the chimes">
+  <meta itemprop="wordCount" content="263">
 
 <title>Wellness Shortcodes | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -336,10 +336,12 @@ https://github.com/alex-shpak/hugo-book
       
       
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <button onclick="window.cycleSoundscape()" id="soundscape-btn" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-2">
-          <i class="fa-solid fa-wind"></i>
-          <span id="soundscape-name">Silent</span>
-        </button>
+        <i class="fa-solid fa-wind text-[10px] text-indigo-600"></i>
+        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+          <option value="0">Silent</option>
+          <option value="1">Zen Garden</option>
+          <option value="2">Soft Rain</option>
+        </select>
       </div>
     </div>
     
@@ -370,7 +372,7 @@ https://github.com/alex-shpak/hugo-book
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, 
+      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
       { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
     ];
     let currentSoundscapeIdx = 0;
@@ -382,12 +384,10 @@ https://github.com/alex-shpak/hugo-book
     const status = document.getElementById('breathe-status');
     const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
-    const scapeName = document.getElementById('soundscape-name');
 
-    window.cycleSoundscape = function() {
-      currentSoundscapeIdx = (currentSoundscapeIdx + 1) % soundscapes.length;
+    window.setSoundscape = function(index) {
+      currentSoundscapeIdx = parseInt(index);
       const scape = soundscapes[currentSoundscapeIdx];
-      scapeName.textContent = scape.name;
       
       if (scape.url) {
         ambientAudio.src = scape.url;
@@ -502,8 +502,7 @@ https://github.com/alex-shpak/hugo-book
       }, 8000);
     }
   })();
-</script>
-</code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
+</script></code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
 <p>Renders an interactive, animated breathing circle to help users center themselves.</p>
 <h3 id="usage">Usage<a class="anchor" href="#usage">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container">
@@ -527,10 +526,12 @@ https://github.com/alex-shpak/hugo-book
       
       
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <button onclick="window.cycleSoundscape()" id="soundscape-btn" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-2">
-          <i class="fa-solid fa-wind"></i>
-          <span id="soundscape-name">Silent</span>
-        </button>
+        <i class="fa-solid fa-wind text-[10px] text-indigo-600"></i>
+        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+          <option value="0">Silent</option>
+          <option value="1">Zen Garden</option>
+          <option value="2">Soft Rain</option>
+        </select>
       </div>
     </div>
     
@@ -561,7 +562,7 @@ https://github.com/alex-shpak/hugo-book
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, 
+      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
       { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
     ];
     let currentSoundscapeIdx = 0;
@@ -573,12 +574,10 @@ https://github.com/alex-shpak/hugo-book
     const status = document.getElementById('breathe-status');
     const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
-    const scapeName = document.getElementById('soundscape-name');
 
-    window.cycleSoundscape = function() {
-      currentSoundscapeIdx = (currentSoundscapeIdx + 1) % soundscapes.length;
+    window.setSoundscape = function(index) {
+      currentSoundscapeIdx = parseInt(index);
       const scape = soundscapes[currentSoundscapeIdx];
-      scapeName.textContent = scape.name;
       
       if (scape.url) {
         ambientAudio.src = scape.url;
@@ -693,8 +692,7 @@ https://github.com/alex-shpak/hugo-book
       }, 8000);
     }
   })();
-</script>
-</span></span></code></pre></div><ul>
+</script></span></span></code></pre></div><ul>
 <li><input checked="" disabled="" type="checkbox"> <strong>Inhale/Exhale Cues</strong>: Smooth 4-second cycles.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Visual Feedback</strong>: Expanding circle logic.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Interactive</strong>: Simple Start/Stop controls.</li>
@@ -844,7 +842,7 @@ https://github.com/alex-shpak/hugo-book
 <blockquote class='book-hint important'>
 <p>The YouTube implementation uses <code>youtube-nocookie.com</code> for maximum privacy even after consent.</p></blockquote><hr>
 <h2 id="3-branded-audio-player-hahahugoshortcode14s4hbhb">3. Branded Audio Player (<code>
-<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-audio-1769532130576164061" data-audio-id="audio-1769532130576164061">
+<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-audio-1769532239073575818" data-audio-id="audio-1769532239073575818">
   <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform flex-shrink-0">
     <i class="fa-solid fa-headphones text-3xl"></i>
   </div>
@@ -859,12 +857,12 @@ https://github.com/alex-shpak/hugo-book
       <div class="flex items-center gap-3">
         
         <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1 border border-gray-100 dark:border-gray-700 w-fit">
-          <button onclick="window.cycleAudioSpeed('audio-1769532130576164061')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
+          <button onclick="window.cycleAudioSpeed('audio-1769532239073575818')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
         </div>
 
         
         <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1 border border-gray-100 dark:border-gray-700">
-          <button onclick="window.toggleMute('audio-1769532130576164061')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
+          <button onclick="window.toggleMute('audio-1769532239073575818')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
             <i class="fa-solid fa-volume-high text-[10px]"></i>
           </button>
           <input 
@@ -874,13 +872,13 @@ https://github.com/alex-shpak/hugo-book
             step="0.1" 
             value="1" 
             class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-indigo-600 js-volume-slider"
-            oninput="window.setVolume('audio-1769532130576164061', this.value)"
+            oninput="window.setVolume('audio-1769532239073575818', this.value)"
           >
         </div>
       </div>
     </div>
 
-    <audio id="raw-audio-audio-1769532130576164061" src="" class="hidden" preload="metadata"></audio>
+    <audio id="raw-audio-audio-1769532239073575818" src="" class="hidden" preload="metadata"></audio>
     
     <div class="space-y-4">
       
@@ -892,22 +890,22 @@ https://github.com/alex-shpak/hugo-book
           min="0" 
           max="100" 
           class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-600 js-audio-scrubber"
-          oninput="window.seekAudio('audio-1769532130576164061', this.value)"
+          oninput="window.seekAudio('audio-1769532239073575818', this.value)"
         >
       </div>
 
       <div class="flex items-center gap-6">
-        <button onclick="window.toggleAudio('audio-1769532130576164061')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn">
+        <button onclick="window.toggleAudio('audio-1769532239073575818')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn">
           <i class="fa-solid fa-play text-xl ml-1"></i>
         </button>
 
         <div class="flex-1 flex items-center justify-between">
           <span class="text-xs font-black text-gray-900 dark:text-white font-mono js-current-time">0:00</span>
           <div class="flex gap-2">
-            <button onclick="window.skipAudio('audio-1769532130576164061', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+            <button onclick="window.skipAudio('audio-1769532239073575818', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
               <i class="fa-solid fa-backward-step"></i>
             </button>
-            <button onclick="window.skipAudio('audio-1769532130576164061', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+            <button onclick="window.skipAudio('audio-1769532239073575818', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
               <i class="fa-solid fa-forward-step"></i>
             </button>
           </div>
