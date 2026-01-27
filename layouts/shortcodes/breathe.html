@@ -8,7 +8,7 @@
       <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Guided Breathing</h3>
       
       <!-- Soundscape Dropdown -->
-      <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[140px]">
+      <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]">
         <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
         <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
@@ -45,13 +45,12 @@
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Deep Zen', url: 'https://cdn.pixabay.com/audio/2022/02/10/audio_fc08684d00.mp3' },
-      { name: 'Gentle Rain', url: 'https://cdn.pixabay.com/audio/2021/08/09/audio_884ca90501.mp3' }
+      { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, // Stable reliable tracks
+      { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
     ];
     let currentSoundscapeIdx = 0;
     let ambientAudio = new Audio();
     ambientAudio.loop = true;
-    ambientAudio.crossOrigin = "anonymous"; // Needed for Pixabay sometimes
 
     const circle = document.getElementById('breathe-circle');
     const inner = document.getElementById('breathe-inner');
@@ -63,14 +62,17 @@
       currentSoundscapeIdx = parseInt(index);
       const scape = soundscapes[currentSoundscapeIdx];
       
+      const wasActive = active;
+      if (active) stop();
+
       if (scape.url) {
         ambientAudio.src = scape.url;
         ambientAudio.load();
-        if (active) {
-          ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
-        }
+        if (wasActive) start();
       } else {
         ambientAudio.pause();
+        ambientAudio.src = '';
+        if (wasActive) start();
       }
     };
 
@@ -97,6 +99,7 @@
     }
 
     window.toggleBreathing = function() {
+      // Vital: Resume AudioContext on user gesture
       if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       if (audioCtx.state === 'suspended') audioCtx.resume();
 
@@ -115,7 +118,6 @@
       
       const scape = soundscapes[currentSoundscapeIdx];
       if (scape.url) {
-        ambientAudio.src = scape.url;
         ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
       }
 
