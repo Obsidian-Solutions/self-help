@@ -15,14 +15,14 @@
             <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest line-clamp-1">{{ $course.Title }}</p>
           </div>
           
-          <div class="space-y-2">
+          <div class="space-y-3">
             {{ range $index, $lesson := $allLessons }}
             {{ $isCurrent := eq .Title $currentTitle }}
-            <a href="{{ .RelPermalink }}" class="group flex items-center gap-4 p-3 rounded-xl transition-all {{ if $isCurrent }} bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 {{ else }} hover:bg-white dark:hover:bg-gray-800 {{ end }}">
-              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white {{ else }} bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 {{ end }}">
+            <a href="{{ .RelPermalink }}" class="group flex items-start gap-5 p-4 rounded-2xl transition-all {{ if $isCurrent }} bg-white dark:bg-gray-800 shadow-md border border-gray-100 dark:border-gray-700 {{ else }} hover:bg-white dark:hover:bg-gray-800 {{ end }}">
+              <div class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white {{ else }} bg-gray-100 dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 {{ end }}">
                 {{ printf "%02d" (add $index 1) }}
               </div>
-              <span class="text-xs font-bold leading-tight {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
+              <span class="text-sm font-bold leading-snug pt-1.5 {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
                 {{ .Title }}
               </span>
             </a>
