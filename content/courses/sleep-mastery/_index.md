@@ -10,10 +10,4 @@ duration: '8 weeks'
 level: 'Intermediate'
 ---
 
-layout: "syllabus"
-
-useAppShell: true
-
-premium: true
-
 Sleep is the foundation of mental health. Learn how to reset your circadian rhythm.

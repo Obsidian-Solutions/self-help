@@ -10,10 +10,4 @@ duration: '5 weeks'
 level: 'Beginner'
 ---
 
-layout: "syllabus"
-
-useAppShell: true
-
-premium: false
-
 Anger is a normal emotion, but when it gets out of control and turns destructive, it can lead to problems.

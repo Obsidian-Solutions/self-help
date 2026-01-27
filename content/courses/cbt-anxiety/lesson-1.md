@@ -56,8 +56,6 @@ quiz:
       explanation: 'The thought record is a key CBT tool that helps you identify automatic thoughts, examine evidence for and against them, and develop more balanced thinking.'
 ---
 
-useAppShell: true
-
 ## Welcome to CBT for Anxiety
 
 Anxiety is one of the most common mental health challenges, affecting millions of people worldwide. The good news? **Cognitive Behavioral Therapy (CBT) is one of the most effective, evidence-based treatments for anxiety.**
@@ -131,7 +129,5 @@ By understanding this connection, you can:
 - You have more control than you think
 
 ---
-
-useAppShell: true
 
 Ready to test your understanding? Take the quiz below to reinforce what you've learned!

@@ -10,10 +10,4 @@ duration: '6 weeks'
 level: 'Beginner'
 ---
 
-layout: "syllabus"
-
-useAppShell: true
-
-premium: true
-
 Welcome to this course on managing anxiety.

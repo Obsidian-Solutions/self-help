@@ -10,10 +10,4 @@ duration: '8 weeks'
 level: 'Intermediate'
 ---
 
-layout: "syllabus"
-
-useAppShell: true
-
-premium: true
-
 Overcome the fear of being judged and learn to enjoy social interactions.
