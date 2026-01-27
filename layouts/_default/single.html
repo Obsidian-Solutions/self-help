@@ -59,18 +59,30 @@
       </div>
       
       <div class="flex items-center gap-4">
-        <button class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700">
-          <i class="fa-brands fa-twitter"></i>
-        </button>
-        <button class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700">
-          <i class="fa-brands fa-linkedin"></i>
-        </button>
-        <button class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700">
+        {{ with .Site.Params.social.github }}
+        <a href="{{ . }}" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        {{ end }}
+        {{ with .Site.Params.social.email }}
+        <a href="mailto:{{ . }}" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        {{ end }}
+        <button onclick="window.copyArticleLink()" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400 hover:text-indigo-600 transition-colors border border-gray-100 dark:border-gray-700" title="Copy Link">
           <i class="fa-solid fa-link"></i>
         </button>
       </div>
     </div>
   </div>
+
+  <script>
+    window.copyArticleLink = function() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        if (window.showToast) window.showToast('Link copied to clipboard!', 'success');
+      });
+    };
+  </script>
 
   <!-- Related Posts -->
   <section class="mt-32 max-w-5xl mx-auto">
