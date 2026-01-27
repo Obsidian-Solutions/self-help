@@ -1,0 +1,58 @@
+{
+  "categories": [
+    {
+      "name": "Necessary Cookies",
+      "description": "Essential cookies that enable the website to function properly. These cannot be disabled.",
+      "items": [
+        {
+          "name": "mindfull_session",
+          "provider": "MindFull (Local)",
+          "purpose": "Stores your authentication session data to keep you logged in.",
+          "expiry": "Session / LocalStorage",
+          "type": "Authentication"
+        },
+        {
+          "name": "theme-preference",
+          "provider": "MindFull (Local)",
+          "purpose": "Remembers your dark mode or light mode preference.",
+          "expiry": "Persistent",
+          "type": "User Preference"
+        },
+        {
+          "name": "cookie-consent",
+          "provider": "MindFull (Local)",
+          "purpose": "Remembers your choice regarding our cookie policy.",
+          "expiry": "1 Year",
+          "type": "Compliance"
+        }
+      ]
+    },
+    {
+      "name": "Functional Cookies",
+      "description": "Cookies that help us remember your settings and provide enhanced features.",
+      "items": [
+        {
+          "name": "mindfull_users",
+          "provider": "MindFull (Local)",
+          "purpose": "Simulates a user database for this demo/theme prototype.",
+          "expiry": "Persistent",
+          "type": "Data Storage"
+        },
+        {
+          "name": "courseProgress",
+          "provider": "MindFull (Local)",
+          "purpose": "Tracks your completion status for lessons and courses.",
+          "expiry": "Persistent",
+          "type": "Functionality"
+        },
+        {
+          "name": "notification-settings",
+          "provider": "MindFull (Local)",
+          "purpose": "Remembers your notification preferences.",
+          "expiry": "Persistent",
+          "type": "User Preference"
+        }
+      ]
+    }
+  ]
+}

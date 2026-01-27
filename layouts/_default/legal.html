@@ -1,0 +1,29 @@
+{{ define "main" }}
+<div class="max-w-4xl mx-auto py-12 sm:py-20 px-4">
+  <div class="text-center mb-16">
+    <h1 class="text-4xl font-black text-gray-900 dark:text-white tracking-tighter sm:text-6xl mb-4">{{ .Title }}</h1>
+    <p class="text-xl text-gray-500 dark:text-gray-400 font-medium max-w-2xl mx-auto">{{ .Description }}</p>
+    <div class="mt-6 flex items-center justify-center text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+      <span class="px-3 py-1.5 border border-gray-100 dark:border-gray-800 rounded-full">Legal Documentation</span>
+    </div>
+  </div>
+
+  <div class="bg-white dark:bg-gray-800 rounded-[3rem] shadow-2xl shadow-gray-200/50 dark:shadow-none border border-gray-50 dark:border-gray-700 p-8 sm:p-16 relative overflow-hidden">
+    <!-- Abstract Shapes -->
+    <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl"></div>
+    <div class="absolute -left-20 -bottom-20 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl"></div>
+
+    <div class="prose prose-indigo dark:prose-invert prose-lg max-w-none relative z-10 
+      prose-headings:font-black prose-headings:tracking-tight prose-headings:text-gray-900 dark:prose-headings:text-white
+      prose-p:text-gray-600 dark:prose-p:text-gray-300 prose-p:leading-relaxed
+      prose-a:no-underline prose-a:font-black prose-a:border-b-2 prose-a:border-indigo-100 dark:prose-a:border-indigo-900 hover:prose-a:border-indigo-600 transition-all
+      prose-strong:text-indigo-600 dark:prose-strong:text-indigo-400 prose-strong:font-black">
+      {{ .Content }}
+    </div>
+  </div>
+
+  <div class="mt-12 text-center">
+    <p class="text-sm text-gray-400 font-medium">Need further clarification? <a href="/contact" class="text-indigo-600 dark:text-indigo-400 font-black hover:underline underline-offset-4 ml-1">Contact Support &rarr;</a></p>
+  </div>
+</div>
+{{ end }}

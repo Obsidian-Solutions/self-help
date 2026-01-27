@@ -128,6 +128,7 @@
   {{ partial "auth/signup-modal.html" . }}
   {{ partial "auth/confirm-modal.html" . }}
   {{ partial "shared/toast.html" . }}
+  {{ partial "shared/cookie-consent.html" . }}
   
   <script>
     window.openModal = function(id) { document.getElementById(id)?.classList.remove('hidden'); };

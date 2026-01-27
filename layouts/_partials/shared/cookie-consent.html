@@ -1,0 +1,39 @@
+<div id="cookie-banner" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-2xl bg-white dark:bg-gray-800 rounded-[2rem] shadow-2xl border border-gray-100 dark:border-gray-700 p-6 md:p-8 z-[100] hidden animate-in slide-in-from-bottom-4 duration-500">
+  <div class="flex flex-col md:flex-row items-center gap-6">
+    <div class="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl flex-shrink-0 flex items-center justify-center">
+      <i class="fa-solid fa-cookie-bite text-indigo-600 dark:text-indigo-400 text-2xl"></i>
+    </div>
+    <div class="flex-1 text-center md:text-left">
+      <h3 class="text-lg font-black text-gray-900 dark:text-white tracking-tight">Cookie & Data Consent</h3>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed font-medium">
+        We use local storage to keep your journal and progress private. By continuing, you agree to our <a href="/cookie-policy" class="text-indigo-600 dark:text-indigo-400 hover:underline">Cookie Policy</a>.
+      </p>
+    </div>
+    <div class="flex gap-3 shrink-0">
+      <button onclick="window.acceptCookies()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl text-sm font-black shadow-lg shadow-indigo-100 dark:shadow-none transition-all hover:-translate-y-0.5">
+        Accept All
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const banner = document.getElementById('cookie-banner');
+    const consent = localStorage.getItem('cookie-consent');
+
+    if (!consent) {
+      setTimeout(() => {
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+      }, 1000);
+    }
+
+    window.acceptCookies = function() {
+      localStorage.setItem('cookie-consent', 'accepted');
+      banner.classList.add('hidden');
+      banner.classList.remove('flex');
+      if (window.showToast) window.showToast('Preferences saved!', 'success');
+    };
+  })();
+</script>
