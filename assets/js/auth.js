@@ -225,37 +225,16 @@ window.handleLogout = async () => {
   window.safeRedirect('/');
 };
 
-// 4. Mock SSO (Google)
+// 4. Mock SSO (Google) -> Real SSO Redirect
 window.handleGoogleLogin = async () => {
-  // Simulate a Google User
-  const mockGoogleUser = {
-    name: 'Google User',
-    email: 'google@gmail.com',
-    password: 'sso-placeholder-hashed', // Mock hash
-  };
-
-  if (!findUser(mockGoogleUser.email)) {
-    saveUser(mockGoogleUser);
-  }
-  setSession(mockGoogleUser);
-  if (window.showToast) window.showToast('Logged in with Google', 'success');
-  window.safeRedirect('/dashboard');
+  // Redirect to the backend which handles the OAuth flow
+  window.location.href = 'http://localhost:3000/api/auth/google';
 };
 
-// 5. Mock SSO (GitHub)
+// 5. Mock SSO (GitHub) -> Real SSO Redirect
 window.handleGithubLogin = async () => {
-  const mockGithubUser = {
-    name: 'GitHub Dev',
-    email: 'github@example.com',
-    password: 'sso-placeholder-hashed',
-  };
-
-  if (!findUser(mockGithubUser.email)) {
-    saveUser(mockGithubUser);
-  }
-  setSession(mockGithubUser);
-  if (window.showToast) window.showToast('Logged in with GitHub', 'success');
-  window.safeRedirect('/dashboard');
+  // Redirect to the backend which handles the OAuth flow
+  window.location.href = 'http://localhost:3000/api/auth/github';
 };
 
 // 6. One-Click Demo Login
