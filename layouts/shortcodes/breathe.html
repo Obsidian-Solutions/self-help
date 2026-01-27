@@ -1,10 +1,20 @@
-<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
+<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container">
   <div class="absolute inset-0 opacity-10 pointer-events-none">
     {{ partial "shared/handcrafts.html" (dict "element" "fun-star" "stroke" "currentColor" "class" "absolute top-4 left-4 w-12 h-12 animate-pulse") }}
   </div>
 
   <div class="relative z-10 text-center w-full max-w-sm">
-    <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
+    <div class="flex items-center justify-between mb-8">
+      <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">Guided Breathing</h3>
+      
+      <!-- Soundscape Toggle -->
+      <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
+        <button onclick="window.cycleSoundscape()" id="soundscape-btn" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-indigo-600 transition-colors flex items-center gap-2">
+          <i class="fa-solid fa-wind"></i>
+          <span id="soundscape-name">Silent</span>
+        </button>
+      </div>
+    </div>
     
     <div id="breathe-circle" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center transition-all duration-4000 ease-in-out border-8 border-indigo-100 dark:border-indigo-900 mx-auto">
       <div id="breathe-inner" class="absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-4000 ease-in-out scale-100"></div>
@@ -15,8 +25,9 @@
       </div>
     </div>
 
-    <div class="mt-12">
+    <div class="mt-12 flex flex-col gap-4">
       <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
+      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest opacity-60">Follow the circle and the chimes</p>
     </div>
   </div>
 </div>
@@ -28,11 +39,54 @@
     let active = false;
     let countdown = 0;
     
+    // Audio Context for Chimes
+    let audioCtx;
+    const soundscapes = [
+      { name: 'Silent', url: '' },
+      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' }, // Placeholder for real ambient
+      { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
+    ];
+    let currentSoundscapeIdx = 0;
+    let ambientAudio = new Audio();
+    ambientAudio.loop = true;
+
     const circle = document.getElementById('breathe-circle');
     const inner = document.getElementById('breathe-inner');
     const status = document.getElementById('breathe-status');
     const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
+    const scapeName = document.getElementById('soundscape-name');
+
+    window.cycleSoundscape = function() {
+      currentSoundscapeIdx = (currentSoundscapeIdx + 1) % soundscapes.length;
+      const scape = soundscapes[currentSoundscapeIdx];
+      scapeName.textContent = scape.name;
+      
+      if (scape.url) {
+        ambientAudio.src = scape.url;
+        if (active) ambientAudio.play();
+      } else {
+        ambientAudio.pause();
+      }
+    };
+
+    function playChime(freq, type = 'sine', volume = 0.1) {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      
+      gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.5);
+    }
 
     window.toggleBreathing = function() {
       if (active) {
@@ -48,14 +102,19 @@
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
       status.textContent = 'Prepare';
       
+      if (soundscapes[currentSoundscapeIdx].url) {
+        ambientAudio.play();
+      }
+
       runCycle();
-      cycleInterval = setInterval(runCycle, 12000); // 4 in, 4 hold, 4 out
+      cycleInterval = setInterval(runCycle, 12000);
     }
 
     function stop() {
       active = false;
       clearInterval(cycleInterval);
       clearInterval(timerInterval);
+      ambientAudio.pause();
       btn.textContent = 'Start Session';
       btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
       status.textContent = 'Ready';
@@ -85,7 +144,8 @@
     function runCycle() {
       if (!active) return;
       
-      // Inhale (4s)
+      // Inhale
+      playChime(440, 'triangle', 0.05); // Soft A4
       status.textContent = 'Breathe In';
       inner.style.transform = 'scale(5)';
       inner.style.opacity = '0.4';
@@ -95,7 +155,8 @@
 
       setTimeout(() => {
         if (!active) return;
-        // Hold (4s)
+        // Hold
+        playChime(554.37, 'sine', 0.03); // Soft C#5
         status.textContent = 'Hold';
         inner.style.opacity = '0.6';
         startTimer(4);
@@ -103,7 +164,8 @@
 
       setTimeout(() => {
         if (!active) return;
-        // Exhale (4s)
+        // Exhale
+        playChime(329.63, 'triangle', 0.05); // Soft E4
         status.textContent = 'Breathe Out';
         inner.style.transform = 'scale(1)';
         inner.style.opacity = '0.2';
