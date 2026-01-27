@@ -68,11 +68,13 @@ npm run dev
 
 
 
-# External testing (via ngrok)
+# External testing (Zero-Config)
 
 npm run pubdev
 
 ```
+
+`npm run pubdev` uses **localtunnel** to generate a secure, shareable public link to your local environment instantly. No accounts or tokens required.
 
 ## 📝 Essential Documentation
 

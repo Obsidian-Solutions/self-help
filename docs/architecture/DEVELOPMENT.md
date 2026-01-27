@@ -50,5 +50,9 @@ Uses the `undraw` and `handcrafts` partials.
 ## 5. Development Workflow
 
 1.  **Test:** `npm run test` (Includes linting, formatting, and Hugo build).
+
 2.  **Lint:** `npm run lint` (ESLint for JS, Markdownlint for docs).
-3.  **Clean:** `npm run clean`.
+
+3.  **Public Dev:** `npm run pubdev` (Starts local services and a public tunnel via localtunnel).
+
+4.  **Clean:** `npm run clean`.

@@ -1,18 +1,17 @@
-const ngrok = require('ngrok');
+const localtunnel = require('localtunnel');
 const { spawn } = require('child_process');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 async function start() {
-  console.log('🚀 Starting Unified Public Development Environment (Free Tier Friendly)...');
+  console.log('🚀 Starting Unified Public Development Environment (Zero-Config)...');
 
-  const GATEWAY_PORT = 4242; // Uncommon port
+  const GATEWAY_PORT = 4242;
   const HUGO_PORT = 1313;
   const CMS_PORT = 3000;
 
   try {
     // 1. Start the Unified Gateway (Reverse Proxy)
-    // This allows us to use ONE ngrok tunnel for both Frontend and Backend
     const app = express();
 
     // Route /api to CMS
@@ -31,7 +30,7 @@ async function start() {
       createProxyMiddleware({
         target: `http://localhost:${HUGO_PORT}`,
         changeOrigin: true,
-        ws: true, // Support Hugo LiveReload WebSockets
+        ws: true,
         logLevel: 'silent',
       }),
     );
@@ -39,8 +38,9 @@ async function start() {
     const server = app.listen(GATEWAY_PORT);
     console.log(`✅ Unified Gateway running on port ${GATEWAY_PORT}`);
 
-    // 2. Start ONE Ngrok Tunnel
-    const publicUrl = await ngrok.connect(GATEWAY_PORT);
+    // 2. Start ONE Public Tunnel via LocalTunnel
+    const tunnel = await localtunnel({ port: GATEWAY_PORT });
+    const publicUrl = tunnel.url;
 
     console.log('\n=================================================');
     console.log(`🔗 SHAREABLE URL: ${publicUrl}`);
@@ -80,6 +80,10 @@ async function start() {
       { stdio: 'inherit', shell: true },
     );
 
+    tunnel.on('close', () => {
+      console.log('❌ Public tunnel closed.');
+    });
+
     // Handle Cleanup
     process.on('SIGINT', async () => {
       console.log('\n👋 Shutting down...');
@@ -87,7 +91,7 @@ async function start() {
       cms.kill();
       hugo.kill();
       server.close();
-      await ngrok.kill();
+      tunnel.close();
       process.exit();
     });
   } catch (err) {
