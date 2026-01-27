@@ -189,6 +189,48 @@
     }
   },
   "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your profile, subscription, and experience preferences.",
+    "tabs": [
+      { "id": "profile", "name": "Profile" },
+      { "id": "subscription", "name": "Subscription" },
+      { "id": "preferences", "name": "Preferences" }
+    ],
+    "profile": {
+      "avatar_title": "Profile Picture",
+      "avatar_desc": "Upload a custom photo or use your default initial.",
+      "name_label": "Display Name",
+      "email_label": "Email Address",
+      "save_btn": "Save Changes",
+      "password_title": "Change Password",
+      "current_pass_placeholder": "Current Password",
+      "new_pass_placeholder": "New Password",
+      "update_pass_btn": "Update Password"
+    },
+    "subscription": {
+      "current_plan_label": "Active Subscription",
+      "current_plan_desc": "Your current plan gives you access to core mindfulness tools and community features.",
+      "upgrade_btn": "Upgrade Plan"
+    },
+    "preferences": {
+      "theme_title": "Appearance",
+      "theme_light": "Light",
+      "theme_dark": "Dark",
+      "theme_auto": "System",
+      "notif_title": "Notifications",
+      "notifications": [
+        {
+          "id": "dailyReminders",
+          "title": "Daily Reminders",
+          "desc": "Receive a nudge to complete your daily check-in."
+        },
+        {
+          "id": "courseUpdates",
+          "title": "Course Updates",
+          "desc": "Get notified when new lessons are added to your courses."
+        }
+      ]
+    },
     "plan_tier_suffix": "Tier",
     "plan_label_suffix": "Plan",
     "current_plan_btn": "Current Plan",
