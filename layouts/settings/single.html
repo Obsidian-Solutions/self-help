@@ -88,16 +88,18 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {{ range .Site.Data.undraw_catalog.plans }}
+          {{ $plans := sort (where .Site.RegularPages "Type" "plans") "Weight" }}
+          {{ range $plans }}
+          {{ $planId := .Title | lower }}
           <div class="p-6 rounded-[2rem] border-2 border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex flex-col items-center text-center group hover:border-indigo-200 dark:hover:border-indigo-800 transition-all">
             <div class="w-16 h-16 mb-4 flex items-center justify-center rounded-2xl bg-white dark:bg-gray-800 shadow-sm group-hover:scale-110 transition-transform">
-              <i class="fa-solid {{ if eq .id "free" }}fa-leaf text-green-500{{ else if eq .id "standard" }}fa-star text-amber-500{{ else }}fa-bolt text-indigo-500{{ end }} text-2xl"></i>
+              <i class="fa-solid {{ if eq $planId "free" }}fa-leaf text-green-500{{ else if eq $planId "standard" }}fa-star text-amber-500{{ else }}fa-bolt text-indigo-500{{ end }} text-2xl"></i>
             </div>
-            <h4 class="font-black text-gray-900 dark:text-white">{{ .name }}</h4>
-            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4">{{ .price }}</p>
+            <h4 class="font-black text-gray-900 dark:text-white">{{ .Title }}</h4>
+            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4">{{ .Params.price }}</p>
             <button
-              onclick="switchPlan('{{ .name }}')"
-              data-plan-btn="{{ .name }}"
+              onclick="switchPlan('{{ .Title }}')"
+              data-plan-btn="{{ .Title }}"
               class="mt-auto w-full py-3 rounded-xl bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 text-xs font-black border border-gray-100 dark:border-gray-700 hover:bg-indigo-600 hover:text-white hover:border-indigo-600 transition-all"
             >
               {{ $labels.subscription.upgrade_btn }}
