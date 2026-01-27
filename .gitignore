@@ -70,3 +70,6 @@ build/
 # Local Tools
 .claude/
 .oc/
+
+# AI / LLM Tools
+GEMINI.md
