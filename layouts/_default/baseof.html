@@ -17,7 +17,12 @@
     /* Sidebar visibility control */
     .app-sidebar { display: none; }
     @media (min-width: 1024px) {
-      .user-logged-in.is-app-page .app-sidebar { display: block; width: 18rem; flex-shrink: 0; }
+      .user-logged-in.is-app-page .app-sidebar { 
+        display: block; 
+        width: 18rem; 
+        flex-shrink: 0; 
+        z-index: 40; /* Above content, below header (50) */
+      }
     }
 
     /* For logged-out users on app pages, we show the special CTA block */
@@ -31,14 +36,31 @@
     .user-logged-in .hide-on-logged-in { display: none !important; }
     .user-logged-in .show-on-logged-in { display: flex !important; }
 
-    /* Ensure sidebar stays fixed while page scrolls */
+    /* Professional Sticky Sidebar with Internal Scroll */
     @media (min-width: 1024px) {
       .app-sidebar-sticky {
         position: sticky;
-        /* Header is h-20 (5rem). Offset sticky sidebar by this amount */
-        top: 5rem;
+        top: 5rem; /* Header height */
         height: calc(100vh - 5rem);
         overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(79, 70, 229, 0.2) transparent;
+      }
+      
+      /* Webkit scrollbar polish */
+      .app-sidebar-sticky::-webkit-scrollbar {
+        width: 4px;
+      }
+      .app-sidebar-sticky::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .app-sidebar-sticky::-webkit-scrollbar-thumb {
+        background-color: rgba(79, 70, 229, 0.1);
+        border-radius: 20px;
+      }
+      .app-sidebar-sticky:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(79, 70, 229, 0.3);
       }
     }
   </style>
@@ -95,7 +117,7 @@
 
     <!-- Global Footer -->
     {{ if not (or (eq .Kind "login") (eq .Kind "signup") (in .RelPermalink "/login/") (in .RelPermalink "/signup/")) }}
-    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950 relative z-20">
+    <footer class="bg-gray-800 text-white mt-auto dark:bg-gray-950 relative z-10">
       {{ partial "shared/footer.html" . }}
     </footer>
     {{ end }}
