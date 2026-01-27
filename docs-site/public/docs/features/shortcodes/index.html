@@ -9,7 +9,7 @@ https://github.com/alex-shpak/hugo-book
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Start Start Session )# Renders an interactive, animated breathing circle to help users center themselves.
+1. Guided Breathing ( Guided Breathing Ready 0 Start Session )# Renders an interactive, animated breathing circle to help users center themselves.
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
@@ -17,7 +17,7 @@ https://github.com/alex-shpak/hugo-book
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Wellness Shortcodes">
   <meta property="og:description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Start Start Session )# Renders an interactive, animated breathing circle to help users center themselves.">
+1. Guided Breathing ( Guided Breathing Ready 0 Start Session )# Renders an interactive, animated breathing circle to help users center themselves.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
@@ -25,8 +25,8 @@ https://github.com/alex-shpak/hugo-book
 
   <meta itemprop="name" content="Wellness Shortcodes">
   <meta itemprop="description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
-1. Guided Breathing ( Guided Breathing Start Start Session )# Renders an interactive, animated breathing circle to help users center themselves.">
-  <meta itemprop="wordCount" content="233">
+1. Guided Breathing ( Guided Breathing Ready 0 Start Session )# Renders an interactive, animated breathing circle to help users center themselves.">
+  <meta itemprop="wordCount" content="235">
 
 <title>Wellness Shortcodes | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -315,8 +315,7 @@ https://github.com/alex-shpak/hugo-book
       
       
   <article class="markdown book-article"><p>MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.</p>
-<h2 id="1-guided-breathing-hahahugoshortcode14s0hbhb">1. Guided Breathing (<code><div class="my-12 flex flex-col items-center justify-center p-8 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
-  
+<h2 id="1-guided-breathing-hahahugoshortcode14s0hbhb">1. Guided Breathing (<code><div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
   <div class="absolute inset-0 opacity-10 pointer-events-none">
     <svg
   class="handcrafts-element absolute top-4 left-4 w-12 h-12 animate-pulse"
@@ -331,27 +330,35 @@ https://github.com/alex-shpak/hugo-book
 
   </div>
 
-  <div class="relative z-10 text-center">
-    <h3 class="text-xs font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
+  <div class="relative z-10 text-center w-full max-w-sm">
+    <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
     
-    <div id="breathe-circle" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex items-center justify-center transition-all duration-4000 ease-in-out border-8 border-indigo-100 dark:border-indigo-900">
-      <div id="breathe-inner" class="w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-4000 ease-in-out scale-100"></div>
-      <span id="breathe-text" class="absolute text-xl font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Start</span>
+    <div id="breathe-circle" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center transition-all duration-4000 ease-in-out border-8 border-indigo-100 dark:border-indigo-900 mx-auto">
+      <div id="breathe-inner" class="absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-4000 ease-in-out scale-100"></div>
+      
+      <div class="relative z-20 flex flex-col items-center">
+        <span id="breathe-status" class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
+        <span id="breathe-timer" class="text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
+      </div>
     </div>
 
-    <div class="mt-10 flex gap-4 justify-center">
-      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-10">Start Session</button>
+    <div class="mt-12">
+      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
     </div>
   </div>
 </div>
 
 <script>
   (function() {
-    let interval;
+    let cycleInterval;
+    let timerInterval;
     let active = false;
+    let countdown = 0;
+    
     const circle = document.getElementById('breathe-circle');
     const inner = document.getElementById('breathe-inner');
-    const text = document.getElementById('breathe-text');
+    const status = document.getElementById('breathe-status');
+    const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
 
     window.toggleBreathing = function() {
@@ -366,54 +373,77 @@ https://github.com/alex-shpak/hugo-book
       active = true;
       btn.textContent = 'Stop Session';
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
-      cycle();
-      interval = setInterval(cycle, 12000); 
+      status.textContent = 'Prepare';
+      
+      runCycle();
+      cycleInterval = setInterval(runCycle, 12000); 
     }
 
     function stop() {
       active = false;
-      clearInterval(interval);
+      clearInterval(cycleInterval);
+      clearInterval(timerInterval);
       btn.textContent = 'Start Session';
       btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
-      text.textContent = 'Start';
+      status.textContent = 'Ready';
+      timer.textContent = '0';
       inner.style.transform = 'scale(1)';
+      inner.style.opacity = '0.2';
       circle.style.transform = 'scale(1)';
+      circle.style.borderColor = '';
     }
 
-    function cycle() {
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      countdown = seconds;
+      timer.textContent = countdown;
+      
+      timerInterval = setInterval(() => {
+        countdown--;
+        if (countdown >= 0) {
+          timer.textContent = countdown;
+        }
+        if (countdown <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+    }
+
+    function runCycle() {
       if (!active) return;
       
       
-      text.textContent = 'Inhale';
-      inner.style.transform = 'scale(4)';
+      status.textContent = 'Breathe In';
+      inner.style.transform = 'scale(5)';
       inner.style.opacity = '0.4';
-      circle.style.transform = 'scale(1.1)';
-      circle.style.borderColor = 'rgba(79, 70, 229, 0.3)';
+      circle.style.transform = 'scale(1.05)';
+      circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+      startTimer(4);
 
       setTimeout(() => {
         if (!active) return;
         
-        text.textContent = 'Hold';
+        status.textContent = 'Hold';
         inner.style.opacity = '0.6';
+        startTimer(4);
       }, 4000);
 
       setTimeout(() => {
         if (!active) return;
         
-        text.textContent = 'Exhale';
+        status.textContent = 'Breathe Out';
         inner.style.transform = 'scale(1)';
         inner.style.opacity = '0.2';
         circle.style.transform = 'scale(1)';
         circle.style.borderColor = '';
+        startTimer(4);
       }, 8000);
     }
   })();
-</script>
-</code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
+</script></code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
 <p>Renders an interactive, animated breathing circle to help users center themselves.</p>
 <h3 id="usage">Usage<a class="anchor" href="#usage">#</a></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><div class="my-12 flex flex-col items-center justify-center p-8 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
-  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative">
   <div class="absolute inset-0 opacity-10 pointer-events-none">
     <svg
   class="handcrafts-element absolute top-4 left-4 w-12 h-12 animate-pulse"
@@ -428,27 +458,35 @@ https://github.com/alex-shpak/hugo-book
 
   </div>
 
-  <div class="relative z-10 text-center">
-    <h3 class="text-xs font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
+  <div class="relative z-10 text-center w-full max-w-sm">
+    <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 mb-8">Guided Breathing</h3>
     
-    <div id="breathe-circle" class="w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex items-center justify-center transition-all duration-4000 ease-in-out border-8 border-indigo-100 dark:border-indigo-900">
-      <div id="breathe-inner" class="w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-4000 ease-in-out scale-100"></div>
-      <span id="breathe-text" class="absolute text-xl font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Start</span>
+    <div id="breathe-circle" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center transition-all duration-4000 ease-in-out border-8 border-indigo-100 dark:border-indigo-900 mx-auto">
+      <div id="breathe-inner" class="absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 transition-all duration-4000 ease-in-out scale-100"></div>
+      
+      <div class="relative z-20 flex flex-col items-center">
+        <span id="breathe-status" class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
+        <span id="breathe-timer" class="text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
+      </div>
     </div>
 
-    <div class="mt-10 flex gap-4 justify-center">
-      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-10">Start Session</button>
+    <div class="mt-12">
+      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
     </div>
   </div>
 </div>
 
 <script>
   (function() {
-    let interval;
+    let cycleInterval;
+    let timerInterval;
     let active = false;
+    let countdown = 0;
+    
     const circle = document.getElementById('breathe-circle');
     const inner = document.getElementById('breathe-inner');
-    const text = document.getElementById('breathe-text');
+    const status = document.getElementById('breathe-status');
+    const timer = document.getElementById('breathe-timer');
     const btn = document.getElementById('breathe-btn');
 
     window.toggleBreathing = function() {
@@ -463,50 +501,74 @@ https://github.com/alex-shpak/hugo-book
       active = true;
       btn.textContent = 'Stop Session';
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
-      cycle();
-      interval = setInterval(cycle, 12000); 
+      status.textContent = 'Prepare';
+      
+      runCycle();
+      cycleInterval = setInterval(runCycle, 12000); 
     }
 
     function stop() {
       active = false;
-      clearInterval(interval);
+      clearInterval(cycleInterval);
+      clearInterval(timerInterval);
       btn.textContent = 'Start Session';
       btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
-      text.textContent = 'Start';
+      status.textContent = 'Ready';
+      timer.textContent = '0';
       inner.style.transform = 'scale(1)';
+      inner.style.opacity = '0.2';
       circle.style.transform = 'scale(1)';
+      circle.style.borderColor = '';
     }
 
-    function cycle() {
+    function startTimer(seconds) {
+      clearInterval(timerInterval);
+      countdown = seconds;
+      timer.textContent = countdown;
+      
+      timerInterval = setInterval(() => {
+        countdown--;
+        if (countdown >= 0) {
+          timer.textContent = countdown;
+        }
+        if (countdown <= 0) {
+          clearInterval(timerInterval);
+        }
+      }, 1000);
+    }
+
+    function runCycle() {
       if (!active) return;
       
       
-      text.textContent = 'Inhale';
-      inner.style.transform = 'scale(4)';
+      status.textContent = 'Breathe In';
+      inner.style.transform = 'scale(5)';
       inner.style.opacity = '0.4';
-      circle.style.transform = 'scale(1.1)';
-      circle.style.borderColor = 'rgba(79, 70, 229, 0.3)';
+      circle.style.transform = 'scale(1.05)';
+      circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+      startTimer(4);
 
       setTimeout(() => {
         if (!active) return;
         
-        text.textContent = 'Hold';
+        status.textContent = 'Hold';
         inner.style.opacity = '0.6';
+        startTimer(4);
       }, 4000);
 
       setTimeout(() => {
         if (!active) return;
         
-        text.textContent = 'Exhale';
+        status.textContent = 'Breathe Out';
         inner.style.transform = 'scale(1)';
         inner.style.opacity = '0.2';
         circle.style.transform = 'scale(1)';
         circle.style.borderColor = '';
+        startTimer(4);
       }, 8000);
     }
   })();
-</script>
-</span></span></code></pre></div><ul>
+</script></span></span></code></pre></div><ul>
 <li><input checked="" disabled="" type="checkbox"> <strong>Inhale/Exhale Cues</strong>: Smooth 4-second cycles.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Visual Feedback</strong>: Expanding circle logic.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Interactive</strong>: Simple Start/Stop controls.</li>

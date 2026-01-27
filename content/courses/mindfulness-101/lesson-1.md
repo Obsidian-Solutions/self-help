@@ -7,8 +7,6 @@ illustration: 'mindfulness'
 order: 1
 ---
 
-duration: "12 min read"
-
 Mindfulness is the quality of being present and fully engaged with whatever we’re doing at the moment — free from distraction or judgment, and aware of our thoughts and feelings without getting caught up in them.
 
 ## 🌬️ Daily Breathing Practice

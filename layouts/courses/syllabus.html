@@ -70,11 +70,17 @@
 
       <div class="space-y-4">
         {{ range $index, $lesson := sort $thisCourseLessons "File.Path" "asc" }}
-        <a href="{{ .RelPermalink }}" class="group block premium-card hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-500">
+        <a href="{{ .RelPermalink }}" class="group block premium-card hover:border-indigo-200 dark:hover:border-indigo-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-500" data-syllabus-lesson="{{ .Title }}">
           <div class="p-6 sm:p-8 flex items-center justify-between gap-6">
             <div class="flex items-center gap-6">
-              <div class="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-sm font-black text-indigo-300 dark:text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">
-                {{ printf "%02d" (add $index 1) }}
+              <div class="relative">
+                <div class="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-sm font-black text-indigo-300 dark:text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">
+                  {{ printf "%02d" (add $index 1) }}
+                </div>
+                <!-- Completion Badge -->
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 text-white rounded-lg flex items-center justify-center text-[10px] shadow-md opacity-0 scale-50 transition-all duration-500 js-completion-badge">
+                  <i class="fa-solid fa-check"></i>
+                </div>
               </div>
               <div>
                 <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors duration-500">{{ .Title }}</h4>
@@ -161,6 +167,20 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', async () => {
+    // Progress Logic
+    const courseProgress = JSON.parse(localStorage.getItem('courseProgress') || '{}');
+    document.querySelectorAll('[data-syllabus-lesson]').forEach(el => {
+      const title = el.getAttribute('data-syllabus-lesson');
+      if (courseProgress[title] && courseProgress[title].completed) {
+        const badge = el.querySelector('.js-completion-badge');
+        if (badge) {
+          badge.classList.remove('opacity-0', 'scale-50');
+          badge.classList.add('opacity-100', 'scale-100');
+        }
+      }
+    });
+
+    // Rating Logic
     const slug = '{{ $slug }}';
     try {
       const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);

@@ -18,9 +18,15 @@
           <div class="space-y-4">
             {{ range $index, $lesson := $allLessons }}
             {{ $isCurrent := eq .Title $currentTitle }}
-            <a href="{{ .RelPermalink }}" class="group flex items-center gap-5 transition-all">
-              <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white shadow-lg shadow-indigo-200 {{ else }} bg-white dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 border border-gray-100 dark:border-gray-700 {{ end }}">
-                {{ printf "%02d" (add $index 1) }}
+            <a href="{{ .RelPermalink }}" class="group flex items-center gap-5 transition-all" data-sidebar-lesson="{{ .Title }}">
+              <div class="relative flex-shrink-0">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-black transition-all {{ if $isCurrent }} bg-indigo-600 text-white shadow-lg shadow-indigo-200 {{ else }} bg-white dark:bg-gray-800 text-gray-400 group-hover:text-indigo-600 border border-gray-100 dark:border-gray-700 {{ end }}">
+                  {{ printf "%02d" (add $index 1) }}
+                </div>
+                <!-- Completion Checkmark -->
+                <div class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-emerald-500 text-white rounded-lg flex items-center justify-center text-[10px] shadow-sm opacity-0 scale-50 transition-all duration-500 js-completion-badge">
+                  <i class="fa-solid fa-check"></i>
+                </div>
               </div>
               <div class="min-w-0">
                 <span class="text-sm font-bold leading-tight block {{ if $isCurrent }} text-gray-900 dark:text-white {{ else }} text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300 {{ end }}">
@@ -160,6 +166,18 @@
     const text = document.getElementById('course-progress-percent');
     if (bar) bar.style.width = percentage + '%';
     if (text) text.textContent = percentage + '%';
+
+    // Update lesson badges
+    document.querySelectorAll('[data-sidebar-lesson]').forEach(el => {
+      const title = el.getAttribute('data-sidebar-lesson');
+      if (courseProgress[title] && courseProgress[title].completed) {
+        const badge = el.querySelector('.js-completion-badge');
+        if (badge) {
+          badge.classList.remove('opacity-0', 'scale-50');
+          badge.classList.add('opacity-100', 'scale-100');
+        }
+      }
+    });
   }
 
   function initLessonQuiz() {
