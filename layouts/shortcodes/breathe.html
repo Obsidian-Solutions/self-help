@@ -4,15 +4,15 @@
   </div>
 
   <div class="relative z-10 text-center w-full max-w-sm">
-    <div class="flex items-center justify-between mb-8">
-      <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">Guided Breathing</h3>
+    <div class="flex items-center justify-between mb-8 gap-4">
+      <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Guided Breathing</h3>
       
       <!-- Soundscape Dropdown -->
-      <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-3 py-1.5 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <i class="fa-solid fa-wind text-[10px] text-indigo-600"></i>
-        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+      <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[140px]">
+        <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
+        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
-          <option value="1">Zen Garden</option>
+          <option value="1">Deep Zen</option>
           <option value="2">Soft Rain</option>
         </select>
       </div>
@@ -45,7 +45,7 @@
     let audioCtx;
     const soundscapes = [
       { name: 'Silent', url: '' },
-      { name: 'Zen Garden', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+      { name: 'Deep Zen', url: 'https://cdn.pixabay.com/audio/2022/03/24/audio_783910c361.mp3' }, // Better ambient meditation track
       { name: 'Soft Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' }
     ];
     let currentSoundscapeIdx = 0;
@@ -64,28 +64,34 @@
       
       if (scape.url) {
         ambientAudio.src = scape.url;
-        if (active) ambientAudio.play();
+        if (active) {
+          ambientAudio.play().catch(e => console.log("Ambient play blocked"));
+        }
       } else {
         ambientAudio.pause();
       }
     };
 
     function playChime(freq, type = 'sine', volume = 0.1) {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      
-      gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
-      
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      osc.start();
-      osc.stop(audioCtx.currentTime + 1.5);
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
+        
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + 1.5);
+      } catch (e) {}
     }
 
     window.toggleBreathing = function() {
@@ -103,7 +109,7 @@
       status.textContent = 'Prepare';
       
       if (soundscapes[currentSoundscapeIdx].url) {
-        ambientAudio.play();
+        ambientAudio.play().catch(e => console.log("Ambient play blocked"));
       }
 
       runCycle();

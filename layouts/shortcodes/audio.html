@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <audio id="raw-audio-{{ $id }}" src="{{ .Get "src" }}" class="hidden" preload="metadata"></audio>
+    <audio id="raw-audio-{{ $id }}" src="{{ .Get "src" }}" class="hidden" preload="auto"></audio>
     
     <div class="space-y-4">
       <!-- Scrubber -->
@@ -52,8 +52,8 @@
       </div>
 
       <div class="flex items-center gap-6">
-        <button onclick="window.toggleAudio('{{ $id }}')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn">
-          <i class="fa-solid fa-play text-xl ml-1"></i>
+        <button onclick="window.toggleAudio('{{ $id }}')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn disabled:opacity-50" disabled>
+          <i class="fa-solid fa-spinner fa-spin text-xl"></i>
         </button>
 
         <div class="flex-1 flex items-center justify-between">
@@ -76,7 +76,7 @@
 <script>
   (function() {
     function formatTime(seconds) {
-      if (isNaN(seconds)) return "0:00";
+      if (isNaN(seconds) || seconds === Infinity) return "0:00";
       const mins = Math.floor(seconds / 60);
       const secs = Math.floor(seconds % 60);
       return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -95,7 +95,7 @@
             const p = a.closest('.js-audio-player');
             if (p) {
               const b = p.querySelector('.js-play-btn i');
-              if (b) {
+              if (b && b.classList.contains('fa-pause')) {
                 b.classList.replace('fa-pause', 'fa-play');
                 b.classList.add('ml-1');
               }
@@ -103,7 +103,9 @@
           }
         });
 
-        audio.play();
+        audio.play().catch(() => {
+          if(window.showToast) window.showToast("Playback failed. Please try again.", "error");
+        });
         icon.classList.replace('fa-play', 'fa-pause');
         icon.classList.remove('ml-1');
       } else {
@@ -116,14 +118,19 @@
     window.seekAudio = function(id, value) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
-      const time = (value / 100) * audio.duration;
-      audio.currentTime = time;
+      if (audio.duration) {
+        const time = (value / 100) * audio.duration;
+        audio.currentTime = time;
+      }
     };
 
     window.skipAudio = function(id, seconds) {
       const player = document.getElementById('player-' + id);
       const audio = player.querySelector('audio');
-      audio.currentTime += seconds;
+      let newTime = audio.currentTime + seconds;
+      if (newTime < 0) newTime = 0;
+      if (audio.duration && newTime > audio.duration) newTime = audio.duration;
+      audio.currentTime = newTime;
     };
 
     window.setVolume = function(id, val) {
@@ -166,6 +173,7 @@
       btn.textContent = speeds[nextIdx] + 'x';
     };
 
+    // Initialize individual players
     document.querySelectorAll('.js-audio-player').forEach(player => {
       const id = player.getAttribute('data-audio-id');
       const audio = player.querySelector('audio');
@@ -173,14 +181,24 @@
       const currentTimeEl = player.querySelector('.js-current-time');
       const totalTimeEl = player.querySelector('.js-total-time');
       const durationLabel = player.querySelector('.js-audio-duration-label');
+      const playBtn = player.querySelector('.js-play-btn');
 
-      audio.addEventListener('loadedmetadata', () => {
+      const setReady = () => {
+        playBtn.disabled = false;
+        playBtn.innerHTML = '<i class="fa-solid fa-play text-xl ml-1"></i>';
         const time = formatTime(audio.duration);
         totalTimeEl.textContent = time;
         if (durationLabel) durationLabel.textContent = time;
-      });
+      };
+
+      if (audio.readyState >= 1) {
+        setReady();
+      } else {
+        audio.addEventListener('loadedmetadata', setReady);
+      }
 
       audio.addEventListener('timeupdate', () => {
+        if (!audio.duration) return;
         const pct = (audio.currentTime / audio.duration) * 100;
         scrubber.value = pct;
         currentTimeEl.textContent = formatTime(audio.currentTime);
@@ -195,6 +213,11 @@
         }
         scrubber.value = 0;
         scrubber.style.background = '';
+      });
+
+      audio.addEventListener('error', () => {
+        playBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-xl"></i>';
+        if(window.showToast) window.showToast("Error loading audio stream.", "error");
       });
     });
   })();
