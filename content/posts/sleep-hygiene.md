@@ -1,14 +1,16 @@
 ---
-title: 'The Importance of Sleep Hygiene'
-date: 2026-01-14T08:00:00-00:00
-description: "How to set up your bedroom and routine for the best night's sleep of your life."
+title: 'Mastering Sleep Hygiene for Mental Health'
+date: 2026-01-20T22:00:00-00:00
+description: 'How to build a nightly routine that supports deep, restorative sleep.'
 illustration: 'sleep'
 ---
 
-Sleep is when our brain processes emotions. Without it, our emotional regulation centers go offline.
+Sleep is the foundation of mental health. Without restorative rest, our ability to regulate emotions and think clearly is compromised.
 
-## Tips for Better Sleep
+## The Sleep Hygiene Checklist:
 
-- **Cool Room:** Keep your bedroom around 65°F (18°C).
-- **No Blue Light:** Turn off screens 1 hour before bed.
-- **Routine:** Go to bed and wake up at the same time every day, even on weekends.
+- **Consistency**: Go to bed and wake up at the same time every day.
+- **Environment**: Keep your bedroom cool, dark, and quiet.
+- **Blue Light**: Turn off screens at least 1 hour before bed.
+- **Caffeine**: Avoid stimulants after 2:00 PM.
+- **Ritual**: Develop a calming routine, such as reading or a warm bath.

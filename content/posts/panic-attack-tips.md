@@ -1,16 +1,14 @@
 ---
-title: '5 Simple Techniques to Stop a Panic Attack'
-date: 2026-01-10T09:00:00-00:00
-description: 'Grounding techniques that you can use anywhere, anytime to regain control.'
-illustration: 'meditation'
+title: '5 Immediate Tips for Managing a Panic Attack'
+date: 2026-01-15T10:00:00-00:00
+description: 'Actionable steps you can take right now to ground yourself during high anxiety.'
+illustration: 'breathing'
 ---
 
-Panic attacks can feel overwhelming, but they are physically harmless. The key is to signal safety to your brain.
+When a panic attack hits, your body is in full "fight or flight" mode. Here is how to regain control:
 
-## 1. The 5-4-3-2-1 Method
-
-Acknowledge **5** things you see, **4** things you can touch, **3** things you hear, **2** things you can smell, and **1** thing you can taste. This engages your senses and brings you back to the present.
-
-## 2. Box Breathing
-
-Inhale for 4 seconds, hold for 4, exhale for 4, and hold for 4. Repeat until your heart rate slows down.
+1. **Box Breathing**: Inhale for 4, hold for 4, exhale for 4, hold for 4.
+2. **5-4-3-2-1 Grounding**: Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, and 1 you can taste.
+3. **Acknowledge the feeling**: Remind yourself that this is a temporary physiological response.
+4. **Cold water**: Splash cold water on your face to trigger the mammalian dive reflex.
+5. **Release muscle tension**: Progressively clench and relax your muscle groups.
