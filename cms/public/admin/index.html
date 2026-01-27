@@ -4,55 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Therapist Command Center | MindFull CMS</title>
+    <!-- Core UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
-        .admin-card { background: white; border-radius: 1.5rem; border: 1px solid #e2e8f0; transition: all 0.3s ease; }
-        .admin-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
-        .sidebar-link { transition: all 0.2s ease; border-radius: 0.75rem; }
-        .sidebar-link.active { background: #4f46e5; color: white; }
-        .sidebar-link:not(.active):hover { background: #f1f5f9; }
-        .btn-status { @apply px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest transition-all; }
-        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
-        .pulse-interaction { background-color: #4f46e5; box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); animation: pulse-indigo 2s infinite; }
-        .pulse-inquiry { background-color: #f59e0b; box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); animation: pulse-amber 2s infinite; }
-        @keyframes pulse-indigo { 0% { transform: scale(0.95); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(79, 70, 229, 0); } 100% { transform: scale(0.95); } }
-        @keyframes pulse-amber { 0% { transform: scale(0.95); } 70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); } 100% { transform: scale(0.95); } }
-    </style>
+    <link rel="stylesheet" href="css/admin.css">
 </head>
-<body class="flex min-h-screen">
+<body class="flex min-h-screen opacity-0 transition-opacity duration-500">
 
     <!-- Sidebar -->
-    <aside class="w-64 border-r border-slate-200 bg-white p-6 flex flex-col gap-8">
+    <aside class="w-64 border-r border-slate-200 bg-white p-6 flex flex-col gap-8 fixed h-full z-30">
         <div class="flex items-center gap-3 px-2">
-            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white">
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
                 <i class="fa-solid fa-brain"></i>
             </div>
             <span class="font-extrabold text-slate-900 tracking-tight text-lg">MindFull <span class="text-indigo-600">Admin</span></span>
         </div>
 
         <nav class="flex flex-col gap-2">
-            <button onclick="showSection('dashboard')" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-sm font-bold">
+            <button onclick="showSection('dashboard')" id="nav-btn-dashboard" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
-            <button onclick="showSection('inquiries')" class="sidebar-link flex items-center justify-between px-4 py-3 text-sm font-bold text-slate-500">
+            <button onclick="showSection('inquiries')" id="nav-btn-inquiries" class="sidebar-link flex items-center justify-between px-4 py-3 text-sm font-bold text-slate-500">
                 <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads</span>
                 <span id="notif-badge" class="hidden px-1.5 py-0.5 bg-red-500 text-white text-[8px] rounded-full">0</span>
             </button>
-            <button onclick="showSection('users')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+            <button onclick="showSection('users')" id="nav-btn-users" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-users w-5"></i> User Base
             </button>
-            <button onclick="showSection('content')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+            <button onclick="showSection('content')" id="nav-btn-content" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-file-lines w-5"></i> Content
             </button>
-            <button onclick="showSection('community')" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+            <button onclick="showSection('community')" id="nav-btn-community" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-comments w-5"></i> Community
             </button>
         </nav>
 
         <div class="mt-auto">
+            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 mb-4">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">System Status</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs font-bold text-slate-600">CMS Online</span>
+                </div>
+            </div>
             <button onclick="logout()" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50">
                 <i class="fa-solid fa-arrow-right-from-bracket w-5"></i> Log Out
             </button>
@@ -60,7 +55,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 p-10 overflow-y-auto">
+    <main class="flex-1 ml-64 p-10">
         <header class="flex justify-between items-center mb-10">
             <div>
                 <h1 id="section-title" class="text-3xl font-black text-slate-900 tracking-tight">Overview</h1>
@@ -68,18 +63,18 @@
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <p id="admin-name" class="text-sm font-bold text-slate-900">--</p>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-indigo-600">Platform Admin</p>
+                    <p id="admin-name" class="text-sm font-bold text-slate-900">Admin</p>
+                    <p id="admin-role" class="text-[10px] font-black uppercase tracking-widest text-indigo-600">Platform Admin</p>
                 </div>
-                <div class="w-12 h-12 bg-slate-200 rounded-2xl overflow-hidden border-2 border-white shadow-sm">
-                    <img id="admin-avatar" src="https://i.pravatar.cc/150?u=therapist" alt="Admin">
+                <div class="w-12 h-12 bg-slate-200 rounded-2xl overflow-hidden border-2 border-white shadow-sm ring-1 ring-slate-100">
+                    <img id="admin-avatar" src="https://i.pravatar.cc/150?u=admin" alt="Admin">
                 </div>
             </div>
         </header>
 
         <!-- Section: Dashboard -->
-        <div id="section-dashboard" class="animate-in fade-in slide-in-from-bottom-2">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div id="section-dashboard" class="admin-section space-y-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div class="admin-card p-6 border-l-4 border-l-indigo-500">
                     <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4"><i class="fa-solid fa-users text-sm"></i></div>
                     <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Users</p>
@@ -104,20 +99,33 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div class="lg:col-span-2 space-y-10">
+                    <!-- Activity Pulse -->
                     <div class="admin-card p-8">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-black text-slate-900">Activity Pulse</h3>
-                            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[8px] font-black uppercase rounded-lg">Live</span>
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-1 bg-indigo-50 text-indigo-600 text-[8px] font-black uppercase rounded">Interactions</span>
+                                <span class="px-2 py-1 bg-amber-50 text-amber-600 text-[8px] font-black uppercase rounded">Leads</span>
+                            </div>
                         </div>
-                        <div id="activity-list" class="space-y-4"></div>
+                        <div id="activity-list" class="space-y-4">
+                            <!-- Shimmer Loading State -->
+                            <div class="h-16 w-full shimmer rounded-2xl"></div>
+                            <div class="h-16 w-full shimmer rounded-2xl"></div>
+                            <div class="h-16 w-full shimmer rounded-2xl"></div>
+                        </div>
                     </div>
+                    
+                    <!-- Popular Insights -->
                     <div class="admin-card p-8">
                         <h3 class="text-lg font-black text-slate-900 mb-6">Popular Insights</h3>
                         <div id="popular-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
                     </div>
                 </div>
+
+                <!-- Latest Discussion -->
                 <div class="space-y-10">
-                    <div class="admin-card p-8">
+                    <div class="admin-card p-8 h-full">
                         <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
                         <div id="comments-list" class="space-y-6"></div>
                     </div>
@@ -125,8 +133,8 @@
             </div>
         </div>
 
-        <!-- Section: Inquiries (CRM Leads) -->
-        <div id="section-inquiries" class="hidden animate-in fade-in slide-in-from-bottom-2">
+        <!-- Section: Inquiries -->
+        <div id="section-inquiries" class="admin-section hidden">
             <div class="admin-card overflow-hidden">
                 <table class="w-full text-left">
                     <thead class="bg-slate-50 border-b border-slate-100">
@@ -143,7 +151,7 @@
         </div>
 
         <!-- Section: Users -->
-        <div id="section-users" class="hidden animate-in fade-in slide-in-from-bottom-2">
+        <div id="section-users" class="admin-section hidden">
             <div class="mb-6 flex gap-4">
                 <select id="filter-plan" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:border-indigo-600">
                     <option value="">All Plans</option>
@@ -173,10 +181,10 @@
             </div>
         </div>
 
-        <!-- Section: User Profile (Deep Dive) -->
-        <div id="section-user-profile" class="hidden animate-in fade-in slide-in-from-bottom-2">
-            <button onclick="showSection('users')" class="mb-6 text-indigo-600 font-bold text-sm flex items-center gap-2">
-                <i class="fa-solid fa-arrow-left"></i> Back to Users
+        <!-- Section: User Profile -->
+        <div id="section-user-profile" class="admin-section hidden">
+            <button onclick="showSection('users')" class="mb-6 text-indigo-600 font-bold text-sm flex items-center gap-2 group">
+                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Users
             </button>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div class="lg:col-span-2 space-y-10">
@@ -188,12 +196,12 @@
                         <h3 class="text-lg font-black text-slate-900 mb-6">Therapist Notes</h3>
                         <div id="user-notes" class="space-y-6 mb-8"></div>
                         <form onsubmit="handleAddNote(event)" class="flex flex-col gap-4">
-                            <textarea id="note-content" placeholder="Add a private therapist note..." required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-100 focus:border-indigo-600 outline-none text-sm font-medium"></textarea>
-                            <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm w-fit self-end">Add Note</button>
+                            <textarea id="note-content" placeholder="Add a private therapist note..." required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-100 focus:border-indigo-600 outline-none text-sm font-medium transition-all"></textarea>
+                            <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm w-fit self-end shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">Add Note</button>
                         </form>
                     </div>
                 </div>
-                <div class="admin-card p-8 h-fit">
+                <div class="admin-card p-8 h-fit sticky top-10">
                     <h3 class="text-lg font-black text-slate-900 mb-6">Member Details</h3>
                     <div id="user-info-card" class="space-y-4"></div>
                 </div>
@@ -201,7 +209,7 @@
         </div>
 
         <!-- Section: Content -->
-        <div id="section-content" class="hidden">
+        <div id="section-content" class="admin-section hidden">
             <div class="flex items-center justify-center p-20 admin-card border-dashed">
                 <div class="text-center">
                     <i class="fa-solid fa-toolbox text-4xl text-slate-200 mb-4"></i>
@@ -210,274 +218,35 @@
             </div>
         </div>
 
-        <div id="section-community" class="hidden">
+        <!-- Section: Community -->
+        <div id="section-community" class="admin-section hidden">
             <div id="community-full-list" class="space-y-4"></div>
         </div>
     </main>
 
     <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
-        <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl">
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
+        <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl scale-in">
             <div class="text-center mb-8">
                 <div class="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-indigo-200"><i class="fa-solid fa-lock text-2xl"></i></div>
                 <h2 class="text-3xl font-black text-slate-900 tracking-tight">Therapist Access</h2>
+                <p class="text-slate-500 font-medium mt-2">Authenticated Command Center</p>
             </div>
             <form onsubmit="handleLogin(event)" class="space-y-4">
-                <input type="email" id="email" placeholder="Email" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
-                <input type="password" id="password" placeholder="Password" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
-                <button type="submit" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-indigo-700">Authenticate</button>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email Address</label>
+                    <input type="email" id="email" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all">
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Secure Password</label>
+                    <input type="password" id="password" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all">
+                </div>
+                <button type="submit" id="auth-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
             </form>
         </div>
     </div>
 
-    <script>
-        let currentUserId = null;
-        const API_BASE = '/api';
-
-        async function init() {
-            const token = localStorage.getItem('mindfull_admin_token');
-            if (token) {
-                const user = JSON.parse(localStorage.getItem('mindfull_admin_user') || '{}');
-                if (user.role === 'admin' || user.role === 'therapist') {
-                    document.getElementById('login-modal').classList.add('hidden');
-                    document.getElementById('admin-name').textContent = user.name;
-                    loadDashboardData();
-                    // Auto-refresh stats every 30s
-                    setInterval(loadDashboardData, 30000);
-                } else { logout(); }
-            }
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            const res = await fetch(`${API_BASE}/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('password').value })
-            });
-            const data = await res.json();
-            if (res.ok && (data.user.role === 'admin' || data.user.role === 'therapist')) {
-                localStorage.setItem('mindfull_admin_token', data.token);
-                localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
-                location.reload();
-            } else { alert('Access denied.'); }
-        }
-
-        function logout() { localStorage.clear(); location.reload(); }
-
-        async function fetchAdmin(endpoint, method = 'GET', body = null) {
-            const res = await fetch(`${API_BASE}/admin${endpoint}`, {
-                method,
-                headers: { 
-                    'Authorization': `Bearer ${localStorage.getItem('mindfull_admin_token')}`, 
-                    'Content-Type': 'application/json',
-                    'x-xsrf-token': getCookie('XSRF-TOKEN')
-                },
-                body: body ? JSON.stringify(body) : null
-            });
-            if (res.status === 401 || res.status === 403) {
-                const data = await res.json();
-                if (data.message === 'CSRF token mismatch') {
-                    console.error('CSRF Error');
-                } else {
-                    logout();
-                }
-            }
-            return res.json();
-        }
-
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-        }
-
-        async function loadDashboardData() {
-            const [stats, popular, comments, activity] = await Promise.all([
-                fetchAdmin('/stats'), 
-                fetchAdmin('/popular'), 
-                fetchAdmin('/comments'),
-                fetchAdmin('/activity')
-            ]);
-            
-            document.getElementById('stat-users').textContent = stats.totalUsers;
-            document.getElementById('stat-views').textContent = stats.totalViews;
-            document.getElementById('stat-rating').textContent = stats.averageRating;
-            document.getElementById('stat-new-leads').textContent = stats.newInquiries;
-            
-            // Notif badge
-            const badge = document.getElementById('notif-badge');
-            if (stats.newInquiries > 0) {
-                badge.textContent = stats.newInquiries;
-                badge.classList.remove('hidden');
-            } else {
-                badge.classList.add('hidden');
-            }
-
-            renderPopular(popular);
-            renderComments(comments);
-            renderActivity(activity);
-        }
-
-        function renderActivity(items) {
-            document.getElementById('activity-list').innerHTML = items.map(item => `
-                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-transparent hover:border-indigo-100 transition-all">
-                    <div class="flex items-center gap-4">
-                        <span class="pulse-dot ${item.activity_type === 'inquiry' ? 'pulse-inquiry' : 'pulse-interaction'}"></span>
-                        <div>
-                            <p class="text-sm font-bold text-slate-900">${item.user_name} <span class="text-slate-400 font-medium text-xs ml-1">${item.event}</span></p>
-                            <p class="text-[10px] text-slate-500 font-medium">${item.metadata || ''}</p>
-                        </div>
-                    </div>
-                    <span class="text-[10px] font-black text-slate-400 uppercase">${formatTime(item.created_at)}</span>
-                </div>
-            `).join('') || '<p class="text-slate-400 text-sm italic p-4">No recent activity detected.</p>';
-        }
-
-        function formatTime(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function renderPopular(items) {
-            document.getElementById('popular-list').innerHTML = items.map(item => `
-                <div class="flex items-center justify-between p-4 hover:bg-slate-50 rounded-xl transition-all border border-slate-50">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center text-[10px] font-black">${item.slug.substring(0,2).toUpperCase()}</div>
-                        <p class="text-sm font-bold text-slate-900 truncate max-w-[100px]">${item.slug}</p>
-                    </div>
-                    <span class="text-[10px] font-black text-emerald-600">${item.views} views</span>
-                </div>
-            `).join('');
-        }
-
-        function renderComments(items) {
-            document.getElementById('comments-list').innerHTML = items.map(item => `
-                <div class="border-l-4 border-indigo-100 pl-4 py-1">
-                    <p class="text-[10px] font-black text-indigo-600 uppercase mb-1">${item.user_name}</p>
-                    <p class="text-sm font-medium text-slate-600 line-clamp-2">${item.content}</p>
-                </div>
-            `).join('') || '<p class="text-slate-400 text-xs italic">No comments yet.</p>';
-        }
-
-        async function loadInquiries() {
-            const leads = await fetchAdmin('/inquiries');
-            document.getElementById('inquiries-table-body').innerHTML = leads.map(l => `
-                <tr class="${l.status === 'new' ? 'bg-indigo-50/20' : ''}">
-                    <td class="px-8 py-6">
-                        <p class="text-sm font-bold text-slate-900">${l.name}</p>
-                        <p class="text-xs text-slate-500">${l.email}</p>
-                    </td>
-                    <td class="px-8 py-6 text-sm font-medium text-slate-600">${l.subject}</td>
-                    <td class="px-8 py-6 text-xs text-slate-400 truncate max-w-xs">${l.message}</td>
-                    <td class="px-8 py-6 text-right">
-                        <select onchange="updateInquiryStatus(${l.id}, this.value)" class="text-[10px] font-black uppercase bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none">
-                            <option value="new" ${l.status === 'new' ? 'selected' : ''}>New</option>
-                            <option value="replied" ${l.status === 'replied' ? 'selected' : ''}>Replied</option>
-                            <option value="closed" ${l.status === 'closed' ? 'selected' : ''}>Closed</option>
-                        </select>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        async function updateInquiryStatus(id, status) {
-            await fetchAdmin(`/inquiries/${id}`, 'PATCH', { status });
-            loadDashboardData(); // Refresh lead count
-        }
-
-        async function loadUsers() {
-            const plan = document.getElementById('filter-plan').value;
-            const role = document.getElementById('filter-role').value;
-            let endpoint = '/users?';
-            if (plan) endpoint += `plan=${plan}&`;
-            if (role) endpoint += `role=${role}`;
-
-            const users = await fetchAdmin(endpoint);
-            document.getElementById('users-table-body').innerHTML = users.map(u => `
-                <tr>
-                    <td class="px-8 py-6 font-bold text-sm text-slate-900">${u.name}<br><span class="text-[10px] font-medium text-slate-400">${u.email}</span></td>
-                    <td class="px-8 py-6"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase">${u.plan || 'Free'}</span></td>
-                    <td class="px-8 py-6"><span class="px-2 py-1 bg-slate-100 rounded text-[10px] font-black uppercase">${u.role}</span></td>
-                    <td class="px-8 py-6 text-right"><button onclick="showUserProfile(${u.id})" class="text-indigo-600 font-black text-xs hover:underline">View Deep-dive &rarr;</button></td>
-                </tr>
-            `).join('');
-        }
-
-        async function showUserProfile(id) {
-            currentUserId = id;
-            showSection('user-profile');
-            const profile = await fetchAdmin(`/users/${id}/profile`);
-            
-            document.getElementById('user-info-card').innerHTML = `
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 text-2xl font-black">${profile.user.name[0]}</div>
-                    <div><p class="font-black text-slate-900">${profile.user.name}</p><p class="text-[10px] font-black uppercase tracking-widest text-slate-400">${profile.user.role}</p></div>
-                </div>
-                <div class="space-y-3 pt-4 border-t">
-                    <p class="text-[10px] font-black text-slate-400 uppercase">Email</p><p class="text-sm font-bold text-slate-700">${profile.user.email}</p>
-                    <p class="text-[10px] font-black text-slate-400 uppercase">Plan</p><p class="text-sm font-bold text-indigo-600">${profile.user.plan || 'Free'}</p>
-                    <p class="text-[10px] font-black text-slate-400 uppercase">Joined</p><p class="text-sm font-bold text-slate-700">${new Date(profile.user.created_at).toLocaleDateString()}</p>
-                </div>
-            `;
-
-            document.getElementById('user-interactions').innerHTML = profile.interactions.map(i => `
-                <div class="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                    <p class="text-sm font-bold text-slate-700"><span class="text-indigo-600 uppercase text-[10px] font-black mr-2">${i.type}</span> ${i.metadata || ''}</p>
-                    <span class="text-[10px] font-bold text-slate-400">${new Date(i.created_at).toLocaleDateString()}</span>
-                </div>
-            `).join('') || '<p class="text-slate-400 text-sm italic">No recent interactions.</p>';
-
-            document.getElementById('user-notes').innerHTML = profile.notes.map(n => `
-                <div class="p-4 bg-indigo-50/30 rounded-2xl border border-indigo-50">
-                    <div class="flex justify-between mb-2"><span class="text-[10px] font-black text-indigo-600 uppercase">Dr. ${n.therapist_name}</span><span class="text-[10px] font-bold text-slate-400">${new Date(n.created_at).toLocaleDateString()}</span></div>
-                    <p class="text-sm font-medium text-slate-700">${n.content}</p>
-                </div>
-            `).join('') || '<p class="text-slate-400 text-sm italic">No therapist notes yet.</p>';
-        }
-
-        async function handleAddNote(e) {
-            e.preventDefault();
-            const content = document.getElementById('note-content').value;
-            await fetchAdmin(`/users/${currentUserId}/notes`, 'POST', { content });
-            document.getElementById('note-content').value = '';
-            showUserProfile(currentUserId);
-        }
-
-        function showSection(id) {
-            document.querySelectorAll('.sidebar-link').forEach(btn => btn.classList.remove('active', 'text-white'));
-            document.querySelectorAll('main > div').forEach(div => div.classList.add('hidden'));
-            const target = document.getElementById('section-' + id);
-            if (target) target.classList.remove('hidden');
-            
-            // Find and highlight sidebar button
-            const sidebarBtns = document.querySelectorAll('.sidebar-link');
-            sidebarBtns.forEach(btn => {
-                if (btn.getAttribute('onclick')?.includes(`'${id}'`)) {
-                    btn.classList.add('active');
-                }
-            });
-
-            const titles = {
-                dashboard: { title: 'Overview', sub: 'Engagement at a glance.' },
-                inquiries: { title: 'CRM Leads', sub: 'Manage contact form submissions.' },
-                users: { title: 'User Base', sub: 'Detailed member directory.' },
-                'user-profile': { title: 'Member Deep-dive', sub: 'Interaction history and clinical notes.' },
-                content: { title: 'Content Editor', sub: 'Manage platform lessons.' },
-                community: { title: 'Moderation', sub: 'Latest community discussion.' }
-            };
-            
-            if (titles[id]) {
-                document.getElementById('section-title').textContent = titles[id].title;
-                document.getElementById('section-subtitle').textContent = titles[id].sub;
-            }
-
-            if (id === 'inquiries') loadInquiries();
-            if (id === 'users') loadUsers();
-            if (id === 'dashboard') loadDashboardData();
-        }
-
-        init();
-    </script>
+    <!-- Logic -->
+    <script src="js/admin.js"></script>
 </body>
 </html>
