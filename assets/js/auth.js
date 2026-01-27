@@ -233,7 +233,33 @@ window.handleGoogleLogin = async () => {
   window.safeRedirect('/dashboard');
 };
 
-// 5. Auth State Observer (Protect Dashboard)
+// 5. One-Click Demo Login
+window.handleDemoLogin = async () => {
+  const demoEmail = 'demo@gmail.com';
+  const demoPass = 'password'; // Plain text for recreating hash
+
+  // Check if demo user exists in local DB
+  let user = findUser(demoEmail);
+
+  if (!user) {
+    // Auto-create demo user if missing (e.g. after clearing cookies)
+    const hashedPass = await window.hashPassword(demoPass);
+    user = {
+      name: 'Demo User',
+      email: demoEmail,
+      password: hashedPass,
+      plan: 'Pro', // Give demo user Pro features
+    };
+    saveUser(user);
+  }
+
+  // Log them in
+  setSession(user);
+  window.closeModal('loginModal');
+  window.safeRedirect('/dashboard');
+};
+
+// 6. Auth State Observer (Protect Dashboard)
 window.checkAuth = () => {
   const user = getSession();
   const loggedOutDiv = document.getElementById('auth-logged-out');
