@@ -15,7 +15,7 @@
     <div class="flex items-center justify-between mb-8 gap-4">
       <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap">Guided Breathing</h3>
       
-      <!-- Configurable Soundscape Dropdown -->
+      <!-- Soundscape Dropdown -->
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]">
         <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
         <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
@@ -71,27 +71,19 @@
     let ambientAudio = new Audio();
     ambientAudio.loop = true;
 
-    const circle = document.getElementById('breathe-circle');
-    const inner = document.getElementById('breathe-inner');
-    const status = document.getElementById('breathe-status');
-    const timer = document.getElementById('breathe-timer');
-    const btn = document.getElementById('breathe-btn');
-
     window.setSoundscape = function(index) {
       currentSoundscapeIdx = parseInt(index);
       const scape = soundscapes[currentSoundscapeIdx];
       
-      const wasActive = active;
-      if (active) stop();
-
       if (scape.url) {
         ambientAudio.src = scape.url;
         ambientAudio.load();
-        if (wasActive) start();
+        if (active) {
+          ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
+        }
       } else {
         ambientAudio.pause();
         ambientAudio.src = '';
-        if (wasActive) start();
       }
     };
 
@@ -122,7 +114,12 @@
       active = true;
       btn.textContent = 'Stop Session';
       btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
-      if (soundscapes[currentSoundscapeIdx].url) ambientAudio.play().catch(e => {});
+      
+      const scape = soundscapes[currentSoundscapeIdx];
+      if (scape.url) {
+        ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
+      }
+      
       runPhase('inhale');
     }
 
@@ -135,12 +132,21 @@
       btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
       status.textContent = 'Ready';
       timer.textContent = '0';
+      
+      // Force immediate reset
+      inner.style.transitionDuration = '0ms';
+      circle.style.transitionDuration = '0ms';
+      inner.style.transform = 'scale(1)';
+      circle.style.transform = 'scale(1)';
+      inner.style.opacity = '0.2';
+      circle.style.borderColor = '';
+      
+      // Force reflow
+      inner.offsetHeight; 
+      
+      // Restore default transition
       inner.style.transitionDuration = '1000ms';
       circle.style.transitionDuration = '1000ms';
-      inner.style.transform = 'scale(1)';
-      inner.style.opacity = '0.2';
-      circle.style.transform = 'scale(1)';
-      circle.style.borderColor = '';
     }
 
     function startTimer(seconds) {
@@ -160,7 +166,6 @@
       const duration = timings[phase];
       const ms = duration * 1000;
 
-      // Sync CSS animations exactly to phase duration
       inner.style.transitionDuration = `${ms}ms`;
       circle.style.transitionDuration = `${ms}ms`;
 
@@ -188,6 +193,7 @@
         inner.style.opacity = '0.2';
         circle.style.transform = 'scale(1)';
         circle.style.borderColor = '';
+        startTimer(4); // Force accurate 4s exhale regardless of config for visual smoothness
         startTimer(duration);
         cycleTimeout = setTimeout(() => runPhase('inhale'), ms);
       }
