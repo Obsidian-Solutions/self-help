@@ -117,7 +117,7 @@
               View Syllabus <i class="fa-solid fa-chevron-right text-[10px]"></i>
             </a>
             
-            <div class="auth-only hidden" data-course-card="{{ .Title }}">
+            <div class="auth-only hidden" data-course-card="{{ .Title }}" data-lesson-count="{{ len $lessons }}">
               <div class="flex items-center gap-3">
                 <div class="w-24 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                   <div data-progress-bar="{{ .Title }}" class="h-full bg-indigo-500 transition-all duration-1000" style="width: 0%"></div>
@@ -141,12 +141,12 @@
     
     courseCards.forEach(card => {
       const courseTitle = card.getAttribute('data-course-card');
+      const lessonCount = parseInt(card.getAttribute('data-lesson-count')) || 1;
       const progressBar = card.querySelector('[data-progress-bar]');
       const progressText = card.querySelector('[data-progress-text]');
       
-      // Approximate overall progress logic for the UI
       const completedCount = Object.values(courseProgress).filter(p => p.course === courseTitle && p.completed).length;
-      const percentage = completedCount > 0 ? Math.min(Math.round((completedCount / 5) * 100), 100) : 0;
+      const percentage = Math.min(Math.round((completedCount / lessonCount) * 100), 100);
       
       if (progressBar) progressBar.style.width = percentage + '%';
       if (progressText) progressText.textContent = percentage + '%';
