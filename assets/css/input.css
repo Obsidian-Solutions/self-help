@@ -73,6 +73,36 @@
   .undraw-wrapper svg {
     @apply block max-w-full max-h-full mx-auto;
   }
+
+  /* Refined Course Image Container */
+  .course-image-wrapper {
+    @apply relative overflow-hidden flex items-center justify-center transition-all duration-700;
+    aspect-ratio: 1 / 1;
+    border-radius: 3rem;
+    background: #f8fafc; /* Very light slate */
+    border: 1px solid rgba(226, 232, 240, 0.8); /* Light slate border */
+  }
+
+  .dark .course-image-wrapper {
+    background: rgba(30, 41, 59, 0.5);
+    border-color: rgba(51, 65, 85, 0.5);
+  }
+
+  .course-image-wrapper::before {
+    content: '';
+    @apply absolute inset-0 opacity-40 transition-opacity duration-700;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(79, 70, 229, 0.1), transparent 70%),
+      radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.1), transparent 70%);
+  }
+
+  .group:hover .course-image-wrapper {
+    @apply border-indigo-200 dark:border-indigo-800 shadow-lg shadow-indigo-500/5;
+  }
+
+  .group:hover .course-image-wrapper::before {
+    @apply opacity-100;
+  }
 }
 
 @layer utilities {

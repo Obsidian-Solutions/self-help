@@ -107,14 +107,13 @@
     {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
     <div class="premium-card group overflow-hidden flex flex-col h-full" data-course-card="{{ $courseTitle }}">
-      <!-- Card Image with Gradient Background -->
-      <div class="relative h-48 w-full bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/30 dark:to-purple-950/30 flex items-center justify-center p-8 overflow-hidden">
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-indigo-500/5 to-purple-500/5"></div>
-        {{ if .Params.illustration }} 
-          <div class="w-full h-full flex items-center justify-center relative z-10 transform group-hover:scale-110 transition-transform duration-700">
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain drop-shadow-xl") }}
-          </div>
-        {{ end }}
+      <!-- Refined Image Container -->
+      <div class="p-6 pb-0">
+        <div class="course-image-wrapper w-full p-8">
+          {{ if .Params.illustration }} 
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "w-full h-full max-h-full object-contain drop-shadow-xl transform group-hover:scale-110 transition-transform duration-700") }}
+          {{ end }}
+        </div>
       </div>
 
       <!-- Card Body -->
