@@ -316,6 +316,7 @@ https://github.com/alex-shpak/hugo-book
       
   <article class="markdown book-article"><p>MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.</p>
 <h2 id="1-guided-breathing-hahahugoshortcode14s0hbhb">1. Guided Breathing (<code><div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container" 
+     id="breathe-1769534065580455883"
      data-inhale="4" 
      data-hold="4" 
      data-exhale="4">
@@ -341,7 +342,7 @@ https://github.com/alex-shpak/hugo-book
       
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]">
         <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
-        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
+        <select onchange="window.setSoundscape('1769534065580455883', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
           <option value="1">Deep Zen</option>
           <option value="2">Gentle Rain</option>
@@ -350,17 +351,17 @@ https://github.com/alex-shpak/hugo-book
       </div>
     </div>
     
-    <div id="breathe-circle" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out">
-      <div id="breathe-inner" class="absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"></div>
+    <div class="breathe-circle relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out">
+      <div class="breathe-inner absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"></div>
       
       <div class="relative z-20 flex flex-col items-center">
-        <span id="breathe-status" class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
-        <span id="breathe-timer" class="text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
+        <span class="breathe-status text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
+        <span class="breathe-timer text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
       </div>
     </div>
 
     <div class="mt-12 flex flex-col gap-4">
-      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
+      <button onclick="window.toggleBreathing('1769534065580455883')" class="breathe-btn btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
       <div class="flex justify-center gap-4">
         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">4-4-4 Rhythm</span>
       </div>
@@ -370,162 +371,171 @@ https://github.com/alex-shpak/hugo-book
 
 <script>
   (function() {
-    let timerInterval;
-    let cycleTimeout;
-    let active = false;
-    let countdown = 0;
-    
-    const container = document.querySelector('.js-breathe-container');
-    const timings = {
-      inhale: parseInt(container.dataset.inhale),
-      hold: parseInt(container.dataset.hold),
-      exhale: parseInt(container.dataset.exhale)
+    const instances = {};
+
+    window.toggleBreathing = function(id) {
+      if (!instances[id]) initInstance(id);
+      const inst = instances[id];
+      
+      if (!inst.audioCtx) inst.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (inst.audioCtx.state === 'suspended') inst.audioCtx.resume();
+
+      if (inst.active) stop(id); else start(id);
     };
 
-    
-    let audioCtx;
-    const soundscapes = [
-      { name: 'Silent', url: '' },
-      { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-      { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
-      { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
-    ];
-    let currentSoundscapeIdx = 0;
-    let ambientAudio = new Audio();
-    ambientAudio.loop = true;
-
-    window.setSoundscape = function(index) {
-      currentSoundscapeIdx = parseInt(index);
-      const scape = soundscapes[currentSoundscapeIdx];
+    window.setSoundscape = function(id, index) {
+      if (!instances[id]) initInstance(id);
+      const inst = instances[id];
+      const soundscapes = [
+        { name: 'Silent', url: '' },
+        { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+        { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+        { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
+      ];
+      
+      inst.currentSoundscapeIdx = parseInt(index);
+      const scape = soundscapes[inst.currentSoundscapeIdx];
       
       if (scape.url) {
-        ambientAudio.src = scape.url;
-        ambientAudio.load();
-        if (active) {
-          ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
-        }
+        inst.ambientAudio.src = scape.url;
+        inst.ambientAudio.load();
+        if (inst.active) inst.ambientAudio.play().catch(e => {});
       } else {
-        ambientAudio.pause();
-        ambientAudio.src = '';
+        inst.ambientAudio.pause();
+        inst.ambientAudio.src = '';
       }
     };
 
-    function playChime(freq, type = 'sine', volume = 0.1) {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1.5);
-      } catch (e) {}
+    function initInstance(id) {
+      const el = document.getElementById('breathe-' + id);
+      instances[id] = {
+        active: false,
+        timerInterval: null,
+        cycleTimeout: null,
+        currentSoundscapeIdx: 0,
+        ambientAudio: new Audio(),
+        audioCtx: null,
+        timings: {
+          inhale: parseInt(el.dataset.inhale),
+          hold: parseInt(el.dataset.hold),
+          exhale: parseInt(el.dataset.exhale)
+        },
+        dom: {
+          circle: el.querySelector('.breathe-circle'),
+          inner: el.querySelector('.breathe-inner'),
+          status: el.querySelector('.breathe-status'),
+          timer: el.querySelector('.breathe-timer'),
+          btn: el.querySelector('.breathe-btn')
+        }
+      };
+      instances[id].ambientAudio.loop = true;
     }
 
-    window.toggleBreathing = function() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      if (active) stop(); else start();
-    };
-
-    function start() {
-      active = true;
-      btn.textContent = 'Stop Session';
-      btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
+    function start(id) {
+      const inst = instances[id];
+      inst.active = true;
+      inst.dom.btn.textContent = 'Stop Session';
+      inst.dom.btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
       
-      const scape = soundscapes[currentSoundscapeIdx];
-      if (scape.url) {
-        ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
+      if (inst.ambientAudio.src) inst.ambientAudio.play().catch(e => {});
+      runPhase(id, 'inhale');
+    }
+
+    function stop(id) {
+      const inst = instances[id];
+      inst.active = false;
+      clearTimeout(inst.cycleTimeout);
+      clearInterval(inst.timerInterval);
+      inst.ambientAudio.pause();
+      inst.dom.btn.textContent = 'Start Session';
+      inst.dom.btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
+      inst.dom.status.textContent = 'Ready';
+      inst.dom.timer.textContent = '0';
+      
+      inst.dom.inner.style.transitionDuration = '0ms';
+      inst.dom.circle.style.transitionDuration = '0ms';
+      inst.dom.inner.style.transform = 'scale(1)';
+      inst.dom.circle.style.transform = 'scale(1)';
+      inst.dom.inner.style.opacity = '0.2';
+      inst.dom.circle.style.borderColor = '';
+      inst.dom.inner.offsetHeight; 
+      inst.dom.inner.style.transitionDuration = '1000ms';
+      inst.dom.circle.style.transitionDuration = '1000ms';
+    }
+
+    function runPhase(id, phase) {
+      const inst = instances[id];
+      if (!inst.active) return;
+
+      const duration = inst.timings[phase];
+      const ms = duration * 1000;
+
+      inst.dom.inner.style.transitionDuration = `${ms}ms`;
+      inst.dom.circle.style.transitionDuration = `${ms}ms`;
+
+      if (phase === 'inhale') {
+        playChime(id, 440, 'triangle', 0.05);
+        inst.dom.status.textContent = 'Breathe In';
+        inst.dom.inner.style.transform = 'scale(5)';
+        inst.dom.inner.style.opacity = '0.4';
+        inst.dom.circle.style.transform = 'scale(1.05)';
+        inst.dom.circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'hold'), ms);
+      } 
+      else if (phase === 'hold') {
+        playChime(id, 554.37, 'sine', 0.03);
+        inst.dom.status.textContent = 'Hold';
+        inst.dom.inner.style.opacity = '0.6';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'exhale'), ms);
+      } 
+      else if (phase === 'exhale') {
+        playChime(id, 329.63, 'triangle', 0.05);
+        inst.dom.status.textContent = 'Breathe Out';
+        inst.dom.inner.style.transform = 'scale(1)';
+        inst.dom.inner.style.opacity = '0.2';
+        inst.dom.circle.style.transform = 'scale(1)';
+        inst.dom.circle.style.borderColor = '';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'inhale'), ms);
       }
-      
-      runPhase('inhale');
     }
 
-    function stop() {
-      active = false;
-      clearTimeout(cycleTimeout);
-      clearInterval(timerInterval);
-      ambientAudio.pause();
-      btn.textContent = 'Start Session';
-      btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
-      status.textContent = 'Ready';
-      timer.textContent = '0';
-      
-      
-      inner.style.transitionDuration = '0ms';
-      circle.style.transitionDuration = '0ms';
-      inner.style.transform = 'scale(1)';
-      circle.style.transform = 'scale(1)';
-      inner.style.opacity = '0.2';
-      circle.style.borderColor = '';
-      
-      
-      inner.offsetHeight; 
-      
-      
-      inner.style.transitionDuration = '1000ms';
-      circle.style.transitionDuration = '1000ms';
-    }
-
-    function startTimer(seconds) {
-      clearInterval(timerInterval);
-      countdown = seconds;
-      timer.textContent = countdown;
-      timerInterval = setInterval(() => {
+    function startTimer(id, seconds) {
+      const inst = instances[id];
+      clearInterval(inst.timerInterval);
+      let countdown = seconds;
+      inst.dom.timer.textContent = countdown;
+      inst.timerInterval = setInterval(() => {
         countdown--;
-        if (countdown >= 0) timer.textContent = countdown;
-        if (countdown <= 0) clearInterval(timerInterval);
+        if (countdown >= 0) inst.dom.timer.textContent = countdown;
+        if (countdown <= 0) clearInterval(inst.timerInterval);
       }, 1000);
     }
 
-    function runPhase(phase) {
-      if (!active) return;
-
-      const duration = timings[phase];
-      const ms = duration * 1000;
-
-      inner.style.transitionDuration = `${ms}ms`;
-      circle.style.transitionDuration = `${ms}ms`;
-
-      if (phase === 'inhale') {
-        playChime(440, 'triangle', 0.05);
-        status.textContent = 'Breathe In';
-        inner.style.transform = 'scale(5)';
-        inner.style.opacity = '0.4';
-        circle.style.transform = 'scale(1.05)';
-        circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('hold'), ms);
-      } 
-      else if (phase === 'hold') {
-        playChime(554.37, 'sine', 0.03);
-        status.textContent = 'Hold';
-        inner.style.opacity = '0.6';
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('exhale'), ms);
-      } 
-      else if (phase === 'exhale') {
-        playChime(329.63, 'triangle', 0.05);
-        status.textContent = 'Breathe Out';
-        inner.style.transform = 'scale(1)';
-        inner.style.opacity = '0.2';
-        circle.style.transform = 'scale(1)';
-        circle.style.borderColor = '';
-        startTimer(4); 
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('inhale'), ms);
-      }
+    function playChime(id, freq, type, volume) {
+      const inst = instances[id];
+      try {
+        const osc = inst.audioCtx.createOscillator();
+        const gain = inst.audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, inst.audioCtx.currentTime);
+        gain.gain.setValueAtTime(volume, inst.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, inst.audioCtx.currentTime + 1.5);
+        osc.connect(gain);
+        gain.connect(inst.audioCtx.destination);
+        osc.start();
+        osc.stop(inst.audioCtx.currentTime + 1.5);
+      } catch (e) {}
     }
   })();
-</script></code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
+</script>
+</code>)<a class="anchor" href="#1-guided-breathing-hahahugoshortcode14s0hbhb">#</a></h2>
 <p>Renders an interactive, animated breathing circle to help users center themselves.</p>
 <h3 id="usage">Usage<a class="anchor" href="#usage">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container" 
+     id="breathe-1769534065584597042"
      data-inhale="4" 
      data-hold="4" 
      data-exhale="4">
@@ -551,7 +561,7 @@ https://github.com/alex-shpak/hugo-book
       
       <div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]">
         <i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"></i>
-        <select onchange="window.setSoundscape(this.value)" id="soundscape-select" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
+        <select onchange="window.setSoundscape('1769534065584597042', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full">
           <option value="0">Silent</option>
           <option value="1">Deep Zen</option>
           <option value="2">Gentle Rain</option>
@@ -560,17 +570,17 @@ https://github.com/alex-shpak/hugo-book
       </div>
     </div>
     
-    <div id="breathe-circle" class="relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out">
-      <div id="breathe-inner" class="absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"></div>
+    <div class="breathe-circle relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out">
+      <div class="breathe-inner absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"></div>
       
       <div class="relative z-20 flex flex-col items-center">
-        <span id="breathe-status" class="text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
-        <span id="breathe-timer" class="text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
+        <span class="breathe-status text-xs font-black text-indigo-400 uppercase tracking-widest mb-2">Ready</span>
+        <span class="breathe-timer text-5xl font-black text-indigo-600 dark:text-white tracking-tighter">0</span>
       </div>
     </div>
 
     <div class="mt-12 flex flex-col gap-4">
-      <button onclick="window.toggleBreathing()" id="breathe-btn" class="btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
+      <button onclick="window.toggleBreathing('1769534065584597042')" class="breathe-btn btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200">Start Session</button>
       <div class="flex justify-center gap-4">
         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">4-4-4 Rhythm</span>
       </div>
@@ -580,159 +590,167 @@ https://github.com/alex-shpak/hugo-book
 
 <script>
   (function() {
-    let timerInterval;
-    let cycleTimeout;
-    let active = false;
-    let countdown = 0;
-    
-    const container = document.querySelector('.js-breathe-container');
-    const timings = {
-      inhale: parseInt(container.dataset.inhale),
-      hold: parseInt(container.dataset.hold),
-      exhale: parseInt(container.dataset.exhale)
+    const instances = {};
+
+    window.toggleBreathing = function(id) {
+      if (!instances[id]) initInstance(id);
+      const inst = instances[id];
+      
+      if (!inst.audioCtx) inst.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (inst.audioCtx.state === 'suspended') inst.audioCtx.resume();
+
+      if (inst.active) stop(id); else start(id);
     };
 
-    
-    let audioCtx;
-    const soundscapes = [
-      { name: 'Silent', url: '' },
-      { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-      { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
-      { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
-    ];
-    let currentSoundscapeIdx = 0;
-    let ambientAudio = new Audio();
-    ambientAudio.loop = true;
-
-    window.setSoundscape = function(index) {
-      currentSoundscapeIdx = parseInt(index);
-      const scape = soundscapes[currentSoundscapeIdx];
+    window.setSoundscape = function(id, index) {
+      if (!instances[id]) initInstance(id);
+      const inst = instances[id];
+      const soundscapes = [
+        { name: 'Silent', url: '' },
+        { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+        { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+        { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
+      ];
+      
+      inst.currentSoundscapeIdx = parseInt(index);
+      const scape = soundscapes[inst.currentSoundscapeIdx];
       
       if (scape.url) {
-        ambientAudio.src = scape.url;
-        ambientAudio.load();
-        if (active) {
-          ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
-        }
+        inst.ambientAudio.src = scape.url;
+        inst.ambientAudio.load();
+        if (inst.active) inst.ambientAudio.play().catch(e => {});
       } else {
-        ambientAudio.pause();
-        ambientAudio.src = '';
+        inst.ambientAudio.pause();
+        inst.ambientAudio.src = '';
       }
     };
 
-    function playChime(freq, type = 'sine', volume = 0.1) {
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(volume, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.5);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 1.5);
-      } catch (e) {}
+    function initInstance(id) {
+      const el = document.getElementById('breathe-' + id);
+      instances[id] = {
+        active: false,
+        timerInterval: null,
+        cycleTimeout: null,
+        currentSoundscapeIdx: 0,
+        ambientAudio: new Audio(),
+        audioCtx: null,
+        timings: {
+          inhale: parseInt(el.dataset.inhale),
+          hold: parseInt(el.dataset.hold),
+          exhale: parseInt(el.dataset.exhale)
+        },
+        dom: {
+          circle: el.querySelector('.breathe-circle'),
+          inner: el.querySelector('.breathe-inner'),
+          status: el.querySelector('.breathe-status'),
+          timer: el.querySelector('.breathe-timer'),
+          btn: el.querySelector('.breathe-btn')
+        }
+      };
+      instances[id].ambientAudio.loop = true;
     }
 
-    window.toggleBreathing = function() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      if (active) stop(); else start();
-    };
-
-    function start() {
-      active = true;
-      btn.textContent = 'Stop Session';
-      btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
+    function start(id) {
+      const inst = instances[id];
+      inst.active = true;
+      inst.dom.btn.textContent = 'Stop Session';
+      inst.dom.btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
       
-      const scape = soundscapes[currentSoundscapeIdx];
-      if (scape.url) {
-        ambientAudio.play().catch(e => console.log("Ambient play blocked", e));
+      if (inst.ambientAudio.src) inst.ambientAudio.play().catch(e => {});
+      runPhase(id, 'inhale');
+    }
+
+    function stop(id) {
+      const inst = instances[id];
+      inst.active = false;
+      clearTimeout(inst.cycleTimeout);
+      clearInterval(inst.timerInterval);
+      inst.ambientAudio.pause();
+      inst.dom.btn.textContent = 'Start Session';
+      inst.dom.btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
+      inst.dom.status.textContent = 'Ready';
+      inst.dom.timer.textContent = '0';
+      
+      inst.dom.inner.style.transitionDuration = '0ms';
+      inst.dom.circle.style.transitionDuration = '0ms';
+      inst.dom.inner.style.transform = 'scale(1)';
+      inst.dom.circle.style.transform = 'scale(1)';
+      inst.dom.inner.style.opacity = '0.2';
+      inst.dom.circle.style.borderColor = '';
+      inst.dom.inner.offsetHeight; 
+      inst.dom.inner.style.transitionDuration = '1000ms';
+      inst.dom.circle.style.transitionDuration = '1000ms';
+    }
+
+    function runPhase(id, phase) {
+      const inst = instances[id];
+      if (!inst.active) return;
+
+      const duration = inst.timings[phase];
+      const ms = duration * 1000;
+
+      inst.dom.inner.style.transitionDuration = `${ms}ms`;
+      inst.dom.circle.style.transitionDuration = `${ms}ms`;
+
+      if (phase === 'inhale') {
+        playChime(id, 440, 'triangle', 0.05);
+        inst.dom.status.textContent = 'Breathe In';
+        inst.dom.inner.style.transform = 'scale(5)';
+        inst.dom.inner.style.opacity = '0.4';
+        inst.dom.circle.style.transform = 'scale(1.05)';
+        inst.dom.circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'hold'), ms);
+      } 
+      else if (phase === 'hold') {
+        playChime(id, 554.37, 'sine', 0.03);
+        inst.dom.status.textContent = 'Hold';
+        inst.dom.inner.style.opacity = '0.6';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'exhale'), ms);
+      } 
+      else if (phase === 'exhale') {
+        playChime(id, 329.63, 'triangle', 0.05);
+        inst.dom.status.textContent = 'Breathe Out';
+        inst.dom.inner.style.transform = 'scale(1)';
+        inst.dom.inner.style.opacity = '0.2';
+        inst.dom.circle.style.transform = 'scale(1)';
+        inst.dom.circle.style.borderColor = '';
+        startTimer(id, duration);
+        inst.cycleTimeout = setTimeout(() => runPhase(id, 'inhale'), ms);
       }
-      
-      runPhase('inhale');
     }
 
-    function stop() {
-      active = false;
-      clearTimeout(cycleTimeout);
-      clearInterval(timerInterval);
-      ambientAudio.pause();
-      btn.textContent = 'Start Session';
-      btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
-      status.textContent = 'Ready';
-      timer.textContent = '0';
-      
-      
-      inner.style.transitionDuration = '0ms';
-      circle.style.transitionDuration = '0ms';
-      inner.style.transform = 'scale(1)';
-      circle.style.transform = 'scale(1)';
-      inner.style.opacity = '0.2';
-      circle.style.borderColor = '';
-      
-      
-      inner.offsetHeight; 
-      
-      
-      inner.style.transitionDuration = '1000ms';
-      circle.style.transitionDuration = '1000ms';
-    }
-
-    function startTimer(seconds) {
-      clearInterval(timerInterval);
-      countdown = seconds;
-      timer.textContent = countdown;
-      timerInterval = setInterval(() => {
+    function startTimer(id, seconds) {
+      const inst = instances[id];
+      clearInterval(inst.timerInterval);
+      let countdown = seconds;
+      inst.dom.timer.textContent = countdown;
+      inst.timerInterval = setInterval(() => {
         countdown--;
-        if (countdown >= 0) timer.textContent = countdown;
-        if (countdown <= 0) clearInterval(timerInterval);
+        if (countdown >= 0) inst.dom.timer.textContent = countdown;
+        if (countdown <= 0) clearInterval(inst.timerInterval);
       }, 1000);
     }
 
-    function runPhase(phase) {
-      if (!active) return;
-
-      const duration = timings[phase];
-      const ms = duration * 1000;
-
-      inner.style.transitionDuration = `${ms}ms`;
-      circle.style.transitionDuration = `${ms}ms`;
-
-      if (phase === 'inhale') {
-        playChime(440, 'triangle', 0.05);
-        status.textContent = 'Breathe In';
-        inner.style.transform = 'scale(5)';
-        inner.style.opacity = '0.4';
-        circle.style.transform = 'scale(1.05)';
-        circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('hold'), ms);
-      } 
-      else if (phase === 'hold') {
-        playChime(554.37, 'sine', 0.03);
-        status.textContent = 'Hold';
-        inner.style.opacity = '0.6';
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('exhale'), ms);
-      } 
-      else if (phase === 'exhale') {
-        playChime(329.63, 'triangle', 0.05);
-        status.textContent = 'Breathe Out';
-        inner.style.transform = 'scale(1)';
-        inner.style.opacity = '0.2';
-        circle.style.transform = 'scale(1)';
-        circle.style.borderColor = '';
-        startTimer(4); 
-        startTimer(duration);
-        cycleTimeout = setTimeout(() => runPhase('inhale'), ms);
-      }
+    function playChime(id, freq, type, volume) {
+      const inst = instances[id];
+      try {
+        const osc = inst.audioCtx.createOscillator();
+        const gain = inst.audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, inst.audioCtx.currentTime);
+        gain.gain.setValueAtTime(volume, inst.audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, inst.audioCtx.currentTime + 1.5);
+        osc.connect(gain);
+        gain.connect(inst.audioCtx.destination);
+        osc.start();
+        osc.stop(inst.audioCtx.currentTime + 1.5);
+      } catch (e) {}
     }
   })();
-</script></span></span></code></pre></div><ul>
+</script>
+</span></span></code></pre></div><ul>
 <li><input checked="" disabled="" type="checkbox"> <strong>Inhale/Exhale Cues</strong>: Smooth 4-second cycles.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Visual Feedback</strong>: Expanding circle logic.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Interactive</strong>: Simple Start/Stop controls.</li>
@@ -882,7 +900,7 @@ https://github.com/alex-shpak/hugo-book
 <blockquote class='book-hint important'>
 <p>The YouTube implementation uses <code>youtube-nocookie.com</code> for maximum privacy even after consent.</p></blockquote><hr>
 <h2 id="3-branded-audio-player-hahahugoshortcode14s4hbhb">3. Branded Audio Player (<code>
-<div class="my-10 js-audio-player" id="player-1769534013081786117" data-audio-id="1769534013081786117">
+<div class="my-10 js-audio-player" id="player-1769534065588132899" data-audio-id="1769534065588132899">
   <div class="premium-card overflow-hidden border-indigo-100/50 dark:border-indigo-800/50 shadow-indigo-500/5">
     <div class="flex flex-col md:flex-row">
       
@@ -914,7 +932,7 @@ https://github.com/alex-shpak/hugo-book
         
         <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1.5 border border-gray-100 dark:border-gray-700 group/speed hover:border-indigo-200 transition-colors">
           <i class="fa-solid fa-gauge-high text-[10px] text-gray-400 group-hover/speed:text-indigo-600 transition-colors mr-1"></i>
-          <select onchange="window.setAudioSpeed('1769534013081786117', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-500 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
+          <select onchange="window.setAudioSpeed('1769534065588132899', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-500 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none pr-4">
             <option value="1">1.0x</option>
             <option value="1.25">1.25x</option>
             <option value="1.5">1.5x</option>
@@ -924,7 +942,7 @@ https://github.com/alex-shpak/hugo-book
 
               
               <div class="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 rounded-xl px-3 py-1.5 border border-gray-100 dark:border-gray-700 group/vol hover:border-indigo-200 transition-colors">
-                <button onclick="window.toggleMute('1769534013081786117')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
+                <button onclick="window.toggleMute('1769534065588132899')" class="text-gray-400 hover:text-indigo-600 transition-colors js-mute-btn">
                   <i class="fa-solid fa-volume-high text-[10px]"></i>
                 </button>
                 <input 
@@ -934,13 +952,13 @@ https://github.com/alex-shpak/hugo-book
                   step="0.1" 
                   value="1" 
                   class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded-full appearance-none cursor-pointer accent-indigo-600 js-volume-slider"
-                  oninput="window.setVolume('1769534013081786117', this.value)"
+                  oninput="window.setVolume('1769534065588132899', this.value)"
                 >
               </div>
             </div>
           </div>
 
-          <audio id="raw-audio-1769534013081786117" src="" class="hidden" preload="auto"></audio>
+          <audio id="raw-audio-1769534065588132899" src="" class="hidden" preload="auto"></audio>
           
           <div class="space-y-6">
             
@@ -952,13 +970,13 @@ https://github.com/alex-shpak/hugo-book
                 min="0" 
                 max="100" 
                 class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-600 js-audio-scrubber relative z-10"
-                oninput="window.seekAudio('1769534013081786117', this.value)"
+                oninput="window.seekAudio('1769534065588132899', this.value)"
               >
               <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-indigo-600/10 rounded-full w-full pointer-events-none"></div>
             </div>
 
             <div class="flex items-center gap-8">
-              <button onclick="window.toggleAudio('1769534013081786117')" class="w-16 h-16 rounded-[1.5rem] bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl shadow-indigo-500/20 active:scale-95 js-play-btn disabled:opacity-50" disabled>
+              <button onclick="window.toggleAudio('1769534065588132899')" class="w-16 h-16 rounded-[1.5rem] bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-xl shadow-indigo-500/20 active:scale-95 js-play-btn disabled:opacity-50" disabled>
                 <i class="fa-solid fa-spinner fa-spin text-xl"></i>
               </button>
 
@@ -969,11 +987,11 @@ https://github.com/alex-shpak/hugo-book
                 </div>
                 
                 <div class="flex items-center gap-4 bg-gray-50 dark:bg-gray-800/50 px-6 py-3 rounded-2xl border border-gray-100 dark:border-gray-700">
-                  <button onclick="window.skipAudio('1769534013081786117', -10)" class="text-gray-400 hover:text-indigo-600 transition-all hover:scale-110 active:scale-90" title="Back 10s">
+                  <button onclick="window.skipAudio('1769534065588132899', -10)" class="text-gray-400 hover:text-indigo-600 transition-all hover:scale-110 active:scale-90" title="Back 10s">
                     <i class="fa-solid fa-rotate-left text-lg"></i>
                   </button>
                   <span class="w-px h-4 bg-gray-200 dark:bg-gray-700 mx-2"></span>
-                  <button onclick="window.skipAudio('1769534013081786117', 10)" class="text-gray-400 hover:text-indigo-600 transition-all hover:scale-110 active:scale-90" title="Forward 10s">
+                  <button onclick="window.skipAudio('1769534065588132899', 10)" class="text-gray-400 hover:text-indigo-600 transition-all hover:scale-110 active:scale-90" title="Forward 10s">
                     <i class="fa-solid fa-rotate-right text-lg"></i>
                   </button>
                 </div>
