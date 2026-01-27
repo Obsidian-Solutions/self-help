@@ -8,14 +8,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <!-- Editor Dependencies -->
+    <!-- Charts & Editor -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <link rel="stylesheet" href="css/admin.css">
-    <style>
-        .CodeMirror { border-radius: 1.5rem; border: 1px solid #e2e8f0; padding: 10px; font-family: inherit; }
-        .editor-toolbar { border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem; border: 1px solid #e2e8f0; border-bottom: none; background: #f8fafc; }
-    </style>
 </head>
 <body class="flex min-h-screen opacity-0 transition-opacity duration-500">
 
@@ -28,10 +25,11 @@
             <span class="font-extrabold text-slate-900 tracking-tight text-lg">MindFull <span class="text-indigo-600">Admin</span></span>
         </div>
 
-        <nav class="flex flex-col gap-2">
+        <nav class="flex flex-col gap-1">
             <button onclick="showSection('dashboard')" id="nav-btn-dashboard" class="sidebar-link active flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
+            <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">CRM & Leads</p></div>
             <button onclick="showSection('inquiries')" id="nav-btn-inquiries" class="sidebar-link flex items-center justify-between px-4 py-3 text-sm font-bold text-slate-500">
                 <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads</span>
                 <span id="notif-badge" class="hidden px-1.5 py-0.5 bg-red-500 text-white text-[8px] rounded-full">0</span>
@@ -39,22 +37,22 @@
             <button onclick="showSection('users')" id="nav-btn-users" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-users w-5"></i> User Base
             </button>
+            <button onclick="showSection('templates')" id="nav-btn-templates" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+                <i class="fa-solid fa-paste w-5"></i> CRM Templates
+            </button>
+            <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Platform</p></div>
             <button onclick="showSection('content')" id="nav-btn-content" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
                 <i class="fa-solid fa-file-lines w-5"></i> Content
             </button>
+            <button onclick="showSection('media')" id="nav-btn-media" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
+                <i class="fa-solid fa-photo-film w-5"></i> Media
+            </button>
             <button onclick="showSection('community')" id="nav-btn-community" class="sidebar-link flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500">
-                <i class="fa-solid fa-comments w-5"></i> Community
+                <i class="fa-solid fa-comments w-5"></i> Moderation
             </button>
         </nav>
 
         <div class="mt-auto">
-            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100 mb-4">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">System Status</p>
-                <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-xs font-bold text-slate-600">CMS Online</span>
-                </div>
-            </div>
             <button onclick="logout()" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50">
                 <i class="fa-solid fa-arrow-right-from-bracket w-5"></i> Log Out
             </button>
@@ -106,7 +104,10 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div class="lg:col-span-2 space-y-10">
-                    <!-- Activity Pulse -->
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Engagement Trends</h3>
+                        <canvas id="trendsChart" class="w-full h-64"></canvas>
+                    </div>
                     <div class="admin-card p-8">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-black text-slate-900">Activity Pulse</h3>
@@ -117,17 +118,13 @@
                         </div>
                         <div id="activity-list" class="space-y-4"></div>
                     </div>
-                    
-                    <!-- Popular Insights -->
-                    <div class="admin-card p-8">
-                        <h3 class="text-lg font-black text-slate-900 mb-6">Popular Insights</h3>
-                        <div id="popular-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-                    </div>
                 </div>
-
-                <!-- Latest Discussion -->
                 <div class="space-y-10">
-                    <div class="admin-card p-8 h-full">
+                    <div class="admin-card p-8">
+                        <h3 class="text-lg font-black text-slate-900 mb-6">Popular Content</h3>
+                        <div id="popular-list" class="space-y-4"></div>
+                    </div>
+                    <div class="admin-card p-8">
                         <h3 class="text-lg font-black text-slate-900 mb-6">Latest Discussion</h3>
                         <div id="comments-list" class="space-y-6"></div>
                     </div>
@@ -135,81 +132,24 @@
             </div>
         </div>
 
-        <!-- Section: Content -->
-        <div id="section-content" class="admin-section hidden space-y-8">
-            <div class="flex gap-4 mb-8">
-                <button onclick="loadCollection('posts')" class="px-6 py-3 rounded-2xl bg-indigo-50 text-indigo-600 font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">Blog Posts</button>
-                <button onclick="loadCollection('courses')" class="px-6 py-3 rounded-2xl bg-slate-50 text-slate-600 font-black text-xs uppercase tracking-widest border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Courses</button>
-            </div>
-            
-            <div id="collection-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards injected here -->
-            </div>
-        </div>
-
-        <!-- Section: Editor -->
-        <div id="section-editor" class="admin-section hidden">
-            <div class="flex justify-between items-center mb-8">
-                <button onclick="showSection('content')" class="text-indigo-600 font-bold text-sm flex items-center gap-2 group">
-                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Collection
-                </button>
-                <div class="flex gap-4">
-                    <button onclick="saveContent()" class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-black text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">Save Changes</button>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div class="lg:col-span-2">
-                    <div class="admin-card p-8 space-y-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black uppercase tracking-widest text-slate-400">Content Body (Markdown)</label>
-                            <textarea id="editor-textarea"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="space-y-10">
-                    <div class="admin-card p-8">
-                        <h3 class="text-lg font-black text-slate-900 mb-6">Frontmatter</h3>
-                        <div id="frontmatter-fields" class="space-y-4">
-                            <!-- Injected fields -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Section: Inquiries -->
-        <div id="section-inquiries" class="admin-section hidden">
-            <div class="admin-card overflow-hidden">
-                <table class="w-full text-left">
-                    <thead class="bg-slate-50 border-b border-slate-100">
-                        <tr>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Lead</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Subject</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Message</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="inquiries-table-body" class="divide-y divide-slate-100"></tbody>
-                </table>
-            </div>
-        </div>
-
         <!-- Section: Users -->
-        <div id="section-users" class="admin-section hidden">
-            <div class="mb-6 flex gap-4">
-                <select id="filter-plan" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:border-indigo-600">
-                    <option value="">All Plans</option>
-                    <option value="Free">Free</option>
-                    <option value="Standard">Standard</option>
-                    <option value="Pro">Pro</option>
-                </select>
-                <select id="filter-role" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none focus:border-indigo-600">
-                    <option value="">All Roles</option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                    <option value="therapist">Therapist</option>
-                </select>
+        <div id="section-users" class="admin-section hidden space-y-6">
+            <div class="flex justify-between items-center">
+                <div class="flex gap-4">
+                    <select id="filter-plan" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none">
+                        <option value="">All Plans</option>
+                        <option value="Free">Free</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Pro">Pro</option>
+                    </select>
+                    <select id="filter-role" onchange="loadUsers()" class="px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 outline-none">
+                        <option value="">All Roles</option>
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="therapist">Therapist</option>
+                    </select>
+                </div>
+                <button onclick="openUserModal()" class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700">Add New User</button>
             </div>
             <div class="admin-card overflow-hidden">
                 <table class="w-full text-left">
@@ -218,7 +158,7 @@
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">User</th>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Plan</th>
                             <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Role</th>
-                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Profile</th>
+                            <th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody id="users-table-body" class="divide-y divide-slate-100"></tbody>
@@ -226,62 +166,102 @@
             </div>
         </div>
 
-        <!-- Section: User Profile -->
-        <div id="section-user-profile" class="admin-section hidden">
-            <button onclick="showSection('users')" class="mb-6 text-indigo-600 font-bold text-sm flex items-center gap-2 group">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Users
-            </button>
+        <!-- Section: Content -->
+        <div id="section-content" class="admin-section hidden space-y-8">
+            <div class="flex justify-between items-center">
+                <div class="flex gap-4">
+                    <button onclick="loadCollection('posts')" class="px-6 py-3 rounded-2xl bg-indigo-50 text-indigo-600 font-black text-xs uppercase tracking-widest border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all">Blog Posts</button>
+                    <button onclick="loadCollection('courses')" class="px-6 py-3 rounded-2xl bg-slate-50 text-slate-600 font-black text-xs uppercase tracking-widest border border-slate-100 hover:bg-indigo-600 hover:text-white transition-all">Courses</button>
+                </div>
+                <button onclick="createNewContent()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700">New Content</button>
+            </div>
+            <div id="collection-view" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Section: Media -->
+        <div id="section-media" class="admin-section hidden space-y-8">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-black text-slate-900">Static Images & Illustrations</h3>
+                <label class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700 cursor-pointer">
+                    Upload File
+                    <input type="file" class="hidden" onchange="handleMediaUpload(event)" accept="image/*">
+                </label>
+            </div>
+            <div id="media-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+        </div>
+
+        <!-- Section: Templates -->
+        <div id="section-templates" class="admin-section hidden space-y-8">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-black text-slate-900">CRM Response Templates</h3>
+                <button onclick="openTemplateModal()" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100 hover:bg-indigo-700">New Template</button>
+            </div>
+            <div id="templates-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+
+        <!-- Hidden Section: Editor -->
+        <div id="section-editor" class="admin-section hidden">
+            <div class="flex justify-between items-center mb-8">
+                <button onclick="showSection('content')" class="text-indigo-600 font-bold text-sm flex items-center gap-2 group">
+                    <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Collection
+                </button>
+                <button onclick="saveContent()" class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-black text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700">Save Changes</button>
+            </div>
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div class="lg:col-span-2 space-y-10">
-                    <div class="admin-card p-8">
-                        <h3 class="text-lg font-black text-slate-900 mb-6">Interaction History</h3>
-                        <div id="user-interactions" class="space-y-4"></div>
-                    </div>
-                    <div class="admin-card p-8">
-                        <h3 class="text-lg font-black text-slate-900 mb-6">Therapist Notes</h3>
-                        <div id="user-notes" class="space-y-6 mb-8"></div>
-                        <form onsubmit="handleAddNote(event)" class="flex flex-col gap-4">
-                            <textarea id="note-content" placeholder="Add a private therapist note..." required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-100 focus:border-indigo-600 outline-none text-sm font-medium transition-all"></textarea>
-                            <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm w-fit self-end shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all">Add Note</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="admin-card p-8 h-fit sticky top-10">
-                    <h3 class="text-lg font-black text-slate-900 mb-6">Member Details</h3>
-                    <div id="user-info-card" class="space-y-4"></div>
-                </div>
+                <div class="lg:col-span-2"><textarea id="editor-textarea"></textarea></div>
+                <div class="admin-card p-8 h-fit space-y-4" id="frontmatter-fields"></div>
             </div>
         </div>
 
-        <!-- Section: Community -->
-        <div id="section-community" class="admin-section hidden">
-            <div id="community-full-list" class="space-y-4"></div>
+        <!-- Generic Sections (Inquiries, Profile, etc.) -->
+        <div id="section-inquiries" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left"><thead class="bg-slate-50 border-b border-slate-100"><tr><th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Lead</th><th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Subject</th><th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Message</th><th class="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Status</th></tr></thead><tbody id="inquiries-table-body" class="divide-y divide-slate-100"></tbody></table></div></div>
+        <div id="section-user-profile" class="admin-section hidden space-y-6">
+            <button onclick="showSection('users')" class="text-indigo-600 font-bold text-sm flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Users</button>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 space-y-10">
+                    <div class="admin-card p-8"><h3 class="text-lg font-black text-slate-900 mb-6">History</h3><div id="user-interactions" class="space-y-4"></div></div>
+                    <div class="admin-card p-8"><h3 class="text-lg font-black text-slate-900 mb-6">Notes</h3><div id="user-notes" class="space-y-6 mb-8"></div><form onsubmit="handleAddNote(event)" class="flex flex-col gap-4"><textarea id="note-content" required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm font-medium"></textarea><button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-sm w-fit self-end shadow-lg">Add Note</button></form></div>
+                </div>
+                <div class="admin-card p-8 h-fit" id="user-info-card"></div>
+            </div>
         </div>
     </main>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-        <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl scale-in">
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-indigo-200"><i class="fa-solid fa-lock text-2xl"></i></div>
-                <h2 class="text-3xl font-black text-slate-900 tracking-tight">Therapist Access</h2>
-                <p class="text-slate-500 font-medium mt-2">Authenticated Command Center</p>
-            </div>
-            <form onsubmit="handleLogin(event)" class="space-y-4">
-                <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email Address</label>
-                    <input type="email" id="email" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all">
+    <!-- Modals -->
+    <div id="user-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
+        <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl">
+            <h3 class="text-2xl font-black text-slate-900 mb-6">User Management</h3>
+            <form onsubmit="handleUserSubmit(event)" class="space-y-4">
+                <input type="text" id="user-name" placeholder="Full Name" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <input type="email" id="user-email" placeholder="Email Address" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <input type="password" id="user-password" placeholder="Temporary Password" class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="user-role" class="px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold"><option value="user">User</option><option value="therapist">Therapist</option><option value="admin">Admin</option></select>
+                    <select id="user-plan" class="px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold"><option value="Free">Free</option><option value="Standard">Standard</option><option value="Pro">Pro</option></select>
                 </div>
-                <div class="space-y-2">
-                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Secure Password</label>
-                    <input type="password" id="password" required class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all">
+                <div class="flex gap-4 pt-4">
+                    <button type="button" onclick="closeUserModal()" class="flex-1 py-4 text-slate-400 font-bold">Cancel</button>
+                    <button type="submit" class="flex-1 bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-lg">Save User</button>
                 </div>
-                <button type="submit" id="auth-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
             </form>
         </div>
     </div>
 
-    <!-- Logic -->
+    <!-- Auth Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
+        <div class="w-full max-w-md bg-white rounded-[2.5rem] p-10 shadow-2xl">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-indigo-600 rounded-3xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl shadow-indigo-200"><i class="fa-solid fa-lock text-2xl"></i></div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">Therapist Access</h2>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="email" id="email" required placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <input type="password" id="password" required placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold">
+                <button type="submit" id="auth-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl">Authenticate &rarr;</button>
+            </form>
+        </div>
+    </div>
+
     <script src="js/admin.js"></script>
 </body>
 </html>
