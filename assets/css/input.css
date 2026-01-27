@@ -6,6 +6,9 @@
   :root {
     --primary: 243 75% 59%; /* Indigo 600 */
     --primary-foreground: 0 0% 100%;
+    --ease-premium: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out-premium: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-premium: cubic-bezier(0.4, 0, 1, 1);
   }
 
   html {
@@ -15,48 +18,67 @@
 
   body {
     @apply antialiased text-gray-900 bg-white dark:bg-gray-950 dark:text-gray-100;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Prevent layout shift during font loading */
+    font-display: swap;
+  }
+
+  /* Sub-pixel smoothing for dark mode to prevent "glowing" jagged edges */
+  .dark body {
+    -webkit-font-smoothing: subpixel-antialiased;
   }
 
   svg {
     shape-rendering: geometricPrecision;
+    @apply transition-all duration-500;
+  }
+
+  /* Force GPU for all animations */
+  * {
+    @apply transition-colors duration-300;
+    transition-timing-function: var(--ease-premium);
   }
 }
 
 @layer components {
   /* High-Fidelity Rendering Utility */
   .smooth-render {
-    transform: translateZ(0);
+    transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
     perspective: 1000px;
-    will-change: transform;
+    will-change: transform, opacity;
+    -webkit-perspective: 1000;
+    -webkit-backface-visibility: hidden;
   }
 
   /* Premium UIverse-style Card */
   .premium-card {
-    @apply relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[2.5rem] transition-all duration-500;
+    @apply relative bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-[2.5rem] transition-all duration-700 smooth-render;
+    /* Multi-layered "Soft" Shadow */
     box-shadow:
-      0 10px 30px -5px rgba(0, 0, 0, 0.04),
-      0 4px 10px -5px rgba(0, 0, 0, 0.02);
+      0 2px 4px rgba(0, 0, 0, 0.01),
+      0 10px 20px -5px rgba(0, 0, 0, 0.02),
+      0 20px 40px -10px rgba(0, 0, 0, 0.03);
   }
 
   .premium-card:hover {
-    @apply -translate-y-1;
+    @apply -translate-y-1.5;
     box-shadow:
-      0 20px 40px -10px rgba(79, 70, 229, 0.1),
-      0 10px 20px -10px rgba(0, 0, 0, 0.04);
+      0 30px 60px -12px rgba(79, 70, 229, 0.08),
+      0 18px 36px -18px rgba(0, 0, 0, 0.03);
   }
 
   /* Interactive Button with Soft-Glow */
   .btn-premium {
-    @apply relative inline-flex items-center justify-center px-8 py-4 rounded-2xl font-black text-sm transition-all duration-300 overflow-hidden;
+    @apply relative inline-flex items-center justify-center px-8 py-4 rounded-2xl font-black text-sm transition-all duration-500 overflow-hidden smooth-render;
+    transition-timing-function: var(--ease-premium);
   }
 
   .btn-premium-primary {
-    @apply btn-premium bg-indigo-600 text-white shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 active:scale-95;
+    @apply btn-premium bg-indigo-600 text-white shadow-xl shadow-indigo-200 dark:shadow-none hover:bg-indigo-700 hover:shadow-indigo-300/50 active:scale-95;
   }
 
   .btn-premium-secondary {
@@ -65,15 +87,16 @@
 
   /* Glassmorphism Accents */
   .glass {
-    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border border-white/20 dark:border-white/10;
+    @apply bg-white/70 dark:bg-gray-900/70 backdrop-blur-2xl border border-white/20 dark:border-white/10;
   }
 
-  /* Animated Border Gradient (UIverse Inspired) */
+  /* Animated Border Gradient */
   .gradient-border {
     position: relative;
     border-radius: 2.5rem;
     background: linear-gradient(to right, #4f46e5, #9333ea);
     padding: 2px;
+    @apply smooth-render;
   }
 
   .gradient-border-inner {
@@ -87,15 +110,16 @@
 
   .undraw-wrapper svg {
     @apply block max-w-full max-h-full mx-auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.05));
   }
 
   /* Refined Course Image Container */
   .course-image-wrapper {
-    @apply relative overflow-hidden flex items-center justify-center transition-all duration-700;
+    @apply relative overflow-hidden flex items-center justify-center transition-all duration-1000 smooth-render;
     aspect-ratio: 1 / 1;
     border-radius: 3rem;
     background: #f8fafc; /* Very light slate */
-    border: 1px solid rgba(226, 232, 240, 0.8); /* Light slate border */
+    border: 1px solid rgba(226, 232, 240, 0.8);
   }
 
   .dark .course-image-wrapper {
@@ -105,27 +129,23 @@
 
   .course-image-wrapper::before {
     content: '';
-    @apply absolute inset-0 opacity-40 transition-opacity duration-700;
+    @apply absolute inset-0 opacity-40 transition-opacity duration-1000;
     background:
       radial-gradient(circle at 30% 30%, rgba(79, 70, 229, 0.1), transparent 70%),
       radial-gradient(circle at 70% 70%, rgba(147, 51, 234, 0.1), transparent 70%);
   }
 
   .group:hover .course-image-wrapper {
-    @apply border-indigo-200 dark:border-indigo-800 shadow-lg shadow-indigo-500/5;
-  }
-
-  .group:hover .course-image-wrapper::before {
-    @apply opacity-100;
+    @apply border-indigo-200 dark:border-indigo-800 shadow-2xl shadow-indigo-500/10 scale-[1.02];
   }
 
   /* Custom Audio Player Components */
   .js-audio-scrubber::-webkit-slider-thumb {
     appearance: none;
-    @apply w-3 h-3 bg-indigo-600 rounded-full cursor-pointer border-2 border-white shadow-sm transition-transform duration-200;
+    @apply w-3 h-3 bg-indigo-600 rounded-full cursor-pointer border-2 border-white shadow-md transition-transform duration-300 smooth-render;
   }
   .js-audio-scrubber:hover::-webkit-slider-thumb {
-    @apply scale-125;
+    @apply scale-150;
   }
   .js-volume-slider::-webkit-slider-thumb {
     appearance: none;
@@ -138,10 +158,8 @@
   }
 
   .marquee-content {
-    @apply inline-flex whitespace-nowrap w-max;
-    animation: marquee 20s linear infinite;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
+    @apply inline-flex whitespace-nowrap w-max smooth-render;
+    animation: marquee 25s linear infinite;
   }
 
   @keyframes marquee {
@@ -154,7 +172,7 @@
   }
 
   .mask-fade-edges {
-    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
 }
 
