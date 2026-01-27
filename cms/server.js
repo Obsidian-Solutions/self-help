@@ -24,7 +24,11 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // Allow inline for admin panel simplicity
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.tailwindcss.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
+        'style-src': ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net"],
+        'font-src': ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+        'img-src': ["'self'", "data:", "https://i.pravatar.cc", "https://images.unsplash.com"],
+        'connect-src': ["'self'", "http://localhost:3000", "http://localhost:1313"]
       },
     },
   }),
@@ -60,24 +64,14 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:1313',
-  'http://localhost:1314',
-  'http://localhost:4242',
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      return callback(null, true);
-    },
+    origin: true, // Allow all for prototype handoff
     credentials: true,
   }),
 );
 
 app.use(morgan('dev'));
-// Increase limit for base64 media uploads
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
