@@ -11,6 +11,7 @@
 <div class="space-y-8">
   {{ range .Sections }}
   {{ $slug := .File.BaseFileName }}
+  {{ $lessons := .Pages }}
   <div class="group premium-card overflow-hidden transition-all duration-500">
     <div class="flex flex-col md:flex-row">
       <div class="w-full md:w-72 p-6 md:pr-0 flex items-center justify-center">
@@ -24,31 +25,32 @@
       </div>
       <div class="flex-1 p-4 sm:p-6 lg:p-10 flex flex-col justify-between">
         <div>
-          <div class="flex flex-wrap items-center gap-3 mb-4">
-            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
+          <div class="flex flex-wrap items-center gap-3 mb-6">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">
               {{ .Params.category }}
             </span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
             {{ if .Params.premium }}
-            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border border-amber-100 dark:border-amber-800">
-              Pro
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-amber-600 dark:text-amber-400">
+              Pro Tier
             </span>
             {{ else }}
-            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
-              Free
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">
+              Free Access
             </span>
             {{ end }}
-            {{ $lessons := .Pages }}
-            <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
               {{ len $lessons }} Lessons
             </span>
-            
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
             <!-- Dynamic Rating -->
-            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 js-course-rating" data-slug="{{ $slug }}">
+            <div class="flex items-center gap-2 js-course-rating" data-slug="{{ $slug }}">
               <div class="flex text-amber-400 text-[10px]">
                 <i class="fa-solid fa-star"></i>
               </div>
               <span class="text-[10px] font-black text-gray-600 dark:text-gray-300 rating-value">--</span>
-              <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter total-count">(--)</span>
+              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-tighter total-count">(--)</span>
             </div>
           </div>
           <h3 class="text-3xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">
@@ -69,6 +71,7 @@
               {{ end }}
             </div>
           </div>
+        </div>
         <div class="mt-10 flex items-center gap-4">
           <a href="{{ .RelPermalink }}" class="btn-premium-primary">View Syllabus</a>
           {{ if gt (len $lessons) 0 }}
@@ -140,12 +143,14 @@
       try {
         const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
         const data = await res.json();
+        const valEl = el.querySelector('.rating-value');
+        const countEl = el.querySelector('.total-count');
         if (data.total_ratings > 0) {
-          el.querySelector('.rating-value').textContent = data.avg_rating.toFixed(1);
-          el.querySelector('.total-count').textContent = `(${data.total_ratings})`;
+          if (valEl) valEl.textContent = data.avg_rating.toFixed(1);
+          if (countEl) countEl.textContent = `(${data.total_ratings})`;
         } else {
-          el.querySelector('.rating-value').textContent = 'New';
-          el.querySelector('.total-count').textContent = '(0)';
+          if (valEl) valEl.textContent = 'New';
+          if (countEl) countEl.textContent = '(0)';
         }
       } catch (e) {}
     });
@@ -161,6 +166,7 @@
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
     {{ range .Sections }}
+      {{ $slug := .File.BaseFileName }}
       <div class="flex flex-col bg-white dark:bg-gray-800 rounded-3xl sm:rounded-[2.5rem] border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group">
         <div class="p-6 pb-0">
           <div class="course-image-wrapper w-full p-6">

@@ -103,17 +103,17 @@
           {{ end }}
         </div>
         
-        <div class="flex flex-col items-center gap-2 mb-3 justify-center">
-          <div class="flex items-center gap-2">
-            <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
-            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ len .Pages }} Lessons</span>
-          </div>
-          <!-- Course Rating Display -->
-          <div class="flex items-center gap-1 text-amber-400 text-[10px] font-bold js-course-rating" data-slug="{{ $slug }}">
-            <i class="fa-solid fa-star"></i>
-            <span class="rating-value">--</span>
-            <span class="text-gray-300">/ 5</span>
+        <div class="flex flex-col items-center gap-3 mb-3 justify-center">
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">{{ len .Pages }} Lessons</span>
+            <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
+            <!-- Course Rating Display -->
+            <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating" data-slug="{{ $slug }}">
+              <i class="fa-solid fa-star"></i>
+              <span class="rating-value">--</span>
+            </div>
           </div>
         </div>
         <h3 class="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-4 group-hover:text-indigo-600 transition-colors text-center tracking-tight">{{ .Title }}</h3>
