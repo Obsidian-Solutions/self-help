@@ -1,13 +1,16 @@
 ---
 title: 'Pro'
 price: '$29'
-description: 'Maximum support for deep transformation.'
-weight: 3
+price_amount: 29
+currency: 'USD'
+weight: 30
+recommended: true
+description: 'The complete mental wellness experience with expert support.'
 features:
-  - 'All Features in Standard'
-  - '1-on-1 Therapist Consultation'
-  - 'Personalized Wellness Plan'
-  - 'Advanced CBT Toolsets'
-  - 'Family Sharing (2 Seats)'
-recommended: false
+  [
+    'Everything in Standard',
+    'Monthly 1-on-1 Consultation',
+    'Priority Therapist Access',
+    'Family Sharing (2 seats)',
+  ]
 ---

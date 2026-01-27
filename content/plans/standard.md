@@ -1,13 +1,15 @@
 ---
 title: 'Standard'
 price: '$9'
-description: 'Everything you need for consistent growth.'
-weight: 2
+price_amount: 9
+currency: 'USD'
+weight: 20
+description: 'Advanced tools for those committed to regular practice.'
 features:
-  - 'All Features in Free'
-  - 'All 12+ Professional Courses'
-  - 'Progress Analytics'
-  - 'Offline Access'
-  - 'Priority Email Support'
-recommended: true
+  [
+    'Everything in Free',
+    'Full CBT Course Library',
+    'Offline Mode Access',
+    'Weekly Progress Reports',
+  ]
 ---

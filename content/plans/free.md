@@ -1,12 +1,15 @@
 ---
 title: 'Free'
 price: '$0'
-description: 'Essential tools to start your journey.'
-weight: 1
+price_amount: 0
+currency: 'USD'
+weight: 10
+description: 'Perfect for getting started with basic mindfulness tools.'
 features:
-  - 'Foundations Course'
-  - 'Daily Mood Tracking'
-  - 'Private Digital Journal'
-  - 'Community Access'
-recommended: false
+  [
+    'Daily Mood Check-ins',
+    'Basic Mindfulness Course',
+    'Private Digital Journal',
+    'Community Access',
+  ]
 ---

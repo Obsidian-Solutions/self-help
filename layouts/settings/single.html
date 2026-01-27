@@ -78,10 +78,24 @@
       <!-- Subscription Settings -->
       <div id="settings-tab-subscription" class="hidden space-y-10">
         <div class="p-8 rounded-[2rem] bg-indigo-600 text-white relative overflow-hidden shadow-xl shadow-indigo-100 dark:shadow-none">
-          <div class="relative z-10">
-            <p class="text-indigo-100 text-xs font-black uppercase tracking-widest mb-1">{{ $labels.subscription.current_plan_label }}</p>
-            <h3 id="current-plan-display" class="text-3xl font-black tracking-tighter mb-4">Free Plan</h3>
-            <p class="text-indigo-100 text-sm font-medium max-w-sm">{{ $labels.subscription.current_plan_desc }}</p>
+          <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div>
+              <p class="text-indigo-100 text-xs font-black uppercase tracking-widest mb-1">{{ $labels.subscription.current_plan_label }}</p>
+              <h3 id="current-plan-display" class="text-3xl font-black tracking-tighter mb-4">Free Plan</h3>
+              <p class="text-indigo-100 text-sm font-medium max-w-sm">{{ $labels.subscription.current_plan_desc }}</p>
+            </div>
+            <!-- Dynamic Currency Override -->
+            <div class="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20">
+              <label class="block text-[10px] font-black uppercase tracking-widest text-indigo-100 mb-2">Display Currency</label>
+              <select onchange="window.currencyManager.setCurrency(this.value)" id="currency-selector" class="bg-transparent border-none text-white font-black text-sm focus:ring-0 cursor-pointer">
+                <option value="USD" class="text-gray-900">USD ($)</option>
+                <option value="GBP" class="text-gray-900">GBP (£)</option>
+                <option value="EUR" class="text-gray-900">EUR (€)</option>
+                <option value="CHF" class="text-gray-900">CHF (Fr.)</option>
+                <option value="JPY" class="text-gray-900">JPY (¥)</option>
+                <option value="CAD" class="text-gray-900">CAD ($)</option>
+              </select>
+            </div>
           </div>
           <!-- Decorative element -->
           <div class="absolute -right-24 -top-24 w-64 h-64 bg-indigo-500 rounded-full opacity-50 blur-3xl"></div>
@@ -96,7 +110,7 @@
               <i class="fa-solid {{ if eq $planId "free" }}fa-leaf text-green-500{{ else if eq $planId "standard" }}fa-star text-amber-500{{ else }}fa-bolt text-indigo-500{{ end }} text-2xl"></i>
             </div>
             <h4 class="font-black text-gray-900 dark:text-white">{{ .Title }}</h4>
-            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4">{{ .Params.price }}</p>
+            <p class="text-xs font-bold text-gray-400 dark:text-gray-500 mb-4 js-price" data-price-base="{{ .Params.price_amount }}">{{ .Params.price }}</p>
             <button
               onclick="switchPlan('{{ .Title }}')"
               data-plan-btn="{{ .Title }}"
@@ -184,18 +198,23 @@
       
       const avatarPreview = document.getElementById('avatar-preview');
       if (user.avatar && avatarPreview) {
-        // Security: Validate avatar URL is base64 or relative
-        if (typeof user.avatar === 'string' && (user.avatar.startsWith('data:image/') || user.avatar.startsWith('/'))) {
-          while (avatarPreview.firstChild) {
-            avatarPreview.removeChild(avatarPreview.firstChild);
-          }
-          const img = document.createElement('img');
-          img.src = user.avatar;
-          img.className = 'h-full w-full object-cover';
-          img.loading = 'lazy';
-          img.decoding = 'async';
-          img.alt = user.name || 'User Avatar';
-          avatarPreview.appendChild(img);
+        // Security: Validate avatar URL. Block SVG to prevent XSS.
+        if (typeof user.avatar === 'string') {
+           const isSafeData = user.avatar.startsWith('data:image/') && !user.avatar.includes('svg+xml');
+           const isRelative = user.avatar.startsWith('/') && !user.avatar.startsWith('//');
+           
+           if (isSafeData || isRelative) {
+              while (avatarPreview.firstChild) {
+                avatarPreview.removeChild(avatarPreview.firstChild);
+              }
+              const img = document.createElement('img');
+              img.src = user.avatar;
+              img.className = 'h-full w-full object-cover';
+              img.loading = 'lazy';
+              img.decoding = 'async';
+              img.alt = user.name || 'User Avatar';
+              avatarPreview.appendChild(img);
+           }
         }
       }
       
@@ -217,6 +236,12 @@
       updateNotifUI('dailyReminders', notifs.dailyReminders);
       updateNotifUI('courseUpdates', notifs.courseUpdates);
     } catch (e) {}
+
+    // Initialize currency selector value
+    const curSelector = document.getElementById('currency-selector');
+    if (curSelector && window.currencyManager) {
+      curSelector.value = window.currencyManager.getCurrency();
+    }
   });
 
   function updatePlanButtons(currentPlan) {

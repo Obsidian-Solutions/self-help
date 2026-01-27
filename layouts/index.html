@@ -165,7 +165,7 @@
         <div class="mb-8 w-full">
           <h3 class="text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-4 text-center">{{ .Title }}</h3>
           <div class="flex items-baseline gap-1 justify-center">
-            <span class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter">{{ .Params.price }}</span>
+            <span class="text-5xl font-black text-gray-900 dark:text-white tracking-tighter js-price" data-price-base="{{ .Params.price_amount }}">{{ .Params.price }}</span>
             <span class="text-gray-400 font-bold">/mo</span>
           </div>
           <p class="mt-4 text-xs font-medium text-gray-500 dark:text-gray-400 text-center">{{ .Params.description }}</p>
