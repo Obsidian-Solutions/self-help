@@ -26,7 +26,7 @@ https://github.com/alex-shpak/hugo-book
   <meta itemprop="name" content="Wellness Shortcodes">
   <meta itemprop="description" content="MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, privacy-hardened, and fully branded.
 1. Guided Breathing ( Guided Breathing Ready 0 Start Session )# Renders an interactive, animated breathing circle to help users center themselves.">
-  <meta itemprop="wordCount" content="235">
+  <meta itemprop="wordCount" content="241">
 
 <title>Wellness Shortcodes | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -717,118 +717,350 @@ https://github.com/alex-shpak/hugo-book
 </table>
 <blockquote class='book-hint important'>
 <p>The YouTube implementation uses <code>youtube-nocookie.com</code> for maximum privacy even after consent.</p></blockquote><hr>
-<h2 id="3-branded-audio-player-hahahugoshortcode14s4hbhb">3. Branded Audio Player (<code><div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group">
-  <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
+<h2 id="3-branded-audio-player-hahahugoshortcode14s4hbhb">3. Branded Audio Player (<code>
+<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-audio-1769532030080085104" data-audio-id="audio-1769532030080085104">
+  <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform flex-shrink-0">
     <i class="fa-solid fa-headphones text-3xl"></i>
   </div>
   
-  <div class="flex-1 w-full">
-    <div class="mb-4">
-      <h4 class="text-lg font-black text-gray-900 dark:text-white mb-1">Guided Meditation</h4>
-      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">5:00 &middot; Local Session</p>
+  <div class="flex-1 w-full min-w-0">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div class="min-w-0">
+        <h4 class="text-lg font-black text-gray-900 dark:text-white mb-1 truncate">Guided Meditation</h4>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">CBT Session &middot; <span class="js-audio-duration-label">0:00</span></p>
+      </div>
+      
+      
+      <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1 border border-gray-100 dark:border-gray-700 w-fit">
+        <button onclick="window.cycleAudioSpeed('audio-1769532030080085104')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
+      </div>
     </div>
 
-    <audio id="audio-meditation" src="" class="hidden"></audio>
+    <audio id="raw-audio-audio-1769532030080085104" src="" class="hidden" preload="metadata"></audio>
     
-    <div class="flex items-center gap-4">
-      <button onclick="window.toggleAudio('meditation')" id="play-btn-meditation" class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all active:scale-90">
-        <i class="fa-solid fa-play ml-1"></i>
-      </button>
+    <div class="space-y-4">
       
-      <div class="flex-1 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden relative">
-        <div id="progress-meditation" class="absolute top-0 left-0 h-full bg-indigo-600 w-0 transition-all duration-300"></div>
+      <div class="relative group/scrubber h-6 flex items-center">
+        <input 
+          type="range" 
+          value="0" 
+          step="0.1" 
+          min="0" 
+          max="100" 
+          class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-600 js-audio-scrubber"
+          oninput="window.seekAudio('audio-1769532030080085104', this.value)"
+        >
+      </div>
+
+      <div class="flex items-center gap-6">
+        <button onclick="window.toggleAudio('audio-1769532030080085104')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn">
+          <i class="fa-solid fa-play text-xl ml-1"></i>
+        </button>
+
+        <div class="flex-1 flex items-center justify-between">
+          <span class="text-xs font-black text-gray-900 dark:text-white font-mono js-current-time">0:00</span>
+          <div class="flex gap-2">
+            <button onclick="window.skipAudio('audio-1769532030080085104', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+              <i class="fa-solid fa-backward-step"></i>
+            </button>
+            <button onclick="window.skipAudio('audio-1769532030080085104', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+          </div>
+          <span class="text-xs font-black text-gray-400 font-mono js-total-time">0:00</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  window.toggleAudio = function(id) {
-    const audio = document.getElementById('audio-' + id);
-    const btn = document.getElementById('play-btn-' + id);
-    const progress = document.getElementById('progress-' + id);
-    const icon = btn.querySelector('i');
-
-    if (audio.paused) {
-      audio.play();
-      icon.classList.replace('fa-play', 'fa-pause');
-      icon.classList.remove('ml-1');
-    } else {
-      audio.pause();
-      icon.classList.replace('fa-pause', 'fa-play');
-      icon.classList.add('ml-1');
+  (function() {
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    audio.ontimeupdate = () => {
-      const pct = (audio.currentTime / audio.duration) * 100;
-      progress.style.width = pct + '%';
+    window.toggleAudio = function(id) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const btn = player.querySelector('.js-play-btn');
+      const icon = btn.querySelector('i');
+
+      if (audio.paused) {
+        
+        document.querySelectorAll('audio').forEach(a => {
+          if (a !== audio) {
+            a.pause();
+            const p = a.closest('.js-audio-player');
+            if (p) {
+              const b = p.querySelector('.js-play-btn i');
+              b.classList.replace('fa-pause', 'fa-play');
+              b.classList.add('ml-1');
+            }
+          }
+        });
+
+        audio.play();
+        icon.classList.replace('fa-play', 'fa-pause');
+        icon.classList.remove('ml-1');
+      } else {
+        audio.pause();
+        icon.classList.replace('fa-pause', 'fa-play');
+        icon.classList.add('ml-1');
+      }
     };
 
-    audio.onended = () => {
-      icon.classList.replace('fa-pause', 'fa-play');
-      icon.classList.add('ml-1');
-      progress.style.width = '0%';
+    window.seekAudio = function(id, value) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const time = (value / 100) * audio.duration;
+      audio.currentTime = time;
     };
-  };
+
+    window.skipAudio = function(id, seconds) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      audio.currentTime += seconds;
+    };
+
+    window.cycleAudioSpeed = function(id) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const btn = player.querySelector('.js-speed-btn');
+      const speeds = [1, 1.25, 1.5, 2];
+      let currentIdx = speeds.indexOf(audio.playbackRate);
+      let nextIdx = (currentIdx + 1) % speeds.length;
+      audio.playbackRate = speeds[nextIdx];
+      btn.textContent = speeds[nextIdx] + 'x';
+    };
+
+    
+    document.querySelectorAll('.js-audio-player').forEach(player => {
+      const id = player.getAttribute('data-audio-id');
+      const audio = player.querySelector('audio');
+      const scrubber = player.querySelector('.js-audio-scrubber');
+      const currentTimeEl = player.querySelector('.js-current-time');
+      const totalTimeEl = player.querySelector('.js-total-time');
+      const durationLabel = player.querySelector('.js-audio-duration-label');
+
+      audio.addEventListener('loadedmetadata', () => {
+        const time = formatTime(audio.duration);
+        totalTimeEl.textContent = time;
+        if (durationLabel) durationLabel.textContent = time;
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        scrubber.value = pct;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        
+        
+        scrubber.style.background = `linear-gradient(to right, #4f46e5 ${pct}%, #e5e7eb ${pct}%)`;
+      });
+
+      audio.addEventListener('ended', () => {
+        const icon = player.querySelector('.js-play-btn i');
+        icon.classList.replace('fa-pause', 'fa-play');
+        icon.classList.add('ml-1');
+        scrubber.value = 0;
+        scrubber.style.background = '';
+      });
+    });
+  })();
 </script>
-</code>)<a class="anchor" href="#3-branded-audio-player-hahahugoshortcode14s4hbhb">#</a></h2>
+
+<style>
+  .js-audio-scrubber::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4f46e5;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .js-audio-scrubber:hover::-webkit-slider-thumb {
+    transform: scale(1.3);
+  }
+</style></code>)<a class="anchor" href="#3-branded-audio-player-hahahugoshortcode14s4hbhb">#</a></h2>
 <p>A custom, minimalist audio player for guided meditations and lectures.</p>
 <h3 id="usage-2">Usage<a class="anchor" href="#usage-2">#</a></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span><div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group">
-  <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-markdown" data-lang="markdown"><span style="display:flex;"><span>
+<div class="my-8 premium-card p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 group js-audio-player" id="player-meditation-1" data-audio-id="meditation-1">
+  <div class="w-20 h-20 bg-indigo-600 rounded-3xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform flex-shrink-0">
     <i class="fa-solid fa-headphones text-3xl"></i>
   </div>
   
-  <div class="flex-1 w-full">
-    <div class="mb-4">
-      <h4 class="text-lg font-black text-gray-900 dark:text-white mb-1">Morning Zen</h4>
-      <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">10:00 &middot; Local Session</p>
+  <div class="flex-1 w-full min-w-0">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div class="min-w-0">
+        <h4 class="text-lg font-black text-gray-900 dark:text-white mb-1 truncate">Morning Zen</h4>
+        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">CBT Session &middot; <span class="js-audio-duration-label">10:00</span></p>
+      </div>
+      
+      
+      <div class="flex items-center bg-gray-50 dark:bg-gray-800/50 rounded-xl p-1 border border-gray-100 dark:border-gray-700 w-fit">
+        <button onclick="window.cycleAudioSpeed('meditation-1')" class="px-3 py-1 text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-all js-speed-btn">1.0x</button>
+      </div>
     </div>
 
-    <audio id="audio-meditation-1" src="/audio/zen.mp3" class="hidden"></audio>
+    <audio id="raw-audio-meditation-1" src="/audio/zen.mp3" class="hidden" preload="metadata"></audio>
     
-    <div class="flex items-center gap-4">
-      <button onclick="window.toggleAudio('meditation-1')" id="play-btn-meditation-1" class="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all active:scale-90">
-        <i class="fa-solid fa-play ml-1"></i>
-      </button>
+    <div class="space-y-4">
       
-      <div class="flex-1 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden relative">
-        <div id="progress-meditation-1" class="absolute top-0 left-0 h-full bg-indigo-600 w-0 transition-all duration-300"></div>
+      <div class="relative group/scrubber h-6 flex items-center">
+        <input 
+          type="range" 
+          value="0" 
+          step="0.1" 
+          min="0" 
+          max="100" 
+          class="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-600 js-audio-scrubber"
+          oninput="window.seekAudio('meditation-1', this.value)"
+        >
+      </div>
+
+      <div class="flex items-center gap-6">
+        <button onclick="window.toggleAudio('meditation-1')" class="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center hover:scale-105 transition-all shadow-lg shadow-indigo-200 dark:shadow-none active:scale-95 js-play-btn">
+          <i class="fa-solid fa-play text-xl ml-1"></i>
+        </button>
+
+        <div class="flex-1 flex items-center justify-between">
+          <span class="text-xs font-black text-gray-900 dark:text-white font-mono js-current-time">0:00</span>
+          <div class="flex gap-2">
+            <button onclick="window.skipAudio('meditation-1', -10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+              <i class="fa-solid fa-backward-step"></i>
+            </button>
+            <button onclick="window.skipAudio('meditation-1', 10)" class="text-gray-400 hover:text-indigo-600 transition-colors">
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+          </div>
+          <span class="text-xs font-black text-gray-400 font-mono js-total-time">0:00</span>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  window.toggleAudio = function(id) {
-    const audio = document.getElementById('audio-' + id);
-    const btn = document.getElementById('play-btn-' + id);
-    const progress = document.getElementById('progress-' + id);
-    const icon = btn.querySelector('i');
-
-    if (audio.paused) {
-      audio.play();
-      icon.classList.replace('fa-play', 'fa-pause');
-      icon.classList.remove('ml-1');
-    } else {
-      audio.pause();
-      icon.classList.replace('fa-pause', 'fa-play');
-      icon.classList.add('ml-1');
+  (function() {
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    audio.ontimeupdate = () => {
-      const pct = (audio.currentTime / audio.duration) * 100;
-      progress.style.width = pct + '%';
+    window.toggleAudio = function(id) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const btn = player.querySelector('.js-play-btn');
+      const icon = btn.querySelector('i');
+
+      if (audio.paused) {
+        
+        document.querySelectorAll('audio').forEach(a => {
+          if (a !== audio) {
+            a.pause();
+            const p = a.closest('.js-audio-player');
+            if (p) {
+              const b = p.querySelector('.js-play-btn i');
+              b.classList.replace('fa-pause', 'fa-play');
+              b.classList.add('ml-1');
+            }
+          }
+        });
+
+        audio.play();
+        icon.classList.replace('fa-play', 'fa-pause');
+        icon.classList.remove('ml-1');
+      } else {
+        audio.pause();
+        icon.classList.replace('fa-pause', 'fa-play');
+        icon.classList.add('ml-1');
+      }
     };
 
-    audio.onended = () => {
-      icon.classList.replace('fa-pause', 'fa-play');
-      icon.classList.add('ml-1');
-      progress.style.width = '0%';
+    window.seekAudio = function(id, value) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const time = (value / 100) * audio.duration;
+      audio.currentTime = time;
     };
-  };
+
+    window.skipAudio = function(id, seconds) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      audio.currentTime += seconds;
+    };
+
+    window.cycleAudioSpeed = function(id) {
+      const player = document.getElementById('player-' + id);
+      const audio = player.querySelector('audio');
+      const btn = player.querySelector('.js-speed-btn');
+      const speeds = [1, 1.25, 1.5, 2];
+      let currentIdx = speeds.indexOf(audio.playbackRate);
+      let nextIdx = (currentIdx + 1) % speeds.length;
+      audio.playbackRate = speeds[nextIdx];
+      btn.textContent = speeds[nextIdx] + 'x';
+    };
+
+    
+    document.querySelectorAll('.js-audio-player').forEach(player => {
+      const id = player.getAttribute('data-audio-id');
+      const audio = player.querySelector('audio');
+      const scrubber = player.querySelector('.js-audio-scrubber');
+      const currentTimeEl = player.querySelector('.js-current-time');
+      const totalTimeEl = player.querySelector('.js-total-time');
+      const durationLabel = player.querySelector('.js-audio-duration-label');
+
+      audio.addEventListener('loadedmetadata', () => {
+        const time = formatTime(audio.duration);
+        totalTimeEl.textContent = time;
+        if (durationLabel) durationLabel.textContent = time;
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        scrubber.value = pct;
+        currentTimeEl.textContent = formatTime(audio.currentTime);
+        
+        
+        scrubber.style.background = `linear-gradient(to right, #4f46e5 ${pct}%, #e5e7eb ${pct}%)`;
+      });
+
+      audio.addEventListener('ended', () => {
+        const icon = player.querySelector('.js-play-btn i');
+        icon.classList.replace('fa-pause', 'fa-play');
+        icon.classList.add('ml-1');
+        scrubber.value = 0;
+        scrubber.style.background = '';
+      });
+    });
+  })();
 </script>
-</span></span></code></pre></div><ul>
+
+<style>
+  .js-audio-scrubber::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #4f46e5;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .js-audio-scrubber:hover::-webkit-slider-thumb {
+    transform: scale(1.3);
+  }
+</style></span></span></code></pre></div><ul>
 <li><input checked="" disabled="" type="checkbox"> <strong>Custom Icons</strong>: Branded play/pause controls.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Progress Bar</strong>: Real-time session tracking.</li>
 <li><input checked="" disabled="" type="checkbox"> <strong>Minimalist</strong>: No heavy external library dependencies.</li>
