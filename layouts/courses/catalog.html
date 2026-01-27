@@ -10,11 +10,14 @@
 
 <div class="space-y-8">
   {{ range .Sections }}
+  {{ $slug := .File.BaseFileName }}
   <div class="group premium-card overflow-hidden transition-all duration-500">
     <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-64 h-64 bg-indigo-50/50 dark:bg-indigo-900/20 flex items-center justify-center p-10">
+      <div class="w-full md:w-64 h-64 bg-indigo-50/50 dark:bg-indigo-900/20 flex items-center justify-center p-10 overflow-hidden">
         {{ if .Params.illustration }}
-          {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+          <div class="w-full h-full flex items-center justify-center">
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+          </div>
         {{ else }}
           <svg class="h-20 w-20 text-indigo-200 dark:text-indigo-800" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
@@ -23,7 +26,7 @@
       </div>
       <div class="flex-1 p-4 sm:p-6 lg:p-10 flex flex-col justify-between">
         <div>
-          <div class="flex items-center gap-3 mb-4">
+          <div class="flex flex-wrap items-center gap-3 mb-4">
             <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
               {{ .Params.category }}
             </span>
@@ -40,6 +43,15 @@
             <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">
               {{ len $lessons }} Lessons
             </span>
+            
+            <!-- Dynamic Rating -->
+            <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 js-course-rating" data-slug="{{ $slug }}">
+              <div class="flex text-amber-400 text-[10px]">
+                <i class="fa-solid fa-star"></i>
+              </div>
+              <span class="text-[10px] font-black text-gray-600 dark:text-gray-300 rating-value">--</span>
+              <span class="text-[8px] font-bold text-gray-400 uppercase tracking-tighter total-count">(--)</span>
+            </div>
           </div>
           <h3 class="text-3xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors tracking-tight">
             {{ .Title }}
@@ -47,18 +59,18 @@
           <p class="mt-4 text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
             {{ .Params.description }}
           </p>
-          <!-- Progress Bar (Shown via JS only if logged in) -->
-          <div class="mt-6 max-w-xs hidden auth-only" data-course-card="{{ .Title }}">
-            <div class="flex justify-between mb-2">
-              <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Your Progress</span>
-              <span class="text-xs font-black text-indigo-600 dark:text-indigo-400" data-progress-text="{{ .Title }}">0%</span>
+          
+          <!-- Rating Input (Only for logged in) -->
+          <div class="mt-6 auth-only hidden">
+            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Rate this course</p>
+            <div class="flex items-center gap-1 text-gray-200 dark:text-gray-700 js-rating-input" data-slug="{{ $slug }}">
+              {{ range seq 5 }}
+              <button onclick="window.submitCourseRating('{{ $slug }}', {{ . }})" class="hover:text-amber-400 transition-colors cursor-pointer text-lg">
+                <i class="fa-solid fa-star"></i>
+              </button>
+              {{ end }}
             </div>
-            <div class="overflow-hidden h-2 text-xs flex rounded-full bg-gray-100 dark:bg-gray-700">
-              <div data-progress-bar="{{ .Title }}" style="width: 0%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-indigo-500 transition-all duration-500"></div>
-            </div>
-            <span class="hidden total-lessons-count">{{ len $lessons }}</span>
           </div>
-        </div>
         <div class="mt-10 flex items-center gap-4">
           <a href="{{ .RelPermalink }}" class="btn-premium-primary">View Syllabus</a>
           {{ if gt (len $lessons) 0 }}
@@ -96,6 +108,48 @@
       
       if (progressBar) progressBar.style.width = percentage + '%';
       if (progressText) progressText.textContent = percentage + '%';
+    });
+  });
+
+  window.submitCourseRating = async function(slug, rating) {
+    const session = JSON.parse(localStorage.getItem('mindfull_session') || '{}');
+    const headers = { 'Content-Type': 'application/json' };
+    if (session.token) headers['Authorization'] = `Bearer ${session.token}`;
+
+    try {
+      const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rate`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({ rating }),
+        credentials: 'include'
+      });
+      
+      if (res.ok) {
+        if (window.showToast) window.showToast('Rating submitted! Thank you.', 'success');
+        location.reload(); // Refresh to update averages
+      } else {
+        const data = await res.json();
+        if (window.showToast) window.showToast(data.message || 'Error submitting rating.', 'error');
+      }
+    } catch (e) {}
+  };
+
+  // Fetch all ratings
+  document.addEventListener('DOMContentLoaded', () => {
+    const ratingEls = document.querySelectorAll('.js-course-rating');
+    ratingEls.forEach(async el => {
+      const slug = el.getAttribute('data-slug');
+      try {
+        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+        const data = await res.json();
+        if (data.total_ratings > 0) {
+          el.querySelector('.rating-value').textContent = data.avg_rating.toFixed(1);
+          el.querySelector('.total-count').textContent = `(${data.total_ratings})`;
+        } else {
+          el.querySelector('.rating-value').textContent = 'New';
+          el.querySelector('.total-count').textContent = '(0)';
+        }
+      } catch (e) {}
     });
   });
 </script>

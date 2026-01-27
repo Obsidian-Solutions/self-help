@@ -95,18 +95,27 @@
     <div class="flex flex-wrap gap-12 justify-center items-stretch max-w-5xl mx-auto">
       {{ range first 3 (where .Site.Sections "Section" "courses") }}
       {{ range first 3 .Sections }}
+      {{ $slug := .File.BaseFileName }}
       <div class="group flex flex-col items-center text-center w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] min-w-[280px]">
         <div class="w-full aspect-square bg-gray-50 dark:bg-gray-800/50 rounded-[3rem] flex items-center justify-center p-12 mb-8 group-hover:scale-105 transition-all duration-700 relative overflow-hidden">
           <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/0 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           {{ if .Params.illustration }}
-            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full relative z-10") }}
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "w-full h-full max-h-full relative z-10") }}
           {{ end }}
         </div>
         
-        <div class="flex items-center gap-2 mb-3 justify-center">
-          <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
-          <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-          <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ len .Pages }} Lessons</span>
+        <div class="flex flex-col items-center gap-2 mb-3 justify-center">
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{{ .Params.category }}</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ len .Pages }} Lessons</span>
+          </div>
+          <!-- Course Rating Display -->
+          <div class="flex items-center gap-1 text-amber-400 text-[10px] font-bold js-course-rating" data-slug="{{ $slug }}">
+            <i class="fa-solid fa-star"></i>
+            <span class="rating-value">--</span>
+            <span class="text-gray-300">/ 5</span>
+          </div>
         </div>
         <h3 class="text-2xl font-black text-gray-900 dark:text-white leading-tight mb-4 group-hover:text-indigo-600 transition-colors text-center tracking-tight">{{ .Title }}</h3>
         <p class="text-base text-gray-500 dark:text-gray-400 font-medium mb-6 leading-relaxed text-center">{{ .Params.description | truncate 70 }}</p>
@@ -286,4 +295,22 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const ratingEls = document.querySelectorAll('.js-course-rating');
+    for (const el of ratingEls) {
+      const slug = el.getAttribute('data-slug');
+      try {
+        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+        const data = await res.json();
+        if (data.total_ratings > 0) {
+          el.querySelector('.rating-value').textContent = data.avg_rating.toFixed(1);
+        } else {
+          el.querySelector('.rating-value').textContent = 'New';
+        }
+      } catch (e) {}
+    }
+  });
+</script>
 {{ end }}

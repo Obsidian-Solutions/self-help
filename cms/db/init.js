@@ -95,6 +95,21 @@ db.serialize(() => {
     PRIMARY KEY (post_slug, viewer_id)
   )`);
 
+  // Course Ratings
+  db.run(`CREATE TABLE IF NOT EXISTS course_ratings (
+    course_slug TEXT PRIMARY KEY,
+    avg_rating REAL DEFAULT 0,
+    total_ratings INTEGER DEFAULT 0
+  )`);
+
+  // Course Rating Locks (Prevent double-rating)
+  db.run(`CREATE TABLE IF NOT EXISTS course_rating_locks (
+    course_slug TEXT,
+    viewer_id TEXT,
+    rating INTEGER,
+    PRIMARY KEY (course_slug, viewer_id)
+  )`);
+
   // Create default admin if not exists
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

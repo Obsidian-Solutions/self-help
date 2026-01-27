@@ -315,11 +315,17 @@ window.checkAuth = () => {
 
     // Update Pricing/Subscription Buttons
     updatePlanUI();
+
+    // Show auth-only elements
+    document.querySelectorAll('.auth-only').forEach(el => el.classList.remove('hidden'));
   } else {
     document.body.classList.remove('user-logged-in');
     if (loggedOutDiv) loggedOutDiv.classList.remove('hidden');
     if (loggedInDiv) loggedInDiv.classList.add('hidden');
     if (sidebar) sidebar.classList.add('hidden');
+
+    // Hide auth-only elements
+    document.querySelectorAll('.auth-only').forEach(el => el.classList.add('hidden'));
 
     // Protect private pages
     const protectedPaths = ['/dashboard', '/journal', '/settings', '/lessons'];

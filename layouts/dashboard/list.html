@@ -103,11 +103,16 @@
     {{ $coursesSection := .Site.GetPage "section" "courses" }}
     {{ range $coursesSection.Sections }}
     {{ $courseTitle := .Title }}
+    {{ $slug := .File.BaseFileName }}
     {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
     <div class="premium-card group overflow-hidden flex flex-col" data-course-card="{{ $courseTitle }}">
-      <div class="h-40 w-full bg-indigo-50/50 dark:bg-indigo-950/20 flex items-center justify-center p-6">
-        {{ if .Params.illustration }} {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }} {{ else }}
+      <div class="h-40 w-full bg-indigo-50/50 dark:bg-indigo-950/20 flex items-center justify-center p-6 overflow-hidden">
+        {{ if .Params.illustration }} 
+          <div class="w-full h-full flex items-center justify-center">
+            {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
+          </div>
+        {{ else }}
         <svg class="h-16 w-16 text-indigo-300 dark:text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
         </svg>
@@ -115,7 +120,13 @@
       </div>
       <div class="p-6 flex-grow">
         <div class="flex justify-between items-start mb-4">
-          <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded">{{ .Params.category }}</span>
+          <div class="flex flex-col gap-1">
+            <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 px-2 py-1 rounded w-fit">{{ .Params.category }}</span>
+            <div class="flex items-center gap-1 text-amber-400 text-[10px] font-bold js-course-rating" data-slug="{{ $slug }}">
+              <i class="fa-solid fa-star"></i>
+              <span class="rating-value">--</span>
+            </div>
+          </div>
           <span class="text-xs font-black text-gray-400" data-progress-text="{{ $courseTitle }}">0%</span>
         </div>
         <h4 class="text-xl font-black text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors leading-tight">{{ .Title }}</h4>
@@ -237,6 +248,21 @@
         bar.style.height = '10%';
         if (tooltip) tooltip.textContent = '{{ $labels.dashboard.no_data }}';
       }
+    });
+
+    // Fetch Course Ratings
+    const ratingEls = document.querySelectorAll('.js-course-rating');
+    ratingEls.forEach(async el => {
+      const slug = el.getAttribute('data-slug');
+      try {
+        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+        const data = await res.json();
+        if (data.total_ratings > 0) {
+          el.querySelector('.rating-value').textContent = data.avg_rating.toFixed(1);
+        } else {
+          el.querySelector('.rating-value').textContent = 'New';
+        }
+      } catch (e) {}
     });
   });
 </script>

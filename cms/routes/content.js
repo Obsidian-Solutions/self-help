@@ -131,6 +131,72 @@ router.post('/posts/:slug/comments', (req, res) => {
   );
 });
 
+// --- Course Rating Endpoints ---
+
+// Get rating for a course
+router.get('/courses/:slug/rating', (req, res) => {
+  const { slug } = req.params;
+  db.get('SELECT * FROM course_ratings WHERE course_slug = ?', [slug], (err, row) => {
+    if (err) return res.status(500).json({ message: 'DB Error' });
+    res.json(row || { course_slug: slug, avg_rating: 0, total_ratings: 0 });
+  });
+});
+
+// Record a rating
+router.post('/courses/:slug/rate', (req, res) => {
+  const { slug } = req.params;
+  const { rating } = req.body; // 1-5
+
+  // 1. Identify the viewer
+  let viewerId = req.cookies.mindfull_viewer_id;
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    try {
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, JWT_SECRET);
+      viewerId = `user_${decoded.id}`;
+    } catch (e) {
+      /* Invalid token */
+    }
+  }
+
+  if (!viewerId) {
+    viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
+    res.cookie('mindfull_viewer_id', viewerId, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: 'lax',
+    });
+  }
+
+  // 2. Check for existing lock
+  db.get(
+    'SELECT * FROM course_rating_locks WHERE course_slug = ? AND viewer_id = ?',
+    [slug, viewerId],
+    (err, lock) => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      if (lock) return res.status(400).json({ message: 'Already rated' });
+
+      // 3. Update rating and lock
+      db.serialize(() => {
+        db.run(
+          'INSERT INTO course_rating_locks (course_slug, viewer_id, rating) VALUES (?, ?, ?)',
+          [slug, viewerId, rating],
+        );
+
+        db.run(
+          'INSERT INTO course_ratings (course_slug, avg_rating, total_ratings) VALUES (?, ?, 1) ON CONFLICT(course_slug) DO UPDATE SET avg_rating = (avg_rating * total_ratings + ?) / (total_ratings + 1), total_ratings = total_ratings + 1',
+          [slug, rating, rating],
+          err => {
+            if (err) return res.status(500).json({ message: 'DB Error' });
+            res.json({ success: true });
+          },
+        );
+      });
+    },
+  );
+});
+
 // --- CMS Content Management Endpoints ---
 const safePath = (...paths) => {
   const joined = path.join(CONTENT_DIR, ...paths);
