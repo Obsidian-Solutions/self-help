@@ -1,6 +1,6 @@
 {{ define "main" }}
-{{ $course := .GetPage ".." }}
-{{ $allLessons := sort $course.Pages "File.Path" "asc" }}
+{{ $course := .Parent }}
+{{ $allLessons := sort $course.RegularPages "Params.order" "asc" }}
 {{ $currentTitle := .Title }}
 
 <div class="animate-in fade-in slide-in-from-bottom-4 duration-1000">
