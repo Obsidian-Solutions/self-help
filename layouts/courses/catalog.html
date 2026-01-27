@@ -10,9 +10,9 @@
 
 <div class="space-y-8">
   {{ range .Sections }}
-  <div class="group bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-500">
+  <div class="group premium-card overflow-hidden transition-all duration-500">
     <div class="flex flex-col md:flex-row">
-      <div class="w-full md:w-64 h-64 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/20 flex items-center justify-center p-10">
+      <div class="w-full md:w-64 h-64 bg-indigo-50/50 dark:bg-indigo-900/20 flex items-center justify-center p-10">
         {{ if .Params.illustration }}
           {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "h-full" "class" "max-h-full object-contain") }}
         {{ else }}
@@ -21,7 +21,7 @@
           </svg>
         {{ end }}
       </div>
-      <div class="flex-1 p-4 sm:p-6 flex flex-col justify-between">
+      <div class="flex-1 p-4 sm:p-6 lg:p-10 flex flex-col justify-between">
         <div>
           <div class="flex items-center gap-3 mb-4">
             <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800">
@@ -59,8 +59,8 @@
             <span class="hidden total-lessons-count">{{ len $lessons }}</span>
           </div>
         </div>
-        <div class="mt-6 flex items-center gap-4 sm:p-6">
-          <a href="{{ .RelPermalink }}" class="btn btn-primary px-8 py-3 rounded-2xl font-black text-sm shadow-lg shadow-indigo-100 dark:shadow-none">View Syllabus</a>
+        <div class="mt-10 flex items-center gap-4">
+          <a href="{{ .RelPermalink }}" class="btn-premium-primary">View Syllabus</a>
           {{ if gt (len $lessons) 0 }}
             {{ $first := index (sort $lessons "File.Path" "asc") 0 }}
             <a href="{{ $first.RelPermalink }}" 

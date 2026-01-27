@@ -37,7 +37,7 @@
 <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3" id="therapist-grid">
   {{ range .Pages }}
   <div
-    class="therapist-card bg-white dark:bg-gray-800 overflow-hidden shadow-sm rounded-3xl border border-gray-100 dark:border-gray-700 transition-all duration-500 hover:shadow-xl"
+    class="therapist-card premium-card overflow-hidden transition-all duration-500 hover:shadow-xl"
     data-specialties='{{ jsonify .Params.specialties }}'
   >
     <div class="px-8 py-10">
@@ -89,7 +89,7 @@
       {{ if .Params.available }}
       <button
         onclick="openBookingModal('{{ .Title }}')"
-        class="w-full btn btn-primary py-4 rounded-2xl font-black text-sm transition-all shadow-lg shadow-indigo-100 dark:shadow-none"
+        class="w-full btn-premium-primary"
       >
         {{ $.Params.labels.book_btn | default "Book Appointment" }}
       </button>

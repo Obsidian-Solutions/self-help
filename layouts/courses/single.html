@@ -9,7 +9,7 @@
   <p class="text-xl text-gray-500 dark:text-gray-400 mt-4 font-medium max-w-2xl">{{ .Params.description }}</p>
 </div>
 
-<div class="bg-white dark:bg-gray-800 shadow-xl shadow-indigo-100/20 dark:shadow-none rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-gray-700">
+<div class="premium-card overflow-hidden">
   <div class="p-10 border-b border-gray-50 dark:border-gray-700 bg-indigo-50/30 dark:bg-indigo-950/20">
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
       <div class="flex items-center gap-4">
@@ -27,9 +27,9 @@
         <a href="{{ $firstLesson.RelPermalink }}" 
            data-auth-href="{{ $firstLesson.RelPermalink }}" 
            data-premium="{{ .Params.premium }}"
-           class="course-start-btn btn btn-primary px-10 py-4 rounded-2xl font-black shadow-lg shadow-indigo-100 dark:shadow-none">{{ $labels.start_btn }}</a>
+           class="course-start-btn btn-premium-primary">{{ $labels.start_btn }}</a>
       {{ else }}
-        <button class="btn btn-primary opacity-50 cursor-not-allowed" disabled>{{ $labels.coming_soon }}</button>
+        <button class="btn-premium opacity-50 cursor-not-allowed bg-gray-100 dark:bg-gray-800 text-gray-400" disabled>{{ $labels.coming_soon }}</button>
       {{ end }}
     </div>
   </div>

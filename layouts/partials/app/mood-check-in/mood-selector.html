@@ -1,17 +1,17 @@
 {{ $labels := site.Data.labels.mood_selector }}
-<div class="mood-selector" id="mood-selector-container">
+<div class="mood-selector premium-card p-6" id="mood-selector-container">
   <div id="mood-check-in-view">
-    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+    <h3 class="text-xs font-black uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-6">
       {{ $labels.title }}
     </h3>
-    <div class="grid grid-cols-5 gap-2">
+    <div class="grid grid-cols-5 gap-3">
       {{ range site.Data.labels.moods }}
       <button
-        class="mood-btn p-4 rounded-lg text-center transition-all hover:scale-110 hover:shadow-lg bg-white dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 hover:border-indigo-500 dark:hover:border-indigo-400"
+        class="mood-btn p-4 rounded-2xl text-center transition-all hover:scale-110 hover:shadow-xl bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:border-indigo-500 dark:hover:border-indigo-400"
         data-mood="{{ .emoji }} {{ .label }}"
       >
         <div class="text-3xl mb-2">{{ .emoji }}</div>
-        <div class="text-xs font-medium text-gray-600 dark:text-gray-300">
+        <div class="text-[10px] font-black uppercase tracking-tighter text-gray-500 dark:text-gray-400">
           {{ .label }}
         </div>
       </button>
@@ -19,7 +19,7 @@
     </div>
     <button
       id="mood-submit"
-      class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition-colors dark:bg-indigo-700 dark:hover:bg-indigo-600"
+      class="mt-8 w-full btn-premium-primary py-3"
     >
       {{ $labels.submit_btn }}
     </button>
