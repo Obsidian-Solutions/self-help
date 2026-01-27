@@ -13,8 +13,25 @@ npm run pubdev
 
 ## How it Works
 
-1.  **Proxy Gateway**: A local proxy starts on port `4242`.
-2.  **Public Tunnel**: **Localtunnel** creates a secure random URL (e.g., `https://random-id.loca.lt`).
-3.  **Unified Link**: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.
+> [!TIP]
+> This mode uses **Localtunnel** to generate a public URL instantly with zero registration required.
 
-No account or token is required. Simply share the link generated in your terminal.
+### Gateway Routing
+
+| Path        | Destination         | Port |
+| :---------- | :------------------ | :--- |
+| `/api/*`    | **MindFull CMS**    | 3000 |
+| `/*` (Root) | **Hugo Frontend**   | 1313 |
+| **Gateway** | Local Reverse Proxy | 4242 |
+
+### Launch Checklist
+
+- [ ] Run `npm run pubdev`.
+- [ ] Wait for `🔗 SHAREABLE URL` to appear.
+- [ ] Share the URL with your external collaborator.
+
+### Technical Sequence
+
+1.  **Proxy Gateway**: A local proxy starts on port `4242`.
+2.  **Public Tunnel**: Localtunnel creates a secure random URL (e.g., `https://random-id.loca.lt`).
+3.  **Unified Link**: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.
