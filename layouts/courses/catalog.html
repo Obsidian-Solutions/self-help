@@ -63,14 +63,14 @@
           <!-- Rating Input (Only for logged in) -->
           <div class="mt-6 auth-only hidden">
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Rate this course</p>
-            <div class="flex items-center gap-1 text-gray-200 dark:text-gray-700 js-rating-input group/stars" data-slug="{{ $slug }}">
-              {{ range seq 5 }}
+            <div class="flex items-center gap-1 js-rating-input group/stars" data-slug="{{ $slug }}">
+              {{ range $i := (seq 5) }}
               <button 
-                onclick="window.submitCourseRating('{{ $slug }}', {{ . }})" 
-                onmouseenter="window.hoverRating('{{ $slug }}', {{ . }})"
+                onclick="window.submitCourseRating('{{ $slug }}', {{ $i }})" 
+                onmouseenter="window.hoverRating('{{ $slug }}', {{ $i }})"
                 onmouseleave="window.resetRating('{{ $slug }}')"
-                class="star-btn transition-colors cursor-pointer text-lg text-inherit"
-                data-star="{{ . }}"
+                class="star-btn transition-colors cursor-pointer text-lg text-gray-300 dark:text-gray-600"
+                data-star="{{ $i }}"
               >
                 <i class="fa-solid fa-star"></i>
               </button>
@@ -149,10 +149,10 @@
       const val = parseInt(s.getAttribute('data-star'));
       if (val <= rating) {
         s.classList.add('text-amber-400');
-        s.classList.remove('text-gray-200', 'dark:text-gray-700');
+        s.classList.remove('text-gray-300', 'dark:text-gray-600');
       } else {
         s.classList.remove('text-amber-400');
-        s.classList.add('text-gray-200', 'dark:text-gray-700');
+        s.classList.add('text-gray-300', 'dark:text-gray-600');
       }
     });
   };
@@ -163,7 +163,7 @@
     const stars = container.querySelectorAll('.star-btn');
     stars.forEach(s => {
       s.classList.remove('text-amber-400');
-      s.classList.add('text-gray-200', 'dark:text-gray-700');
+      s.classList.add('text-gray-300', 'dark:text-gray-600');
     });
   };
 
