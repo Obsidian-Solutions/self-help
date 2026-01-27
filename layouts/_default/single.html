@@ -244,7 +244,16 @@
   document.addEventListener('DOMContentLoaded', () => {
     fetchPostStats();
     fetchComments();
-    fetch(`${CMS_URL}/api/content/posts/${POST_SLUG}/view`, { method: 'POST' }).catch(() => {});
+    
+    // Register a view (Unique)
+    const session = JSON.parse(localStorage.getItem('mindfull_session') || '{}');
+    const headers = {};
+    if (session.token) headers['Authorization'] = `Bearer ${session.token}`;
+    
+    fetch(`${CMS_URL}/api/content/posts/${POST_SLUG}/view`, { 
+      method: 'POST',
+      headers: headers
+    }).catch(() => {});
   });
 </script>
 {{ end }}

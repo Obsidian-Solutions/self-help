@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const errorHandler = require('./middleware/errorHandler');
@@ -14,6 +15,7 @@ const app = express();
 const PORT = process.env.CMS_PORT || 3000;
 
 // Security Middleware
+app.use(cookieParser());
 app.use(
   helmet({
     contentSecurityPolicy: {

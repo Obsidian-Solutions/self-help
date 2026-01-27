@@ -73,6 +73,7 @@ function setSession(user) {
     name: user.name,
     id: user.id || Date.now(),
     plan: user.plan || 'Free',
+    token: user.token || null,
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 }
@@ -224,15 +225,27 @@ window.handleLogin = async e => {
   const email = emailEl.value;
   const password = passwordEl.value;
 
-  const user = findUser(email);
-  const hashedPassword = await hashPassword(password);
+  try {
+    const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
 
-  if (user && user.password === hashedPassword) {
-    setSession(user);
-    window.closeModal('loginModal');
-    window.safeRedirect('/dashboard');
-  } else {
-    if (window.showToast) window.showToast('Invalid email or password.', 'error');
+    const data = await res.json();
+
+    if (res.ok) {
+      setSession({
+        ...data.user,
+        token: data.token,
+      });
+      window.closeModal('loginModal');
+      window.safeRedirect('/dashboard');
+    } else {
+      if (window.showToast) window.showToast(data.message || 'Invalid credentials.', 'error');
+    }
+  } catch (err) {
+    if (window.showToast) window.showToast('Server connection error.', 'error');
   }
 };
 
@@ -265,6 +278,17 @@ window.handleDemoLogin = async () => {
 
 // --- State Observer ---
 window.checkAuth = () => {
+  // Capture token from URL if present (SSO Redirect)
+  const urlParams = new URLSearchParams(window.location.search);
+  const ssoToken = urlParams.get('token');
+  const ssoSuccess = urlParams.get('sso_success');
+
+  if (ssoToken && ssoSuccess) {
+    const existing = getSession() || {};
+    setSession({ ...existing, token: ssoToken });
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
   const user = getSession();
   const path = window.location.pathname;
 

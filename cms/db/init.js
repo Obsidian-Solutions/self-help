@@ -88,6 +88,13 @@ db.serialize(() => {
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
+  // View Locks (Prevent double-counting)
+  db.run(`CREATE TABLE IF NOT EXISTS view_locks (
+    post_slug TEXT,
+    viewer_id TEXT,
+    PRIMARY KEY (post_slug, viewer_id)
+  )`);
+
   // Create default admin if not exists
   const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
   const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';

@@ -19,15 +19,61 @@ router.get('/posts/:slug/stats', (req, res) => {
   });
 });
 
-// Record a view
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev-only';
+
+// Record a view (Unique per person)
 router.post('/posts/:slug/view', (req, res) => {
   const { slug } = req.params;
-  db.run(
-    'INSERT INTO post_stats (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1',
-    [slug],
-    err => {
+
+  // 1. Identify the viewer
+  let viewerId = req.cookies.mindfull_viewer_id;
+
+  // Check if they are logged in via JWT header
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    try {
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, JWT_SECRET);
+      viewerId = `user_${decoded.id}`;
+    } catch (e) {
+      /* Invalid token, fallback to cookie */
+    }
+  }
+
+  // If no viewerId yet (first time guest), create one
+  if (!viewerId) {
+    viewerId = `guest_${Math.random().toString(36).substring(2, 15)}`;
+    res.cookie('mindfull_viewer_id', viewerId, {
+      maxAge: 365 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+  }
+
+  // 2. Check for existing lock
+  db.get(
+    'SELECT * FROM view_locks WHERE post_slug = ? AND viewer_id = ?',
+    [slug, viewerId],
+    (err, lock) => {
       if (err) return res.status(500).json({ message: 'DB Error' });
-      res.json({ success: true });
+
+      if (lock) {
+        // Already counted this view
+        return res.json({ success: true, already_counted: true });
+      }
+
+      // 3. Record new view and create lock
+      db.serialize(() => {
+        db.run('INSERT INTO view_locks (post_slug, viewer_id) VALUES (?, ?)', [slug, viewerId]);
+        db.run(
+          'INSERT INTO post_stats (slug, views) VALUES (?, 1) ON CONFLICT(slug) DO UPDATE SET views = views + 1',
+          [slug],
+          err => {
+            if (err) return res.status(500).json({ message: 'DB Error' });
+            res.json({ success: true, new_view: true });
+          },
+        );
+      });
     },
   );
 });
