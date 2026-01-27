@@ -39,7 +39,7 @@ and $illustrationRes (eq $illustrationRes.MediaType.MainType "image") (eq
 $illustrationRes.MediaType.SubType "svg") -}}
 {{- $svg := $illustrationRes | minify -}}
 <div class="{{ $wrapperClass }} flex items-center justify-center w-full h-full" aria-label="{{ $alt }}">
-  {{ $svg.Content | safeHTML }}
+  {{ $svg.Content | replaceRE "<title>.*?</title>" "" | replaceRE "<desc>.*?</desc>" "" | safeHTML }}
 </div>
 {{- else -}}
 <div

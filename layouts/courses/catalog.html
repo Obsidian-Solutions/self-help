@@ -64,13 +64,13 @@
           <div class="mt-6 auth-only hidden">
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Rate this course</p>
             <div class="flex items-center gap-1 text-gray-200 dark:text-gray-700 js-rating-input group/stars" data-slug="{{ $slug }}">
-              {{ range $i := seq 5 }}
+              {{ range seq 5 }}
               <button 
-                onclick="window.submitCourseRating('{{ $slug }}', {{ $i }})" 
-                onmouseenter="window.hoverRating('{{ $slug }}', {{ $i }})"
+                onclick="window.submitCourseRating('{{ $slug }}', {{ . }})" 
+                onmouseenter="window.hoverRating('{{ $slug }}', {{ . }})"
                 onmouseleave="window.resetRating('{{ $slug }}')"
                 class="star-btn transition-colors cursor-pointer text-lg text-inherit"
-                data-star="{{ $i }}"
+                data-star="{{ . }}"
               >
                 <i class="fa-solid fa-star"></i>
               </button>
