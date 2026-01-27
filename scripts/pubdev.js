@@ -1,10 +1,26 @@
-const localtunnel = require('localtunnel');
 const { spawn } = require('child_process');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const axios = require('axios');
+
+async function getNgrokUrl() {
+  return new Promise((resolve, reject) => {
+    const check = async (attempts = 0) => {
+      try {
+        const response = await axios.get('http://127.0.0.1:4040/api/tunnels');
+        const url = response.data.tunnels[0].public_url;
+        resolve(url);
+      } catch (err) {
+        if (attempts > 10) reject(new Error('Ngrok timed out.'));
+        else setTimeout(() => check(attempts + 1), 1000);
+      }
+    };
+    check();
+  });
+}
 
 async function start() {
-  console.log('🚀 Starting Unified Public Development Environment (Zero-Config)...');
+  console.log('🚀 Starting Unified Public Development Environment (Ngrok CLI)...');
 
   const GATEWAY_PORT = 4242;
   const HUGO_PORT = 1313;
@@ -13,8 +29,6 @@ async function start() {
   try {
     // 1. Start the Unified Gateway (Reverse Proxy)
     const app = express();
-
-    // Route /api to CMS
     app.use(
       '/api',
       createProxyMiddleware({
@@ -23,8 +37,6 @@ async function start() {
         logLevel: 'silent',
       }),
     );
-
-    // Route everything else to Hugo
     app.use(
       '/',
       createProxyMiddleware({
@@ -34,35 +46,29 @@ async function start() {
         logLevel: 'silent',
       }),
     );
-
     const server = app.listen(GATEWAY_PORT);
     console.log(`✅ Unified Gateway running on port ${GATEWAY_PORT}`);
 
-    // 2. Start ONE Public Tunnel via LocalTunnel
-    const tunnel = await localtunnel({ port: GATEWAY_PORT });
-    const publicUrl = tunnel.url;
+    // 2. Start Ngrok CLI
+    const ngrokProcess = spawn('npx', ['ngrok', 'http', GATEWAY_PORT.toString()], {
+      stdio: 'ignore',
+      shell: true,
+    });
 
-    console.log('\n=================================================');
+    console.log('⏳ Waiting for Ngrok URL...');
+    const publicUrl = await getNgrokUrl();
+
+    console.log('\n=================================================\n');
     console.log(`🔗 SHAREABLE URL: ${publicUrl}`);
     console.log('=================================================\n');
 
     // 3. Start Services
-
-    // Tailwind CSS Watcher
     const tailwind = spawn('npm', ['run', 'watch:css'], { stdio: 'inherit', shell: true });
-
-    // CMS Backend
     const cms = spawn('npm', ['run', 'dev', '--prefix', 'cms'], {
       stdio: 'inherit',
       shell: true,
-      env: {
-        ...process.env,
-        FRONTEND_URL: publicUrl,
-        CMS_PORT: CMS_PORT,
-      },
+      env: { ...process.env, FRONTEND_URL: publicUrl, CMS_PORT: CMS_PORT },
     });
-
-    // Hugo Server
     const hugo = spawn(
       'hugo',
       [
@@ -80,18 +86,13 @@ async function start() {
       { stdio: 'inherit', shell: true },
     );
 
-    tunnel.on('close', () => {
-      console.log('❌ Public tunnel closed.');
-    });
-
-    // Handle Cleanup
-    process.on('SIGINT', async () => {
+    process.on('SIGINT', () => {
       console.log('\n👋 Shutting down...');
       tailwind.kill();
       cms.kill();
       hugo.kill();
       server.close();
-      tunnel.close();
+      ngrokProcess.kill();
       process.exit();
     });
   } catch (err) {
