@@ -123,9 +123,9 @@
   }
 
   .marquee-text {
-    @apply inline-block;
-    animation: marquee 15s linear infinite;
-    padding-left: 100%; /* Start from the right */
+    @apply inline-block whitespace-nowrap;
+    animation: marquee 20s linear infinite;
+    padding-right: 100%; /* Add buffer after text */
   }
 
   @keyframes marquee {
@@ -133,7 +133,7 @@
       transform: translateX(0);
     }
     100% {
-      transform: translateX(-200%);
+      transform: translateX(-100%);
     }
   }
 }
