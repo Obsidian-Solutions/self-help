@@ -242,11 +242,11 @@ window.handleLogout = async () => {
 };
 
 window.handleGoogleLogin = async () => {
-  window.location.href = 'http://localhost:3000/api/auth/google';
+  window.location.href = `${window.mindfullConfig.cmsUrl}/api/auth/google`;
 };
 
 window.handleGithubLogin = async () => {
-  window.location.href = 'http://localhost:3000/api/auth/github';
+  window.location.href = `${window.mindfullConfig.cmsUrl}/api/auth/github`;
 };
 
 window.handleDemoLogin = async () => {

@@ -61,11 +61,27 @@ Copy `cms/.env.example` to `cms/.env` and add your Google/GitHub API keys. See [
 ### 3. Start Development
 
 ```bash
-# Terminal 1: Hugo Frontend
+
+# Local testing
+
 npm run dev
 
-# Terminal 2: CMS Backend
-cd cms && npm start
+
+
+# External testing (via ngrok)
+
+npm run pubdev
+
+```
+
+### 4. Ngrok Setup (Optional)
+
+To use `npm run pubdev`, ensure you have an [ngrok account](https://ngrok.com/) and have configured your authtoken locally:
+
+```bash
+
+npx ngrok config add-authtoken <your-token>
+
 ```
 
 ## 📝 Essential Documentation

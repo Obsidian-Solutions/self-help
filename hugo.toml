@@ -14,6 +14,7 @@ description = 'Science-backed CBT tools and expert guidance to help you master y
   keywords = 'mental health, CBT, therapy, mindfulness, mood tracking, self-help, wellness'
   og_image = '/images/og-image.png'
   site_logo_icon = 'fa-solid fa-brain' # Configurable FontAwesome icon for the logo
+  cms_url = 'http://localhost:3000' # CMS Backend URL
 
 # ... other configs ...
 

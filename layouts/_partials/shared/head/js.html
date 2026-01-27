@@ -1,5 +1,10 @@
 <!-- Dark mode initialization and toggle - must run early -->
 <script>
+  // Global Configuration
+  window.mindfullConfig = {
+    cmsUrl: {{ .Site.Params.cms_url | default "http://localhost:3000" | absURL }}
+  };
+
   // Theme Management
   window.setTheme = function(theme) {
     const html = document.documentElement;
