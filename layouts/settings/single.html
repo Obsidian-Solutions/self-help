@@ -184,23 +184,18 @@
       
       const avatarPreview = document.getElementById('avatar-preview');
       if (user.avatar && avatarPreview) {
-        // Security: Validate avatar URL. Block SVG to prevent XSS.
-        if (typeof user.avatar === 'string') {
-           const isSafeData = user.avatar.startsWith('data:image/') && !user.avatar.includes('svg+xml');
-           const isRelative = user.avatar.startsWith('/') && !user.avatar.startsWith('//');
-           
-           if (isSafeData || isRelative) {
-              while (avatarPreview.firstChild) {
-                avatarPreview.removeChild(avatarPreview.firstChild);
-              }
-              const img = document.createElement('img');
-              img.src = user.avatar;
-              img.className = 'h-full w-full object-cover';
-              img.loading = 'lazy';
-              img.decoding = 'async';
-              img.alt = user.name || 'User Avatar';
-              avatarPreview.appendChild(img);
-           }
+        // Security: Validate avatar URL is base64 or relative
+        if (typeof user.avatar === 'string' && (user.avatar.startsWith('data:image/') || user.avatar.startsWith('/'))) {
+          while (avatarPreview.firstChild) {
+            avatarPreview.removeChild(avatarPreview.firstChild);
+          }
+          const img = document.createElement('img');
+          img.src = user.avatar;
+          img.className = 'h-full w-full object-cover';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.alt = user.name || 'User Avatar';
+          avatarPreview.appendChild(img);
         }
       }
       
