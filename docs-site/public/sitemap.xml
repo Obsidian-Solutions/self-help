@@ -24,8 +24,8 @@
   </url><url>
     <loc>http://localhost:1314/</loc>
   </url><url>
-    <loc>http://localhost:1314/docs/</loc>
-  </url><url>
     <loc>http://localhost:1314/tags/</loc>
+  </url><url>
+    <loc>http://localhost:1314/docs/</loc>
   </url>
 </urlset>

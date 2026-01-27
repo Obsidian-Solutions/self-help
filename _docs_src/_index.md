@@ -1,25 +1,51 @@
 ---
-title: 'MindFull Documentation'
-description: 'Everything you need to build, customize, and deploy your mental health platform.'
-layout: 'list'
-menu:
-  main:
-    name: 'Docs'
-    weight: 50
+title: 'Welcome to MindFull'
+type: 'docs'
+bookCollapseSection: false
 ---
 
-MindFull is a professional, security-hardened, and data-driven Hugo theme designed for mental health professionals, educators, and wellness organizations.
+Welcome to the official documentation for the **MindFull** theme. This guide is designed to help you build, customize, and deploy a professional mental health platform.
 
-## Why MindFull?
+> **Privacy First:** MindFull is built from the ground up to respect user privacy. All dynamic features are designed to work without intrusive tracking.
 
-- **Privacy First**: All sensitive user data is stored locally in the browser or on your self-hosted CMS.
-- **SSO Ready**: Built-in support for Google and GitHub authentication.
-- **Global Reach**: Dynamic currency engine that detects user region without intrusive IP tracking.
-- **Highly Configurable**: 100% of UI strings, icons, and features are managed via simple data files or markdown.
+---
 
-## Browse the Guides
+## 🚀 Quick Navigation
 
-- [**Getting Started**](/docs/getting-started/installation) - Get the theme running in minutes.
-- [**Features**](/docs/features/quizzes) - Learn about quizzes, mood tracking, and more.
-- [**Branding & Design**](/docs/design/branding) - Customize icons, colors, and illustrations.
-- [**Development**](/docs/development/architecture) - Deep dive into the code and proxy setups.
+Explore the core sections of our documentation:
+
+### 🛠️ Getting Started
+
+Everything you need to know to get your local environment running.
+
+- [Installation](/docs/getting-started/installation)
+- [SSO Configuration](/docs/getting-started/sso-setup)
+- [Deployment Readiness](/docs/getting-started/deployment)
+
+### 🧩 Features
+
+Deep dives into the interactive components.
+
+- [Quiz System](/docs/features/quizzes)
+- [Mood Tracking](/docs/features/mood-tracking)
+- [Search & Analytics](/docs/features/analytics)
+
+### 🎨 Design & Branding
+
+How to make the theme your own.
+
+- [Branding & Icons](/docs/design/branding)
+- [Illustration Library](/docs/design/illustrations)
+
+### 💻 Development
+
+Advanced technical details for contributors.
+
+- [Technical Architecture](/docs/development/architecture)
+- [Public Dev Mode](/docs/development/pubdev)
+
+---
+
+## 🆘 Need Help?
+
+If you encounter issues during setup, please check the [Technical Architecture](/docs/development/architecture) page or visit our [GitHub Repository](https://github.com/Obsidian-Solutions/self-help).

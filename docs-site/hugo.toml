@@ -1,18 +1,26 @@
 baseURL = 'http://localhost:1314/'
 languageCode = 'en-us'
 title = 'MindFull Documentation'
-theme = 'hugo-book'
+
+[module]
+  [[module.imports]]
+    path = "github.com/alex-shpak/hugo-book"
+
+  # Mount docs virtually from root _docs_src
+  [[module.mounts]]
+    source = 'content'
+    target = 'content'
+  [[module.mounts]]
+    source = '../_docs_src'
+    target = 'content/docs'
 
 [params]
-  # (Optional) Hugo Book config
-  BookLogo = 'logo.png'
+  BookLogo = 'logo.svg'
+  BookTitle = 'MindFull Docs'
   BookSearch = true
   BookSectionEnumerable = true
-
-[[module.mounts]]
-  source = 'content'
-  target = 'content'
-
-[[module.mounts]]
-  source = '../_docs_src'
-  target = 'content/docs'
+  BookToC = true
+  BookMenuBundle = false
+  BookRepo = 'https://github.com/Obsidian-Solutions/self-help'
+  BookEditPath = 'edit/main/_docs_src'
+  BookTheme = 'auto' # Supports light/dark automatically
