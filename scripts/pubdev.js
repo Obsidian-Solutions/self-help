@@ -6,7 +6,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 async function start() {
   console.log('🚀 Starting Unified Public Development Environment (Free Tier Friendly)...');
 
-  const GATEWAY_PORT = 8080;
+  const GATEWAY_PORT = 4242; // Uncommon port
   const HUGO_PORT = 1313;
   const CMS_PORT = 3000;
 
@@ -91,12 +91,7 @@ async function start() {
       process.exit();
     });
   } catch (err) {
-    if (err.message.includes('authtoken')) {
-      console.error('❌ Error: Ngrok requires an authtoken for HTML content.');
-      console.error('Please run: npx ngrok config add-authtoken <your-token>');
-    } else {
-      console.error('❌ Error starting pubdev:', err.message);
-    }
+    console.error('❌ Error starting pubdev:', err.message);
     process.exit(1);
   }
 }

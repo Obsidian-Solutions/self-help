@@ -74,16 +74,6 @@ npm run pubdev
 
 ```
 
-### 4. Ngrok Setup (Optional)
-
-To use `npm run pubdev`, ensure you have an [ngrok account](https://ngrok.com/) and have configured your authtoken locally:
-
-```bash
-
-npx ngrok config add-authtoken <your-token>
-
-```
-
 ## 📝 Essential Documentation
 
 - **[SSO_SETUP.md](docs/guides/SSO_SETUP.md)** - Guide for Google/GitHub API integration.
