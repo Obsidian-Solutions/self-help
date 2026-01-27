@@ -1,5 +1,5 @@
 {{ $id := .Get "id" | default (now.UnixNano | string) }}
-<div class="my-10 js-audio-player" id="player-{{ $id }}" data-audio-id="{{ $id }}">
+<div class="my-10 js-audio-player smooth-render" id="player-{{ $id }}" data-audio-id="{{ $id }}">
   <div class="premium-card overflow-hidden border-indigo-100/50 dark:border-indigo-800/50 shadow-indigo-500/5">
     <div class="flex flex-col md:flex-row">
       <!-- Player Icon/Visual -->

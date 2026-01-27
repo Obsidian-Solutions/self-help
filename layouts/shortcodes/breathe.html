@@ -3,7 +3,7 @@
 {{- $exhale := .Get "exhale" | default 4 -}}
 {{- $id := now.UnixNano | string -}}
 
-<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container" 
+<div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container smooth-render" 
      id="breathe-{{ $id }}"
      data-inhale="{{ $inhale }}" 
      data-hold="{{ $hold }}" 
