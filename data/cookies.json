@@ -1,7 +1,7 @@
 {
   "categories": [
     {
-      "name": "Necessary Cookies",
+      "name": "Necessary",
       "description": "Essential cookies that enable the website to function properly. These cannot be disabled.",
       "items": [
         {
@@ -19,18 +19,12 @@
           "type": "User Preference"
         },
         {
-          "name": "cookie-consent",
+          "name": "mindfull_consent",
           "provider": "MindFull (Local)",
-          "purpose": "Remembers your choice regarding our cookie policy.",
-          "expiry": "1 Year",
+          "purpose": "Stores your privacy and cookie consent preferences.",
+          "expiry": "Persistent",
           "type": "Compliance"
-        }
-      ]
-    },
-    {
-      "name": "Functional Cookies",
-      "description": "Cookies that help us remember your settings and provide enhanced features.",
-      "items": [
+        },
         {
           "name": "mindfull_users",
           "provider": "MindFull (Local)",
@@ -51,6 +45,39 @@
           "purpose": "Remembers your notification preferences.",
           "expiry": "Persistent",
           "type": "User Preference"
+        }
+      ]
+    },
+    {
+      "name": "Analytics",
+      "description": "Cookies that help us understand how visitors interact with our website.",
+      "items": [
+        {
+          "name": "_ga",
+          "provider": "Google Analytics",
+          "purpose": "Used to distinguish users.",
+          "expiry": "2 Years",
+          "type": "Analytics"
+        },
+        {
+          "name": "_ga_<container_id>",
+          "provider": "Google Analytics",
+          "purpose": "Used to persist session state.",
+          "expiry": "2 Years",
+          "type": "Analytics"
+        }
+      ]
+    },
+    {
+      "name": "Marketing",
+      "description": "Cookies used to track visitors across websites to display relevant ads.",
+      "items": [
+        {
+          "name": "_gcl_au",
+          "provider": "Google Ads",
+          "purpose": "Used by Google AdSense for experimenting with advertisement efficiency.",
+          "expiry": "3 Months",
+          "type": "Marketing"
         }
       ]
     }

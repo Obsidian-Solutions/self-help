@@ -1,0 +1,41 @@
+<script>
+  // Define dataLayer and the gtag function.
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  // 1. Set default consent to 'denied' immediately (GDPR "Prior Consent" requirement).
+  // This must be called before any Google tags are loaded.
+  // We use the new Consent Mode v2 parameters.
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'functionality_storage': 'granted', // Usually necessary for the site to work
+    'personalization_storage': 'granted', // For theme prefs, etc.
+    'security_storage': 'granted',
+    'wait_for_update': 500
+  });
+
+  // 2. Load saved consent from LocalStorage if available.
+  // This ensures that on page reload, we don't treat a returning consenting user as "denied".
+  (function() {
+    try {
+      const savedConsent = localStorage.getItem('mindfull_consent');
+      if (savedConsent) {
+        const consent = JSON.parse(savedConsent);
+        gtag('consent', 'update', {
+          'ad_storage': consent.marketing ? 'granted' : 'denied',
+          'ad_user_data': consent.marketing ? 'granted' : 'denied',
+          'ad_personalization': consent.marketing ? 'granted' : 'denied',
+          'analytics_storage': consent.analytics ? 'granted' : 'denied'
+        });
+        // Push a custom event for GTM triggers
+        window.dataLayer.push({ event: 'consent_restored' });
+      }
+    } catch (e) {
+      // In case of parsing error, we stay with defaults (denied)
+      console.error('Error loading consent:', e);
+    }
+  })();
+</script>
