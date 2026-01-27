@@ -63,9 +63,15 @@
           <!-- Rating Input (Only for logged in) -->
           <div class="mt-6 auth-only hidden">
             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Rate this course</p>
-            <div class="flex items-center gap-1 text-gray-200 dark:text-gray-700 js-rating-input" data-slug="{{ $slug }}">
-              {{ range seq 5 }}
-              <button onclick="window.submitCourseRating('{{ $slug }}', {{ . }})" class="hover:text-amber-400 transition-colors cursor-pointer text-lg">
+            <div class="flex items-center gap-1 text-gray-200 dark:text-gray-700 js-rating-input group/stars" data-slug="{{ $slug }}">
+              {{ range $i := seq 5 }}
+              <button 
+                onclick="window.submitCourseRating('{{ $slug }}', {{ $i }})" 
+                onmouseenter="window.hoverRating('{{ $slug }}', {{ $i }})"
+                onmouseleave="window.resetRating('{{ $slug }}')"
+                class="star-btn transition-colors cursor-pointer text-lg text-inherit"
+                data-star="{{ $i }}"
+              >
                 <i class="fa-solid fa-star"></i>
               </button>
               {{ end }}
@@ -133,6 +139,32 @@
         if (window.showToast) window.showToast(data.message || 'Error submitting rating.', 'error');
       }
     } catch (e) {}
+  };
+
+  window.hoverRating = function(slug, rating) {
+    const container = document.querySelector(`.js-rating-input[data-slug="${slug}"]`);
+    if (!container) return;
+    const stars = container.querySelectorAll('.star-btn');
+    stars.forEach(s => {
+      const val = parseInt(s.getAttribute('data-star'));
+      if (val <= rating) {
+        s.classList.add('text-amber-400');
+        s.classList.remove('text-gray-200', 'dark:text-gray-700');
+      } else {
+        s.classList.remove('text-amber-400');
+        s.classList.add('text-gray-200', 'dark:text-gray-700');
+      }
+    });
+  };
+
+  window.resetRating = function(slug) {
+    const container = document.querySelector(`.js-rating-input[data-slug="${slug}"]`);
+    if (!container) return;
+    const stars = container.querySelectorAll('.star-btn');
+    stars.forEach(s => {
+      s.classList.remove('text-amber-400');
+      s.classList.add('text-gray-200', 'dark:text-gray-700');
+    });
   };
 
   // Fetch all ratings
