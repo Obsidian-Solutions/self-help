@@ -3,27 +3,45 @@ title: 'Branding'
 weight: 10
 ---
 
-MindFull is designed to be reskinned in seconds via centralized configuration.
+MindFull is designed to be reskinned in seconds while maintaining elite-level visual polish through centralized configuration and global smoothing engines.
 
 ## 1. Core Visuals
 
 ### Branding Configuration
 
-| Property            | File        | Value Type        | Description                           |
-| :------------------ | :---------- | :---------------- | :------------------------------------ |
-| **Logo Icon**       | `hugo.toml` | FontAwesome Class | The primary icon for header/footer    |
-| **Site Title**      | `hugo.toml` | String            | Your organization's name              |
-| **Primary Color**   | `hugo.toml` | Hex Code          | Brand identity color (Indigo default) |
-| **Secondary Color** | `hugo.toml` | Hex Code          | Accent color (Emerald default)        |
+| Property            | File        | Value Type        | Description                                 |
+| :------------------ | :---------- | :---------------- | :------------------------------------------ |
+| **Logo Icon**       | `hugo.toml` | FontAwesome Class | Primary icon for header/footer (GPG signed) |
+| **Site Title**      | `hugo.toml` | String            | Your organization's name                    |
+| **Primary Color**   | `hugo.toml` | Hex Code          | Brand identity color (Indigo default)       |
+| **Secondary Color** | `hugo.toml` | Hex Code          | Accent color (Emerald default)              |
 
-### Branding Checklist
+---
 
-- [ ] Update `site_logo_icon` in `hugo.toml`.
-- [ ] Set `title` and `author` in `hugo.toml`.
-- [ ] Configure `[params.colors]` to match your brand.
-- [ ] Run `npm run build:css` to regenerate styles.
+## 2. High-Fidelity Rendering
 
-## 2. Configuration Example
+MindFull includes a built-in **Smoothing Stack** that ensures your brand looks sharp on all displays.
+
+### Visual Standards
+
+- ✨ **Sub-Pixel Smoothing**: Advanced anti-aliasing for all typography, with custom weight adjustments for Dark Mode.
+- 🎨 **Natural Easing**: Custom cubic-bezier transitions (`0.4, 0, 0.2, 1`) for all interactive elements.
+- 🎭 **Multi-Layered Shadows**: Soft, 3-layer depth system for cards and buttons.
+- 🚀 **Hardware Acceleration**: GPU-optimized transforms (`translate3d`) for all animations.
+
+### Implementation Utility
+
+You can apply elite rendering to any custom component using the `.smooth-render` class:
+
+```html
+<div class="my-custom-box smooth-render">
+  <!-- Content here will be GPU-accelerated and anti-aliased -->
+</div>
+```
+
+---
+
+## 3. Configuration Example
 
 ```toml
 [params]

@@ -8,28 +8,31 @@ https://github.com/alex-shpak/hugo-book
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
-1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
-Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.
+<meta name="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and cinematic polish.
+1. Visual Presentation# All illustrations in MindFull are automatically enhanced by the Premium Frame Engine.
+Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match the platform’s high-fidelity aesthetic:
+🧊 Squircle Shape: Enforces a consistent 3rem rounded “Squircle” border. цент Perfect Centering: Automatically centers SVGs without clipping. 🎨 Mesh Background: Injects a subtle, dual-radial gradient behind the image. 🚀 Interactive Scale: Automatically scales to 105% on parent card hover. &lt;div class=&#34;course-image-wrapper w-full p-12&#34;&gt; {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34;) }} &lt;/div&gt; 2. Rendering Logic# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
 ">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#343a40">
 <meta name="color-scheme" content="light dark"><meta property="og:url" content="http://localhost:1314/docs/design/illustrations/">
   <meta property="og:site_name" content="MindFull Documentation">
   <meta property="og:title" content="Illustrations">
-  <meta property="og:description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
-1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
-Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.">
+  <meta property="og:description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and cinematic polish.
+1. Visual Presentation# All illustrations in MindFull are automatically enhanced by the Premium Frame Engine.
+Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match the platform’s high-fidelity aesthetic:
+🧊 Squircle Shape: Enforces a consistent 3rem rounded “Squircle” border. цент Perfect Centering: Automatically centers SVGs without clipping. 🎨 Mesh Background: Injects a subtle, dual-radial gradient behind the image. 🚀 Interactive Scale: Automatically scales to 105% on parent card hover. &lt;div class=&#34;course-image-wrapper w-full p-12&#34;&gt; {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34;) }} &lt;/div&gt; 2. Rendering Logic# The undraw.html partial handles illustrations using a 3-tier local-first strategy.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="docs">
 
 
   <meta itemprop="name" content="Illustrations">
-  <meta itemprop="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and flexibility.
-1. How it Works# The undraw.html partial handles illustrations using a 3-tier local-first strategy.
-Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fastest. Flexible pattern matching. Remote 2 data/undraw_remote.json Fallback to CDN for unindexed SVGs. Box 3 CSS Placeholder Last resort. Styled dashed box. 2. Usage# {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }} The name parameter can be the slug (e.g., meditation) or the full filename. The system handles case-insensitivity and prefix matching automatically.">
-  <meta itemprop="wordCount" content="159">
+  <meta itemprop="description" content="MindFull uses a hybrid illustration system designed for speed, reliability, and cinematic polish.
+1. Visual Presentation# All illustrations in MindFull are automatically enhanced by the Premium Frame Engine.
+Course Image Wrapper# Use the .course-image-wrapper to ensure your visuals match the platform’s high-fidelity aesthetic:
+🧊 Squircle Shape: Enforces a consistent 3rem rounded “Squircle” border. цент Perfect Centering: Automatically centers SVGs without clipping. 🎨 Mesh Background: Injects a subtle, dual-radial gradient behind the image. 🚀 Interactive Scale: Automatically scales to 105% on parent card hover. &lt;div class=&#34;course-image-wrapper w-full p-12&#34;&gt; {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34;) }} &lt;/div&gt; 2. Rendering Logic# The undraw.html partial handles illustrations using a 3-tier local-first strategy.">
+  <meta itemprop="wordCount" content="193">
 
 <title>Illustrations | MindFull Documentation</title>
 <link rel="icon" href="/favicon.png" >
@@ -39,7 +42,7 @@ Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fas
 
 
   <script defer src="/fuse.min.js"></script>
-  <script defer src="/en.search.min.83c06a313d39de3924088d6d889fd1a2e0aee51441af335c6c2f7a2bd40f8625.js" integrity="sha256-g8BqMT053jkkCI1tiJ/RouCu5RRBrzNcbC96K9QPhiU=" crossorigin="anonymous"></script>
+  <script defer src="/en.search.min.f79964d6b42d8b36419b6b8a1e39a0cc7d026dcceca921e82217b81fe513f1fb.js" integrity="sha256-95lk1rQtizZBm2uKHjmgzH0CbczsqSHoIhe4H&#43;UT8fs=" crossorigin="anonymous"></script>
 
 
 
@@ -290,13 +293,18 @@ Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fas
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-how-it-works">1. How it Works</a>
+    <li><a href="#1-visual-presentation">1. Visual Presentation</a>
+      <ul>
+        <li><a href="#course-image-wrapper">Course Image Wrapper</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-rendering-logic">2. Rendering Logic</a>
       <ul>
         <li><a href="#lookup-logic">Lookup Logic</a></li>
       </ul>
     </li>
-    <li><a href="#2-usage">2. Usage</a></li>
-    <li><a href="#3-optimizing-for-speed">3. Optimizing for Speed</a></li>
+    <li><a href="#3-tooltip-free-experience">3. Tooltip-Free Experience</a></li>
+    <li><a href="#4-optimizing-for-speed">4. Optimizing for Speed</a></li>
   </ul>
 </nav>
 
@@ -309,8 +317,21 @@ Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fas
 
       
       
-  <article class="markdown book-article"><p>MindFull uses a hybrid illustration system designed for <strong>speed</strong>, <strong>reliability</strong>, and <strong>flexibility</strong>.</p>
-<h2 id="1-how-it-works">1. How it Works<a class="anchor" href="#1-how-it-works">#</a></h2>
+  <article class="markdown book-article"><p>MindFull uses a hybrid illustration system designed for <strong>speed</strong>, <strong>reliability</strong>, and <strong>cinematic polish</strong>.</p>
+<h2 id="1-visual-presentation">1. Visual Presentation<a class="anchor" href="#1-visual-presentation">#</a></h2>
+<p>All illustrations in MindFull are automatically enhanced by the <strong>Premium Frame Engine</strong>.</p>
+<h3 id="course-image-wrapper">Course Image Wrapper<a class="anchor" href="#course-image-wrapper">#</a></h3>
+<p>Use the <code>.course-image-wrapper</code> to ensure your visuals match the platform&rsquo;s high-fidelity aesthetic:</p>
+<ul>
+<li>🧊 <strong>Squircle Shape</strong>: Enforces a consistent 3rem rounded &ldquo;Squircle&rdquo; border.</li>
+<li>цент <strong>Perfect Centering</strong>: Automatically centers SVGs without clipping.</li>
+<li>🎨 <strong>Mesh Background</strong>: Injects a subtle, dual-radial gradient behind the image.</li>
+<li>🚀 <strong>Interactive Scale</strong>: Automatically scales to 105% on parent card hover.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;course-image-wrapper w-full p-12&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  {{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34;) }}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;</span></span></code></pre></div><hr>
+<h2 id="2-rendering-logic">2. Rendering Logic<a class="anchor" href="#2-rendering-logic">#</a></h2>
 <p>The <code>undraw.html</code> partial handles illustrations using a 3-tier <strong>local-first</strong> strategy.</p>
 <h3 id="lookup-logic">Lookup Logic<a class="anchor" href="#lookup-logic">#</a></h3>
 <table>
@@ -343,18 +364,16 @@ Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fas
       </tr>
   </tbody>
 </table>
-<h2 id="2-usage">2. Usage<a class="anchor" href="#2-usage">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{{ partial &#34;shared/undraw.html&#34; (dict &#34;name&#34; &#34;meditation&#34; &#34;width&#34; &#34;w-64&#34;) }}</span></span></code></pre></div><blockquote class='book-hint note'>
-<p>The <code>name</code> parameter can be the slug (e.g., <code>meditation</code>) or the full filename. The system handles case-insensitivity and prefix matching automatically.</p></blockquote><h2 id="3-optimizing-for-speed">3. Optimizing for Speed<a class="anchor" href="#3-optimizing-for-speed">#</a></h2>
-<p>To keep your production builds fast and your site independent of external repos:</p>
+<hr>
+<h2 id="3-tooltip-free-experience">3. Tooltip-Free Experience<a class="anchor" href="#3-tooltip-free-experience">#</a></h2>
+<p>The illustration engine automatically <strong>strips title and desc tags</strong> from raw SVGs. This ensures users can hover over images without seeing distracting browser-default tooltips containing filenames.</p>
+<h2 id="4-optimizing-for-speed">4. Optimizing for Speed<a class="anchor" href="#4-optimizing-for-speed">#</a></h2>
 <ul>
-<li><input disabled="" type="checkbox"> <strong>Individual Pick</strong>: Find an SVG you like in the <code>data/undraw_catalog.json</code> list.</li>
-<li><input disabled="" type="checkbox"> <strong>Download</strong>: Save the SVG from unDraw.</li>
+<li><input disabled="" type="checkbox"> <strong>Download</strong>: Save an SVG from unDraw or your favorite library.</li>
 <li><input disabled="" type="checkbox"> <strong>Place</strong>: Move it to <code>assets/illustrations/library/</code>.</li>
-<li><input disabled="" type="checkbox"> <strong>Verify</strong>: Hugo will now bake it into the site instantly during build.</li>
+<li><input disabled="" type="checkbox"> <strong>Minify</strong>: Hugo automatically minifies the conten</li>
 </ul>
-<blockquote class='book-hint important'>
-<p>Local illustrations are minified during the build process, reducing bundle size by up to 40% compared to CDN links.</p></blockquote></article>
+</article>
  
       
 
@@ -431,13 +450,18 @@ Lookup Logic# Tier Priority Method Description Local 1 assets/illustrations/ Fas
   
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-how-it-works">1. How it Works</a>
+    <li><a href="#1-visual-presentation">1. Visual Presentation</a>
+      <ul>
+        <li><a href="#course-image-wrapper">Course Image Wrapper</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-rendering-logic">2. Rendering Logic</a>
       <ul>
         <li><a href="#lookup-logic">Lookup Logic</a></li>
       </ul>
     </li>
-    <li><a href="#2-usage">2. Usage</a></li>
-    <li><a href="#3-optimizing-for-speed">3. Optimizing for Speed</a></li>
+    <li><a href="#3-tooltip-free-experience">3. Tooltip-Free Experience</a></li>
+    <li><a href="#4-optimizing-for-speed">4. Optimizing for Speed</a></li>
   </ul>
 </nav>
 

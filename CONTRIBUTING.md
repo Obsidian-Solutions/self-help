@@ -218,10 +218,13 @@ npm run serve:prod
 
 ### 6. Commit Changes
 
+> [!IMPORTANT]
+> **Mandatory GPG Signing:** Every commit MUST be signed using a GPG key. Use the `-S` flag when committing. Commits without a valid signature will be rejected.
+
 ```bash
-# Commit with clear message
+# Commit with a secure signature
 git add .
-git commit -m "feat: add quiz timer feature
+git commit -S -m "feat: add quiz timer feature
 
 - Adds 30-minute timer to quizzes
 - Saves remaining time to localStorage

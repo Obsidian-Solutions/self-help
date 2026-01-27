@@ -26,9 +26,9 @@ Explore the core sections of our documentation:
 
 ### 🛠️ Getting Started
 
-- [ ] [Installation](/docs/getting-started/installation)
-- [ ] [SSO Configuration](/docs/getting-started/sso-setup)
-- [ ] [Deployment Readiness](/docs/getting-started/deployment)
+- [x] [Installation](/docs/getting-started/installation)
+- [x] [SSO Configuration](/docs/getting-started/sso-setup)
+- [x] [Deployment Readiness](/docs/getting-started/deployment)
 
 ### 🧩 Features
 
@@ -40,9 +40,9 @@ Explore the core sections of our documentation:
 
 ### 🎨 Design & Branding
 
-- [ ] [Branding & Icons](/docs/design/branding)
+- [x] [Branding & Visual Standards](/docs/design/branding)
 
-- [ ] [Illustration Library](/docs/design/illustrations)
+- [x] [Illustration Engine](/docs/design/illustrations)
 
 - [x] [Block Library](/docs/design/blocks)
 
