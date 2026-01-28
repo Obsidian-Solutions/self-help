@@ -10,15 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <!-- Actual Site Styles for Preview -->
+    <link id="site-css" rel="stylesheet" href="http://localhost:1313/css/style.css">
     <link rel="stylesheet" href="css/admin.css">
     <style>
         .editor-pane { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; height: calc(100vh - 250px); }
-        .preview-panel { background: white; border-radius: 1rem; border: 1px solid #e5e7eb; overflow-y: auto; padding: 2rem; }
-        .preview-content { font-family: 'Inter', sans-serif; color: #374151; }
-        .preview-content h1 { font-weight: 800; font-size: 2rem; margin-bottom: 1rem; color: #111827; }
-        .preview-content h2 { font-weight: 700; font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; color: #111827; }
-        .preview-content p { margin-bottom: 1rem; line-height: 1.6; }
-        .preview-content img { border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin: 2rem 0; }
+        /* Preview Panel - Mimicking the site's article container */
+        .preview-panel { background: #f8fafc; border-radius: 1.5rem; border: 1px solid #e5e7eb; overflow-y: auto; padding: 0; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.05); }
+        .preview-inner { background: white; min-height: 100%; padding: 4rem; max-width: 800px; margin: 0 auto; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        
+        /* Fixed editor heights */
+        .CodeMirror { height: 500px; border-radius: 1rem; border: 1px solid #e5e7eb; }
+        .editor-toolbar { border-radius: 1rem 1rem 0 0; border: 1px solid #e5e7eb; background: #f9fafb; }
     </style>
 </head>
 <body class="h-full flex overflow-hidden bg-[#f3f4f6]">
@@ -65,6 +68,8 @@
         </header>
 
         <main id="admin-main" class="hidden flex-1 overflow-y-auto p-10">
+            <!-- Dashboard, Content Manager, etc. same as before but ensured consistency -->
+            
             <div id="section-dashboard" class="admin-section space-y-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div class="admin-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Active Users</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
@@ -81,14 +86,15 @@
             <div id="section-content" class="admin-section hidden space-y-6">
                 <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                     <div class="flex gap-2">
-                        <button id="tab-posts" data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Posts</button>
-                        <button id="tab-courses" data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Courses</button>
+                        <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Posts</button>
+                        <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Courses</button>
                     </div>
                     <button data-action="new-entry" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg shadow-indigo-100">+ New Content</button>
                 </div>
                 <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
+            <!-- Enhanced Editor with Side-by-Side Live Preview -->
             <div id="section-editor" class="admin-section hidden space-y-6">
                 <div class="flex justify-between items-center mb-6">
                     <div class="flex items-center gap-6">
@@ -97,56 +103,68 @@
                         <p class="text-xs font-black text-slate-900" id="editor-title">Drafting Content</p>
                     </div>
                     <div class="flex gap-4">
-                        <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:bg-indigo-700 transition-all">Publish to Site</button>
+                        <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg hover:bg-indigo-700 transition-all">Commit to Production</button>
                     </div>
                 </div>
+                
                 <div class="editor-pane">
                     <div class="flex flex-col gap-6 overflow-y-auto pr-2">
-                        <!-- Live Target Card -->
-                        <div class="admin-card p-8 space-y-4 bg-indigo-900 text-white border-none shadow-indigo-200 shadow-2xl">
-                            <h4 class="font-black text-[10px] text-indigo-300 uppercase tracking-[0.2em]">Live Destination</h4>
-                            <div class="space-y-3">
-                                <div id="live-image-preview" class="w-full aspect-video bg-white/5 rounded-xl border border-white/10 flex items-center justify-center overflow-hidden">
-                                    <i class="fa-solid fa-image text-white/20 text-2xl"></i>
+                        <!-- Site Connection Panel -->
+                        <div class="admin-card p-8 bg-[#1a1c23] text-white border-none shadow-2xl">
+                            <div class="flex justify-between items-start mb-6">
+                                <h4 class="font-black text-[10px] text-slate-500 uppercase tracking-[0.2em]">Live Destination</h4>
+                                <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-[8px] font-black border border-emerald-500/20">LIVE LINK ACTIVE</span>
+                            </div>
+                            <div class="space-y-4">
+                                <div id="live-image-preview" class="w-full aspect-video bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center overflow-hidden">
+                                    <i class="fa-solid fa-image text-white/10 text-3xl"></i>
                                 </div>
-                                <div class="p-3 bg-white/10 rounded-lg border border-white/5 break-all">
-                                    <p class="text-[9px] font-bold text-indigo-300 uppercase tracking-widest mb-1">Public URL</p>
-                                    <a id="live-url-link" href="#" target="_blank" class="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 underline">Connecting...</a>
+                                <div class="p-4 bg-white/5 rounded-xl border border-white/5">
+                                    <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">Production URL</p>
+                                    <a id="live-url-link" href="#" target="_blank" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors break-all underline decoration-indigo-500/30 underline-offset-4">Connecting to Hugo...</a>
                                 </div>
                             </div>
                         </div>
 
                         <div class="admin-card p-8 space-y-6">
-                            <h4 class="font-black text-[10px] text-slate-400 uppercase tracking-widest">Metadata Config</h4>
+                            <h4 class="font-black text-[10px] text-slate-400 uppercase tracking-widest">Metadata Configuration</h4>
                             <div id="frontmatter-fields" class="space-y-4"></div>
                         </div>
                         <div class="admin-card p-0 overflow-hidden"><textarea id="editor-textarea"></textarea></div>
                     </div>
+
                     <div class="preview-panel">
-                        <h4 class="font-black text-[10px] text-slate-400 uppercase tracking-widest mb-6">Live Render Preview</h4>
-                        <div id="live-preview" class="preview-content prose max-w-none"></div>
+                        <div class="preview-inner">
+                            <div id="preview-header" class="mb-12">
+                                <span id="preview-category" class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 border border-indigo-100 mb-6 inline-block">Category</span>
+                                <h1 id="preview-title" class="text-4xl font-black tracking-tighter text-gray-900 leading-[1.1]">Article Title</h1>
+                            </div>
+                            <div id="preview-hero" class="mb-12 rounded-[2rem] overflow-hidden shadow-2xl"></div>
+                            <div id="live-preview" class="prose prose-indigo prose-lg max-w-none"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Other sections remain same -->
             <div id="section-quizzes" class="admin-section hidden space-y-6"><div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200"><h3 class="font-black text-slate-900 uppercase text-xs tracking-widest px-4">Master Quiz Repository</h3><button data-action="new-quiz" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg">+ New Quiz</button></div><div id="quizzes-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div></div>
             <div id="section-quiz-editor" class="admin-section hidden space-y-10"><div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200"><a href="#quizzes" class="text-xs font-bold text-indigo-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Repository</a><button data-action="save-quiz" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg">Save Quiz Logic</button></div><div class="grid grid-cols-3 gap-10"><div class="col-span-1 admin-card p-8 space-y-4"><h4 class="font-black text-slate-900 uppercase text-[10px] text-slate-400">Metadata</h4><input type="text" id="quiz-title" placeholder="Title" class="w-full p-3 bg-slate-50 rounded-xl border-none font-bold text-sm"><textarea id="quiz-description" placeholder="Description" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-medium"></textarea><input type="text" id="quiz-result" placeholder="Completion Msg" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-medium"><select id="quiz-status" class="w-full p-3 bg-slate-50 rounded-xl border-none font-bold text-xs"><option value="draft">Draft</option><option value="published">Published</option></select></div><div class="col-span-2 admin-card p-8"><div class="flex justify-between items-center mb-6"><h4 class="font-black text-slate-900 uppercase text-[10px] text-slate-400">Questions</h4><button data-action="add-question" class="text-indigo-600 font-bold text-[10px] uppercase">+ Add Question</button></div><div id="quiz-questions-container" class="space-y-8"></div></div></div></div>
             <div id="section-users" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Account</th><th class="px-8 py-4">Status</th><th class="px-8 py-4 text-right">Actions</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
             <div id="section-inquiries" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead Source</th><th class="px-8 py-4">Payload</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
             <div id="section-media" class="admin-section hidden space-y-8"><div class="flex justify-between items-center"><h3 class="font-black text-slate-900 tracking-tight text-xl text-indigo-600">Resource Library</h3><div class="flex gap-4"><button data-action="load-media" class="text-xs font-bold text-slate-400 hover:text-indigo-600">Sync Library</button><label class="bg-indigo-600 text-white px-6 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-indigo-700 transition-all">Upload Asset<input type="file" class="hidden" onchange="window.handleMediaUpload(event)" accept="image/*"></label></div></div><div id="media-grid" class="grid grid-cols-2 md:grid-cols-6 gap-6"></div></div>
-            <div id="section-dev-tools" class="admin-section hidden space-y-10"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="admin-card p-8 space-y-6"><h4 class="font-black text-slate-900 uppercase text-xs text-slate-400">Production Build</h4><p class="text-xs text-slate-500">Trigger full site generation.</p><button data-action="run-build" class="w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase hover:bg-black transition-all">Build Site</button></div><div class="admin-card p-8 space-y-6"><h4 class="font-black text-slate-900 uppercase text-xs text-slate-400">Telemetry</h4><p class="text-xs text-slate-500">Monitor live system output.</p><button data-action="view-logs" class="w-full bg-white border border-slate-200 text-slate-900 py-3 rounded-xl font-black text-xs uppercase hover:bg-slate-50 transition-all">Open Terminal</button></div></div><div id="dev-log-container" class="hidden admin-card p-8 bg-black mt-10"><div class="flex justify-between items-center mb-4"><p class="text-[10px] font-black text-slate-500 uppercase">Live Output</p><button onclick="document.getElementById('dev-log-container').classList.add('hidden')" class="text-slate-500 hover:text-white">&times;</button></div><div id="dev-terminal" class="text-[11px] text-[#00ff00] font-mono whitespace-pre-wrap max-h-[400px] overflow-y-auto"></div></div></div>
+            <div id="section-dev-tools" class="admin-section hidden space-y-10"><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="admin-card p-8 space-y-6"><h4 class="font-black text-slate-900 uppercase text-xs text-slate-400">Build Engine</h4><button data-action="run-build" class="w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase hover:bg-black transition-all">Execute Build</button></div><div class="admin-card p-8 space-y-6"><h4 class="font-black text-slate-900 uppercase text-xs text-slate-400">System Link</h4><button data-action="view-logs" class="w-full bg-white border border-slate-200 text-slate-900 py-3 rounded-xl font-black text-xs uppercase hover:bg-slate-50 transition-all">Open Terminal</button></div></div><div id="dev-log-container" class="hidden admin-card p-8 bg-black mt-10"><div class="flex justify-between items-center mb-4"><p class="text-[10px] font-black text-slate-500 uppercase">Live Output</p><button onclick="document.getElementById('dev-log-container').classList.add('hidden')" class="text-slate-500 hover:text-white">&times;</button></div><div id="dev-terminal" class="text-[11px] text-[#00ff00] font-mono whitespace-pre-wrap max-h-[400px] overflow-y-auto"></div></div></div>
             <div id="section-user-profile" class="admin-section hidden space-y-10"><a href="#users" class="text-xs font-bold text-indigo-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Directory</a><div class="grid grid-cols-3 gap-10"><div class="col-span-1 admin-card p-8" id="user-profile-info"></div><div class="col-span-2 space-y-10"><div class="admin-card p-8"><h4 class="font-black text-slate-900 mb-6 uppercase text-xs text-slate-400">Interaction History</h4><div id="profile-interactions" class="space-y-4"></div></div><div class="admin-card p-8"><h4 class="font-black text-slate-900 mb-6 uppercase text-xs text-slate-400">Clinical Logs</h4><div id="profile-notes" class="space-y-4 mb-8"></div></div></div></div></div>
         </main>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Modals (same) -->
     <div id="login-modal" class="fixed inset-0 bg-[#1a1c23] flex items-center justify-center z-50 p-4 hidden">
         <div class="w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl relative animate-in">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
             <div class="text-center mb-10"><div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-terminal text-2xl"></i></div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Operations Hub</h2></div>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Admin Identity" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900 shadow-inner">
-                <input type="password" id="password" placeholder="Access Key" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900 shadow-inner">
+                <input type="email" id="email" placeholder="Identity" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
+                <input type="password" id="password" placeholder="Access Key" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
                 <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
                 <div id="login-status" class="text-center text-[10px] font-bold uppercase text-slate-400 mt-4 h-4"></div>
             </div>
