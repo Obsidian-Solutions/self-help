@@ -5,6 +5,7 @@ const fs = require('fs-extra');
 const { auth } = require('../middleware/auth');
 
 const MEDIA_DIR = path.join(__dirname, '../../static/images');
+const ILLUSTRATION_DIR = path.join(__dirname, '../../assets/illustrations/library');
 
 // List media files
 router.get('/', auth, async (req, res) => {
@@ -18,14 +19,32 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// Upload media (Base64 approach to avoid extra dependencies for now)
+// Intelligent Illustration Proxy (Finds file by prefix since unDraw adds unique suffixes)
+router.get('/illustrations/:name', async (req, res) => {
+  try {
+    const name = req.params.name.replace('.svg', '');
+    const files = await fs.readdir(ILLUSTRATION_DIR);
+    // Find file that starts with the name (e.g., "breathing" -> "undraw_breathing_...")
+    // or exact match
+    const match = files.find(f => f === `${name}.svg` || f === `undraw_${name}.svg` || f.startsWith(`undraw_${name}_`) || f.startsWith(`${name}_`));
+    
+    if (match) {
+      res.sendFile(path.join(ILLUSTRATION_DIR, match));
+    } else {
+      res.status(404).json({ message: 'Illustration not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: 'Error' });
+  }
+});
+
+// Upload media
 router.post('/upload', auth, async (req, res) => {
   const { name, data } = req.body;
   if (!name || !data) return res.status(400).json({ message: 'Missing file data' });
 
   try {
     const filePath = path.join(MEDIA_DIR, name);
-    // data is "data:image/png;base64,..."
     const base64Data = data.split(';base64,').pop();
     await fs.writeFile(filePath, base64Data, { encoding: 'base64' });
     res.json({ message: 'File uploaded successfully', url: `/images/${name}` });

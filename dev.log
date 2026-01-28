@@ -156,3 +156,47 @@
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [32m200[0m 2.887 ms - 16334[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.278 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.794 ms - 8624[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 8.129 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.083 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 1.882 ms - 3926[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.048 ms - -[0m
+[CMS] [0mGET /api/admin/stats [36m304[0m 2.166 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.352 ms - -[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.897 ms - 16334[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.810 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.774 ms - 8624[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 1.011 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.388 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.003 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [36m304[0m 2.240 ms - -[0m
+[CMS] [0mGET /admin/css/admin.css [36m304[0m 0.722 ms - -[0m
+[CMS] [0mGET /admin/js/admin.js [36m304[0m 0.276 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 8.064 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [36m304[0m 2.053 ms - -[0m
+[CMS] [0mGET /admin/css/admin.css [36m304[0m 0.547 ms - -[0m
+[CMS] [0mGET /admin/js/admin.js [36m304[0m 0.394 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 7.851 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.332 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.460 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.196 ms - -[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 1.672 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.062 ms - -[0m
+[CMS] [0mGET /api/media [36m304[0m 1.063 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.047 ms - -[0m
+[CMS] [0mGET /api/admin/stats [36m304[0m 2.549 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.024 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.

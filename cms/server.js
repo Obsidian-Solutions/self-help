@@ -89,18 +89,14 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 // Serve static images from the main project for the CMS gallery
 app.use('/images', express.static(path.join(__dirname, '../static/images')));
-// Serve illustrations from assets library
-app.use('/illustrations', express.static(path.join(__dirname, '../assets/illustrations/library')));
-
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: 'CMS is running' });
-});
-
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/content', csrfProtection, contentRoutes);
 app.use('/api/admin', csrfProtection, adminRoutes);
 app.use('/api/media', csrfProtection, mediaRoutes);
+
+// Use the intelligent proxy for illustrations
+app.use('/illustrations', mediaRoutes);
 
 app.use(errorHandler);
 
