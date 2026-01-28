@@ -109,3 +109,45 @@
 [CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.708 ms - -[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.083 ms - -[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.068 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.714 ms - -[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.506 ms - 10317[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.823 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.722 ms - 7664[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 1.265 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.436 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.872 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.168 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.762 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.732 ms - -[0m
+[CSS] 
+[CSS] Rebuilding...
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#3).
+[HUGO] 2026-01-28 13:56:33.992 +0000
+[HUGO] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#2).
+[DOCS] 2026-01-28 13:56:34.012 +0000
+[DOCS] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 6 ms
+[CSS] 
+[CSS] Done in 56ms.
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 44 ms
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.213 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.941 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.028 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.128 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.682 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.600 ms - -[0m
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#4).
+[HUGO] 2026-01-28 13:57:08.991 +0000
+[HUGO] Syncing /admin/js/admin.js to /
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.132 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.663 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.098 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.681 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.415 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.359 ms - -[0m

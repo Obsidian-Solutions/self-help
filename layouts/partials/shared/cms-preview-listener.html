@@ -1,70 +1,70 @@
 {{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
-   * MindFull CMS Robust Sync-Scroll Engine
-   * Version: 2.0 (Industrial)
+   * MindFull CMS Deterministic Sync Engine
+   * Version: 3.0 (Precision Grade)
    */
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (!urlParams.has('cms_preview')) return;
 
-    console.log("MindFull Preview Shell: Active and syncing...");
+    console.log("MindFull Preview: Precision Engine Active");
     
-    // 1. Tag and Hide Site Chrome
+    // 1. Force Snippet Layout
     const style = document.createElement('style');
     style.textContent = `
-      header, footer, nav, aside, 
-      .engagement-bar, .related-posts, .community-discussion, 
-      .tags-social-section, .mt-24.text-center, .mt-32,
-      #loginModal, #signupModal, #confirmModal { 
-        display: none !important; 
-      }
-      body { background-color: #f9fafb !important; }
+      header, footer, nav, aside, .engagement-bar, .related-posts, 
+      .community-discussion, .tags-social-section, .mt-24, .mt-32,
+      #loginModal, #signupModal, #confirmModal { display: none !important; }
+      body { background-color: #f9fafb !important; scroll-behavior: auto !important; }
       .dark body { background-color: #111827 !important; }
       main { padding: 0 !important; margin: 0 !important; }
       article { padding: 2rem !important; max-width: 100% !important; }
-      * { scroll-behavior: auto !important; transition: none !important; }
+      * { transition: none !important; animation: none !important; }
     `;
     document.head.appendChild(style);
 
-    // 2. Handshake Loop: Ensure the Control Tower knows we are ready
-    const signalReady = () => {
-      window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
-    };
-    
-    signalReady();
-    const readyInterval = setInterval(signalReady, 500); // Heartbeat until acknowledged
+    // 2. Handshake Heartbeat
+    let isAcknowleged = false;
+    const signal = () => { if(!isAcknowleged) window.parent.postMessage({ type: 'IFRAME_READY' }, '*'); };
+    const heartbeat = setInterval(signal, 500);
+    signal();
 
-    // 3. Command Listener
-    let scrollLock = false;
+    // 3. Precision Scroll State
+    let isInternalScroll = false;
+    let scrollEndTimer = null;
+
     window.addEventListener('message', function(event) {
       const data = event.data;
       
       if (data.type === 'IFRAME_READY_ACK') {
-        clearInterval(readyInterval);
-        console.log("MindFull Handshake: Established");
+        isAcknowleged = true;
+        clearInterval(heartbeat);
       }
 
       if (data.type === 'CMS_SYNC') {
-        const contentArea = document.querySelector('.prose') || document.querySelector('article');
-        const titleArea = document.querySelector('h1');
-        if (contentArea && data.body) contentArea.innerHTML = data.body;
-        if (titleArea && data.title) titleArea.textContent = data.title;
+        const content = document.querySelector('.prose') || document.querySelector('article');
+        const title = document.querySelector('h1');
+        if (content && data.body) content.innerHTML = data.body;
+        if (title && data.title) title.textContent = data.title;
       }
 
       if (data.type === 'CMS_SCROLL') {
-        scrollLock = true;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        window.scrollTo(0, data.percentage * maxScroll);
-        setTimeout(() => { scrollLock = false; }, 50);
+        isInternalScroll = true;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo(0, data.percentage * max);
+        
+        clearTimeout(scrollEndTimer);
+        scrollEndTimer = setTimeout(() => { isInternalScroll = false; }, 100);
       }
     });
 
-    // 4. Bi-directional Scroll Notification
+    // 4. Bi-directional Reporting
     window.addEventListener('scroll', () => {
-      if (scrollLock) return;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const percentage = window.scrollY / maxScroll;
+      if (isInternalScroll) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max <= 0) return;
+      const percentage = window.scrollY / max;
       window.parent.postMessage({ type: 'IFRAME_SCROLL', percentage }, '*');
     });
 

@@ -1,23 +1,24 @@
 /**
- * MindFull Control Tower v7.4
- * Industrial-Strength Sync-Scroll Engine
+ * MindFull Control Tower v7.5
+ * Deterministic Sync-Scroll Engine
  */
 
 /* global SimpleMDE, marked */
 
 (function () {
   const CMS_PORT = 3000;
-  const HUGO_PORT = 1313;
-  const isHugoHost = window.location.port == HUGO_PORT;
-  const API_BASE = isHugoHost ? `http://${window.location.hostname}:${CMS_PORT}/api` : '/api';
+  const API_BASE = `http://${window.location.hostname}:${CMS_PORT}/api`;
 
   let simplemde = null;
   let currentCollection = 'posts';
   let currentSlug = null;
   let isIframeReady = false;
-  let scrollLock = false;
+  
+  // Deterministic Scroll State
+  let isRemoteScrolling = false;
+  let scrollThrottleTimer = null;
 
-  console.log('Control Tower v7.4: Sync-Scroll Link Active');
+  console.log('Control Tower v7.5: Precision Sync Active');
 
   // --- 1. CORE API ---
   async function api(endpoint, method = 'GET', body = null) {
@@ -33,7 +34,7 @@
 
   function logout() { localStorage.clear(); window.location.reload(); }
 
-  // --- 2. SYNC ENGINE (BIDIRECTIONAL) ---
+  // --- 2. SYNC ENGINE ---
 
   function syncToIframe() {
     const iframe = document.getElementById('site-iframe');
@@ -43,26 +44,23 @@
     const fmMatch = raw.match(/^---([\s\S]*?)---/);
     let title = 'Draft';
     if (fmMatch) {
-      const fm = fmMatch[1];
-      const t = fm.match(/title:\s*['"]?(.+?)['"]?\n/);
+      const t = fmMatch[1].match(/title:\s*['"]?(.+?)['"]?\n/);
       if (t) title = t[1];
     }
     const html = marked.parse(raw.replace(/^---[\s\S]*?---/, ''));
     iframe.contentWindow.postMessage({ type: 'CMS_SYNC', title, body: html }, '*');
   }
 
-  function handleScroll(source) {
-    if (scrollLock || !simplemde || !isIframeReady) return;
-    scrollLock = true;
+  function broadcastScroll() {
+    if (isRemoteScrolling || !simplemde || !isIframeReady) return;
+    
+    const info = simplemde.codemirror.getScrollInfo();
+    const max = info.height - info.clientHeight;
+    if (max <= 0) return;
+    const percentage = info.top / max;
 
     const iframe = document.getElementById('site-iframe');
-    if (source === 'editor') {
-      const info = simplemde.codemirror.getScrollInfo();
-      const percentage = info.top / (info.height - info.clientHeight);
-      iframe.contentWindow.postMessage({ type: 'CMS_SCROLL', percentage }, '*');
-    }
-
-    setTimeout(() => { scrollLock = false; }, 50);
+    iframe.contentWindow.postMessage({ type: 'CMS_SCROLL', percentage }, '*');
   }
 
   window.addEventListener('message', (event) => {
@@ -73,42 +71,19 @@
       syncToIframe();
     }
     
-    if (event.data.type === 'IFRAME_SCROLL' && !scrollLock && simplemde) {
-      scrollLock = true;
+    if (event.data.type === 'IFRAME_SCROLL' && !isRemoteScrolling && simplemde) {
+      isRemoteScrolling = true;
       const info = simplemde.codemirror.getScrollInfo();
-      simplemde.codemirror.scrollTo(null, event.data.percentage * (info.height - info.clientHeight));
-      setTimeout(() => { scrollLock = false; }, 50);
+      const target = event.data.percentage * (info.height - info.clientHeight);
+      
+      simplemde.codemirror.scrollTo(null, target);
+      
+      clearTimeout(scrollThrottleTimer);
+      scrollThrottleTimer = setTimeout(() => { isRemoteScrolling = false; }, 100);
     }
   });
 
-  // --- 3. ROUTER ---
-  function router() {
-    const section = (window.location.hash || '#dashboard').substring(1).split('?')[0];
-    document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
-    document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active', 'text-white', 'bg-slate-800'));
-    const target = document.getElementById(`section-${section}`);
-    if (target) target.classList.remove('hidden');
-    const activeBtn = document.querySelector(`a[href="#${section === 'editor' ? 'content' : section}"]`);
-    if (activeBtn) activeBtn.classList.add('active', 'text-white', 'bg-slate-800');
-    if (section === 'dashboard') loadDashboard();
-    if (section === 'content') window.loadCollection(currentCollection);
-  }
-  window.onhashchange = router;
-
-  // --- 4. CMS ENGINE ---
-  window.loadCollection = async function (name) {
-    currentCollection = name;
-    const items = await api(`/content/${name}`);
-    const container = document.getElementById('collection-view');
-    if (container && Array.isArray(items)) {
-      container.innerHTML = items.map(i => `
-        <div class="admin-card p-6 flex flex-col h-full group hover:border-indigo-600 transition-all shadow-sm">
-          <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
-          <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
-        </div>
-      `).join('');
-    }
-  };
+  // --- 3. CMS LOGIC ---
 
   async function editEntry(collection, slug) {
     currentSlug = slug; isIframeReady = false;
@@ -118,18 +93,44 @@
 
     if (!simplemde) {
       simplemde = new SimpleMDE({ element: document.getElementById('editor-textarea'), spellChecker: false, status: false });
-      simplemde.codemirror.on('change', syncToIframe);
-      simplemde.codemirror.on('scroll', () => handleScroll('editor'));
+      simplemde.codemirror.on('change', () => { syncToIframe(); });
+      simplemde.codemirror.on('scroll', broadcastScroll);
     }
     simplemde.value(entry.raw || '');
     
     const iframe = document.getElementById('site-iframe');
     iframe.src = `/${collection}/${slug}/?cms_preview=true`;
-    document.getElementById('live-url-display').textContent = window.location.origin + `/${collection}/${slug}/`;
     document.getElementById('iframe-loader')?.classList.remove('opacity-0', 'pointer-events-none');
   }
 
-  // --- 5. INTERACTION & RESIZER ---
+  // --- 4. NAVIGATION & BOOT ---
+  function router() {
+    const section = (window.location.hash || '#dashboard').substring(1).split('?')[0];
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+    document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active', 'text-white', 'bg-slate-800'));
+    const target = document.getElementById(`section-${section}`);
+    if (target) target.classList.remove('hidden');
+    const activeBtn = document.querySelector(`a[href="#${section === 'editor' ? 'content' : section}"]`);
+    if (activeBtn) activeBtn.classList.add('active', 'text-white', 'bg-slate-800');
+    if (section === 'dashboard') loadDashboard();
+    if (section === 'content') loadCollection(currentCollection);
+  }
+  window.onhashchange = router;
+
+  window.loadCollection = async function (name) {
+    currentCollection = name;
+    const items = await api(`/content/${name}`);
+    const container = document.getElementById('collection-view');
+    if (container && Array.isArray(items)) {
+      container.innerHTML = items.map(i => `
+        <div class="bg-white rounded-2xl p-6 flex flex-col border border-slate-200 shadow-sm transition-all hover:border-indigo-600">
+          <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
+          <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
+        </div>
+      `).join('');
+    }
+  };
+
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
@@ -142,33 +143,20 @@
 
   const resizer = document.getElementById('drag-handle');
   const leftSide = document.getElementById('editor-side');
-  let isResizing = false;
   if (resizer && leftSide) {
-    resizer.addEventListener('mousedown', () => { isResizing = true; resizer.classList.add('resizing'); document.getElementById('site-iframe').style.pointerEvents = 'none'; });
-    document.addEventListener('mousemove', (e) => { if (isResizing) { const x = e.clientX - 256; if (x > 300 && x < window.innerWidth - 400) leftSide.style.flexBasis = `${x}px`; } });
-    document.addEventListener('mouseup', () => { isResizing = false; resizer.classList.remove('resizing'); document.getElementById('site-iframe').style.pointerEvents = 'auto'; });
+    resizer.addEventListener('mousedown', () => { 
+      document.body.classList.add('resizing');
+      document.getElementById('site-iframe').style.pointerEvents = 'none';
+      const move = (e) => { const x = e.clientX - 256; if (x > 350 && x < window.innerWidth - 400) leftSide.style.flexBasis = `${x}px`; };
+      const up = () => { document.body.classList.remove('resizing'); document.getElementById('site-iframe').style.pointerEvents = 'auto'; window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); };
+      window.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+    });
   }
 
-  async function saveContent() {
-    const raw = simplemde.value();
-    const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw });
-    if (res) notify('Changes Staged');
-  }
+  async function saveContent() { const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw: simplemde.value() }); if (res) notify('Site Updated'); }
+  function notify(msg) { const toast = document.createElement('div'); toast.className = 'bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold shadow-2xl'; toast.textContent = msg; document.getElementById('toaster').appendChild(toast); setTimeout(() => toast.toast.remove(), 3000); }
+  async function loadDashboard() { const stats = await api('/admin/stats'); if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join(''); }
 
-  function notify(msg) {
-    const toast = document.createElement('div');
-    toast.className = 'bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold shadow-2xl';
-    toast.textContent = msg;
-    document.getElementById('toaster').appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-
-  async function loadDashboard() {
-    const stats = await api('/admin/stats'); 
-    if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join('');
-  }
-
-  // Boot
   const token = localStorage.getItem('mindfull_admin_token');
   if (token) {
     document.getElementById('login-modal').classList.add('hidden');
