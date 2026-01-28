@@ -2,14 +2,14 @@
 [CSS] > mindfull-theme@1.0.0 watch:css
 [CSS] > tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch
 [CSS] 
-[HUGO] 
-[HUGO] > mindfull-theme@1.0.0 start
-[HUGO] > hugo server -D
-[HUGO] 
 [CMS] 
 [CMS] > mindfull-cms@1.0.0 dev
 [CMS] > nodemon server.js
 [CMS] 
+[HUGO] 
+[HUGO] > mindfull-theme@1.0.0 start
+[HUGO] > hugo server -D
+[HUGO] 
 [DOCS] 
 [DOCS] > mindfull-theme@1.0.0 docs:dev
 [DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
@@ -24,11 +24,14 @@
 [HUGO] Start building sites ... 
 [HUGO] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
 [HUGO] 
+[HUGO] Built in 10 ms
+[HUGO] ERROR error building site: render: [en v1.0.0 guest] failed to render pages: render of "/home/matt/Development/themes/self-help/content/login.md" failed: "/home/matt/Development/themes/self-help/layouts/_default/baseof.html:4:5": execute of template failed: template: login.html:4:5: executing "login.html" at <partial "shared/head.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/head.html:48:3": execute of template failed: template: _partials/shared/head.html:48:3: executing "_partials/shared/head.html" at <partialCached "shared/head/js.html" .>: error calling partialCached: "/home/matt/Development/themes/self-help/layouts/partials/shared/head/js.html:45:3": execute of template failed: template: _partials/shared/head/js.html:45:3: executing "_partials/shared/head/js.html" at <partial "shared/cms-preview-listener.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/cms-preview-listener.html:1:54": execute of template failed: template: _partials/shared/cms-preview-listener.html:1:54: executing "_partials/shared/cms-preview-listener.html" at <.Site.IsServer>: can't evaluate field IsServer in type page.Site
 [DOCS] Watching for changes in /home/matt/Development/themes/self-help/_docs_src/{design,development,features,getting-started}, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/docs-site/archetypes, /home/matt/Development/themes/self-help/docs-site/content, /home/matt/Development/themes/self-help/docs-site/i18n, /home/matt/Development/themes/self-help/docs-site/static, /home/matt/Development/themes/self-help/layouts/partials/shared/head, /home/matt/Development/themes/self-help/layouts/shortcodes
 [DOCS] Watching for config changes in /home/matt/Development/themes/self-help/docs-site/hugo.toml, /home/matt/Development/themes/self-help/docs-site/go.mod
 [DOCS] Start building sites ... 
 [DOCS] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
 [DOCS] 
+[HUGO] npm run start exited with code 1
 [DOCS] 
 [DOCS]                   │ EN 
 [DOCS] ──────────────────┼────
@@ -40,125 +43,18 @@
 [DOCS]  Aliases          │  0 
 [DOCS]  Cleaned          │  0 
 [DOCS] 
-[DOCS] Built in 72 ms
+[DOCS] Built in 42 ms
 [DOCS] Environment: "development"
 [DOCS] Serving pages from disk
 [DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1) 
 [DOCS] Press Ctrl+C to stop
-[HUGO] 
-[HUGO]                   │ EN 
-[HUGO] ──────────────────┼────
-[HUGO]  Pages            │ 53 
-[HUGO]  Paginator pages  │  0 
-[HUGO]  Non-page files   │  0 
-[HUGO]  Static files     │  3 
-[HUGO]  Processed images │  0 
-[HUGO]  Aliases          │  9 
-[HUGO]  Cleaned          │  0 
-[HUGO] 
-[HUGO] Built in 148 ms
-[HUGO] Environment: "development"
-[HUGO] Serving pages from disk
-[HUGO] Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1) 
-[HUGO] Press Ctrl+C to stop
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
 [CSS] 
 [CSS] Rebuilding...
 [CSS] 
-[CSS] Done in 446ms.
-[CMS] [0mGET /admin/ [32m200[0m 3.566 ms - 16334[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.357 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.748 ms - 10305[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 4.962 ms - 150[0m
-[CMS] [0mGET /api/content/posts [32m200[0m 9.870 ms - 1780[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.281 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 1.121 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.003 ms - -[0m
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [0mGET /admin/ [32m200[0m 3.203 ms - 11099[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.229 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.802 ms - 7017[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 1.209 ms - 150[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 7.983 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.653 ms - -[0m
-[CMS] [0mGET /admin/ [36m304[0m 0.462 ms - -[0m
-[CMS] [0mGET /admin/css/admin.css [36m304[0m 0.258 ms - -[0m
-[CMS] [0mGET /admin/js/admin.js [36m304[0m 0.513 ms - -[0m
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
-[CMS] [0mGET /admin/ [32m200[0m 3.103 ms - 11099[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.303 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.787 ms - 8179[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 1.170 ms - 150[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 7.833 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.603 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.411 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.267 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.873 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 86ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#1).
-[HUGO] 2026-01-28 12:59:52.538 +0000
-[HUGO] Template added /partials/shared/cms-preview-listener.html
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#1).
-[DOCS] 2026-01-28 12:59:52.568 +0000
-[DOCS] Template added /partials/shared/cms-preview-listener.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 6 ms
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 42 ms
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 52ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#2).
-[HUGO] 2026-01-28 12:59:58.039 +0000
-[HUGO] Template changed /partials/shared/head/js.html
-[HUGO] ERROR Rebuild failed: render: [en v1.0.0 guest] failed to render pages: render of "/home/matt/Development/themes/self-help/content/posts/panic-attack-tips.md" failed: "/home/matt/Development/themes/self-help/layouts/_default/baseof.html:4:5": execute of template failed at <partial "shared/head.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/head.html:48:3": execute of template failed at <partialCached "shared/head/js.html" .>: error calling partialCached: "/home/matt/Development/themes/self-help/layouts/partials/shared/head/js.html:45:3": execute of template failed at <partial "shared/cms-preview-listener.html" .>: "/home/matt/Development/themes/self-help/layouts/partials/shared/cms-preview-listener.html:1:54": execute of template failed at <.Site.IsServer>: can’t evaluate field IsServer in type page.Site
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 13 ms
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#2).
-[DOCS] 2026-01-28 12:59:58.067 +0000
-[DOCS] Template changed /partials/shared/head/js.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 7 ms
-[CMS] [32m[nodemon] restarting due to changes...[39m
-[CMS] [32m[nodemon] starting `node server.js`[39m
-[CMS] CMS Server running on http://localhost:3000
-[CMS] Connected to the MindFull CMS database.
+[CSS] Done in 457ms.
+[CMS] [0mGET /admin/ [32m200[0m 3.309 ms - 11099[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.265 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.848 ms - 6558[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.160 ms - 150[0m
