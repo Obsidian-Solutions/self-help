@@ -13,7 +13,7 @@
   "homepage": "https://github.com/yourusername/mindfull-theme#readme",
   "scripts": {
     "start": "hugo server -D",
-    "dev": "fuser -k 3000/tcp 1313/tcp 1314/tcp || true && concurrently -n \"CSS,HUGO,CMS,DOCS\" -c \"magenta,blue,green,cyan\" \"npm run watch:css\" \"npm run start\" \"npm run dev --prefix cms\" \"npm run docs:dev\" > dev.log 2>&1",
+    "dev": "concurrently -n \"CSS,HUGO,CMS,DOCS\" -c \"magenta,blue,green,cyan\" \"npm run watch:css\" \"npm run start\" \"npm run dev --prefix cms\" \"npm run docs:dev\" | tee dev.log",
     "pubdev": "node scripts/pubdev.js",
     "cms:install": "npm install --prefix cms",
     "cms:init": "npm run init-db --prefix cms",
