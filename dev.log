@@ -268,3 +268,35 @@
 [CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.995 ms - -[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.766 ms - -[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.749 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 0.809 ms - -[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.762 ms - 10317[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.735 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.556 ms - 7664[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 0.882 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.349 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 0.706 ms - 3926[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.152 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.040 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.571 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 0.902 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.802 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.134 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.460 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.148 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 0.782 ms - -[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.368 ms - 10317[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.415 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.384 ms - 7664[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 0.899 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.670 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 0.694 ms - 3926[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.174 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.797 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.783 ms - -[0m
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#9).
+[HUGO] 2026-01-28 13:50:54.848 +0000
+[HUGO] Syncing /admin/js/admin.js to /
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.140 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.870 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.740 ms - -[0m
