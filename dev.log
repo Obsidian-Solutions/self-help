@@ -86,3 +86,47 @@
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [32m200[0m 2.874 ms - 11099[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.234 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.763 ms - 9820[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.352 ms - 150[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 7.695 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.658 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.093 ms - -[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 2.014 ms - -[0m
+[CMS] [0mGET /api/content/courses/anger-management [32m200[0m 1.230 ms - 829[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 1.363 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 0.856 ms - -[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.411 ms - 11099[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.010 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.790 ms - 9820[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 1.049 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.489 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.382 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 73ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#2).
+[HUGO] 2026-01-28 13:28:36.714 +0000
+[HUGO] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#1).
+[DOCS] 2026-01-28 13:28:36.743 +0000
+[DOCS] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 5 ms
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 40 ms
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 1.753 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.851 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.501 ms - -[0m

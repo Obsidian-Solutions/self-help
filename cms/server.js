@@ -42,9 +42,11 @@ app.use(
         'font-src': ["'self'", 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
         'img-src': ["'self'", 'data:', 'https://i.pravatar.cc', 'https://images.unsplash.com'],
         'connect-src': ["'self'", 'http://localhost:3000', 'http://localhost:1313'],
-        'frame-src': ["'self'", 'http://localhost:1313'],
+        'frame-src': ["'self'", 'http://localhost:1313', 'http://127.0.0.1:1313'],
+        'frame-ancestors': ["'self'", 'http://localhost:1313', 'http://localhost:3000'],
       },
     },
+    crossOriginEmbedderPolicy: false,
   }),
 );
 
