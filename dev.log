@@ -1,29 +1,29 @@
-[CMS] 
-[CMS] > mindfull-cms@1.0.0 dev
-[CMS] > nodemon server.js
-[CMS] 
 [HUGO] 
 [HUGO] > mindfull-theme@1.0.0 start
 [HUGO] > hugo server -D
 [HUGO] 
-[DOCS] 
-[DOCS] > mindfull-theme@1.0.0 docs:dev
-[DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
-[DOCS] 
+[CMS] 
+[CMS] > mindfull-cms@1.0.0 dev
+[CMS] > nodemon server.js
+[CMS] 
 [CSS] 
 [CSS] > mindfull-theme@1.0.0 watch:css
 [CSS] > tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch
 [CSS] 
-[HUGO] Watching for changes in /home/matt/Development/themes/self-help/archetypes, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/content/{courses,dashboard,journal,plans,posts,...}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/i18n, /home/matt/Development/themes/self-help/layouts/{_default,courses,dashboard,journal,lessons,...}, /home/matt/Development/themes/self-help/package.json, /home/matt/Development/themes/self-help/static/{admin,audio,css,images,js}, /home/matt/Development/themes/self-help/tailwind.config.js
-[HUGO] Watching for config changes in /home/matt/Development/themes/self-help/hugo.toml
-[HUGO] Start building sites ... 
-[HUGO] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
-[HUGO] 
+[DOCS] 
+[DOCS] > mindfull-theme@1.0.0 docs:dev
+[DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
+[DOCS] 
 [CMS] [33m[nodemon] 3.1.11[39m
 [CMS] [33m[nodemon] to restart at any time, enter `rs`[39m
 [CMS] [33m[nodemon] watching path(s): *.*[39m
 [CMS] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
 [CMS] [32m[nodemon] starting `node server.js`[39m
+[HUGO] Watching for changes in /home/matt/Development/themes/self-help/archetypes, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/content/{courses,dashboard,journal,plans,posts,...}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/i18n, /home/matt/Development/themes/self-help/layouts/{_default,courses,dashboard,journal,lessons,...}, /home/matt/Development/themes/self-help/package.json, /home/matt/Development/themes/self-help/static/{admin,audio,css,images,js}, /home/matt/Development/themes/self-help/tailwind.config.js
+[HUGO] Watching for config changes in /home/matt/Development/themes/self-help/hugo.toml
+[HUGO] Start building sites ... 
+[HUGO] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
+[HUGO] 
 [DOCS] Watching for changes in /home/matt/Development/themes/self-help/_docs_src/{design,development,features,getting-started}, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/docs-site/archetypes, /home/matt/Development/themes/self-help/docs-site/content, /home/matt/Development/themes/self-help/docs-site/i18n, /home/matt/Development/themes/self-help/docs-site/static, /home/matt/Development/themes/self-help/layouts/partials/shared/head, /home/matt/Development/themes/self-help/layouts/shortcodes
 [DOCS] Watching for config changes in /home/matt/Development/themes/self-help/docs-site/hugo.toml, /home/matt/Development/themes/self-help/docs-site/go.mod
 [DOCS] Start building sites ... 
@@ -40,7 +40,7 @@
 [DOCS]  Aliases          │  0 
 [DOCS]  Cleaned          │  0 
 [DOCS] 
-[DOCS] Built in 69 ms
+[DOCS] Built in 62 ms
 [DOCS] Environment: "development"
 [DOCS] Serving pages from disk
 [DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1) 
@@ -56,7 +56,7 @@
 [HUGO]  Aliases          │  9 
 [HUGO]  Cleaned          │  0 
 [HUGO] 
-[HUGO] Built in 140 ms
+[HUGO] Built in 141 ms
 [HUGO] Environment: "development"
 [HUGO] Serving pages from disk
 [HUGO] Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
@@ -67,236 +67,45 @@
 [CSS] 
 [CSS] Rebuilding...
 [CSS] 
-[CSS] Done in 474ms.
-[CMS] [0mGET /admin/ [32m200[0m 3.311 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.484 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.961 ms - 7664[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 1.329 ms - 150[0m
-[CMS] [0mGET /api/admin/stats [36m304[0m 4.932 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 5.602 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.334 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.410 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.266 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.513 ms - -[0m
+[CSS] Done in 459ms.
+[CMS] [0mGET /admin/ [32m200[0m 2.820 ms - 10317[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.755 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.441 ms - 7664[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 8.187 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.050 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.463 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.344 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.004 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.747 ms - -[0m
 [CSS] 
 [CSS] Rebuilding...
 [CSS] 
-[CSS] Done in 83ms.
+[CSS] Done in 70ms.
 [HUGO] 
 [HUGO] Change detected, rebuilding site (#1).
-[HUGO] 2026-01-28 13:38:54.348 +0000
+[HUGO] 2026-01-28 13:53:10.992 +0000
 [HUGO] Template changed /partials/shared/cms-preview-listener.html
 [DOCS] 
 [DOCS] Change detected, rebuilding site (#1).
-[DOCS] 2026-01-28 13:38:54.380 +0000
-[DOCS] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 7 ms
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 39 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.205 ms - 33[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.133 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.212 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.276 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.966 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.050 ms - -[0m
-[HUGO] 
-[HUGO] Change of Static files detected, rebuilding site (#2).
-[HUGO] 2026-01-28 13:39:38.847 +0000
-[HUGO] Syncing /admin/js/admin.js to /
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.170 ms - 33[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.119 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.488 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.421 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.674 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.624 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.932 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.909 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.161 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.240 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.197 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 54ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#3).
-[HUGO] 2026-01-28 13:42:54.847 +0000
-[HUGO] Template changed /_default/single.html
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 43 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.166 ms - 33[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.207 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.219 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.071 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.150 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.507 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 61ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#4).
-[HUGO] 2026-01-28 13:43:03.348 +0000
-[HUGO] Template changed /_default/baseof.html
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 720 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.201 ms - 33[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.127 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.432 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.280 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.955 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.866 ms - -[0m
-[CMS] [0mGET /admin/ [32m200[0m 0.482 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.425 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.335 ms - 7664[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 0.420 ms - 150[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 1.204 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.761 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.148 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.731 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.719 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 46ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#5).
-[HUGO] 2026-01-28 13:44:07.847 +0000
-[HUGO] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#2).
-[DOCS] 2026-01-28 13:44:07.879 +0000
+[DOCS] 2026-01-28 13:53:11.012 +0000
 [DOCS] Template changed /partials/shared/cms-preview-listener.html
 [DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
 [DOCS] Total in 6 ms
 [HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 40 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.127 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.442 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.342 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.135 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.101 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.906 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 44ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#6).
-[HUGO] 2026-01-28 13:44:40.847 +0000
-[HUGO] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#3).
-[DOCS] 2026-01-28 13:44:40.879 +0000
-[DOCS] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 7 ms
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
 [HUGO] Total in 41 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.116 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.425 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.084 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.104 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.654 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.005 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.825 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.018 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.141 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.359 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.280 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.252 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.601 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.190 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 3.223 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.510 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.580 ms - -[0m
 [HUGO] 
-[HUGO] Change detected, rebuilding site (#7).
-[HUGO] 2026-01-28 13:45:18.347 +0000
-[HUGO] Template changed /partials/shared/cms-preview-listener.html
-[CSS] 
-[CSS] Done in 60ms.
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#4).
-[DOCS] 2026-01-28 13:45:18.379 +0000
-[DOCS] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 9 ms
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 46 ms
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.540 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.119 ms - 33[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.114 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.244 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.090 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.819 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.954 ms - -[0m
-[CMS] [0mGET /admin/ [32m200[0m 0.581 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.621 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.615 ms - 7664[0m
-[CMS] [0mGET /api/content/posts [32m200[0m 0.862 ms - 1780[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 0.319 ms - 150[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.700 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.214 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.775 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.741 ms - -[0m
-[CMS] [0mGET /admin/ [32m200[0m 0.520 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.550 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.411 ms - 7664[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 0.316 ms - 150[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 1.214 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.677 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.141 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.764 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.733 ms - -[0m
-[CSS] 
-[CSS] Rebuilding...
-[CSS] 
-[CSS] Done in 45ms.
-[HUGO] 
-[HUGO] Change detected, rebuilding site (#8).
-[HUGO] 2026-01-28 13:47:01.847 +0000
-[HUGO] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] 
-[DOCS] Change detected, rebuilding site (#5).
-[DOCS] 2026-01-28 13:47:01.879 +0000
-[DOCS] Template changed /partials/shared/cms-preview-listener.html
-[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
-[DOCS] Total in 10 ms
-[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
-[HUGO] Total in 46 ms
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.124 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.191 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.086 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.995 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.766 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.749 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.809 ms - -[0m
-[CMS] [0mGET /admin/ [32m200[0m 0.762 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.735 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.556 ms - 7664[0m
-[CMS] [0mGET /api/content/posts [32m200[0m 0.882 ms - 1780[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 0.349 ms - 150[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 0.706 ms - 3926[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.152 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.040 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.571 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.902 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 0.802 ms - -[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.134 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.460 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.148 ms - -[0m
-[CMS] [0mGET /api/content/posts [36m304[0m 0.782 ms - -[0m
-[CMS] [0mGET /admin/ [32m200[0m 0.368 ms - 10317[0m
-[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.415 ms - 2307[0m
-[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.384 ms - 7664[0m
-[CMS] [0mGET /api/content/posts [32m200[0m 0.899 ms - 1780[0m
-[CMS] [0mGET /favicon.ico [33m404[0m 0.670 ms - 150[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 0.694 ms - 3926[0m
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.174 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 0.797 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.783 ms - -[0m
-[HUGO] 
-[HUGO] Change of Static files detected, rebuilding site (#9).
-[HUGO] 2026-01-28 13:50:54.848 +0000
+[HUGO] Change of Static files detected, rebuilding site (#2).
+[HUGO] 2026-01-28 13:53:38.991 +0000
 [HUGO] Syncing /admin/js/admin.js to /
-[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.140 ms - 33[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.870 ms - -[0m
-[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.740 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.147 ms - 33[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.112 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.893 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.708 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.083 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.068 ms - -[0m

@@ -1,93 +1,70 @@
 {{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
-   * MindFull CMS Partial Rendering & Sync-Scroll Engine
-   * Definitive Snippet Mode
+   * MindFull CMS Robust Sync-Scroll Engine
+   * Version: 2.0 (Industrial)
    */
   (function() {
-    // 1. Immediate Detection (Run before DOM load)
-    const isPreview = window.location.search.includes('cms_preview=true');
-    if (!isPreview) return;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has('cms_preview')) return;
 
-    console.log("MindFull Preview Mode: Initiating aggressive snippeting...");
+    console.log("MindFull Preview Shell: Active and syncing...");
     
-    // 2. Immediate CSS Injection (Zero-flash hiding)
-    const css = `
+    // 1. Tag and Hide Site Chrome
+    const style = document.createElement('style');
+    style.textContent = `
       header, footer, nav, aside, 
       .engagement-bar, .related-posts, .community-discussion, 
       .tags-social-section, .mt-24.text-center, .mt-32,
-      #loginModal, #signupModal, #confirmModal,
-      .js-completion-badge { 
+      #loginModal, #signupModal, #confirmModal { 
         display: none !important; 
       }
-      
-      body { 
-        background-image: none !important; 
-        background-color: #f9fafb !important; 
-        overflow-x: hidden !important;
-      }
-      .dark body { 
-        background-color: #111827 !important; 
-      }
-
+      body { background-color: #f9fafb !important; }
+      .dark body { background-color: #111827 !important; }
       main { padding: 0 !important; margin: 0 !important; }
-      .p-3.sm:p-6.lg:p-10 { padding: 0 !important; }
-      
-      article { 
-        padding: 2rem !important; 
-        max-width: 100% !important; 
-        border: none !important; 
-        box-shadow: none !important; 
-        background: transparent !important; 
-      }
-      
-      .prose { 
-        margin-top: 0 !important; 
-        max-width: 100% !important; 
-      }
-
-      /* Instant Scroll Sync (No smooth scrolling) */
-      * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+      article { padding: 2rem !important; max-width: 100% !important; }
+      * { scroll-behavior: auto !important; transition: none !important; }
     `;
-    const styleEl = document.createElement('style');
-    styleEl.textContent = css;
-    document.head.appendChild(styleEl);
+    document.head.appendChild(style);
 
-    // 3. Mark body for secondary selectors
-    document.documentElement.setAttribute('data-cms-preview', 'true');
+    // 2. Handshake Loop: Ensure the Control Tower knows we are ready
+    const signalReady = () => {
+      window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
+    };
+    
+    signalReady();
+    const readyInterval = setInterval(signalReady, 500); // Heartbeat until acknowledged
 
-    // 4. Handshake: Signal 'READY' to Control Tower
-    window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
-
-    // 5. Command Listener: Handles Content and Scroll updates
-    let isRemoteScrolling = false;
+    // 3. Command Listener
+    let scrollLock = false;
     window.addEventListener('message', function(event) {
       const data = event.data;
       
-      // Update Content Snippet
+      if (data.type === 'IFRAME_READY_ACK') {
+        clearInterval(readyInterval);
+        console.log("MindFull Handshake: Established");
+      }
+
       if (data.type === 'CMS_SYNC') {
         const contentArea = document.querySelector('.prose') || document.querySelector('article');
         const titleArea = document.querySelector('h1');
-        const categoryArea = document.querySelector('.fidelity-category') || document.querySelector('.px-4.py-1.5');
-
         if (contentArea && data.body) contentArea.innerHTML = data.body;
         if (titleArea && data.title) titleArea.textContent = data.title;
-        if (categoryArea && data.category) categoryArea.textContent = data.category;
       }
 
-      // Sync Scroll
       if (data.type === 'CMS_SCROLL') {
-        isRemoteScrolling = true;
-        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        window.scrollTo(0, data.percentage * scrollHeight);
-        setTimeout(() => { isRemoteScrolling = false; }, 50);
+        scrollLock = true;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo(0, data.percentage * maxScroll);
+        setTimeout(() => { scrollLock = false; }, 50);
       }
     });
 
-    // 6. Notify parent of internal scroll
+    // 4. Bi-directional Scroll Notification
     window.addEventListener('scroll', () => {
-      if (isRemoteScrolling) return;
-      const percentage = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      if (scrollLock) return;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const percentage = window.scrollY / maxScroll;
       window.parent.postMessage({ type: 'IFRAME_SCROLL', percentage }, '*');
     });
 
