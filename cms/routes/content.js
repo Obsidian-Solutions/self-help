@@ -258,19 +258,34 @@ router.get('/:collection', auth, async (req, res) => {
     const { collection } = req.params;
     if (!isValidSlug(collection)) return res.status(400).json({ message: 'Invalid collection' });
     const collectionPath = safePath(collection);
-    if (!(await fs.pathExists(collectionPath)))
-      return res.status(404).json({ message: 'Not found' });
-    const files = await fs.readdir(collectionPath);
-    const mdFiles = files.filter(f => f.endsWith('.md') && !f.startsWith('_'));
+    if (!(await fs.pathExists(collectionPath))) return res.status(404).json({ message: 'Not found' });
+
+    const items = await fs.readdir(collectionPath, { withFileTypes: true });
+
     const content = await Promise.all(
-      mdFiles.map(async file => {
-        const { data, content: body } = matter(
-          await fs.readFile(path.join(collectionPath, file), 'utf8'),
-        );
-        return { slug: file.replace('.md', ''), data, body: body.substring(0, 200) + '...' };
+      items.map(async item => {
+        let filePath;
+        let slug;
+
+        if (item.isDirectory()) {
+          slug = item.name;
+          filePath = path.join(collectionPath, slug, '_index.md');
+        } else if (item.isFile() && item.name.endsWith('.md') && !item.name.startsWith('_')) {
+          slug = item.name.replace('.md', '');
+          filePath = path.join(collectionPath, item.name);
+        } else {
+          return null;
+        }
+
+        if (await fs.pathExists(filePath)) {
+          const { data, content: body } = matter(await fs.readFile(filePath, 'utf8'));
+          return { slug, data, body: body.substring(0, 200) + '...' };
+        }
+        return null;
       }),
     );
-    res.json(content);
+
+    res.json(content.filter(c => c !== null));
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -292,7 +307,15 @@ router.post('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
     const { data, body } = req.body;
-    const filePath = safePath(collection, `${slug}.md`);
+
+    let filePath = safePath(collection, `${slug}.md`);
+
+    // If it's a directory (like a course), save to _index.md instead
+    const dirPath = safePath(collection, slug);
+    if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
+      filePath = path.join(dirPath, '_index.md');
+    }
+
     await fs.ensureDir(path.dirname(filePath));
     await fs.writeFile(filePath, matter.stringify(body || '', data || {}), 'utf8');
     res.json({ success: true });
