@@ -292,15 +292,41 @@ router.get('/:collection', auth, async (req, res) => {
 });
 
 router.get('/:collection/:slug', auth, async (req, res) => {
+
   try {
+
     const { collection, slug } = req.params;
-    const filePath = safePath(collection, `${slug}.md`);
+
+    let filePath = safePath(collection, `${slug}.md`);
+
+
+
+    // If file doesn't exist, check if it's a directory containing _index.md
+
+    if (!(await fs.pathExists(filePath))) {
+
+      const dirPath = safePath(collection, slug);
+
+      if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
+
+        filePath = path.join(dirPath, '_index.md');
+
+      }
+
+    }
+
+
+
     if (!(await fs.pathExists(filePath))) return res.status(404).json({ message: 'Not found' });
+
+    
+
     const { data, content: body } = matter(await fs.readFile(filePath, 'utf8'));
+
     res.json({ data, body });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+
+  } catch (err) { res.status(500).json({ message: err.message }); }
+
 });
 
 router.post('/:collection/:slug', auth, async (req, res) => {

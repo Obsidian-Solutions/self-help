@@ -1,6 +1,6 @@
 /**
- * MindFull Control Tower v4.3
- * Secure Handshake & Defensive Rendering
+ * MindFull Control Tower v4.4
+ * Real-time Telemetry & Corrected Data Mapping
  */
 
 /* global SimpleMDE, FileReader, confirm */
@@ -8,12 +8,13 @@
 (function () {
   const API_BASE = '/api';
   let simplemde = null;
+  let logSource = null;
   let currentCollection = 'posts';
   let currentSlug = null;
   let currentLeadId = null;
   let currentQuizId = null;
 
-  console.log('Control Tower v4.3: Secure Handshake Active');
+  console.log('Control Tower v4.4 Initializing...');
 
   // --- 1. UTILS ---
   function notify(msg, type = 'success') {
@@ -24,62 +25,44 @@
     setTimeout(() => toast.remove(), 3000);
   }
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
-
   async function api(endpoint, method = 'GET', body = null) {
     const token = localStorage.getItem('mindfull_admin_token');
-    const headers = { 
-      'Content-Type': 'application/json',
-      'x-xsrf-token': getCookie('XSRF-TOKEN')
-    };
+    const headers = { 'Content-Type': 'application/json' };
     if (token) headers.Authorization = `Bearer ${token}`;
 
     try {
       const res = await fetch(`${API_BASE}${endpoint}`, { method, headers, body: body ? JSON.stringify(body) : null });
-      
       if (res.status === 401) { logout(); return null; }
-      
-      const data = await res.json();
-      
-      if (res.status === 403) {
-        console.error('Security Error:', data.message);
-        notify('Security Handshake Failed', 'error');
-        return null;
-      }
-      
-      return data;
+      return res.json();
     } catch (e) {
-      console.error('Network Error:', e);
-      notify('API Bridge Error', 'error');
+      notify('Connection Failure', 'error');
       return null;
     }
   }
 
   function logout() { localStorage.clear(); window.location.reload(); }
 
-  // --- 2. EVENT DELEGATION ---
+  // --- 2. THE MASTER DELEGATOR ---
   document.addEventListener('click', async (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
 
     const action = btn.getAttribute('data-action');
+    const section = btn.getAttribute('data-section');
     const id = btn.getAttribute('data-id');
     const slug = btn.getAttribute('data-slug');
     const name = btn.getAttribute('data-name');
 
     switch (action) {
-      case 'nav': showSection(btn.getAttribute('data-section')); break;
+      case 'nav': showSection(section); break;
       case 'logout': logout(); break;
       case 'load-collection': window.loadCollection(name); break;
       case 'edit-entry': editEntry(btn.getAttribute('data-collection'), slug); break;
       case 'delete-entry':
         if (confirm(`Purge ${slug}?`)) {
-          const res = await api(`/content/${btn.getAttribute('data-collection')}/${slug}`, 'DELETE');
-          if (res) { window.loadCollection(currentCollection); notify('Content Purged'); }
+          await api(`/content/${btn.getAttribute('data-collection')}/${slug}`, 'DELETE');
+          window.loadCollection(currentCollection);
+          notify('Purged');
         }
         break;
       case 'publish': saveContent(); break;
@@ -89,37 +72,29 @@
       case 'send-reply': sendQuickReply(); break;
       case 'copy-url': 
         navigator.clipboard.writeText(btn.getAttribute('data-url'));
-        notify('URL Copied'); 
+        notify('Linked'); 
         break;
       case 'delete-media':
         if (confirm('Delete asset?')) {
-          const res = await api(`/media/${name}`, 'DELETE');
-          if (res) { loadMedia(); notify('Asset Deleted'); }
+          await api(`/media/${name}`, 'DELETE');
+          loadMedia();
+          notify('Deleted');
         }
         break;
       case 'run-build': executeBuild(); break;
-      case 'clear-cache': notify('Cache purged locally'); break;
-      case 'view-logs': 
-        document.getElementById('dev-log-container').classList.remove('hidden');
-        document.getElementById('dev-terminal').innerHTML += `<br>[${new Date().toLocaleTimeString()}] Telemetry Link Established.`;
-        break;
+      case 'view-logs': startLogStream(); break;
       case 'new-quiz': openQuizEditor(null); break;
       case 'edit-quiz': openQuizEditor(id); break;
       case 'save-quiz': saveQuiz(); break;
       case 'add-question': addQuestionRow(); break;
       case 'remove-question': btn.closest('.question-row').remove(); break;
-      case 'delete-quiz':
-        if (confirm('Delete this quiz?')) {
-          await api(`/admin/quizzes/${id}`, 'DELETE');
-          showSection('quizzes');
-          notify('Quiz Deleted');
-        }
-        break;
     }
   });
 
-  // --- 3. NAVIGATION ---
+  // --- 3. CORE LOGIC ---
+
   function showSection(id) {
+    console.log('Mounting Section:', id);
     document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
     document.querySelectorAll('.nav-link').forEach(b => {
       b.classList.remove('active', 'text-white', 'bg-slate-800');
@@ -136,10 +111,8 @@
       activeBtn.classList.remove('text-slate-400');
     }
 
-    const breadcrumb = document.getElementById('breadcrumb-active');
-    if (breadcrumb) breadcrumb.textContent = id.toUpperCase();
+    document.getElementById('breadcrumb-active').textContent = id.toUpperCase();
 
-    // Data Loaders
     if (id === 'dashboard') loadDashboard();
     if (id === 'content') window.loadCollection(currentCollection);
     if (id === 'users') loadUsers();
@@ -148,55 +121,111 @@
     if (id === 'quizzes') loadQuizzes();
   }
 
-  // --- 4. CORE DATA LOADERS ---
+  // --- 4. TELEMETRY (LIVE LOGS) ---
 
-  async function loadDashboard() {
-    const stats = await api('/admin/stats');
-    if (stats) {
-      document.getElementById('stat-users').textContent = stats.totalUsers;
-      document.getElementById('stat-views').textContent = stats.totalViews;
-      document.getElementById('stat-rating').textContent = stats.averageRating;
-      document.getElementById('stat-new-leads').textContent = stats.newInquiries;
-    }
-    const [activity, popular] = await Promise.all([api('/admin/activity'), api('/admin/popular')]);
-    if (Array.isArray(activity)) {
-      document.getElementById('activity-list').innerHTML = activity.map(i => `
-        <div class="flex items-center justify-between py-4">
-          <p class="text-sm font-bold text-slate-700">${i.user_name} <span class="text-xs text-slate-400">${i.event}</span></p>
-          <span class="text-[10px] font-black text-slate-300">${new Date(i.created_at).toLocaleTimeString()}</span>
-        </div>
-      `).join('');
-    }
-    if (Array.isArray(popular)) {
-      document.getElementById('popular-list').innerHTML = popular.map(i => `
-        <div class="flex items-center justify-between py-3 px-4 bg-slate-50 rounded-xl mb-2">
-          <p class="text-xs font-bold text-slate-600 truncate">${i.slug}</p>
-          <span class="text-[10px] font-black text-indigo-600">${i.views} HITS</span>
-        </div>
-      `).join('');
-    }
+  function startLogStream() {
+    const term = document.getElementById('dev-terminal');
+    const container = document.getElementById('dev-log-container');
+    container.classList.remove('hidden');
+    
+    if (logSource) logSource.close();
+    
+    term.innerHTML = 'Establishing telemetry link...';
+    
+    logSource = new EventSource(`${API_BASE}/admin/logs/stream`);
+    
+    logSource.onmessage = (e) => {
+      const data = JSON.parse(e.data);
+      if (data.type === 'status') {
+        term.innerHTML += `<br><span class="text-indigo-400">>>> ${data.msg}</span>`;
+      } else if (data.type === 'log') {
+        term.innerText += data.content;
+        term.scrollTop = term.scrollHeight;
+      }
+    };
+
+    logSource.onerror = () => {
+      term.innerHTML += `<br><span class="text-red-500">>>> LINK LOST. CHECK SERVER.</span>`;
+      logSource.close();
+    };
   }
+
+  // --- 5. CRM DEEP DIVE ---
+
+  async function loadUsers() {
+    const users = await api('/admin/users');
+    const container = document.getElementById('users-table-body');
+    if (!container || !users) return;
+
+    container.innerHTML = users.map(u => `
+      <tr class="hover:bg-slate-50">
+        <td class="px-8 py-6"><p class="text-sm font-bold text-slate-900">${u.name}</p><p class="text-[10px] text-slate-400">${u.email}</p></td>
+        <td class="px-8 py-6"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase">${u.role}</span></td>
+        <td class="px-8 py-6 text-right"><button data-action="view-profile" data-id="${u.id}" class="text-indigo-600 font-black text-[10px] uppercase">Review</button></td>
+      </tr>
+    `).join('');
+  }
+
+  async function viewUserProfile(id) {
+    showSection('user-profile');
+    const profile = await api(`/admin/users/${id}/profile`);
+    if (!profile) return;
+
+    document.getElementById('user-profile-info').innerHTML = `
+      <div class="flex items-center gap-4 mb-8">
+        <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-2xl font-black">${profile.user.name[0]}</div>
+        <div>
+          <h3 class="text-xl font-black text-slate-900">${profile.user.name}</h3>
+          <p class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">${profile.user.plan} MEMBER</p>
+        </div>
+      </div>
+      <div class="space-y-4 pt-6 border-t border-slate-100 text-left">
+        <div><p class="text-[9px] font-black text-slate-400 uppercase">Identity</p><p class="text-sm font-bold text-slate-700">${profile.user.email}</p></div>
+        <div><p class="text-[9px] font-black text-slate-400 uppercase">Created</p><p class="text-sm font-bold text-slate-700">${new Date(profile.user.created_at).toLocaleDateString()}</p></div>
+      </div>
+    `;
+    
+    document.getElementById('profile-interactions').innerHTML = (profile.interactions || []).map(i => `
+      <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl mb-2">
+        <p class="text-xs font-bold text-slate-700">${i.type}: <span class="text-slate-400 font-medium">${i.metadata}</span></p>
+        <span class="text-[9px] font-black text-slate-400 uppercase">${new Date(i.created_at).toLocaleTimeString()}</span>
+      </div>
+    `).join('') || '<p class="py-10 text-center text-xs italic text-slate-400">No telemetry detected.</p>';
+
+    document.getElementById('profile-notes').innerHTML = (profile.notes || []).map(n => `
+      <div class="p-4 bg-white rounded-xl border border-slate-100 shadow-sm mb-2 text-left">
+        <div class="flex justify-between mb-1"><span class="text-[9px] font-black text-indigo-600">DR. ${n.therapist_name.toUpperCase()}</span></div>
+        <p class="text-xs font-medium text-slate-600">${n.content}</p>
+      </div>
+    `).join('') || '<p class="py-10 text-center text-xs italic text-slate-400">Empty clinical record.</p>';
+  }
+
+  // --- 6. CONTENT ENGINE ---
 
   window.loadCollection = async function (name) {
     currentCollection = name;
     const items = await api(`/content/${name}`);
     const container = document.getElementById('collection-view');
-    if (!container) return;
+    if (!container || !items) return;
 
-    if (!Array.isArray(items)) {
-      container.innerHTML = '<p class="text-center py-20 text-xs italic text-slate-400">Unable to load collection data.</p>';
-      return;
-    }
+    const ratings = name === 'courses' ? await Promise.all(items.map(i => api(`/courses/${i.slug}/rating`))) : [];
 
-    container.innerHTML = items.map(i => `
-      <div class="admin-card p-6 flex flex-col h-full group">
-        <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${i.data.title || i.slug}</h4>
-        <div class="flex gap-2">
-          <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Update</button>
-          <button data-action="delete-entry" data-collection="${name}" data-slug="${i.slug}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+    container.innerHTML = items.map((i, idx) => {
+      const rating = ratings[idx] || { avg_rating: 0, total_ratings: 0 };
+      return `
+        <div class="admin-card p-6 flex flex-col h-full group">
+          <div class="flex justify-between mb-4">
+            <span class="text-[9px] font-black uppercase bg-indigo-50 text-indigo-600 px-2 py-1 rounded">${i.data.category || 'General'}</span>
+            ${name === 'courses' ? `<span class="text-[9px] font-black text-amber-500 uppercase"><i class="fa-solid fa-star mr-1"></i> ${rating.avg_rating.toFixed(1)}</span>` : ''}
+          </div>
+          <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${i.data.title || i.slug}</h4>
+          <div class="flex gap-2">
+            <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
+            <button data-action="delete-entry" data-collection="${name}" data-slug="${i.slug}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   };
 
   async function editEntry(collection, slug) {
@@ -224,129 +253,26 @@
     ['title', 'description', 'category', 'illustration'].forEach(f => {
       data[f] = document.getElementById(`fm-${f}`).value;
     });
-    const body = simplemde.value();
-    const res = await api(`/content/${currentCollection}/${currentSlug}`, 'POST', { data, body });
-    if (res) { notify('Content Updated'); showSection('content'); }
+    const res = await api(`/content/${currentCollection}/${currentSlug}`, 'POST', { data, body: simplemde.value() });
+    if (res) { notify('Synced to Hugo'); showSection('content'); }
   }
 
-  async function loadUsers() {
-    const users = await api('/admin/users');
-    const container = document.getElementById('users-table-body');
-    if (!container || !Array.isArray(users)) return;
-
-    container.innerHTML = users.map(u => `
-      <tr class="hover:bg-slate-50 transition-colors">
-        <td class="px-8 py-6"><p class="text-sm font-bold text-slate-900">${u.name}</p><p class="text-[10px] text-slate-400">${u.email}</p></td>
-        <td class="px-8 py-6"><span class="px-2 py-1 bg-indigo-50 text-indigo-600 rounded text-[10px] font-black uppercase">${u.role}</span></td>
-        <td class="px-8 py-6 text-right"><button data-action="view-profile" data-id="${u.id}" class="text-indigo-600 font-black text-[10px] uppercase">Review</button></td>
-      </tr>
-    `).join('');
-  }
-
-  async function viewUserProfile(id) {
-    showSection('user-profile');
-    const profile = await api(`/admin/users/${id}/profile`);
-    if (!profile) return;
-
-    document.getElementById('user-profile-info').innerHTML = `
-      <div class="flex items-center gap-4 mb-8">
-        <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-2xl font-black">${profile.user.name[0]}</div>
-        <div><h3 class="text-xl font-black text-slate-900">${profile.user.name}</h3><p class="text-[10px] font-black text-indigo-600 uppercase tracking-[0.2em]">${profile.user.plan} MEMBER</p></div>
-      </div>
-    `;
-    
-    if (Array.isArray(profile.interactions)) {
-      document.getElementById('profile-interactions').innerHTML = profile.interactions.map(i => `
-        <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl mb-2"><p class="text-xs font-bold text-slate-700">${i.type}</p><span class="text-[9px] font-black text-slate-400 uppercase">${new Date(i.created_at).toLocaleDateString()}</span></div>
-      `).join('') || '<p class="py-10 text-center text-xs italic text-slate-400">No activity logged.</p>';
-    }
-  }
-
-  async function loadInquiries() {
-    const leads = await api('/admin/inquiries');
-    const container = document.getElementById('inquiries-table-body');
-    if (!container || !Array.isArray(leads)) return;
-
-    container.innerHTML = leads.map(l => `
-      <tr class="${l.status === 'new' ? 'bg-indigo-50/20' : ''} hover:bg-slate-50 transition-colors">
-        <td class="px-8 py-6"><p class="text-sm font-bold text-slate-900">${l.name}</p><p class="text-[10px] text-slate-400 uppercase tracking-widest">${l.status}</p></td>
-        <td class="px-8 py-6 text-xs text-slate-500">${l.message}</td>
-        <td class="px-8 py-6 text-right"><button data-action="open-reply" data-id="${l.id}" data-email="${l.email}" data-name="${l.name}" class="bg-slate-900 text-white px-4 py-2 rounded-xl text-[10px] font-black uppercase">Respond</button></td>
-      </tr>
-    `).join('');
-  }
-
-  async function openReplyModal(id, email, name) {
-    currentLeadId = id;
-    const templates = await api('/admin/templates');
-    document.getElementById('reply-lead-name').textContent = name;
-    document.getElementById('reply-template-list').innerHTML = (templates || []).map(t => `
-      <button data-action="use-template" data-name="${name}" data-subject="${t.subject}" data-body="${encodeURIComponent(t.body)}" class="w-full text-left p-4 bg-slate-50 rounded-xl hover:bg-indigo-50 mb-2">
-        <p class="text-xs font-bold text-slate-900">${t.name}</p>
-      </button>
-    `).join('');
-    document.getElementById('reply-modal').classList.remove('hidden');
-  }
-
-  function useTemplate(subject, escapedBody, name) {
-    document.getElementById('reply-subject').value = subject;
-    document.getElementById('reply-body').value = decodeURIComponent(escapedBody).replace('{{name}}', name);
-  }
-
-  async function sendQuickReply() {
-    const res = await api(`/admin/inquiries/${currentLeadId}`, 'PATCH', { status: 'replied' });
-    if (res) { notify('Pipeline Updated'); document.getElementById('reply-modal').classList.add('hidden'); loadInquiries(); }
-  }
-
-  async function loadMedia() {
-    const items = await api('/media');
-    const container = document.getElementById('media-grid');
-    if (!container || !Array.isArray(items)) return;
-    
-    if (items.length === 0) {
-      container.innerHTML = '<p class="col-span-full py-20 text-center text-xs italic text-slate-400">No assets found.</p>';
-      return;
-    }
-    
-    container.innerHTML = items.map(i => `
-      <div class="admin-card p-2 relative group overflow-hidden">
-        <img src="${i.url}" class="w-full aspect-square object-cover rounded-xl">
-        <div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity gap-2">
-          <button data-action="copy-url" data-url="${i.url}" class="p-2 bg-white text-slate-900 rounded-lg text-[8px] font-bold uppercase px-3">Link</button>
-          <button data-action="delete-media" data-name="${i.name}" class="p-2 bg-red-500 text-white rounded-lg text-[8px] font-bold uppercase px-3">Purge</button>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  window.handleMediaUpload = function (e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const res = await api('/media/upload', 'POST', { name: file.name, data: reader.result });
-      if (res) { loadMedia(); notify('Asset Synced'); }
-    };
-    reader.readAsDataURL(file);
-  };
+  // --- 7. QUIZZES & DATA ---
 
   async function loadQuizzes() {
     const items = await api('/admin/quizzes');
     const container = document.getElementById('quizzes-list');
-    if (!container || !Array.isArray(items)) return;
+    if (!container || !items) return;
 
     container.innerHTML = items.map(q => `
       <div class="admin-card p-6 flex flex-col h-full group">
-        <div class="flex justify-between mb-4">
-          <span class="text-[9px] font-black uppercase bg-indigo-50 text-indigo-600 px-2 py-1 rounded">${q.status}</span>
-        </div>
-        <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${q.title}</h4>
+        <div class="flex justify-between mb-4"><span class="text-[9px] font-black uppercase bg-indigo-50 text-indigo-600 px-2 py-1 rounded">${q.status}</span></div>
+        <h4 class="font-black text-slate-900 mb-6 flex-1">${q.title}</h4>
         <div class="flex gap-2">
-          <button data-action="edit-quiz" data-id="${q.id}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
-          <button data-action="delete-quiz" data-id="${q.id}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+          <button data-action="edit-quiz" data-id="${q.id}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Build</button>
         </div>
       </div>
-    `).join('');
+    `).join('') || '<p class="col-span-full py-20 text-center text-xs italic text-slate-400">Empty repository.</p>';
   }
 
   async function openQuizEditor(id) {
@@ -377,19 +303,9 @@
     const row = document.createElement('div');
     row.className = 'question-row p-6 bg-slate-50 rounded-2xl space-y-4 border border-transparent hover:border-indigo-100 transition-all';
     row.innerHTML = `
-      <div class="flex justify-between items-center">
-        <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Question</span>
-        <button data-action="remove-question" class="text-slate-400 hover:text-red-500 transition-colors">&times;</button>
-      </div>
+      <div class="flex justify-between items-center"><span class="text-[10px] font-black text-indigo-600 uppercase">Question</span><button data-action="remove-question" class="text-slate-400">&times;</button></div>
       <input type="text" placeholder="Question text" class="q-text w-full p-3 bg-white rounded-xl border-none font-bold text-sm" value="${data.question || ''}">
-      <div class="grid grid-cols-2 gap-4">
-        ${[0, 1, 2, 3].map(i => `
-          <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-100">
-            <input type="radio" name="correct-${Date.now()}-${Math.random()}" class="q-correct" ${data.correct === i ? 'checked' : ''}>
-            <input type="text" placeholder="Option ${i + 1}" class="q-option w-full border-none bg-transparent text-xs font-medium" value="${(data.options || [])[i] || ''}">
-          </div>
-        `).join('')}
-      </div>
+      <div class="grid grid-cols-2 gap-4">${[0, 1, 2, 3].map(i => `<div class="flex items-center gap-2 bg-white p-2 rounded-xl"><input type="radio" name="correct-${Math.random()}" class="q-correct" ${data.correct === i ? 'checked' : ''}><input type="text" placeholder="Option ${i + 1}" class="q-option w-full border-none bg-transparent text-xs" value="${(data.options || [])[i] || ''}"></div>`).join('')}</div>
     `;
     container.appendChild(row);
   }
@@ -400,31 +316,38 @@
       const correctIndex = Array.from(row.querySelectorAll('.q-correct')).findIndex(radio => radio.checked);
       return { question: row.querySelector('.q-text').value, options, correct: correctIndex };
     });
-
-    const payload = {
-      title: document.getElementById('quiz-title').value,
-      description: document.getElementById('quiz-description').value,
-      result_message: document.getElementById('quiz-result').value,
-      status: document.getElementById('quiz-status').value,
-      questions
-    };
-
+    const payload = { title: document.getElementById('quiz-title').value, description: document.getElementById('quiz-description').value, result_message: document.getElementById('quiz-result').value, status: document.getElementById('quiz-status').value, questions };
     const res = await api(currentQuizId ? `/admin/quizzes/${currentQuizId}` : '/admin/quizzes', currentQuizId ? 'PUT' : 'POST', payload);
     if (res) { notify('Quiz Engine Updated'); showSection('quizzes'); }
   }
 
-  async function executeBuild() {
-    notify('Build Sequence Started');
-    const term = document.getElementById('dev-terminal');
-    document.getElementById('dev-log-container').classList.remove('hidden');
-    term.innerHTML += `<br>>>> [BUILD] Initiating hugo --minify...`;
-    setTimeout(() => {
-      term.innerHTML += `<br>>>> [BUILD] Done. Pagefind indexing complete.`;
-      notify('Build Success');
-    }, 1500);
+  // --- 8. DASHBOARD RECAP ---
+
+  async function loadDashboard() {
+    const stats = await api('/admin/stats');
+    if (stats) {
+      document.getElementById('stat-users').textContent = stats.totalUsers;
+      document.getElementById('stat-views').textContent = stats.totalViews;
+      document.getElementById('stat-rating').textContent = stats.averageRating;
+      document.getElementById('stat-new-leads').textContent = stats.newInquiries;
+    }
+    const [activity, popular] = await Promise.all([api('/admin/activity'), api('/admin/popular')]);
+    if (Array.isArray(activity)) {
+      document.getElementById('activity-list').innerHTML = activity.map(i => `
+        <div class="flex items-center justify-between py-4">
+          <p class="text-sm font-bold text-slate-700">${i.user_name} <span class="text-[10px] font-black uppercase text-slate-400 ml-2">${i.event}</span></p>
+          <span class="text-[10px] font-black text-indigo-600">${new Date(i.created_at).toLocaleTimeString()}</span>
+        </div>
+      `).join('');
+    }
+    if (Array.isArray(popular)) {
+      document.getElementById('popular-list').innerHTML = popular.map(i => `
+        <div class="flex items-center justify-between py-3 px-4 bg-slate-50 rounded-xl mb-2"><p class="text-xs font-bold text-slate-600 truncate">${i.slug}</p><span class="text-[10px] font-black text-emerald-600">${i.views} HITS</span></div>
+      `).join('');
+    }
   }
 
-  // --- 5. BOOT ---
+  // --- 9. BOOT ---
   function init() {
     const token = localStorage.getItem('mindfull_admin_token');
     if (token) {

@@ -8,15 +8,53 @@ const bcrypt = require('bcryptjs');
 router.use(roleAuth(['admin', 'therapist']));
 
 // --- Overall Stats ---
+const fs = require('fs-extra');
+const path = require('path');
+
+// --- Log Streaming (SSE) ---
+router.get('/logs/stream', (req, res) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
+
+  const logPath = path.join(__dirname, '../../dev.log');
+  
+  // Send initial heartbeat
+  res.write('data: {"type":"status", "msg":"Log link established"}\n\n');
+
+  // Simple tail implementation
+  let lastSize = 0;
+  try {
+    const stats = fs.statSync(logPath);
+    lastSize = stats.size;
+  } catch(e) {}
+
+  const timer = setInterval(() => {
+    try {
+      const stats = fs.statSync(logPath);
+      if (stats.size > lastSize) {
+        const stream = fs.createReadStream(logPath, { start: lastSize, end: stats.size });
+        stream.on('data', (chunk) => {
+          res.write(`data: ${JSON.stringify({ type: 'log', content: chunk.toString() })}\n\n`);
+        });
+        lastSize = stats.size;
+      }
+    } catch(e) {}
+  }, 1000);
+
+  req.on('close', () => clearInterval(timer));
+});
+
 router.get('/stats', (req, res) => {
   const stats = {};
   db.get('SELECT COUNT(*) as count FROM users', [], (err, row) => {
     stats.totalUsers = row?.count || 0;
-    db.get('SELECT SUM(views) as count FROM post_stats', [], (err, row) => {
+    db.get('SELECT COALESCE(SUM(views), 0) as count FROM post_stats', [], (err, row) => {
       stats.totalViews = row?.count || 0;
       db.get('SELECT COUNT(*) as count FROM comments', [], (err, row) => {
         stats.totalComments = row?.count || 0;
-        db.get('SELECT AVG(avg_rating) as avg FROM course_ratings', [], (err, row) => {
+        db.get('SELECT COALESCE(AVG(avg_rating), 0) as avg FROM course_ratings', [], (err, row) => {
           stats.averageRating = row?.avg ? row.avg.toFixed(1) : '0.0';
           db.get('SELECT COUNT(*) as count FROM inquiries WHERE status = "new"', [], (err, row) => {
             stats.newInquiries = row?.count || 0;
@@ -110,8 +148,8 @@ router.post('/templates', (req, res) => {
 
 router.get('/activity', (req, res) => {
   const query = `
-    SELECT 'interaction' as activity_type, type as event, metadata, created_at, u.name as user_name
-    FROM user_interactions ui JOIN users u ON ui.user_id = u.id
+    SELECT 'interaction' as activity_type, type as event, metadata, created_at, COALESCE(u.name, 'Guest User') as user_name
+    FROM user_interactions ui LEFT JOIN users u ON ui.user_id = u.id
     UNION ALL
     SELECT 'inquiry' as activity_type, subject as event, message as metadata, created_at, name as user_name FROM inquiries
     ORDER BY created_at DESC LIMIT 15
