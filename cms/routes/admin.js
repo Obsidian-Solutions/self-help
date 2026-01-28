@@ -201,10 +201,10 @@ router.post('/quizzes', (req, res) => {
   db.run(
     'INSERT INTO quizzes (title, description, result_message, questions, status) VALUES (?, ?, ?, ?, ?)',
     [title, description, result_message, JSON.stringify(questions), status || 'draft'],
-    function(err) {
+    function (err) {
       if (err) return res.status(500).json({ message: 'DB Error' });
       res.json({ id: this.lastID, success: true });
-    }
+    },
   );
 });
 
@@ -216,7 +216,7 @@ router.put('/quizzes/:id', (req, res) => {
     err => {
       if (err) return res.status(500).json({ message: 'DB Error' });
       res.json({ success: true });
-    }
+    },
   );
 });
 

@@ -1999,6 +1999,10 @@ svg {
   gap: 2rem;
 }
 
+.gap-0\.5 {
+  gap: 0.125rem;
+}
+
 .gap-y-6 {
   row-gap: 1.5rem;
 }
@@ -2932,6 +2936,10 @@ svg {
   line-height: 1rem;
 }
 
+.text-\[9px\] {
+  font-size: 9px;
+}
+
 .font-black {
   font-weight: 900;
 }
@@ -3491,6 +3499,10 @@ svg {
 
 .ease-in-out {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.running {
+  animation-play-state: running;
 }
 
 .paused {
