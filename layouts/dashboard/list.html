@@ -286,13 +286,22 @@
             credentials: 'include'
           });
           const data = await res.json();
-          const starIcon = el.querySelector('i');
           if (data.total_ratings > 0) {
-            valEl.textContent = data.avg_rating.toFixed(1);
-            if (starIcon && !el.querySelector('.js-star-rating')) {
-               starIcon.classList.remove('fa-regular');
-               starIcon.classList.add('fa-solid');
-            }
+            const avg = data.avg_rating;
+            valEl.textContent = avg.toFixed(1);
+            
+            // Update stars visually
+            stars.forEach((s, i) => {
+              const starValue = i + 1;
+              s.classList.remove('fa-solid', 'fa-regular', 'fa-star-half-stroke');
+              if (avg >= starValue) {
+                s.classList.add('fa-solid');
+              } else if (avg >= starValue - 0.5) {
+                s.classList.add('fa-solid', 'fa-star-half-stroke');
+              } else {
+                s.classList.add('fa-regular');
+              }
+            });
           } else {
             valEl.textContent = 'New';
           }
@@ -326,13 +335,12 @@
         });
       });
 
-      el.querySelector('.js-star-rating').addEventListener('mouseleave', () => {
-        if (ratedCourses.includes(slug)) return;
-        stars.forEach(s => {
-          s.classList.remove('fa-solid');
-          s.classList.add('fa-regular');
+      if (starContainer) {
+        starContainer.addEventListener('mouseleave', () => {
+          if (ratedCourses.includes(slug)) return;
+          updateDisplay();
         });
-      });
+      }
 
       stars.forEach(star => {
         star.addEventListener('click', async (e) => {
