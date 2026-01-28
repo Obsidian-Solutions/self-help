@@ -1,36 +1,41 @@
 {{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
-   * MindFull CMS Preview Handshake
-   * Signals the Control Tower when ready and listens for updates
+   * MindFull CMS Snippeting Engine
+   * Removes site chrome and signals ready status
    */
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (!urlParams.has('cms_preview')) return;
 
-    console.log("MindFull Preview Shell: Initializing Handshake...");
+    console.log("MindFull Preview Mode: Snippeting active");
     
-    // 1. Hide Site Chrome
-    const style = document.createElement('style');
-    style.textContent = `
-      header, footer, .engagement-bar, section.mt-20, section.mt-24, section.mt-32, .related-posts, .community-discussion { 
-        display: none !important; 
-      }
-      body { background: white !important; }
-      main, article { padding-top: 0 !important; margin-top: 0 !important; }
-    `;
-    document.head.appendChild(style);
+    // 1. Tag body for CSS hiding
+    document.body.setAttribute('data-cms-preview', 'true');
 
-    // 2. Signal 'READY' to Dashboard
+    // 2. Aggressive Snippeting: Remove chrome entirely from the DOM
+    const removeChrome = () => {
+      const selectors = ['header', 'footer', '#loginModal', '#signupModal', '#confirmModal', '.engagement-bar', '.related-posts'];
+      selectors.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) el.remove();
+      });
+    };
+
+    // Run once immediately and once on DOMContentLoaded
+    removeChrome();
+    document.addEventListener('DOMContentLoaded', removeChrome);
+
+    // 3. Signal 'READY' to Dashboard
     window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
 
-    // 3. Listen for Content Injections
+    // 4. Listen for Content Injections
     window.addEventListener('message', function(event) {
       const data = event.data;
       if (data.type === 'CMS_SYNC') {
         const contentArea = document.querySelector('.prose') || document.querySelector('article');
         const titleArea = document.querySelector('h1');
-        const categoryArea = document.querySelector('.fidelity-category') || document.querySelector('.px-4.py-1.5');
+        const categoryArea = document.querySelector('.px-4.py-1.5');
 
         if (contentArea && data.body) contentArea.innerHTML = data.body;
         if (titleArea && data.title) titleArea.textContent = data.title;

@@ -4,6 +4,11 @@
   {{ partial "shared/head.html" . }}
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
+{{ $isPreview := strings.Contains .RelPermalink "cms_preview=true" | or (in .Page.Permalink "cms_preview=true") | or (eq .Site.Params.cms_preview true) }}
+<!-- We detect it better via a global data attribute set by the listener script, but for template level hiding: -->
+{{ $isPreview := false }}
+{{ if (findRE `cms_preview=true` .Page.Permalink) }}{{ $isPreview = true }}{{ end }}
+
 <body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200 {{ if .Params.useAppShell }}is-app-page{{ end }} {{ if (or (eq .Kind `login`) (eq .Kind `signup`) (in .RelPermalink `/login/`) (in .RelPermalink `/signup/`)) }}overflow-hidden h-screen{{ end }}">
   <style>
     /* Global UI Scaling: mimic 90% zoom for a more professional 'tight' feel */
@@ -13,6 +18,18 @@
     }
     @media (min-width: 768px) { html { font-size: 15px; } }
     @media (min-width: 1280px) { html { font-size: 16px; } }
+
+    /* Preview Snippet Mode */
+    [data-cms-preview="true"] header, 
+    [data-cms-preview="true"] footer,
+    [data-cms-preview="true"] .engagement-bar,
+    [data-cms-preview="true"] .related-posts,
+    [data-cms-preview="true"] .community-discussion { 
+      display: none !important; 
+    }
+    [data-cms-preview="true"] main { padding-top: 0 !important; }
+    [data-cms-preview="true"] .fidelity-hero { margin-top: 2rem !important; }
+    [data-cms-preview="true"] { background: white !important; }
 
     /* Sidebar visibility control */
     .app-sidebar { display: none; }

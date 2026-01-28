@@ -130,3 +130,42 @@
 [CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 1.753 ms - 33[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.851 ms - -[0m
 [CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.501 ms - -[0m
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 59ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#3).
+[HUGO] 2026-01-28 13:29:17.214 +0000
+[HUGO] Template changed /_default/baseof.html
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 40 ms
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.202 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.987 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.738 ms - -[0m
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 55ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#4).
+[HUGO] 2026-01-28 13:29:25.214 +0000
+[HUGO] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#2).
+[DOCS] 2026-01-28 13:29:25.243 +0000
+[DOCS] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 7 ms
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 40 ms
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.159 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.563 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.372 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 7.135 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.107 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.100 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.

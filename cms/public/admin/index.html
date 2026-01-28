@@ -12,11 +12,18 @@
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <link rel="stylesheet" href="css/admin.css">
     <style>
-        .split-pane { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 64px); overflow: hidden; }
-        .edit-side { overflow-y: auto; background: #f9fafb; border-right: 1px solid #e5e7eb; }
-        .preview-side { background: #f3f4f6; overflow: hidden; }
-        .CodeMirror { height: 500px !important; border-radius: 0.75rem; border: 1px solid #e5e7eb; }
-        .editor-toolbar { border-radius: 0.75rem 0.75rem 0 0; border: 1px solid #e5e7eb; background: white; }
+        .split-wrapper { display: flex; height: calc(100vh - 64px); overflow: hidden; position: relative; }
+        .edit-side { flex: 0 0 500px; min-width: 350px; border-right: 1px solid #e5e7eb; overflow-y: auto; background: #f9fafb; display: flex; flex-direction: column; }
+        .resizer { flex: 0 0 8px; cursor: col-resize; background: transparent; transition: background 0.2s; z-index: 50; }
+        .resizer:hover, .resizer.resizing { background: rgba(79, 70, 229, 0.2); }
+        .preview-side { flex: 1; overflow: hidden; background: #f3f4f6; position: relative; }
+        
+        .browser-mock { height: 100%; display: flex; flex-direction: column; }
+        .browser-header { height: 48px; background: #1a1c23; display: flex; items-center px-6 gap-2 shrink-0; }
+        .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+        
+        .CodeMirror { flex: 1; border: none !important; font-size: 14px; }
+        .editor-toolbar { border: none !important; border-bottom: 1px solid #e5e7eb !important; background: white !important; }
     </style>
 </head>
 <body class="h-full flex overflow-hidden bg-[#f3f4f6]">
@@ -24,148 +31,105 @@
     <div id="toaster" class="fixed top-5 right-5 z-[100] space-y-2"></div>
 
     <!-- Sidebar -->
-    <aside id="admin-sidebar" class="hidden w-64 bg-[#1a1c23] flex-shrink-0 flex flex-col z-40">
+    <aside id="admin-sidebar" class="hidden w-64 bg-[#1a1c23] flex-shrink-0 flex flex-col z-40 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl">
-                <i class="fa-solid fa-terminal"></i>
-            </div>
-            <div>
-                <h2 class="text-white font-extrabold tracking-tight">MindFull</h2>
-                <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Control Tower</p>
-            </div>
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl ring-4 ring-indigo-500/10"><i class="fa-solid fa-terminal"></i></div>
+            <div><h2 class="text-white font-extrabold tracking-tight">MindFull</h2><p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Control Tower</p></div>
         </div>
         <nav class="flex-1 mt-4 px-4 space-y-6">
             <div>
                 <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">Operations</p>
                 <div class="space-y-1 mt-2">
-                    <a href="#dashboard" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl hover:text-white hover:bg-slate-800">
-                        <i class="fa-solid fa-chart-line w-5"></i> Insights
-                    </a>
-                    <a href="#content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl hover:text-white hover:bg-slate-800">
-                        <i class="fa-solid fa-file-pen w-5"></i> CMS Manager
-                    </a>
-                    <a href="#media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl hover:text-white hover:bg-slate-800">
-                        <i class="fa-solid fa-images w-5"></i> Assets
-                    </a>
+                    <a href="#dashboard" class="nav-link active w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800"><i class="fa-solid fa-chart-line w-5"></i> Insights</a>
+                    <a href="#content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800"><i class="fa-solid fa-file-pen w-5"></i> CMS Manager</a>
+                    <a href="#media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800"><i class="fa-solid fa-images w-5"></i> Assets</a>
                 </div>
             </div>
-            <!-- Quizzes, Inquiries, Users same as before -->
             <div>
-                <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">Support</p>
+                <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-widest">Engineering</p>
                 <div class="space-y-1 mt-2">
-                    <a href="#inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl hover:text-white hover:bg-slate-800">
-                        <i class="fa-solid fa-envelope w-5"></i> Leads
-                    </a>
-                    <a href="#users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl hover:text-white hover:bg-slate-800">
-                        <i class="fa-solid fa-user-group w-5"></i> Directory
-                    </a>
+                    <a href="#inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800"><i class="fa-solid fa-envelope-open-text w-5"></i> Leads</a>
+                    <a href="#users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800"><i class="fa-solid fa-user-group w-5"></i> User Directory</a>
                 </div>
             </div>
         </nav>
-        <div class="p-6 mt-auto border-t border-slate-800/50">
-            <button data-action="logout" class="w-full flex items-center gap-3 text-sm font-bold text-red-400">
-                <i class="fa-solid fa-power-off"></i> Sign Out
-            </button>
-        </div>
+        <div class="p-6 mt-auto border-t border-slate-800/50"><button data-action="logout" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300"><i class="fa-solid fa-power-off"></i> Sign Out</button></div>
     </aside>
 
     <div class="flex-1 flex flex-col overflow-hidden">
-        <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10">
-            <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest">
-                System / <span id="breadcrumb-active" class="text-slate-900">OVERVIEW</span>
-            </div>
-            <div id="admin-info" class="flex items-center gap-4">
-                <p id="admin-display-name" class="text-xs font-bold text-slate-900">--</p>
-                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border">
-            </div>
+        <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
+            <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">System / <span id="breadcrumb-active" class="text-slate-900">OVERVIEW</span></div>
+            <div class="flex items-center gap-4"><p id="admin-display-name" class="text-xs font-bold text-slate-900">--</p><img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border"></div>
         </header>
 
         <main id="admin-main" class="hidden flex-1 overflow-y-auto">
-            
-            <!-- Dashboard -->
             <div id="section-dashboard" class="admin-section p-10 space-y-10">
-                <div class="grid grid-cols-4 gap-6" id="dashboard-stats">
-                    <!-- Dynamic Stats -->
-                </div>
-                <div class="grid grid-cols-2 gap-10">
-                    <div class="admin-card p-8">
-                        <h4 class="font-black text-xs uppercase text-slate-400 mb-6">Real-time Activity</h4>
-                        <div id="activity-list" class="space-y-4"></div>
-                    </div>
-                    <div class="admin-card p-8">
-                        <h4 class="font-black text-xs uppercase text-slate-400 mb-6">Popular Pages</h4>
-                        <div id="popular-list" class="space-y-4"></div>
-                    </div>
-                </div>
+                <div id="dashboard-stats" class="grid grid-cols-4 gap-6"></div>
             </div>
 
-            <!-- CMS Manager -->
             <div id="section-content" class="admin-section p-10 hidden space-y-6">
                 <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
                     <div class="flex gap-2">
-                        <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl text-xs font-bold bg-indigo-50 text-indigo-600">Posts</button>
-                        <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl text-xs font-bold">Courses</button>
+                        <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Posts</button>
+                        <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl text-xs font-bold transition-all hover:bg-slate-50">Courses</button>
                     </div>
-                    <button data-action="new-entry" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs">+ New Content</button>
                 </div>
                 <div id="collection-view" class="grid grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- THE DEFINITIVE EDITOR -->
+            <!-- THE FINAL EDITOR -->
             <div id="section-editor" class="admin-section hidden h-full">
-                <div class="split-pane">
-                    <!-- Left: Raw Edit -->
-                    <div class="edit-side">
-                        <div class="p-6 border-b bg-white sticky top-0 z-10 flex items-center justify-between">
-                            <a href="#content" class="text-xs font-bold text-indigo-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to List</a>
-                            <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-xs shadow-lg">Publish to Hugo</button>
+                <div class="split-wrapper">
+                    <div class="edit-side" id="editor-side">
+                        <div class="p-6 border-b bg-white flex items-center justify-between shrink-0">
+                            <a href="#content" class="text-xs font-bold text-indigo-600">&larr; Back</a>
+                            <button data-action="publish" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs">Publish</button>
                         </div>
-                        <div class="p-8 space-y-8">
-                            <h2 class="text-xl font-black text-slate-900" id="editor-filename">Loading...</h2>
+                        <div class="p-6 flex-1 flex flex-col overflow-y-auto">
                             <textarea id="editor-textarea"></textarea>
                         </div>
                     </div>
-                    <!-- Right: Direct Site Iframe -->
-                    <div class="preview-side flex flex-col">
-                        <div class="h-12 bg-[#1a1c23] flex items-center px-6 justify-between shrink-0">
-                            <span id="live-url-display" class="text-[10px] font-mono text-slate-500">Connecting...</span>
-                            <button data-action="refresh-preview" class="text-slate-500 hover:text-white transition-colors"><i class="fa-solid fa-rotate-right text-[10px]"></i></button>
-                        </div>
-                        <div class="flex-1 bg-white relative">
-                            <iframe id="site-iframe" class="w-full h-full border-none"></iframe>
-                            <div id="iframe-loader" class="absolute inset-0 bg-white flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity">
-                                <i class="fa-solid fa-circle-notch animate-spin text-indigo-600 text-2xl mb-3"></i>
-                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Syncing Site...</p>
+                    <div class="resizer" id="drag-handle"></div>
+                    <div class="preview-side">
+                        <div class="browser-mock">
+                            <div class="browser-header flex items-center px-6 gap-2">
+                                <div class="browser-dot bg-red-400"></div><div class="browser-dot bg-amber-400"></div><div class="browser-dot bg-emerald-400"></div>
+                                <span id="live-url-display" class="ml-4 text-[10px] font-mono text-slate-500 truncate">Connecting...</span>
+                            </div>
+                            <div class="flex-1 bg-white relative">
+                                <iframe id="site-iframe" class="w-full h-full border-none"></iframe>
+                                <div id="iframe-loader" class="absolute inset-0 bg-white flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity">
+                                    <i class="fa-solid fa-circle-notch animate-spin text-indigo-600 text-2xl mb-3"></i>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase">Syncing Hugo...</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Generic placeholder sections to prevent script crash -->
-            <div id="section-media" class="admin-section p-10 hidden"><div id="media-grid" class="grid grid-cols-6 gap-6"></div></div>
+            <!-- Media, Users, Leads (Same placeholders) -->
+            <div id="section-media" class="admin-section p-10 hidden space-y-8"><div id="media-grid" class="grid grid-cols-6 gap-6"></div></div>
             <div id="section-users" class="admin-section p-10 hidden"><div id="users-table-body"></div></div>
             <div id="section-inquiries" class="admin-section p-10 hidden"><div id="inquiries-table-body"></div></div>
         </main>
     </div>
 
-    <!-- Login Modal (Untouched functionality, hardened visuals) -->
-    <div id="login-modal" class="fixed inset-0 bg-[#1a1c23] flex items-center justify-center z-50">
+    <!-- Login -->
+    <div id="login-modal" class="fixed inset-0 bg-[#1a1c23] flex items-center justify-center z-50 p-4">
         <div class="w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
-            <div class="text-center mb-10">
-                <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-terminal text-2xl"></i></div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Operations Hub</h2>
-            </div>
+            <div class="text-center mb-10"><div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-terminal text-2xl"></i></div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Operations Hub</h2></div>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Identifier" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900 shadow-inner">
-                <input type="password" id="password" placeholder="Access Key" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900 shadow-inner">
+                <input type="email" id="email" placeholder="Identity" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
+                <input type="password" id="password" placeholder="Access Key" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
                 <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
                 <div id="login-status" class="text-center text-[10px] font-bold uppercase text-slate-400 mt-4"></div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="js/admin.js"></script>
 </body>
 </html>
