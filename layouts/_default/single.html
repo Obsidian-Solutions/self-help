@@ -164,7 +164,7 @@
 </article>
 
 <script>
-  const POST_SLUG = {{ .File.BaseFileName | jsonify | safeJS }};
+  const POST_SLUG = {{ .File.ContentBaseName | jsonify | safeJS }};
   const CMS_URL = window.mindfullConfig ? window.mindfullConfig.cmsUrl : 'http://localhost:3000';
 
   // --- Real-time Interaction Engine ---

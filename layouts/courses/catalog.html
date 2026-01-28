@@ -51,7 +51,7 @@
               <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Rating</span>
               <div class="flex items-center gap-2 js-course-rating" data-slug="{{ $slug }}">
                 <div class="flex text-amber-400 text-xs">
-                  <i class="fa-solid fa-star"></i>
+                  <i class="fa-regular fa-star"></i>
                 </div>
                 <span class="text-sm font-black text-gray-900 dark:text-white rating-value">--</span>
               </div>
@@ -104,7 +104,7 @@
             <span class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] whitespace-nowrap">{{ len $lessons }} Lessons</span>
             <span class="w-px h-3 bg-gray-200 dark:bg-gray-700 flex-shrink-0"></span>
             <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating whitespace-nowrap" data-slug="{{ $slug }}">
-              <i class="fa-solid fa-star"></i>
+              <i class="fa-regular fa-star"></i>
               <span class="rating-value">--</span>
             </div>
           </div>
@@ -168,8 +168,13 @@
         const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
         const data = await res.json();
         const valEl = el.querySelector('.rating-value');
+        const starIcon = el.querySelector('i');
         if (data.total_ratings > 0) {
           if (valEl) valEl.textContent = data.avg_rating.toFixed(1);
+          if (starIcon) {
+            starIcon.classList.remove('fa-regular');
+            starIcon.classList.add('fa-solid');
+          }
         } else {
           if (valEl) valEl.textContent = 'New';
         }

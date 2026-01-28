@@ -124,11 +124,11 @@
             <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
             <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating" data-slug="{{ $slug }}">
               <div class="flex gap-0.5 js-star-rating">
-                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="1"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="2"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="3"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="4"></i>
-                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="5"></i>
+                <i class="fa-regular fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="1"></i>
+                <i class="fa-regular fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="2"></i>
+                <i class="fa-regular fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="3"></i>
+                <i class="fa-regular fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="4"></i>
+                <i class="fa-regular fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="5"></i>
               </div>
               <span class="rating-value ml-1">--</span>
             </div>
@@ -264,6 +264,13 @@
       }
     });
 
+    // --- CSRF Helper ---
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
     // Fetch and Handle Course Ratings
     const ratingEls = document.querySelectorAll('.js-course-rating');
     const ratedCourses = JSON.parse(localStorage.getItem('ratedCourses') || '[]');
@@ -277,8 +284,13 @@
         try {
           const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
           const data = await res.json();
+          const starIcon = el.querySelector('i');
           if (data.total_ratings > 0) {
             valEl.textContent = data.avg_rating.toFixed(1);
+            if (starIcon && !el.querySelector('.js-star-rating')) {
+               starIcon.classList.remove('fa-regular');
+               starIcon.classList.add('fa-solid');
+            }
           } else {
             valEl.textContent = 'New';
           }
@@ -288,8 +300,35 @@
       updateDisplay();
 
       if (ratedCourses.includes(slug)) {
-        stars.forEach(s => s.classList.add('opacity-50', 'pointer-events-none'));
+        stars.forEach(s => {
+          s.classList.add('opacity-50', 'pointer-events-none', 'fa-solid');
+          s.classList.remove('fa-regular');
+        });
       }
+
+      // Star Hover Effect
+      stars.forEach((star, index) => {
+        star.addEventListener('mouseenter', () => {
+          if (ratedCourses.includes(slug)) return;
+          stars.forEach((s, i) => {
+            if (i <= index) {
+              s.classList.remove('fa-regular');
+              s.classList.add('fa-solid');
+            } else {
+              s.classList.remove('fa-solid');
+              s.classList.add('fa-regular');
+            }
+          });
+        });
+      });
+
+      el.querySelector('.js-star-rating').addEventListener('mouseleave', () => {
+        if (ratedCourses.includes(slug)) return;
+        stars.forEach(s => {
+          s.classList.remove('fa-solid');
+          s.classList.add('fa-regular');
+        });
+      });
 
       stars.forEach(star => {
         star.addEventListener('click', async (e) => {
@@ -300,15 +339,22 @@
           try {
             const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rate`, {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ rating })
+              headers: { 
+                'Content-Type': 'application/json',
+                'x-xsrf-token': getCookie('XSRF-TOKEN')
+              },
+              body: JSON.stringify({ rating }),
+              credentials: 'include'
             });
 
             if (res.ok) {
               const currentRated = JSON.parse(localStorage.getItem('ratedCourses') || '[]');
               currentRated.push(slug);
               localStorage.setItem('ratedCourses', JSON.stringify(currentRated));
-              stars.forEach(s => s.classList.add('opacity-50', 'pointer-events-none'));
+              stars.forEach(s => {
+                s.classList.add('opacity-50', 'pointer-events-none', 'fa-solid');
+                s.classList.remove('fa-regular');
+              });
               updateDisplay();
             }
           } catch (err) {}
