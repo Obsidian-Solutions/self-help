@@ -25,22 +25,25 @@
                 <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Command Center</p>
             </div>
         </div>
-        <nav class="flex-1 mt-4">
-            <button onclick="showSection('dashboard')" id="nav-btn-dashboard" class="sidebar-link active w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
+        <nav class="flex-1 mt-4 px-4 space-y-1">
+            <button data-section="dashboard" class="nav-link active w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
-            <button onclick="showSection('inquiries')" id="nav-btn-inquiries" class="sidebar-link w-full flex items-center justify-between px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
-                <span class="flex items-center gap-3"><i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads</span>
+            <button data-section="inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-envelope-open-text w-5"></i> CRM Leads
             </button>
-            <button onclick="showSection('users')" id="nav-btn-users" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
+            <button data-section="users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-users w-5"></i> User Base
             </button>
-            <button onclick="showSection('content')" id="nav-btn-content" class="sidebar-link w-full flex items-center gap-3 px-6 py-3 text-sm font-semibold text-slate-400 border-l-4 border-transparent hover:text-white">
+            <button data-section="content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-file-lines w-5"></i> Content
+            </button>
+            <button data-section="media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                <i class="fa-solid fa-photo-film w-5"></i> Media
             </button>
         </nav>
         <div class="p-6 mt-auto border-t border-slate-800">
-            <button onclick="logout()" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
+            <button id="logout-btn" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
             </button>
         </div>
@@ -50,118 +53,195 @@
     <div class="flex-1 flex flex-col overflow-hidden">
         <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
             <div class="text-xs font-bold text-slate-400">
-                Dashboard / <span id="breadcrumb-active" class="text-slate-900">Overview</span>
+                Dashboard / <span id="breadcrumb-active" class="text-slate-900 uppercase tracking-widest text-[10px]">Overview</span>
             </div>
             <div class="flex items-center gap-4">
                 <div class="text-right">
-                    <p id="admin-display-name" class="text-xs font-bold text-slate-900">Admin</p>
-                    <p class="text-[9px] font-black uppercase text-indigo-600">Authorized</p>
+                    <p id="admin-display-name" class="text-xs font-bold text-slate-900">--</p>
+                    <p id="admin-display-role" class="text-[9px] font-black uppercase text-indigo-600">Authorized</p>
                 </div>
-                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border">
+                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border border-slate-100 shadow-sm">
             </div>
         </header>
 
         <main id="admin-main" class="hidden flex-1 overflow-y-auto p-10">
-            <!-- Sections will be visible after login -->
-            <div id="section-dashboard" class="admin-section">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-                    <div class="glass-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Users</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
-                    <div class="glass-card p-6 border-t-4 border-emerald-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Views</p><h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3></div>
-                    <div class="glass-card p-6 border-t-4 border-amber-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Rating</p><h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3></div>
-                    <div class="glass-card p-6 border-t-4 border-red-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Leads</p><h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3></div>
+            <!-- Sections -->
+            <div id="section-dashboard" class="admin-section space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="admin-card p-6 border-t-4 border-indigo-600">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Users</p>
+                        <h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3>
+                    </div>
+                    <div class="admin-card p-6 border-t-4 border-emerald-500">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Post Views</p>
+                        <h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3>
+                    </div>
+                    <div class="admin-card p-6 border-t-4 border-amber-500">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Avg Rating</p>
+                        <h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3>
+                    </div>
+                    <div class="admin-card p-6 border-t-4 border-red-500">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">New Leads</p>
+                        <h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="glass-card p-8"><h4 class="font-bold mb-6">Activity Pulse</h4><div id="activity-list" class="space-y-4"></div></div>
-                    <div class="glass-card p-8"><h4 class="font-bold mb-6">Popular</h4><div id="popular-list" class="space-y-4"></div></div>
+                    <div class="admin-card p-8">
+                        <h4 class="font-black text-slate-900 mb-6">Real-time Activity</h4>
+                        <div id="activity-list" class="divide-y divide-slate-50"></div>
+                    </div>
+                    <div class="admin-card p-8">
+                        <h4 class="font-black text-slate-900 mb-6">Popular Insights</h4>
+                        <div id="popular-list" class="space-y-4"></div>
+                    </div>
                 </div>
             </div>
             
-            <div id="section-content" class="admin-section hidden"><div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div></div>
-            <div id="section-editor" class="admin-section hidden">
-                <div class="flex justify-between mb-6"><button onclick="showSection('content')" class="text-sm font-bold text-indigo-600">&larr; Back</button><button onclick="saveContent()" class="bg-indigo-600 text-white px-6 py-2 rounded-lg font-bold text-sm">Save</button></div>
-                <div class="grid grid-cols-3 gap-10"><div class="col-span-2"><textarea id="editor-textarea"></textarea></div><div id="frontmatter-fields" class="space-y-4"></div></div>
+            <div id="section-content" class="admin-section hidden space-y-6">
+                <div class="flex gap-4 mb-8">
+                    <button onclick="window.loadCollection('posts')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Blog Posts</button>
+                    <button onclick="window.loadCollection('courses')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Courses</button>
+                </div>
+                <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
-            <div id="section-users" class="admin-section hidden"><div class="glass-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">User</th><th class="px-8 py-4">Role</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
-            <div id="section-inquiries" class="admin-section hidden"><div class="glass-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead</th><th class="px-8 py-4">Message</th><th class="px-8 py-4 text-right">Status</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
+
+            <div id="section-editor" class="admin-section hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <button onclick="window.showSection('content')" class="text-xs font-bold text-indigo-600 flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Back to List
+                    </button>
+                    <button onclick="window.saveContent()" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg shadow-indigo-100 hover:bg-indigo-700">Publish Changes</button>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+                    <div class="lg:col-span-3">
+                        <textarea id="editor-textarea"></textarea>
+                    </div>
+                    <div id="frontmatter-fields" class="space-y-4">
+                        <!-- Fields injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="section-users" class="admin-section hidden">
+                <div class="admin-card overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400">User / Account</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400">Subscription</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400">Role</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body" class="divide-y divide-slate-50"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="section-inquiries" class="admin-section hidden">
+                <div class="admin-card overflow-hidden">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 border-b border-slate-100">
+                            <tr>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400">Lead Contact</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400">Message Content</th>
+                                <th class="px-8 py-4 text-[10px] font-black uppercase text-slate-400 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inquiries-table-body" class="divide-y divide-slate-50"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="section-media" class="admin-section hidden space-y-8">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-black text-slate-900 tracking-tight">Media Assets</h3>
+                    <label class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-indigo-100 cursor-pointer hover:bg-indigo-700 transition-all">
+                        Upload Asset
+                        <input type="file" class="hidden" onchange="window.handleMediaUpload(event)" accept="image/*">
+                    </label>
+                </div>
+                <div id="media-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
+            </div>
         </main>
     </div>
 
-    <!-- Static Login Modal (Direct Logic) -->
+    <!-- Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-[#262933] flex items-center justify-center z-50 p-4">
-        <div class="w-full max-w-sm bg-white rounded-[2rem] p-10 shadow-2xl relative">
+        <div class="w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl relative animate-in">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6"><i class="fa-solid fa-lock text-2xl"></i></div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Access Control</h2>
-                <p class="text-xs text-slate-400 mt-2 font-bold uppercase tracking-widest">Authorized Personnel Only</p>
+            <div class="text-center mb-10">
+                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-lock text-2xl"></i></div>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Authorized Access</h2>
+                <p class="text-xs text-slate-400 mt-2 font-bold uppercase tracking-widest">MindFull Command Center</p>
             </div>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900" autofocus>
-                <input type="password" id="password" placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
-                <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
+                <div>
+                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2 mb-1 block">Credential Email</label>
+                    <input type="email" id="email" class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500/10 transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] font-black uppercase text-slate-400 ml-2 mb-1 block">Security Password</label>
+                    <input type="password" id="password" class="w-full px-6 py-4 bg-slate-50 rounded-2xl border-none font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500/10 transition-all">
+                </div>
+                <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
                 <div id="login-status" class="text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-4 h-4"></div>
             </div>
         </div>
     </div>
 
+    <!-- Login Script -->
     <script>
-        // --- EMERGENCY INLINE LOGIN LOGIC ---
         const loginBtn = document.getElementById('login-submit-btn');
         const statusEl = document.getElementById('login-status');
 
         loginBtn.addEventListener('click', async () => {
-            console.log("Login button clicked.");
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
             if (!email || !password) {
-                statusEl.textContent = "Please fill all fields";
+                statusEl.textContent = "Check credentials";
                 statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
                 return;
             }
 
             loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin"></i> Authenticating...';
-            statusEl.textContent = "Connecting to API...";
+            loginBtn.innerHTML = '<i class="fa-solid fa-circle-notch animate-spin text-lg"></i>';
+            statusEl.textContent = "Verifying...";
 
             try {
-                const res = await fetch(window.location.origin + '/api/auth/login', {
+                const res = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
 
                 const data = await res.json();
-                console.log("Response received:", res.status);
 
                 if (res.ok && data.token) {
                     localStorage.setItem('mindfull_admin_token', data.token);
                     localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
-                    statusEl.textContent = "Success! Redirecting...";
+                    statusEl.textContent = "Success! Reloading...";
                     statusEl.className = "text-center text-[10px] font-bold text-emerald-500 uppercase";
                     setTimeout(() => location.reload(), 500);
                 } else {
-                    statusEl.textContent = data.message || "Invalid credentials";
+                    statusEl.textContent = data.message || "Login failed";
                     statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
                     loginBtn.disabled = false;
                     loginBtn.innerHTML = 'Sign In &rarr;';
                 }
             } catch (err) {
-                console.error("Fetch error:", err);
-                statusEl.textContent = "API Unreachable";
+                statusEl.textContent = "Connection Error";
                 statusEl.className = "text-center text-[10px] font-bold text-red-500 uppercase";
                 loginBtn.disabled = false;
                 loginBtn.innerHTML = 'Sign In &rarr;';
             }
         });
 
-        // Enter key support
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') loginBtn.click();
-        });
+        document.addEventListener('keypress', (e) => { if (e.key === 'Enter') loginBtn.click(); });
     </script>
 
-    <!-- Main Logic -->
+    <!-- Admin Controller -->
     <script src="js/admin.js"></script>
 </body>
 </html>
