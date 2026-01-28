@@ -1,8 +1,8 @@
 ---
-title: "Privacy Policy"
+title: 'Privacy Policy'
 date: 2026-01-26
-url: "/privacy"
-description: "Our commitment to your data privacy. Learn how MindFull protects your personal mental wellness information."
+url: '/privacy'
+description: 'Our commitment to your data privacy. Learn how MindFull protects your personal mental wellness information.'
 ---
 
 Last updated: January 26, 2026

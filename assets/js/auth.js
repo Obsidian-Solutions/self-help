@@ -21,9 +21,9 @@ async function logInteraction(type, metadata = '') {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.token}`
+        Authorization: `Bearer ${session.token}`,
       },
-      body: JSON.stringify({ type, metadata })
+      body: JSON.stringify({ type, metadata }),
     });
   } catch (e) {
     console.warn('CRM logging failed', e);
@@ -96,7 +96,7 @@ function setSession(user) {
     name: user.name,
     id: user.id || Date.now(),
     plan: user.plan || 'Free',
-    token: user.token || null // CMS token if logged in through API
+    token: user.token || null, // CMS token if logged in through API
   };
   localStorage.setItem(SESSION_KEY, JSON.stringify(sessionData));
 }
@@ -117,11 +117,21 @@ function clearSession() {
 // Security: URL Whitelist for redirections
 window.safeRedirect = function (path) {
   const whitelist = [
-    '/', '/dashboard', '/journal', '/settings', '/courses', 
-    '/login', '/signup', '/therapists', '/posts', '/pricing',
-    '/privacy', '/terms', '/cookie-policy'
+    '/',
+    '/dashboard',
+    '/journal',
+    '/settings',
+    '/courses',
+    '/login',
+    '/signup',
+    '/therapists',
+    '/posts',
+    '/pricing',
+    '/privacy',
+    '/terms',
+    '/cookie-policy',
   ];
-  
+
   if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) {
     window.location.replace('/');
     return;
@@ -136,8 +146,10 @@ window.safeRedirect = function (path) {
     }
 
     const basePath = url.pathname;
-    const isSafe = whitelist.some(w => basePath === w || (w !== '/' && basePath.startsWith(w + '/')));
-    
+    const isSafe = whitelist.some(
+      w => basePath === w || (w !== '/' && basePath.startsWith(w + '/')),
+    );
+
     if (isSafe) {
       window.location.replace(url.pathname + url.search + url.hash);
     } else {
@@ -156,9 +168,9 @@ window.handleSignup = async e => {
   const nameEl = document.getElementById('signup-name');
   const emailEl = document.getElementById('signup-email');
   const passwordEl = document.getElementById('signup-password');
-  
+
   if (!nameEl || !emailEl || !passwordEl) return;
-  
+
   const name = nameEl.value;
   const email = emailEl.value;
   const password = passwordEl.value;
@@ -178,10 +190,10 @@ window.handleSignup = async e => {
 
   window.closeModal('signupModal');
   alert('Account created! Welcome, ' + name);
-  
+
   // Log interaction if CMS is available (this might fail silently if no token yet)
   logInteraction('registration', `Plan: ${selectedPlan}`);
-  
+
   window.safeRedirect('/dashboard');
 };
 
@@ -190,9 +202,9 @@ window.handleLogin = async e => {
   e.preventDefault();
   const emailEl = document.getElementById('login-email');
   const passwordEl = document.getElementById('login-password');
-  
+
   if (!emailEl || !passwordEl) return;
-  
+
   const email = emailEl.value;
   const password = passwordEl.value;
 
@@ -231,41 +243,63 @@ window.checkAuth = () => {
 
   const path = window.location.pathname;
   const isAuthPage = path.includes('/login') || path.includes('/signup');
-  const isAppPage = path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
+  const isAppPage =
+    path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
   const isProtectedPage = isAppPage || path.includes('/lessons');
 
   if (user) {
     document.body.classList.add('user-logged-in');
-    if (isAuthPage) { window.safeRedirect('/dashboard'); return; }
+    if (isAuthPage) {
+      window.safeRedirect('/dashboard');
+      return;
+    }
 
-    if (loggedOutDiv) { loggedOutDiv.classList.add('hidden'); loggedOutDiv.style.display = 'none'; }
-    if (loggedInDiv) { loggedInDiv.classList.remove('hidden'); loggedInDiv.style.display = 'flex'; }
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.add('hidden');
+      loggedOutDiv.style.display = 'none';
+    }
+    if (loggedInDiv) {
+      loggedInDiv.classList.remove('hidden');
+      loggedInDiv.style.display = 'flex';
+    }
     if (mobileLoggedOutDiv) mobileLoggedOutDiv.classList.add('hidden');
     if (mobileLoggedInDiv) mobileLoggedInDiv.classList.remove('hidden');
     if (mobileDisplayName) mobileDisplayName.textContent = user.name || user.email;
     mobileDashboardLinks.forEach(link => link.classList.remove('hidden'));
 
     const sidebar = document.querySelector('aside');
-    if (sidebar) { sidebar.classList.remove('hidden'); sidebar.style.display = ''; }
+    if (sidebar) {
+      sidebar.classList.remove('hidden');
+      sidebar.style.display = '';
+    }
     if (userDisplayName) userDisplayName.textContent = user.name || user.email;
     if (navDashboard) navDashboard.classList.remove('hidden');
     if (navCourses) navCourses.classList.remove('hidden');
 
-    document.querySelectorAll('.auth-only').forEach(el => { el.classList.remove('hidden'); el.style.display = ''; });
+    document.querySelectorAll('.auth-only').forEach(el => {
+      el.classList.remove('hidden');
+      el.style.display = '';
+    });
 
     // Update buttons
     document.querySelectorAll('a[href="/signup"], a[href="/login"]').forEach(btn => {
-        if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
-        const btnText = btn.textContent.toLowerCase();
-        if (btnText.includes('get started')) {
-            btn.href = '/dashboard';
-            btn.textContent = 'Go to Dashboard';
-        }
+      if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
+      const btnText = btn.textContent.toLowerCase();
+      if (btnText.includes('get started')) {
+        btn.href = '/dashboard';
+        btn.textContent = 'Go to Dashboard';
+      }
     });
   } else {
     document.body.classList.remove('user-logged-in');
-    if (loggedOutDiv) { loggedOutDiv.classList.remove('hidden'); loggedOutDiv.style.display = 'flex'; }
-    if (loggedInDiv) { loggedInDiv.classList.add('hidden'); loggedInDiv.style.display = 'none'; }
+    if (loggedOutDiv) {
+      loggedOutDiv.classList.remove('hidden');
+      loggedOutDiv.style.display = 'flex';
+    }
+    if (loggedInDiv) {
+      loggedInDiv.classList.add('hidden');
+      loggedInDiv.style.display = 'none';
+    }
     if (isProtectedPage) {
       if (isAuthPage) return;
       window.safeRedirect('/login');

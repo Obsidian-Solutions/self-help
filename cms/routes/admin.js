@@ -49,10 +49,10 @@ router.post('/users', roleAuth(['admin']), (req, res) => {
   db.run(
     'INSERT INTO users (name, email, password_hash, role, plan) VALUES (?, ?, ?, ?, ?)',
     [name, email, hash, role || 'user', plan || 'Free'],
-    function(err) {
+    function (err) {
       if (err) return res.status(400).json({ message: 'User already exists' });
       res.json({ id: this.lastID, success: true });
-    }
+    },
   );
 });
 
@@ -64,7 +64,7 @@ router.patch('/users/:id', roleAuth(['admin']), (req, res) => {
     err => {
       if (err) return res.status(500).json({ message: 'DB Error' });
       res.json({ success: true });
-    }
+    },
   );
 });
 
@@ -73,8 +73,14 @@ router.get('/users', (req, res) => {
   let query = 'SELECT id, name, email, role, plan, created_at FROM users';
   const params = [];
   const conditions = [];
-  if (plan) { conditions.push('plan = ?'); params.push(plan); }
-  if (role) { conditions.push('role = ?'); params.push(role); }
+  if (plan) {
+    conditions.push('plan = ?');
+    params.push(plan);
+  }
+  if (role) {
+    conditions.push('role = ?');
+    params.push(role);
+  }
   if (conditions.length > 0) query += ' WHERE ' + conditions.join(' AND ');
   query += ' ORDER BY created_at DESC';
   db.all(query, params, (err, rows) => {
@@ -92,10 +98,14 @@ router.get('/templates', (req, res) => {
 
 router.post('/templates', (req, res) => {
   const { name, subject, body } = req.body;
-  db.run('INSERT INTO email_templates (name, subject, body) VALUES (?, ?, ?)', [name, subject, body], err => {
-    if (err) return res.status(400).json({ message: 'Template name must be unique' });
-    res.json({ success: true });
-  });
+  db.run(
+    'INSERT INTO email_templates (name, subject, body) VALUES (?, ?, ?)',
+    [name, subject, body],
+    err => {
+      if (err) return res.status(400).json({ message: 'Template name must be unique' });
+      res.json({ success: true });
+    },
+  );
 });
 
 router.get('/activity', (req, res) => {
@@ -131,34 +141,54 @@ router.patch('/inquiries/:id', (req, res) => {
 router.get('/users/:id/profile', (req, res) => {
   const { id } = req.params;
   const profile = {};
-  db.get('SELECT id, name, email, role, plan, created_at FROM users WHERE id = ?', [id], (err, user) => {
-    if (err || !user) return res.status(404).json({ message: 'User not found' });
-    profile.user = user;
-    db.all('SELECT * FROM user_interactions WHERE user_id = ? ORDER BY created_at DESC', [id], (err, interactions) => {
-      profile.interactions = interactions || [];
-      db.all('SELECT n.*, u.name as therapist_name FROM user_notes n JOIN users u ON n.therapist_id = u.id WHERE n.user_id = ? ORDER BY n.created_at DESC', [id], (err, notes) => {
-        profile.notes = notes || [];
-        res.json(profile);
-      });
-    });
-  });
+  db.get(
+    'SELECT id, name, email, role, plan, created_at FROM users WHERE id = ?',
+    [id],
+    (err, user) => {
+      if (err || !user) return res.status(404).json({ message: 'User not found' });
+      profile.user = user;
+      db.all(
+        'SELECT * FROM user_interactions WHERE user_id = ? ORDER BY created_at DESC',
+        [id],
+        (err, interactions) => {
+          profile.interactions = interactions || [];
+          db.all(
+            'SELECT n.*, u.name as therapist_name FROM user_notes n JOIN users u ON n.therapist_id = u.id WHERE n.user_id = ? ORDER BY n.created_at DESC',
+            [id],
+            (err, notes) => {
+              profile.notes = notes || [];
+              res.json(profile);
+            },
+          );
+        },
+      );
+    },
+  );
 });
 
 router.post('/users/:id/notes', (req, res) => {
   const { id: user_id } = req.params;
   const { content } = req.body;
   const therapist_id = req.user.id;
-  db.run('INSERT INTO user_notes (user_id, therapist_id, content) VALUES (?, ?, ?)', [user_id, therapist_id, content], err => {
-    if (err) return res.status(500).json({ message: 'Database error' });
-    res.json({ success: true });
-  });
+  db.run(
+    'INSERT INTO user_notes (user_id, therapist_id, content) VALUES (?, ?, ?)',
+    [user_id, therapist_id, content],
+    err => {
+      if (err) return res.status(500).json({ message: 'Database error' });
+      res.json({ success: true });
+    },
+  );
 });
 
 router.get('/popular', (req, res) => {
-  db.all('SELECT slug, views, likes, dislikes FROM post_stats ORDER BY views DESC LIMIT 5', [], (err, rows) => {
-    if (err) return res.status(500).json({ message: 'Database error' });
-    res.json(rows);
-  });
+  db.all(
+    'SELECT slug, views, likes, dislikes FROM post_stats ORDER BY views DESC LIMIT 5',
+    [],
+    (err, rows) => {
+      if (err) return res.status(500).json({ message: 'Database error' });
+      res.json(rows);
+    },
+  );
 });
 
 router.get('/comments', (req, res) => {

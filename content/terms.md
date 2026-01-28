@@ -1,7 +1,7 @@
 ---
-title: "Terms of Service"
+title: 'Terms of Service'
 date: 2026-01-26
-url: "/terms"
+url: '/terms'
 description: "Review the terms and conditions for using MindFull's science-backed mental wellness platform and tools."
 ---
 

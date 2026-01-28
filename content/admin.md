@@ -1,5 +1,5 @@
 ---
-title: "CMS Redirect"
-layout: "admin_redirect"
-url: "/admin"
+title: 'CMS Redirect'
+layout: 'admin_redirect'
+url: '/admin'
 ---
