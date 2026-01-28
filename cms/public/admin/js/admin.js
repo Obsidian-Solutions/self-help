@@ -1,20 +1,21 @@
 /**
- * MindFull Control Tower v6.0
- * The Stateful Utility Engine - Hardened & Tested
+ * MindFull Control Tower v6.1
+ * Hardened Iframe Sync & CSS Fixes
  */
 
 /* global SimpleMDE */
 
 (function () {
   const CMS_PORT = 3000;
-  const isHugoHost = window.location.port == '1313';
+  const HUGO_PORT = 1313;
+  const isHugoHost = window.location.port == HUGO_PORT;
   const API_BASE = isHugoHost ? `http://${window.location.hostname}:${CMS_PORT}/api` : '/api';
 
   let simplemde = null;
   let currentCollection = 'posts';
   let currentSlug = null;
 
-  console.log('Control Tower v6.0 Booting...');
+  console.log('Control Tower v6.1: Link Authorized');
 
   // --- 1. CORE API ---
   async function api(endpoint, method = 'GET', body = null) {
@@ -26,15 +27,20 @@
     if (token) headers.Authorization = `Bearer ${token}`;
 
     try {
-      const res = await fetch(`${API_BASE}${endpoint}`, { method, headers, body: body ? JSON.stringify(body) : null, credentials: 'include' });
+      const res = await fetch(`${API_BASE}${endpoint}`, { 
+        method, 
+        headers, 
+        body: body ? JSON.stringify(body) : null,
+        credentials: 'include'
+      });
       if (res.status === 401) { logout(); return null; }
       return await res.json();
-    } catch (e) { console.error('Link unstable:', e); return null; }
+    } catch (e) { return null; }
   }
 
   function logout() { localStorage.clear(); window.location.reload(); }
 
-  // --- 2. ROUTER ---
+  // --- 2. THE ROUTER ---
   function router() {
     const hash = window.location.hash || '#dashboard';
     const section = hash.substring(1).split('?')[0];
@@ -50,7 +56,6 @@
 
     if (section === 'dashboard') loadDashboard();
     if (section === 'content') loadCollection(currentCollection);
-    if (section === 'media') loadMedia();
   }
 
   window.onhashchange = router;
@@ -82,7 +87,7 @@
     if (!container || !Array.isArray(items)) return;
 
     container.innerHTML = items.map(i => `
-      <div class="bg-white rounded-2xl p-6 flex flex-col border border-slate-200 hover:border-indigo-600 shadow-sm transition-all">
+      <div class="bg-white rounded-2xl p-6 flex flex-col border border-slate-200 shadow-sm">
         <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
         <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
       </div>
@@ -99,9 +104,19 @@
     if (titleEl) titleEl.textContent = `${collection}/${slug}`;
 
     if (!simplemde) {
-      simplemde = new SimpleMDE({ element: document.getElementById('editor-textarea'), spellChecker: false, status: false });
+      simplemde = new SimpleMDE({ 
+        element: document.getElementById('editor-textarea'), 
+        spellChecker: false, 
+        status: false,
+        autosave: { enabled: true, uniqueId: "fidelity-editor-v6", delay: 1000 }
+      });
     }
     simplemde.value(entry.raw || '');
+    
+    // Reset widths to prevent "Missing Editor"
+    const leftSide = document.getElementById('editor-side');
+    if (leftSide) leftSide.style.flexBasis = '50%';
+
     syncIframe();
   }
 
@@ -111,18 +126,28 @@
     if (!iframe || !currentSlug) return;
 
     loader.classList.remove('opacity-0', 'pointer-events-none');
-    const targetUrl = `http://${window.location.hostname}:1313/${currentCollection}/${currentSlug}/?t=${Date.now()}`;
+    
+    const targetUrl = `http://${window.location.hostname}:${HUGO_PORT}/${currentCollection}/${currentSlug}/?cms_preview=true&t=${Date.now()}`;
+    
+    // Direct set
     iframe.src = targetUrl;
     document.getElementById('live-url-display').textContent = targetUrl.split('?')[0];
 
-    iframe.onload = () => loader.classList.add('opacity-0', 'pointer-events-none');
-    setTimeout(() => loader.classList.add('opacity-0', 'pointer-events-none'), 2000);
+    iframe.onload = () => {
+      console.log('Iframe Sync Complete');
+      loader.classList.add('opacity-0', 'pointer-events-none');
+    };
+
+    // Emergency clear
+    setTimeout(() => {
+      loader.classList.add('opacity-0', 'pointer-events-none');
+    }, 3000);
   }
 
   async function saveContent() {
     const raw = simplemde.value();
     const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw });
-    if (res) { notify('Staged to Hugo'); setTimeout(syncIframe, 1000); }
+    if (res) { notify('Site Updated'); setTimeout(syncIframe, 1500); }
   }
 
   function notify(msg) {
@@ -133,7 +158,32 @@
     setTimeout(() => toast.remove(), 3000);
   }
 
-  // --- 5. INITIALIZATION ---
+  // --- 5. RESIZER ---
+  const resizer = document.getElementById('drag-handle');
+  const leftSide = document.getElementById('editor-side');
+  let isResizing = false;
+
+  if (resizer && leftSide) {
+    resizer.addEventListener('mousedown', () => { 
+      isResizing = true; 
+      resizer.classList.add('resizing');
+      document.getElementById('site-iframe').style.pointerEvents = 'none';
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const x = e.clientX - 256; // Sidebar width
+      if (x > 300 && x < window.innerWidth - 400) {
+        leftSide.style.flexBasis = `${x}px`;
+      }
+    });
+    document.addEventListener('mouseup', () => { 
+      isResizing = false; 
+      resizer.classList.remove('resizing');
+      document.getElementById('site-iframe').style.pointerEvents = 'auto';
+    });
+  }
+
+  // --- 6. INITIALIZATION ---
   function init() {
     const token = localStorage.getItem('mindfull_admin_token');
     if (token) {
@@ -147,14 +197,12 @@
     }
   }
 
-  // Generic Loaders (Minimal)
-  async function loadDashboard() { 
+  async function loadDashboard() {
     const stats = await api('/admin/stats'); 
-    if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join('');
+    if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join('');
   }
-  async function loadMedia() {}
 
-  // Login sequence (Internal)
+  // Login Logic
   const lBtn = document.getElementById('login-submit-btn');
   if (lBtn) {
     lBtn.addEventListener('click', async () => {
