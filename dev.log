@@ -1,0 +1,78 @@
+[CSS] 
+[CSS] > mindfull-theme@1.0.0 watch:css
+[CSS] > tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch
+[CSS] 
+[HUGO] 
+[HUGO] > mindfull-theme@1.0.0 start
+[HUGO] > hugo server -D
+[HUGO] 
+[DOCS] 
+[DOCS] > mindfull-theme@1.0.0 docs:dev
+[DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
+[DOCS] 
+[CMS] 
+[CMS] > mindfull-cms@1.0.0 dev
+[CMS] > nodemon server.js
+[CMS] 
+[CMS] [33m[nodemon] 3.1.11[39m
+[CMS] [33m[nodemon] to restart at any time, enter `rs`[39m
+[CMS] [33m[nodemon] watching path(s): *.*[39m
+[CMS] [33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[HUGO] Watching for changes in /home/matt/Development/themes/self-help/archetypes, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/content/{courses,dashboard,journal,plans,posts,...}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/i18n, /home/matt/Development/themes/self-help/layouts/{_default,courses,dashboard,journal,lessons,...}, /home/matt/Development/themes/self-help/package.json, /home/matt/Development/themes/self-help/static/{audio,css,images,js}, /home/matt/Development/themes/self-help/tailwind.config.js
+[HUGO] Watching for config changes in /home/matt/Development/themes/self-help/hugo.toml
+[HUGO] Start building sites ... 
+[HUGO] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
+[HUGO] 
+[DOCS] Watching for changes in /home/matt/Development/themes/self-help/_docs_src/{design,development,features,getting-started}, /home/matt/Development/themes/self-help/assets/{css,icons,illustrations,js}, /home/matt/Development/themes/self-help/data, /home/matt/Development/themes/self-help/docs-site/archetypes, /home/matt/Development/themes/self-help/docs-site/content, /home/matt/Development/themes/self-help/docs-site/i18n, /home/matt/Development/themes/self-help/docs-site/static, /home/matt/Development/themes/self-help/layouts/partials/shared/head, /home/matt/Development/themes/self-help/layouts/shortcodes
+[DOCS] Watching for config changes in /home/matt/Development/themes/self-help/docs-site/hugo.toml, /home/matt/Development/themes/self-help/docs-site/go.mod
+[DOCS] Start building sites ... 
+[DOCS] hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
+[DOCS] 
+[DOCS] 
+[DOCS]                   │ EN 
+[DOCS] ──────────────────┼────
+[DOCS]  Pages            │ 21 
+[DOCS]  Paginator pages  │  0 
+[DOCS]  Non-page files   │  0 
+[DOCS]  Static files     │ 71 
+[DOCS]  Processed images │  0 
+[DOCS]  Aliases          │  0 
+[DOCS]  Cleaned          │  0 
+[DOCS] 
+[DOCS] Built in 63 ms
+[DOCS] Environment: "development"
+[DOCS] Serving pages from disk
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1) 
+[DOCS] Press Ctrl+C to stop
+[HUGO] 
+[HUGO]                   │ EN 
+[HUGO] ──────────────────┼────
+[HUGO]  Pages            │ 53 
+[HUGO]  Paginator pages  │  0 
+[HUGO]  Non-page files   │  0 
+[HUGO]  Static files     │  3 
+[HUGO]  Processed images │  0 
+[HUGO]  Aliases          │  9 
+[HUGO]  Cleaned          │  0 
+[HUGO] 
+[HUGO] Built in 150 ms
+[HUGO] Environment: "development"
+[HUGO] Serving pages from disk
+[HUGO] Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1) 
+[HUGO] Press Ctrl+C to stop
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 462ms.
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#1).
+[HUGO] 2026-01-28 12:24:02.543 +0000
+[HUGO] Syncing /css/style.css to /
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.

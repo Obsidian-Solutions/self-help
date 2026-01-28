@@ -1955,6 +1955,10 @@ svg {
   justify-content: space-between;
 }
 
+.gap-0\.5 {
+  gap: 0.125rem;
+}
+
 .gap-1 {
   gap: 0.25rem;
 }
@@ -1997,10 +2001,6 @@ svg {
 
 .gap-8 {
   gap: 2rem;
-}
-
-.gap-0\.5 {
-  gap: 0.125rem;
 }
 
 .gap-y-6 {
@@ -2911,6 +2911,10 @@ svg {
   font-size: 10px;
 }
 
+.text-\[9px\] {
+  font-size: 9px;
+}
+
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -2934,10 +2938,6 @@ svg {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-\[9px\] {
-  font-size: 9px;
 }
 
 .font-black {
