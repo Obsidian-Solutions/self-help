@@ -99,3 +99,32 @@
 [CMS] [0mGET /admin/css/admin.css [32m200[0m 1.369 ms - 2307[0m
 [CMS] [0mGET /admin/js/admin.js [32m200[0m 0.827 ms - 10397[0m
 [CMS] [0mGET /favicon.ico [33m404[0m 1.204 ms - 150[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.539 ms - 15726[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.070 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.888 ms - 10397[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.850 ms - 150[0m
+[CMS] [0mGET /api/admin/stats [36m304[0m 4.747 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 5.934 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.121 ms - -[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 1.300 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.525 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.511 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.402 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.440 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 1.827 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.516 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.487 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.360 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.376 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.384 ms - 166[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.446 ms - 166[0m
+[CMS] [0mGET /admin/ [32m200[0m 0.489 ms - 16174[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 0.522 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.870 ms - 10397[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 0.290 ms - 150[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 0.993 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 7.458 ms - -[0m
