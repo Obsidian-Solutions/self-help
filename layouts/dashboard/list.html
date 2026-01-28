@@ -123,8 +123,14 @@
             <span class="text-[10px] font-black text-indigo-600 dark:text-indigo-400 uppercase tracking-[0.2em] bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1 rounded-lg w-fit">{{ .Params.category }}</span>
             <span class="w-px h-3 bg-gray-200 dark:bg-gray-700"></span>
             <div class="flex items-center gap-1.5 text-amber-400 text-[10px] font-black js-course-rating" data-slug="{{ $slug }}">
-              <i class="fa-solid fa-star"></i>
-              <span class="rating-value">--</span>
+              <div class="flex gap-0.5 js-star-rating">
+                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="1"></i>
+                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="2"></i>
+                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="3"></i>
+                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="4"></i>
+                <i class="fa-solid fa-star cursor-pointer hover:scale-110 transition-transform" data-rating="5"></i>
+              </div>
+              <span class="rating-value ml-1">--</span>
             </div>
           </div>
           <div class="text-right">
@@ -258,19 +264,56 @@
       }
     });
 
-    // Fetch Course Ratings
+    // Fetch and Handle Course Ratings
     const ratingEls = document.querySelectorAll('.js-course-rating');
+    const ratedCourses = JSON.parse(localStorage.getItem('ratedCourses') || '[]');
+
     ratingEls.forEach(async el => {
       const slug = el.getAttribute('data-slug');
-      try {
-        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
-        const data = await res.json();
-        if (data.total_ratings > 0) {
-          el.querySelector('.rating-value').textContent = data.avg_rating.toFixed(1);
-        } else {
-          el.querySelector('.rating-value').textContent = 'New';
-        }
-      } catch (e) {}
+      const valEl = el.querySelector('.rating-value');
+      const stars = el.querySelectorAll('.js-star-rating i');
+
+      const updateDisplay = async () => {
+        try {
+          const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+          const data = await res.json();
+          if (data.total_ratings > 0) {
+            valEl.textContent = data.avg_rating.toFixed(1);
+          } else {
+            valEl.textContent = 'New';
+          }
+        } catch (e) {}
+      };
+
+      updateDisplay();
+
+      if (ratedCourses.includes(slug)) {
+        stars.forEach(s => s.classList.add('opacity-50', 'pointer-events-none'));
+      }
+
+      stars.forEach(star => {
+        star.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const rating = parseInt(star.getAttribute('data-rating'));
+          
+          try {
+            const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rate`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ rating })
+            });
+
+            if (res.ok) {
+              const currentRated = JSON.parse(localStorage.getItem('ratedCourses') || '[]');
+              currentRated.push(slug);
+              localStorage.setItem('ratedCourses', JSON.stringify(currentRated));
+              stars.forEach(s => s.classList.add('opacity-50', 'pointer-events-none'));
+              updateDisplay();
+            }
+          } catch (err) {}
+        });
+      });
     });
   });
 </script>
