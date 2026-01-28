@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Center | MindFull CMS</title>
+    <title>Control Tower | Site Operations Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -11,89 +11,150 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <link rel="stylesheet" href="css/admin.css">
+    <style>
+        .dev-terminal { background: #1e1e1e; color: #00ff00; font-family: 'Courier New', monospace; padding: 1rem; border-radius: 0.5rem; overflow-y: auto; max-height: 300px; }
+    </style>
 </head>
 <body class="h-full flex overflow-hidden bg-[#f3f4f6]">
 
-    <!-- App Sidebar -->
-    <aside id="admin-sidebar" class="hidden w-64 bg-[#262933] flex-shrink-0 flex flex-col z-40 overflow-y-auto">
+    <!-- Sidebar: Control Tower Navigation -->
+    <aside id="admin-sidebar" class="hidden w-64 bg-[#1a1c23] flex-shrink-0 flex flex-col z-40 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl">
-                <i class="fa-solid fa-brain"></i>
+            <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl ring-4 ring-indigo-500/10">
+                <i class="fa-solid fa-terminal"></i>
             </div>
             <div>
                 <h2 class="text-white font-extrabold tracking-tight">MindFull</h2>
-                <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Command Center</p>
+                <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.2em]">Operations Hub</p>
             </div>
         </div>
-        <nav class="flex-1 mt-4 px-4 space-y-1">
-            <div class="px-4 py-2"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Main</p></div>
-            <button data-action="nav" data-section="dashboard" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
-            </button>
-            <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">CRM</p></div>
-            <button data-action="nav" data-section="inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-envelope-open-text w-5"></i> Leads & Inquiries
-            </button>
-            <button data-action="nav" data-section="users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-users w-5"></i> Member Base
-            </button>
-            <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Publishing</p></div>
-            <button data-action="nav" data-section="content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-file-lines w-5"></i> CMS Manager
-            </button>
-            <button data-action="nav" data-section="media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
-                <i class="fa-solid fa-photo-film w-5"></i> Media Gallery
-            </button>
+
+        <nav class="flex-1 mt-4 px-4 space-y-6">
+            <!-- Operations -->
+            <div>
+                <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Operations</p>
+                <div class="space-y-1 mt-2">
+                    <button data-action="nav" data-section="dashboard" class="nav-link active w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-chart-line w-5"></i> Insights
+                    </button>
+                    <button data-action="nav" data-section="content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-file-pen w-5"></i> CMS Manager
+                    </button>
+                    <button data-action="nav" data-section="media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-images w-5"></i> Assets
+                    </button>
+                </div>
+            </div>
+
+            <!-- Engineering -->
+            <div>
+                <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Engineering</p>
+                <div class="space-y-1 mt-2">
+                    <button data-action="nav" data-section="quizzes" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-list-check w-5"></i> Quiz Builder
+                    </button>
+                    <button data-action="nav" data-section="dev-tools" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-gears w-5"></i> Dev Utilities
+                    </button>
+                </div>
+            </div>
+
+            <!-- Relationships -->
+            <div>
+                <p class="px-4 py-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">CRM</p>
+                <div class="space-y-1 mt-2">
+                    <button data-action="nav" data-section="inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-envelope-open-text w-5"></i> Leads
+                    </button>
+                    <button data-action="nav" data-section="users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+                        <i class="fa-solid fa-user-group w-5"></i> User Directory
+                    </button>
+                </div>
+            </div>
         </nav>
-        <div class="p-6 mt-auto border-t border-slate-800">
+
+        <div class="p-6 mt-auto border-t border-slate-800/50">
             <button data-action="logout" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                <i class="fa-solid fa-power-off"></i> Terminate Session
             </button>
         </div>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main Viewport -->
     <div class="flex-1 flex flex-col overflow-hidden">
         <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
-            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                <span id="breadcrumb-active">Overview</span>
+            <div class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                System / <span id="breadcrumb-active" class="text-slate-900">Overview</span>
             </div>
             <div class="flex items-center gap-4">
-                <div class="text-right">
-                    <p id="admin-display-name" class="text-xs font-bold text-slate-900">--</p>
-                    <p class="text-[9px] font-black uppercase text-indigo-600">Authorized</p>
-                </div>
-                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border">
+                <div class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[9px] font-black border border-emerald-100">ENGINE ONLINE</div>
+                <div class="w-px h-6 bg-slate-200"></div>
+                <p id="admin-display-name" class="text-xs font-bold text-slate-900">--</p>
+                <img id="admin-display-avatar" src="https://i.pravatar.cc/100" class="w-8 h-8 rounded-lg border border-slate-100">
             </div>
         </header>
 
         <main id="admin-main" class="hidden flex-1 overflow-y-auto p-10">
             
+            <!-- Dashboard Section -->
             <div id="section-dashboard" class="admin-section space-y-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <div class="admin-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Members</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="admin-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Active Users</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
                     <div class="admin-card p-6 border-t-4 border-emerald-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Engagement</p><h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3></div>
-                    <div class="admin-card p-6 border-t-4 border-amber-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Rating</p><h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3></div>
-                    <div class="admin-card p-6 border-t-4 border-red-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">New Leads</p><h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="admin-card p-6 border-t-4 border-amber-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Quality Score</p><h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3></div>
+                    <div class="admin-card p-6 border-t-4 border-red-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Growth Leads</p><h3 id="stat-new-leads" class="text-3xl font-black text-slate-900">--</h3></div>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                    <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs tracking-widest text-slate-400">Real-time Activity</h4><div id="activity-list" class="space-y-2"></div></div>
-                    <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs tracking-widest text-slate-400">Popular Content</h4><div id="popular-list" class="space-y-2"></div></div>
+                    <div class="admin-card p-8"><h4 class="font-black text-slate-900 mb-6 uppercase text-xs tracking-widest text-slate-400">Activity Pulse</h4><div id="activity-list" class="space-y-2"></div></div>
+                    <div class="admin-card p-8"><h4 class="font-black text-slate-900 mb-6 uppercase text-xs tracking-widest text-slate-400">High Impact Pages</h4><div id="popular-list" class="space-y-2"></div></div>
                 </div>
             </div>
-            
+
+            <!-- Dev Utilities Section -->
+            <div id="section-dev-tools" class="admin-section hidden space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="admin-card p-8 space-y-6">
+                        <h4 class="font-black text-slate-900 uppercase text-xs tracking-widest text-slate-400">Build Orchestration</h4>
+                        <p class="text-xs text-slate-500">Trigger a full production build of the Hugo site.</p>
+                        <button data-action="run-build" class="w-full bg-slate-900 text-white py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-black transition-all">Execute Build</button>
+                    </div>
+                    <div class="admin-card p-8 space-y-6">
+                        <h4 class="font-black text-slate-900 uppercase text-xs tracking-widest text-slate-400">Maintenance</h4>
+                        <p class="text-xs text-slate-500">Clear cached resources and generated files.</p>
+                        <button data-action="clear-cache" class="w-full bg-white border border-slate-200 text-slate-900 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all">Purge Cache</button>
+                    </div>
+                    <div class="admin-card p-8 space-y-6">
+                        <h4 class="font-black text-slate-900 uppercase text-xs tracking-widest text-slate-400">System Logs</h4>
+                        <p class="text-xs text-slate-500">View latest backend and build logs.</p>
+                        <button data-action="view-logs" class="w-full bg-white border border-slate-200 text-slate-900 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-50 transition-all">Open Terminal</button>
+                    </div>
+                </div>
+                <div id="dev-log-container" class="hidden admin-card p-8 bg-black">
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Live Output</p>
+                        <button onclick="document.getElementById('dev-log-container').classList.add('hidden')" class="text-slate-500 hover:text-white">&times;</button>
+                    </div>
+                    <div id="dev-terminal" class="dev-terminal text-[11px]">System standby...</div>
+                </div>
+            </div>
+
+            <!-- Content Manager -->
             <div id="section-content" class="admin-section hidden space-y-6">
-                <div class="flex gap-4 mb-8">
-                    <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Posts</button>
-                    <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Courses</button>
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
+                    <div class="flex gap-4">
+                        <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl bg-indigo-50 text-indigo-600 text-xs font-bold border border-indigo-100">Posts</button>
+                        <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">Courses</button>
+                    </div>
+                    <button data-action="new-entry" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg shadow-indigo-100">+ New Content</button>
                 </div>
                 <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
-            <div id="section-editor" class="admin-section hidden space-y-6">
+            <!-- Editor -->
+            <div id="section-editor" class="admin-section hidden space-y-6 h-full">
                 <div class="flex justify-between items-center mb-6">
-                    <button data-action="nav" data-section="content" class="text-xs font-bold text-indigo-600">&larr; Back to List</button>
-                    <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg">Publish to Hugo</button>
+                    <button data-action="nav" data-section="content" class="text-xs font-bold text-indigo-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to List</button>
+                    <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2.5 rounded-xl font-bold text-sm shadow-lg">Commit to Content</button>
                 </div>
                 <div class="grid grid-cols-4 gap-10">
                     <div class="col-span-3"><textarea id="editor-textarea"></textarea></div>
@@ -101,29 +162,20 @@
                 </div>
             </div>
 
-            <div id="section-users" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Member</th><th class="px-8 py-4">Plan</th><th class="px-8 py-4">Role</th><th class="px-8 py-4 text-right">CRM</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
+            <!-- CRM Sections (Users, Leads) -->
+            <div id="section-users" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Account</th><th class="px-8 py-4">Status</th><th class="px-8 py-4 text-right">Actions</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
+            <div id="section-inquiries" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead Source</th><th class="px-8 py-4">Payload</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
 
-            <div id="section-user-profile" class="admin-section hidden space-y-10">
-                <button data-action="nav" data-section="users" class="text-xs font-bold text-indigo-600">&larr; Back to Member List</button>
-                <div class="grid grid-cols-3 gap-10">
-                    <div class="col-span-1 admin-card p-8" id="user-profile-info"></div>
-                    <div class="col-span-2 space-y-10">
-                        <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs text-slate-400">Activity</h4><div id="profile-interactions" class="space-y-4"></div></div>
-                        <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs text-slate-400">Clinical Notes</h4><div id="profile-notes" class="space-y-4 mb-8"></div></div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="section-inquiries" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead</th><th class="px-8 py-4">Requirement</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
-
+            <!-- Assets -->
             <div id="section-media" class="admin-section hidden space-y-8">
-                <div class="flex justify-between items-center"><h3 class="font-black text-slate-900 tracking-tight">Illustration Assets</h3><label class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">Upload Asset<input type="file" class="hidden" onchange="window.handleMediaUpload(event)" accept="image/*"></label></div>
+                <div class="flex justify-between items-center"><h3 class="font-black text-slate-900 tracking-tight">System Assets</h3><label class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">Upload Asset<input type="file" class="hidden" onchange="window.handleMediaUpload(event)" accept="image/*"></label></div>
                 <div id="media-grid" class="grid grid-cols-2 md:grid-cols-6 gap-6"></div>
             </div>
+
         </main>
     </div>
 
-    <!-- Quick Reply Modal -->
+    <!-- Modals (Reply, Login) -->
     <div id="reply-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
         <div class="w-full max-w-2xl bg-white rounded-[2rem] p-10 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
@@ -132,7 +184,7 @@
                 <button onclick="document.getElementById('reply-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-900"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="grid grid-cols-3 gap-10">
-                <div class="col-span-1 space-y-4"><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Templates</p><div id="reply-template-list" class="space-y-2 max-h-[300px] overflow-y-auto"></div></div>
+                <div class="col-span-1 space-y-4"><div id="reply-template-list" class="space-y-2 max-h-[300px] overflow-y-auto"></div></div>
                 <div class="col-span-2 space-y-4">
                     <input type="text" id="reply-subject" placeholder="Subject" class="w-full p-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
                     <textarea id="reply-body" rows="8" placeholder="Draft..." class="w-full p-4 bg-slate-50 rounded-xl border-none font-medium text-sm text-slate-700"></textarea>
@@ -143,14 +195,14 @@
     </div>
 
     <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 bg-[#262933] flex items-center justify-center z-50 p-4 hidden">
+    <div id="login-modal" class="fixed inset-0 bg-[#1a1c23] flex items-center justify-center z-50 p-4 hidden">
         <div class="w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
-            <div class="text-center mb-10"><div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-lock text-2xl"></i></div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Access Control</h2></div>
+            <div class="text-center mb-10"><div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-terminal text-2xl"></i></div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Operations Hub</h2></div>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
-                <input type="password" id="password" placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
-                <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
+                <input type="email" id="email" placeholder="Admin Identity" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
+                <input type="password" id="password" placeholder="Access Key" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
+                <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Authenticate &rarr;</button>
                 <div id="login-status" class="text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-4 h-4"></div>
             </div>
         </div>
@@ -173,10 +225,10 @@
                     localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
                     location.reload();
                 } else {
-                    statusEl.textContent = "Invalid credentials";
+                    statusEl.textContent = "Access Denied";
                     loginBtn.disabled = false;
                 }
-            } catch (err) { statusEl.textContent = "API Error"; loginBtn.disabled = false; }
+            } catch (err) { statusEl.textContent = "Bridge Offline"; loginBtn.disabled = false; }
         });
     </script>
     <script src="js/admin.js"></script>
