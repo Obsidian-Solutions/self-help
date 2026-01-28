@@ -14,7 +14,7 @@
 </head>
 <body class="h-full flex overflow-hidden bg-[#f3f4f6]">
 
-    <!-- Sidebar -->
+    <!-- App Sidebar -->
     <aside id="admin-sidebar" class="hidden w-64 bg-[#262933] flex-shrink-0 flex flex-col z-40 overflow-y-auto">
         <div class="p-6 flex items-center gap-3">
             <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-xl">
@@ -27,32 +27,32 @@
         </div>
         <nav class="flex-1 mt-4 px-4 space-y-1">
             <div class="px-4 py-2"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Main</p></div>
-            <button data-section="dashboard" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+            <button data-action="nav" data-section="dashboard" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
             </button>
             <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">CRM</p></div>
-            <button data-section="inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+            <button data-action="nav" data-section="inquiries" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-envelope-open-text w-5"></i> Leads & Inquiries
             </button>
-            <button data-section="users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+            <button data-action="nav" data-section="users" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-users w-5"></i> Member Base
             </button>
             <div class="px-4 py-2 mt-4"><p class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Publishing</p></div>
-            <button data-section="content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+            <button data-action="nav" data-section="content" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-file-lines w-5"></i> CMS Manager
             </button>
-            <button data-section="media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
+            <button data-action="nav" data-section="media" class="nav-link w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-400 rounded-xl transition-all hover:text-white hover:bg-slate-800">
                 <i class="fa-solid fa-photo-film w-5"></i> Media Gallery
             </button>
         </nav>
         <div class="p-6 mt-auto border-t border-slate-800">
-            <button id="logout-btn" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
+            <button data-action="logout" class="w-full flex items-center gap-3 text-sm font-bold text-red-400 hover:text-red-300">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
             </button>
         </div>
     </aside>
 
-    <!-- Main Content Shell -->
+    <!-- Main Content -->
     <div class="flex-1 flex flex-col overflow-hidden">
         <header id="admin-header" class="hidden h-16 bg-white border-b border-slate-200 flex items-center justify-between px-10 shrink-0">
             <div class="text-xs font-bold text-slate-400 uppercase tracking-widest">
@@ -69,9 +69,8 @@
 
         <main id="admin-main" class="hidden flex-1 overflow-y-auto p-10">
             
-            <!-- Dashboard -->
             <div id="section-dashboard" class="admin-section space-y-10">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div class="admin-card p-6 border-t-4 border-indigo-600"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Members</p><h3 id="stat-users" class="text-3xl font-black text-slate-900">--</h3></div>
                     <div class="admin-card p-6 border-t-4 border-emerald-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Engagement</p><h3 id="stat-views" class="text-3xl font-black text-slate-900">--</h3></div>
                     <div class="admin-card p-6 border-t-4 border-amber-500"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">Rating</p><h3 id="stat-rating" class="text-3xl font-black text-slate-900">--</h3></div>
@@ -83,20 +82,18 @@
                 </div>
             </div>
             
-            <!-- CMS Manager -->
             <div id="section-content" class="admin-section hidden space-y-6">
                 <div class="flex gap-4 mb-8">
-                    <button onclick="window.loadCollection('posts')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">Posts</button>
-                    <button onclick="window.loadCollection('courses')" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50">Courses</button>
+                    <button data-action="load-collection" data-name="posts" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Posts</button>
+                    <button data-action="load-collection" data-name="courses" class="px-6 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">Courses</button>
                 </div>
                 <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- Editor -->
-            <div id="section-editor" class="admin-section hidden space-y-6 h-full">
+            <div id="section-editor" class="admin-section hidden space-y-6">
                 <div class="flex justify-between items-center mb-6">
-                    <button onclick="window.showSection('content')" class="text-xs font-bold text-indigo-600">&larr; Back to List</button>
-                    <button onclick="window.saveContent()" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg">Publish to Hugo</button>
+                    <button data-action="nav" data-section="content" class="text-xs font-bold text-indigo-600">&larr; Back to List</button>
+                    <button data-action="publish" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg">Publish to Hugo</button>
                 </div>
                 <div class="grid grid-cols-4 gap-10">
                     <div class="col-span-3"><textarea id="editor-textarea"></textarea></div>
@@ -104,25 +101,21 @@
                 </div>
             </div>
 
-            <!-- User Base -->
             <div id="section-users" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Member</th><th class="px-8 py-4">Plan</th><th class="px-8 py-4">Role</th><th class="px-8 py-4 text-right">CRM</th></tr></thead><tbody id="users-table-body" class="divide-y"></tbody></table></div></div>
 
-            <!-- User Deep Dive (CRM) -->
             <div id="section-user-profile" class="admin-section hidden space-y-10">
-                <button onclick="window.showSection('users')" class="text-xs font-bold text-indigo-600">&larr; Back to Member List</button>
+                <button data-action="nav" data-section="users" class="text-xs font-bold text-indigo-600">&larr; Back to Member List</button>
                 <div class="grid grid-cols-3 gap-10">
                     <div class="col-span-1 admin-card p-8" id="user-profile-info"></div>
                     <div class="col-span-2 space-y-10">
-                        <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs text-slate-400">Interaction History</h4><div id="profile-interactions" class="space-y-4"></div></div>
+                        <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs text-slate-400">Activity</h4><div id="profile-interactions" class="space-y-4"></div></div>
                         <div class="admin-card p-8"><h4 class="font-black mb-6 uppercase text-xs text-slate-400">Clinical Notes</h4><div id="profile-notes" class="space-y-4 mb-8"></div></div>
                     </div>
                 </div>
             </div>
 
-            <!-- CRM Leads -->
             <div id="section-inquiries" class="admin-section hidden"><div class="admin-card overflow-hidden"><table class="w-full text-left text-sm"><thead class="bg-slate-50 border-b"><tr><th class="px-8 py-4">Lead</th><th class="px-8 py-4">Requirement</th><th class="px-8 py-4 text-right">Action</th></tr></thead><tbody id="inquiries-table-body" class="divide-y"></tbody></table></div></div>
 
-            <!-- Media Gallery -->
             <div id="section-media" class="admin-section hidden space-y-8">
                 <div class="flex justify-between items-center"><h3 class="font-black text-slate-900 tracking-tight">Illustration Assets</h3><label class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">Upload Asset<input type="file" class="hidden" onchange="window.handleMediaUpload(event)" accept="image/*"></label></div>
                 <div id="media-grid" class="grid grid-cols-2 md:grid-cols-6 gap-6"></div>
@@ -132,45 +125,60 @@
 
     <!-- Quick Reply Modal -->
     <div id="reply-modal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-50 p-4 hidden">
-        <div class="w-full max-w-2xl bg-white rounded-[2rem] p-10 shadow-2xl relative overflow-hidden">
+        <div class="w-full max-w-2xl bg-white rounded-[2rem] p-10 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600"></div>
             <div class="flex justify-between items-start mb-8">
-                <div>
-                    <h2 class="text-2xl font-black text-slate-900 tracking-tight">Quick CRM Reply</h2>
-                    <p class="text-xs text-slate-400 mt-1">Responding to <span id="reply-lead-name" class="font-bold text-indigo-600">--</span> (<span id="reply-lead-email">--</span>)</p>
-                </div>
+                <div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Quick CRM Reply</h2><p class="text-xs text-slate-400 mt-1">Responding to <span id="reply-lead-name" class="font-bold text-indigo-600">--</span></p></div>
                 <button onclick="document.getElementById('reply-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-900"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="grid grid-cols-3 gap-10">
-                <div class="col-span-1 space-y-4">
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Select Template</p>
-                    <div id="reply-template-list" class="space-y-2 max-h-[300px] overflow-y-auto"></div>
-                </div>
+                <div class="col-span-1 space-y-4"><p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Templates</p><div id="reply-template-list" class="space-y-2 max-h-[300px] overflow-y-auto"></div></div>
                 <div class="col-span-2 space-y-4">
-                    <input type="text" id="reply-subject" placeholder="Email Subject" class="w-full p-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
-                    <textarea id="reply-body" rows="8" placeholder="Draft your response..." class="w-full p-4 bg-slate-50 rounded-xl border-none font-medium text-sm text-slate-700"></textarea>
-                    <button id="reply-send-btn" onclick="window.sendQuickReply()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl hover:bg-indigo-700 transition-all">Send Response &rarr;</button>
+                    <input type="text" id="reply-subject" placeholder="Subject" class="w-full p-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
+                    <textarea id="reply-body" rows="8" placeholder="Draft..." class="w-full p-4 bg-slate-50 rounded-xl border-none font-medium text-sm text-slate-700"></textarea>
+                    <button data-action="send-reply" id="reply-send-btn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-black shadow-xl">Send Response &rarr;</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Auth Placeholder -->
+    <!-- Login Modal -->
     <div id="login-modal" class="fixed inset-0 bg-[#262933] flex items-center justify-center z-50 p-4 hidden">
-        <div class="w-full max-w-sm bg-white rounded-[2rem] p-10 shadow-2xl relative">
+        <div class="w-full max-w-sm bg-white rounded-[2.5rem] p-10 shadow-2xl relative">
             <div class="absolute top-0 left-0 w-full h-2 bg-indigo-600 rounded-t-full"></div>
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6"><i class="fa-solid fa-lock text-2xl"></i></div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Access Control</h2>
-            </div>
+            <div class="text-center mb-10"><div class="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-xl"><i class="fa-solid fa-lock text-2xl"></i></div><h2 class="text-2xl font-black text-slate-900 tracking-tight">Access Control</h2></div>
             <div class="space-y-4">
-                <input type="email" id="email" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
-                <input type="password" id="password" placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold text-slate-900">
+                <input type="email" id="email" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
+                <input type="password" id="password" placeholder="Password" class="w-full px-6 py-4 bg-slate-50 rounded-xl border-none font-bold">
                 <button type="button" id="login-submit-btn" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-black shadow-xl hover:bg-indigo-700 transition-all">Sign In &rarr;</button>
+                <div id="login-status" class="text-center text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-4 h-4"></div>
             </div>
         </div>
     </div>
 
+    <script>
+        const loginBtn = document.getElementById('login-submit-btn');
+        const statusEl = document.getElementById('login-status');
+        loginBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            if (!email || !password) return;
+            loginBtn.disabled = true;
+            statusEl.textContent = "Authenticating...";
+            try {
+                const res = await fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
+                const data = await res.json();
+                if (res.ok && data.token) {
+                    localStorage.setItem('mindfull_admin_token', data.token);
+                    localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
+                    location.reload();
+                } else {
+                    statusEl.textContent = "Invalid credentials";
+                    loginBtn.disabled = false;
+                }
+            } catch (err) { statusEl.textContent = "API Error"; loginBtn.disabled = false; }
+        });
+    </script>
     <script src="js/admin.js"></script>
 </body>
 </html>
