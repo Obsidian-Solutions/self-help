@@ -116,3 +116,49 @@
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [32m200[0m 3.103 ms - 11099[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.303 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.787 ms - 8179[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.170 ms - 150[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 7.833 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.603 ms - -[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.411 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.267 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.873 ms - -[0m
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 86ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#1).
+[HUGO] 2026-01-28 12:59:52.538 +0000
+[HUGO] Template added /partials/shared/cms-preview-listener.html
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#1).
+[DOCS] 2026-01-28 12:59:52.568 +0000
+[DOCS] Template added /partials/shared/cms-preview-listener.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 6 ms
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 42 ms
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 52ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#2).
+[HUGO] 2026-01-28 12:59:58.039 +0000
+[HUGO] Template changed /partials/shared/head/js.html
+[HUGO] ERROR Rebuild failed: render: [en v1.0.0 guest] failed to render pages: render of "/home/matt/Development/themes/self-help/content/posts/panic-attack-tips.md" failed: "/home/matt/Development/themes/self-help/layouts/_default/baseof.html:4:5": execute of template failed at <partial "shared/head.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/head.html:48:3": execute of template failed at <partialCached "shared/head/js.html" .>: error calling partialCached: "/home/matt/Development/themes/self-help/layouts/partials/shared/head/js.html:45:3": execute of template failed at <partial "shared/cms-preview-listener.html" .>: "/home/matt/Development/themes/self-help/layouts/partials/shared/cms-preview-listener.html:1:54": execute of template failed at <.Site.IsServer>: can’t evaluate field IsServer in type page.Site
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 13 ms
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#2).
+[DOCS] 2026-01-28 12:59:58.067 +0000
+[DOCS] Template changed /partials/shared/head/js.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 7 ms
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.

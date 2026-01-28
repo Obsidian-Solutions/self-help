@@ -1,9 +1,9 @@
 /**
- * MindFull Control Tower v6.1
- * Hardened Iframe Sync & CSS Fixes
+ * MindFull Control Tower v6.2
+ * Zero-Save Real-time Sync Engine
  */
 
-/* global SimpleMDE */
+/* global SimpleMDE, marked */
 
 (function () {
   const CMS_PORT = 3000;
@@ -15,24 +15,19 @@
   let currentCollection = 'posts';
   let currentSlug = null;
 
-  console.log('Control Tower v6.1: Link Authorized');
+  console.log('Control Tower v6.2: Zero-Save Sync Active');
 
   // --- 1. CORE API ---
   async function api(endpoint, method = 'GET', body = null) {
     const token = localStorage.getItem('mindfull_admin_token');
     const headers = { 
       'Content-Type': 'application/json',
-      'x-xsrf-token': (parts = `; ${document.cookie}`.split(`; XSRF-TOKEN=`)).length === 2 ? parts.pop().split(';').shift() : ''
+      'x-xsrf-token': (parts = `; ${document.cookie}`).split(`; XSRF-TOKEN=`)).length === 2 ? parts.pop().split(';').shift() : ''
     };
     if (token) headers.Authorization = `Bearer ${token}`;
 
     try {
-      const res = await fetch(`${API_BASE}${endpoint}`, { 
-        method, 
-        headers, 
-        body: body ? JSON.stringify(body) : null,
-        credentials: 'include'
-      });
+      const res = await fetch(`${API_BASE}${endpoint}`, { method, headers, body: body ? JSON.stringify(body) : null, credentials: 'include' });
       if (res.status === 401) { logout(); return null; }
       return await res.json();
     } catch (e) { return null; }
@@ -40,7 +35,39 @@
 
   function logout() { localStorage.clear(); window.location.reload(); }
 
-  // --- 2. THE ROUTER ---
+  // --- 2. THE SYNC ENGINE (POSTMESSAGE) ---
+
+  function triggerRealtimeSync() {
+    const iframe = document.getElementById('site-iframe');
+    if (!iframe || !iframe.contentWindow || !simplemde) return;
+
+    const raw = simplemde.value();
+    
+    // Parse Frontmatter for Preview UI
+    const fmMatch = raw.match(/^---([\s\S]*?)---/);
+    let title = 'Untitled Draft';
+    let category = 'JOURNAL';
+    if (fmMatch) {
+      const fm = fmMatch[1];
+      const tMatch = fm.match(/title:\s*['"]?(.+?)['"]?\n/);
+      const cMatch = fm.match(/category:\s*['"]?(.+?)['"]?\n/);
+      if (tMatch) title = tMatch[1];
+      if (cMatch) category = cMatch[1];
+    }
+
+    const bodyMarkdown = raw.replace(/^---[\s\S]*?---/, '');
+    const bodyHtml = marked.parse(bodyMarkdown);
+
+    // Send to Iframe
+    iframe.contentWindow.postMessage({
+      type: 'CMS_SYNC',
+      title: title,
+      category: category,
+      body: bodyHtml
+    }, '*');
+  }
+
+  // --- 3. ROUTER ---
   function router() {
     const hash = window.location.hash || '#dashboard';
     const section = hash.substring(1).split('?')[0];
@@ -60,25 +87,7 @@
 
   window.onhashchange = router;
 
-  // --- 3. EVENT DELEGATION ---
-  document.addEventListener('click', async (e) => {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-
-    const action = btn.getAttribute('data-action');
-    const slug = btn.getAttribute('data-slug');
-    const collection = btn.getAttribute('data-collection');
-
-    switch (action) {
-      case 'load-collection': loadCollection(btn.getAttribute('data-name')); break;
-      case 'edit-entry': editEntry(collection, slug); break;
-      case 'publish': saveContent(); break;
-      case 'refresh-preview': syncIframe(); break;
-      case 'logout': logout(); break;
-    }
-  });
-
-  // --- 4. CMS ENGINE ---
+  // --- 4. CMS LOGIC ---
 
   async function loadCollection(name) {
     currentCollection = name;
@@ -87,7 +96,7 @@
     if (!container || !Array.isArray(items)) return;
 
     container.innerHTML = items.map(i => `
-      <div class="bg-white rounded-2xl p-6 flex flex-col border border-slate-200 shadow-sm">
+      <div class="bg-white rounded-2xl p-6 flex flex-col border border-slate-200 shadow-sm transition-all hover:border-indigo-600">
         <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
         <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
       </div>
@@ -100,88 +109,49 @@
     const entry = await api(`/content/${collection}/${slug}`);
     if (!entry) return;
 
-    const titleEl = document.getElementById('editor-filename');
-    if (titleEl) titleEl.textContent = `${collection}/${slug}`;
+    document.getElementById('editor-filename').textContent = `${collection}/${slug}`;
 
     if (!simplemde) {
-      simplemde = new SimpleMDE({ 
+      simplemde = new SimpleMDE ({ 
         element: document.getElementById('editor-textarea'), 
         spellChecker: false, 
-        status: false,
-        autosave: { enabled: true, uniqueId: "fidelity-editor-v6", delay: 1000 }
+        status: false 
       });
+      // Trigger sync on every keystroke
+      simplemde.codemirror.on('change', triggerRealtimeSync);
     }
     simplemde.value(entry.raw || '');
     
-    // Reset widths to prevent "Missing Editor"
-    const leftSide = document.getElementById('editor-side');
-    if (leftSide) leftSide.style.flexBasis = '50%';
-
-    syncIframe();
-  }
-
-  function syncIframe() {
+    // Setup Iframe with Preview Flag
     const iframe = document.getElementById('site-iframe');
-    const loader = document.getElementById('iframe-loader');
-    if (!iframe || !currentSlug) return;
-
-    loader.classList.remove('opacity-0', 'pointer-events-none');
-    
-    const targetUrl = `http://${window.location.hostname}:${HUGO_PORT}/${currentCollection}/${currentSlug}/?cms_preview=true&t=${Date.now()}`;
-    
-    // Direct set
+    const targetUrl = `http://${window.location.hostname}:${HUGO_PORT}/${collection}/${slug}/?cms_preview=true`;
     iframe.src = targetUrl;
     document.getElementById('live-url-display').textContent = targetUrl.split('?')[0];
 
     iframe.onload = () => {
-      console.log('Iframe Sync Complete');
-      loader.classList.add('opacity-0', 'pointer-events-none');
+      // Initial sync once loaded
+      triggerRealtimeSync();
     };
-
-    // Emergency clear
-    setTimeout(() => {
-      loader.classList.add('opacity-0', 'pointer-events-none');
-    }, 3000);
   }
 
   async function saveContent() {
     const raw = simplemde.value();
     const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw });
-    if (res) { notify('Site Updated'); setTimeout(syncIframe, 1500); }
+    if (res) notify('Changes Published to Live Site');
   }
 
-  function notify(msg) {
-    const toast = document.createElement('div');
-    toast.className = 'bg-emerald-500 text-white px-6 py-3 rounded-xl font-bold shadow-2xl';
-    toast.textContent = msg;
-    document.getElementById('toaster').appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-
-  // --- 5. RESIZER ---
-  const resizer = document.getElementById('drag-handle');
-  const leftSide = document.getElementById('editor-side');
-  let isResizing = false;
-
-  if (resizer && leftSide) {
-    resizer.addEventListener('mousedown', () => { 
-      isResizing = true; 
-      resizer.classList.add('resizing');
-      document.getElementById('site-iframe').style.pointerEvents = 'none';
-    });
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      const x = e.clientX - 256; // Sidebar width
-      if (x > 300 && x < window.innerWidth - 400) {
-        leftSide.style.flexBasis = `${x}px`;
-      }
-    });
-    document.addEventListener('mouseup', () => { 
-      isResizing = false; 
-      resizer.classList.remove('resizing');
-      document.getElementById('site-iframe').style.pointerEvents = 'auto';
-    });
-  }
+  // --- 5. DELEGATION ---
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const action = btn.getAttribute('data-action');
+    switch (action) {
+      case 'load-collection': loadCollection(btn.getAttribute('data-name')); break;
+      case 'edit-entry': editEntry(btn.getAttribute('data-collection'), btn.getAttribute('data-slug')); break;
+      case 'publish': saveContent(); break;
+      case 'logout': logout(); break;
+    }
+  });
 
   // --- 6. INITIALIZATION ---
   function init() {
@@ -200,22 +170,6 @@
   async function loadDashboard() {
     const stats = await api('/admin/stats'); 
     if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join('');
-  }
-
-  // Login Logic
-  const lBtn = document.getElementById('login-submit-btn');
-  if (lBtn) {
-    lBtn.addEventListener('click', async () => {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const res = await fetch(`${API_BASE}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem('mindfull_admin_token', data.token);
-        localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
-        location.reload();
-      }
-    });
   }
 
   init();

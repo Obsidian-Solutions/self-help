@@ -1,0 +1,45 @@
+{{ if or (eq (getenv "HUGO_ENV") "development") (.Site.IsServer) }}
+<script>
+  /**
+   * MindFull CMS Preview Sync
+   * Listens for real-time updates from the Control Tower
+   */
+  (function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isPreview = urlParams.has('cms_preview');
+
+    if (isPreview) {
+      console.log("MindFull Preview Mode: Active");
+      
+      // 1. Hide Site Chrome
+      const style = document.createElement('style');
+      style.textContent = `
+        header, footer, .engagement-bar, section.mt-20, section.mt-32, .related-posts, .community-discussion { 
+          display: none !important; 
+        }
+        body { background: white !important; }
+        main, article { padding-top: 0 !important; margin-top: 0 !important; }
+        .fidelity-hero { margin-top: 2rem !important; }
+      `;
+      document.head.appendChild(style);
+
+      // 2. Listen for Content Updates
+      window.addEventListener('message', function(event) {
+        // Safety: Only accept from our known CMS port
+        if (!event.origin.includes(':3000') && !event.origin.includes(':1313')) return;
+        
+        const data = event.data;
+        if (data.type === 'CMS_SYNC') {
+          const contentArea = document.querySelector('.prose') || document.querySelector('article');
+          const titleArea = document.querySelector('h1');
+          const categoryArea = document.querySelector('.fidelity-category') || document.querySelector('.px-4.py-1.5');
+
+          if (contentArea && data.body) contentArea.innerHTML = data.body;
+          if (titleArea && data.title) titleArea.textContent = data.title;
+          if (categoryArea && data.category) categoryArea.textContent = data.category;
+        }
+      });
+    }
+  })();
+</script>
+{{ end }}
