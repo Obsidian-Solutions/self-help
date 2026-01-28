@@ -1,47 +1,36 @@
 {{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
-   * MindFull CMS Snippeting Engine
-   * Removes site chrome and signals ready status
+   * MindFull CMS Partial Rendering & Sync-Scroll Engine
    */
   (function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (!urlParams.has('cms_preview')) return;
 
-    console.log("MindFull Preview Mode: Snippeting active");
+    console.log("MindFull Preview Mode: Partial Rendering Engine Active");
     
-    // 1. Tag body for CSS hiding
-    document.body.setAttribute('data-cms-preview', 'true');
-
-    // 2. High-Fidelity Snippeting: Remove everything but the article
-    const removeChrome = () => {
-      const selectors = ['header', 'footer', '#loginModal', '#signupModal', '#confirmModal', '.engagement-bar', '.related-posts', '.community-discussion', 'nav'];
-      selectors.forEach(sel => {
-        const el = document.querySelector(sel);
-        if (el) el.remove();
-      });
-      // Flatten padding for the iframe
-      const main = document.querySelector('main');
-      if (main) {
-        main.style.padding = '0';
-        main.style.marginTop = '0';
+    // 1. Aggressive Styling for "Partial" View
+    const style = document.createElement('style');
+    style.textContent = `
+      header, footer, nav, .engagement-bar, .related-posts, .community-discussion, #loginModal, #signupModal { 
+        display: none !important; 
       }
-      const article = document.querySelector('article');
-      if (article) {
-        article.style.paddingTop = '2rem';
-      }
-    };
+      body { background: white !important; overflow-x: hidden !important; }
+      main { padding: 0 !important; margin: 0 !important; }
+      article { padding: 2rem !important; max-width: 100% !important; }
+      /* Ensure the prose container is easy to target */
+      .prose { margin-top: 0 !important; }
+    `;
+    document.head.appendChild(style);
 
-    // Run once immediately and once on DOMContentLoaded
-    removeChrome();
-    document.addEventListener('DOMContentLoaded', removeChrome);
-
-    // 3. Signal 'READY' to Dashboard
+    // 2. Handshake: Signal 'READY' to Control Tower
     window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
 
-    // 4. Listen for Content Injections
+    // 3. Command Listener: Handles Content and Scroll updates
     window.addEventListener('message', function(event) {
       const data = event.data;
+      
+      // Update Content Snippet
       if (data.type === 'CMS_SYNC') {
         const contentArea = document.querySelector('.prose') || document.querySelector('article');
         const titleArea = document.querySelector('h1');
@@ -51,7 +40,23 @@
         if (titleArea && data.title) titleArea.textContent = data.title;
         if (categoryArea && data.category) categoryArea.textContent = data.category;
       }
+
+      // Sync Scroll
+      if (data.type === 'CMS_SCROLL') {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo({
+          top: data.percentage * scrollHeight,
+          behavior: 'auto'
+        });
+      }
     });
+
+    // Notify parent of internal scroll
+    window.addEventListener('scroll', () => {
+      const percentage = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+      window.parent.postMessage({ type: 'IFRAME_SCROLL', percentage }, '*');
+    });
+
   })();
 </script>
 {{ end }}

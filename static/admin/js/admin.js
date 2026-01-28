@@ -1,9 +1,9 @@
 /**
- * MindFull Control Tower v7.0
- * Hugo-Native Architecture & Stateful Handshake Sync
+ * MindFull Control Tower v7.1
+ * Sync-Scroll Engine & High-Fidelity Snippet Controller
  */
 
-/* global SimpleMDE, FileReader, confirm, marked */
+/* global SimpleMDE, marked */
 
 (function () {
   const CMS_PORT = 3000;
@@ -13,8 +13,9 @@
   let currentCollection = 'posts';
   let currentSlug = null;
   let isIframeReady = false;
+  let isSyncingScroll = false;
 
-  console.log('Control Tower v7.0 Booting: Hugo-Native Mode');
+  console.log('Control Tower v7.1 Booting: Sync-Scroll Active');
 
   // --- 1. CORE UTILS ---
   function notify(msg, type = 'success') {
@@ -48,7 +49,50 @@
 
   function logout() { localStorage.clear(); window.location.reload(); }
 
-  // --- 2. ROUTER & NAVIGATION ---
+  // --- 2. THE SYNC ENGINE ---
+
+  function triggerRealtimeSync() {
+    const iframe = document.getElementById('site-iframe');
+    if (!iframe || !iframe.contentWindow || !simplemde || !isIframeReady) return;
+
+    const raw = simplemde.value();
+    
+    // Extract metadata from raw text for the snippet header
+    const fmMatch = raw.match(/^---([\s\S]*?)---/);
+    let title = 'Draft', category = 'GENERAL';
+    if (fmMatch) {
+      const fm = fmMatch[1];
+      const t = fm.match(/title:\s*['"]?(.+?)['"]?\n/);
+      const c = fm.match(/category:\s*['"]?(.+?)['"]?\n/);
+      if (t) title = t[1]; if (c) category = c[1];
+    }
+
+    const bodyMarkdown = raw.replace(/^---[\s\S]*?---/, '');
+    const bodyHtml = marked.parse(bodyMarkdown);
+
+    iframe.contentWindow.postMessage({
+      type: 'CMS_SYNC',
+      title,
+      category,
+      body: bodyHtml
+    }, '*');
+  }
+
+  // Sync-Scroll Logic
+  function handleEditorScroll() {
+    if (isSyncingScroll || !simplemde || !isIframeReady) return;
+    const info = simplemde.codemirror.getScrollInfo();
+    const percentage = info.top / (info.height - info.clientHeight);
+    
+    const iframe = document.getElementById('site-iframe');
+    if (iframe && iframe.contentWindow) {
+      isSyncingScroll = true;
+      iframe.contentWindow.postMessage({ type: 'CMS_SCROLL', percentage }, '*');
+      setTimeout(() => { isSyncingScroll = false; }, 50);
+    }
+  }
+
+  // --- 3. THE ROUTER ---
   function router() {
     const hash = window.location.hash || '#dashboard';
     const section = hash.substring(1).split('?')[0];
@@ -63,16 +107,13 @@
     const activeBtn = document.querySelector(`a[href="#${mappedId}"]`);
     if (activeBtn) activeBtn.classList.add('active', 'text-white', 'bg-slate-800');
 
-    document.getElementById('breadcrumb-active').textContent = section.toUpperCase();
-
     if (section === 'dashboard') loadDashboard();
     if (section === 'content') window.loadCollection(currentCollection);
-    if (section === 'media') loadMedia();
   }
 
   window.onhashchange = router;
 
-  // --- 3. EVENT DELEGATION ---
+  // --- 4. INTERACTION HUB ---
   document.addEventListener('click', async (e) => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
@@ -89,7 +130,7 @@
     }
   });
 
-  // --- 4. RESIZER ENGINE ---
+  // Resizer
   const resizer = document.getElementById('drag-handle');
   const leftSide = document.getElementById('editor-side');
   let isResizing = false;
@@ -101,7 +142,7 @@
     });
     document.addEventListener('mousemove', (e) => {
       if (!isResizing) return;
-      const x = e.clientX - 256; // Adjust for sidebar
+      const x = e.clientX - 256;
       if (x > 350 && x < window.innerWidth - 400) leftSide.style.flexBasis = `${x}px`;
     });
     document.addEventListener('mouseup', () => { 
@@ -110,35 +151,23 @@
     });
   }
 
-  // --- 5. THE SYNC HANDSHAKE ---
+  // Iframe Messages
   window.addEventListener('message', (event) => {
     if (event.data.type === 'IFRAME_READY') {
-      console.log('Handshake: Preview Active');
       isIframeReady = true;
       const loader = document.getElementById('iframe-loader');
       if (loader) loader.classList.add('opacity-0', 'pointer-events-none');
       triggerRealtimeSync();
     }
+    if (event.data.type === 'IFRAME_SCROLL' && !isSyncingScroll) {
+      isSyncingScroll = true;
+      const info = simplemde.codemirror.getScrollInfo();
+      simplemde.codemirror.scrollTo(null, event.data.percentage * (info.height - info.clientHeight));
+      setTimeout(() => { isSyncingScroll = false; }, 50);
+    }
   });
 
-  function triggerRealtimeSync() {
-    const iframe = document.getElementById('site-iframe');
-    if (!iframe || !iframe.contentWindow || !simplemde || !isIframeReady) return;
-
-    const raw = simplemde.value();
-    const fmMatch = raw.match(/^---([\s\S]*?)---/);
-    let title = 'Untitled', category = 'GENERAL';
-    if (fmMatch) {
-      const fm = fmMatch[1];
-      const t = fm.match(/title:\s*['"]?(.+?)['"]?\n/);
-      const c = fm.match(/category:\s*['"]?(.+?)['"]?\n/);
-      if (t) title = t[1]; if (c) category = c[1];
-    }
-    const html = marked.parse(raw.replace(/^---[\s\S]*?---/, ''));
-    iframe.contentWindow.postMessage({ type: 'CMS_SYNC', title, category, body: html }, '*');
-  }
-
-  // --- 6. CMS MANAGER ---
+  // --- 5. CMS ENGINE ---
 
   window.loadCollection = async function (name) {
     currentCollection = name;
@@ -150,7 +179,7 @@
       <div class="admin-card p-6 flex flex-col h-full group hover:border-indigo-600 transition-all">
         <span class="text-[9px] font-black uppercase text-indigo-600 mb-2">${i.data.category || 'Draft'}</span>
         <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
-        <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
+        <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure &rarr;</button>
       </div>
     `).join('');
   };
@@ -163,21 +192,25 @@
     if (!entry) return;
 
     if (!simplemde) {
-      simplemde = new SimpleMDE({ element: document.getElementById('editor-textarea'), spellChecker: false, status: false });
+      simplemde = new SimpleMDE({ 
+        element: document.getElementById('editor-textarea'), 
+        spellChecker: false, 
+        status: false 
+      });
       simplemde.codemirror.on('change', triggerRealtimeSync);
+      simplemde.codemirror.on('scroll', handleEditorScroll);
     }
     simplemde.value(entry.raw || '');
 
-    // Metadata Fields
+    // Render Fields
     const fields = ['title', 'description', 'category', 'illustration'];
     document.getElementById('frontmatter-fields').innerHTML = fields.map(f => `
       <div><label class="text-[9px] font-black uppercase text-slate-400 block mb-1">${f}</label><input id="fm-${f}" value="${entry.data[f] || ''}" class="w-full p-2 bg-slate-50 rounded-lg border-none text-xs font-bold"></div>
     `).join('');
 
     const iframe = document.getElementById('site-iframe');
-    const targetUrl = `/${collection}/${slug}/?cms_preview=true`;
-    iframe.src = targetUrl;
-    document.getElementById('live-url-display').textContent = window.location.origin + targetUrl;
+    iframe.src = `/${collection}/${slug}/?cms_preview=true`;
+    document.getElementById('live-url-display').textContent = window.location.origin + `/${collection}/${slug}/`;
     
     const loader = document.getElementById('iframe-loader');
     if (loader) loader.classList.remove('opacity-0', 'pointer-events-none');
@@ -186,10 +219,10 @@
   async function saveContent() {
     const raw = simplemde.value();
     const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw });
-    if (res) notify('Commit Successful');
+    if (res) notify('Changes Published');
   }
 
-  // --- 7. BOOT ---
+  // --- 6. BOOT ---
   function init() {
     const token = localStorage.getItem('mindfull_admin_token');
     if (token) {
@@ -203,20 +236,20 @@
     }
   }
 
-  // Minimal dashboard
-  async function loadDashboard() { const stats = await api('/admin/stats'); if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join(''); }
-  async function loadMedia() {}
-
-  // Login event
   const lBtn = document.getElementById('login-submit-btn');
   if (lBtn) {
-    lBtn.addEventListener('click', async () => {
+    lBtn.onclick = async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const res = await fetch(`${API_BASE}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }), credentials: 'include' });
       const data = await res.json();
       if (res.ok) { localStorage.setItem('mindfull_admin_token', data.token); localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user)); location.reload(); }
-    });
+    };
+  }
+
+  async function loadDashboard() {
+    const stats = await api('/admin/stats'); 
+    if (stats) document.getElementById('dashboard-stats').innerHTML = Object.entries(stats).map(([k,v]) => `<div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm"><p class="text-[10px] font-black text-slate-400 uppercase mb-1">${k}</p><h3 class="text-2xl font-black text-slate-900">${v}</h3></div>`).join('');
   }
 
   init();
