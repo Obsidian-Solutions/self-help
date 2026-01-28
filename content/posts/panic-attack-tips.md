@@ -1,12 +1,11 @@
 ---
-title: '5 Immediate Tips for Managing a Panic Attack'
-date: 2026-01-15T10:00:00-00:00
-description: 'Actionable steps you can take right now to ground yourself during high anxiety.'
-illustration: 'breathing'
-category: 'Coping'
-tags: ['Mental Health', 'Anxiety', 'Self-Care']
+title: 5 Immediate Tips for Managing a Panic Attack
+description: >-
+  Actionable steps you can take right now to ground yourself during high
+  anxiety.
+category: Coping
+illustration: breathing
 ---
-
 When a panic attack hits, your body is in full "fight or flight" mode. Your amygdala has sounded an alarm, flooding your system with adrenaline. While it feels dangerous, it is important to remember that a panic attack is not physically harmful.
 
 Here is how to regain control of your physiological response:

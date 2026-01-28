@@ -87,6 +87,8 @@ app.use(
 app.use(morgan('dev'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
+// Serve static images from the main project for the CMS gallery
+app.use('/images', express.static(path.join(__dirname, '../static/images')));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'CMS is running' });
