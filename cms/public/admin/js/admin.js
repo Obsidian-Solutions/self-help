@@ -3,7 +3,7 @@
  * The Definitive Controller - All Actions Globalized
  */
 
-/* global SimpleMDE, FileReader, confirm */
+/* global SimpleMDE, FileReader, confirm, location */
 
 const API_BASE = window.location.origin + '/api';
 let simplemde = null;

@@ -15,12 +15,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-dev-only';
 // Sanitize string for logging to prevent log injection
 const sanitizeLog = str => {
   if (typeof str !== 'string') return '';
-  return str.replace(/[^\w\s\-\/\.]/gi, '').substring(0, 100);
+  // eslint-disable-next-line no-useless-escape
+  return str.replace(/[^\w\s-./]/gi, '').substring(0, 100);
 };
 
 // Validate slugs to prevent path traversal or unexpected input
 const isValidSlug = slug => {
-  return typeof slug === 'string' && /^[a-z0-9\-\/]+$/i.test(slug);
+  // eslint-disable-next-line no-useless-escape
+  return typeof slug === 'string' && /^[a-z0-9-/]+$/i.test(slug);
 };
 
 // --- Public Blog Interaction Endpoints ---
@@ -112,10 +114,9 @@ router.post('/posts/:slug/view', (req, res) => {
 router.post('/posts/:slug/react', (req, res) => {
   const { slug } = req.params;
   const { type } = req.body; // 'like' or 'dislike'
-
+  
   if (!isValidSlug(slug)) return res.status(400).json({ message: 'Invalid slug' });
-  if (type !== 'like' && type !== 'dislike')
-    return res.status(400).json({ message: 'Invalid type' });
+  if (type !== 'like' && type !== 'dislike') return res.status(400).json({ message: 'Invalid type' });
 
   const column = type === 'like' ? 'likes' : 'dislikes';
 
@@ -278,7 +279,7 @@ router.get('/:collection', auth, async (req, res) => {
   try {
     const { collection } = req.params;
     if (!isValidSlug(collection)) return res.status(400).json({ message: 'Invalid collection' });
-
+    
     const collectionPath = safePath(collection);
 
     if (!(await fs.pathExists(collectionPath))) {
@@ -315,7 +316,7 @@ router.get('/:collection/:slug', auth, async (req, res) => {
     if (!isValidSlug(collection) || !isValidSlug(slug)) {
       return res.status(400).json({ message: 'Invalid parameters' });
     }
-
+    
     const filePath = safePath(collection, `${slug}.md`);
 
     if (!(await fs.pathExists(filePath))) {
@@ -336,7 +337,7 @@ router.post('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
     const { data, body } = req.body;
-
+    
     if (!isValidSlug(collection) || !isValidSlug(slug)) {
       return res.status(400).json({ message: 'Invalid parameters' });
     }
@@ -357,7 +358,7 @@ router.post('/:collection/:slug', auth, async (req, res) => {
 router.delete('/:collection/:slug', auth, async (req, res) => {
   try {
     const { collection, slug } = req.params;
-
+    
     if (!isValidSlug(collection) || !isValidSlug(slug)) {
       return res.status(400).json({ message: 'Invalid parameters' });
     }
