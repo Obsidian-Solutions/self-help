@@ -128,31 +128,32 @@
                     <!-- Draggable Resizer -->
                     <div class="resizer" id="drag-handle"></div>
 
-                    <!-- Right: Fidelity Preview -->
+                    <!-- Right: Actual Hugo Site Snapshot -->
                     <div class="preview-pane">
-                        <div class="browser-mock">
+                        <div class="browser-mock flex flex-col">
                             <div class="browser-header">
                                 <div class="browser-dot bg-red-400"></div>
                                 <div class="browser-dot bg-amber-400"></div>
                                 <div class="browser-dot bg-emerald-400"></div>
                                 <div class="ml-4 flex-1 bg-white border border-slate-200 rounded px-3 py-1 flex items-center justify-between overflow-hidden">
-                                    <span id="live-url-display" class="text-[10px] font-mono text-slate-400 truncate">Connecting...</span>
-                                    <i class="fa-solid fa-lock text-[8px] text-emerald-500"></i>
-                                </div>
-                            </div>
-                            <div class="browser-content">
-                                <div class="fidelity-header">
-                                    <span id="preview-category" class="fidelity-category">CATEGORY</span>
-                                    <h1 id="preview-title" class="fidelity-title">Article Title</h1>
-                                    <div class="flex items-center gap-4 text-gray-400">
-                                        <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-xs font-black">MT</div>
-                                        <div class="text-left font-bold"><p class="text-gray-900 text-sm leading-none">MindFull Team</p><p class="text-[10px] uppercase mt-1">Staging Preview</p></div>
+                                    <span id="live-url-display" class="text-[10px] font-mono text-slate-400 truncate">Connecting to Hugo...</span>
+                                    <div class="flex items-center gap-3">
+                                        <button data-action="refresh-preview" title="Force Refresh Preview" class="text-slate-400 hover:text-indigo-600 transition-colors"><i class="fa-solid fa-rotate-right text-[10px]"></i></button>
+                                        <i class="fa-solid fa-lock text-[8px] text-emerald-500"></i>
                                     </div>
                                 </div>
-                                <div id="preview-hero" class="fidelity-hero">
-                                    <i class="fa-solid fa-image text-indigo-100 text-6xl"></i>
+                            </div>
+                            <div class="flex-1 bg-white relative">
+                                <!-- The Real Site Iframe -->
+                                <iframe id="site-iframe" class="w-full h-full border-none" src="about:blank"></iframe>
+                                
+                                <!-- Loading Overlay -->
+                                <div id="iframe-loader" class="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center opacity-0 pointer-events-none transition-opacity">
+                                    <div class="flex flex-col items-center gap-3">
+                                        <i class="fa-solid fa-circle-notch animate-spin text-indigo-600 text-2xl"></i>
+                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Syncing with Hugo...</p>
+                                    </div>
                                 </div>
-                                <div id="live-preview" class="prose prose-indigo prose-xl max-w-none"></div>
                             </div>
                         </div>
                     </div>

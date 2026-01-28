@@ -151,3 +151,8 @@
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /api/content/posts [36m304[0m 8.838 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.

@@ -1,9 +1,9 @@
 /**
- * MindFull Control Tower v5.7
- * Full-Markdown Editor & High-Fidelity Snapshot Preview
+ * MindFull Control Tower v5.8
+ * Live-Sync Iframe Engine & Raw Markdown Controller
  */
 
-/* global SimpleMDE, FileReader, confirm, marked */
+/* global SimpleMDE, FileReader, confirm */
 
 (function () {
   const CMS_PORT = 3000;
@@ -11,13 +11,12 @@
   const API_BASE = isHugoHost 
     ? `${window.location.protocol}//${window.location.hostname}:${CMS_PORT}/api`
     : `${window.location.origin}/api`;
-  const CMS_ORIGIN = isHugoHost ? `${window.location.protocol}//${window.location.hostname}:${CMS_PORT}` : window.location.origin;
 
   let simplemde = null;
   let currentCollection = 'posts';
   let currentSlug = null;
 
-  console.log('Control Tower v5.7: Full Markdown Mode Active');
+  console.log('Control Tower v5.8: Iframe Sync Active');
 
   // --- 1. CORE API & UTILS ---
   function notify(msg, type = 'success') {
@@ -28,28 +27,25 @@
     setTimeout(() => toast.remove(), 3000);
   }
 
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }
-
   async function api(endpoint, method = 'GET', body = null) {
     const token = localStorage.getItem('mindfull_admin_token');
-    const headers = { 'Content-Type': 'application/json', 'x-xsrf-token': getCookie('XSRF-TOKEN') };
+    const headers = { 
+      'Content-Type': 'application/json',
+      'x-xsrf-token': (parts = `; ${document.cookie}`.split(`; XSRF-TOKEN=`)).length === 2 ? parts.pop().split(';').shift() : ''
+    };
     if (token) headers.Authorization = `Bearer ${token}`;
 
     try {
       const res = await fetch(`${API_BASE}${endpoint}`, { 
-        method,
-        headers,
+        method, 
+        headers, 
         body: body ? JSON.stringify(body) : null,
         credentials: 'include'
       });
       if (res.status === 401) { logout(); return null; }
-      return res.json();
+      return await res.json();
     } catch (e) {
-      notify('Link Unstable', 'error');
+      console.error('API Error:', e);
       return null;
     }
   }
@@ -65,7 +61,7 @@
     document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active', 'text-white', 'bg-slate-800'));
 
     const target = document.getElementById(`section-${section}`);
-    if (target) { target.classList.remove('hidden'); }
+    if (target) target.classList.remove('hidden');
 
     const mappedId = section === 'editor' ? 'content' : section;
     const activeBtn = document.querySelector(`a[href="#${mappedId}"]`);
@@ -87,31 +83,36 @@
 
     const action = btn.getAttribute('data-action');
     const slug = btn.getAttribute('data-slug');
+    const collection = btn.getAttribute('data-collection');
 
     switch (action) {
       case 'logout': logout(); break;
       case 'load-collection': window.loadCollection(btn.getAttribute('data-name')); break;
-      case 'edit-entry': editEntry(btn.getAttribute('data-collection'), slug); break;
+      case 'edit-entry': editEntry(collection, slug); break;
       case 'publish': saveContent(); break;
-      case 'copy-url': navigator.clipboard.writeText(btn.getAttribute('data-url')); notify('URL Copied'); break;
+      case 'refresh-preview': syncIframe(); break;
+      case 'copy-url': navigator.clipboard.writeText(btn.getAttribute('data-url')); notify('Linked'); break;
     }
   });
 
-  // --- 4. RESIZER ---
-  const resizer = document.getElementById('drag-handle');
-  const leftSide = document.getElementById('editor-side');
-  let isResizing = false;
+  // --- 4. THE IFRAME SYNC ENGINE ---
 
-  if (resizer && leftSide) {
-    resizer.addEventListener('mousedown', () => { isResizing = true; resizer.classList.add('resizing'); document.body.style.cursor = 'col-resize'; });
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      const offsetLeft = e.clientX;
-      if (offsetLeft > 350 && offsetLeft < window.innerWidth * 0.7) {
-        leftSide.style.flexBasis = `${offsetLeft}px`;
-      }
-    });
-    document.addEventListener('mouseup', () => { isResizing = false; resizer.classList.remove('resizing'); document.body.style.cursor = 'default'; });
+  function syncIframe() {
+    const iframe = document.getElementById('site-iframe');
+    const loader = document.getElementById('iframe-loader');
+    if (!iframe) return;
+
+    // Show loading overlay while Hugo rebuilds
+    if (loader) loader.classList.remove('opacity-0', 'pointer-events-none');
+    
+    const targetUrl = `http://localhost:1313/${currentCollection}/${currentSlug}/?cms_preview=true&t=${Date.now()}`;
+    
+    iframe.src = targetUrl;
+    document.getElementById('live-url-display').textContent = targetUrl.split('?')[0];
+
+    iframe.onload = () => {
+      if (loader) loader.classList.add('opacity-0', 'pointer-events-none');
+    };
   }
 
   // --- 5. CMS ENGINE ---
@@ -123,10 +124,10 @@
     if (!container || !Array.isArray(items)) return;
 
     container.innerHTML = items.map(i => `
-      <div class="admin-card p-6 flex flex-col h-full group hover:border-indigo-600 transition-all">
+      <div class="admin-card p-6 flex flex-col h-full group hover:border-indigo-600 transition-all shadow-sm">
         <span class="text-[9px] font-black uppercase text-indigo-600 mb-2">${i.data.category || 'Draft'}</span>
         <h4 class="font-black text-slate-900 mb-6 flex-1">${i.data.title || i.slug}</h4>
-        <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg shadow-md">Configure &rarr;</button>
+        <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="w-full py-2.5 bg-slate-900 text-white text-[10px] font-black uppercase rounded-xl hover:bg-black transition-all">Configure &rarr;</button>
       </div>
     `).join('');
   };
@@ -137,7 +138,7 @@
     const entry = await api(`/content/${collection}/${slug}`);
     if (!entry) return;
 
-    document.getElementById('editor-title').textContent = `Full-Markdown: ${slug}`;
+    document.getElementById('editor-title').textContent = `Full Source: ${slug}`;
     
     if (!simplemde) {
       simplemde = new SimpleMDE({ 
@@ -146,61 +147,44 @@
         status: false,
         autosave: { enabled: true, uniqueId: "fidelity-editor-v5", delay: 1000 }
       });
-      simplemde.codemirror.on('change', updatePreview);
     }
     
-    // Load RAW content (Frontmatter + Body)
     simplemde.value(entry.raw || '');
-
-    const fullUrl = `http://localhost:1313/${collection}/${slug}/`;
-    document.getElementById('live-url-display').textContent = fullUrl;
     
-    updatePreview();
-  }
-
-  function updatePreview() {
-    const raw = simplemde ? simplemde.value() : '';
-    
-    // Simple frontmatter extractor for preview titles
-    const fmMatch = raw.match(/^---([\s\S]*?)---/);
-    let title = 'UNTITLED';
-    let category = 'JOURNAL';
-    let illustration = '';
-
-    if (fmMatch) {
-      const fm = fmMatch[1];
-      const tMatch = fm.match(/title:\s*['"]?(.+?)['"]?\n/);
-      const cMatch = fm.match(/category:\s*['"]?(.+?)['"]?\n/);
-      const iMatch = fm.match(/illustration:\s*['"]?(.+?)['"]?\n/);
-      if (tMatch) title = tMatch[1];
-      if (cMatch) category = cMatch[1];
-      if (iMatch) illustration = iMatch[1];
-    }
-
-    const body = raw.replace(/^---[\s\S]*?---/, '');
-
-    document.getElementById('preview-title').textContent = title;
-    document.getElementById('preview-category').textContent = category.toUpperCase();
-    
-    const hero = document.getElementById('preview-hero');
-    if (illustration) {
-      hero.innerHTML = `<img src="${CMS_ORIGIN}/illustrations/${illustration}.svg" class="max-h-64 mx-auto drop-shadow-2xl">`;
-    } else {
-      hero.innerHTML = '<i class="fa-solid fa-image text-indigo-100 text-6xl"></i>';
-    }
-
-    document.getElementById('live-preview').innerHTML = marked.parse(body);
+    // Initial sync
+    syncIframe();
   }
 
   async function saveContent() {
     const raw = simplemde.value();
     const res = await api(`/content/${currentCollection}/${currentSlug}/raw`, 'POST', { raw });
-    if (res) notify('Staged to Production');
+    if (res) {
+      notify('Staged to Hugo');
+      // Wait 500ms for Hugo's live-reload to trigger then force sync
+      setTimeout(syncIframe, 500);
+    }
+  }
+
+  // --- 6. RESIZER ---
+  const resizer = document.getElementById('drag-handle');
+  const leftSide = document.getElementById('editor-side');
+  let isResizing = false;
+
+  if (resizer && leftSide) {
+    resizer.addEventListener('mousedown', () => { isResizing = true; resizer.classList.add('resizing'); document.body.style.cursor = 'col-resize'; });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const offsetLeft = e.clientX;
+      if (offsetLeft > 350 && offsetLeft < window.innerWidth * 0.8) {
+        leftSide.style.flexBasis = `${offsetLeft}px`;
+      }
+    });
+    document.addEventListener('mouseup', () => { isResizing = false; resizer.classList.remove('resizing'); document.body.style.cursor = 'default'; });
   }
 
   // Generic Loaders
   async function loadDashboard() { const stats = await api('/admin/stats'); if (stats) { document.getElementById('stat-users').textContent = stats.totalUsers; document.getElementById('stat-views').textContent = stats.totalViews; document.getElementById('stat-rating').textContent = stats.averageRating; document.getElementById('stat-new-leads').textContent = stats.newInquiries; } }
-  async function loadMedia() { const items = await api('/media'); const container = document.getElementById('media-grid'); if (container && Array.isArray(items)) { container.innerHTML = items.map(i => `<div class="admin-card p-2 relative group overflow-hidden"><img src="${CMS_ORIGIN}${i.url}" class="w-full aspect-square object-cover rounded-xl"><div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity"><button data-action="copy-url" data-url="${CMS_ORIGIN}${i.url}" class="p-2 bg-white text-slate-900 rounded-lg text-[8px] font-bold uppercase">Link</button></div></div>`).join(''); } }
+  async function loadMedia() { const items = await api('/media'); const container = document.getElementById('media-grid'); if (container && Array.isArray(items)) { container.innerHTML = items.map(i => `<div class="admin-card p-2 relative group overflow-hidden"><img src="http://localhost:${CMS_PORT}${i.url}" class="w-full aspect-square object-cover rounded-xl"><div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-2 transition-opacity"><button data-action="copy-url" data-url="http://localhost:${CMS_PORT}${i.url}" class="p-2 bg-white text-slate-900 rounded-lg text-[8px] font-bold uppercase">Link</button></div></div>`).join(''); } }
 
   // Boot
   function init() {
