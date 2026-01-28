@@ -103,7 +103,7 @@
     {{ $coursesSection := .Site.GetPage "section" "courses" }}
     {{ range $coursesSection.Sections }}
     {{ $courseTitle := .Title }}
-    {{ $slug := .File.BaseFileName }}
+    {{ $slug := path.Base .File.Dir }}
     {{ $lessons := .Pages }}
     {{ $lessonCount := len $lessons }}
     <div class="premium-card group overflow-hidden flex flex-col h-full" data-course-card="{{ $courseTitle }}">

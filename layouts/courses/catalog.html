@@ -26,7 +26,7 @@
   
   <!-- Featured Course Hero -->
   {{ range first 1 $allCourses }}
-  {{ $slug := .File.BaseFileName }}
+  {{ $slug := path.Base .File.Dir }}
   {{ $lessons := .Pages }}
   <section class="relative">
     <div class="absolute -inset-4 bg-indigo-50/30 dark:bg-indigo-900/10 rounded-[4rem] -z-10 blur-2xl"></div>
@@ -88,7 +88,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       {{ range after 1 $allCourses }}
-      {{ $slug := .File.BaseFileName }}
+      {{ $slug := path.Base .File.Dir }}
       {{ $lessons := .Pages }}
       <div class="group flex flex-col h-full">
         <div class="course-image-wrapper w-full p-12 mb-8 group-hover:shadow-2xl group-hover:shadow-indigo-500/10">

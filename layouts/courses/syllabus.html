@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $labels := site.Data.labels.courses }}
-{{ $slug := .File.BaseFileName }}
+{{ $slug := path.Base .File.Dir }}
 {{ $thisCourseLessons := .Pages }}
 
 <div class="animate-in fade-in slide-in-from-bottom-4 duration-700">

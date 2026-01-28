@@ -95,7 +95,7 @@
     <div class="flex flex-wrap gap-12 justify-center items-stretch max-w-5xl mx-auto">
       {{ range first 3 (where .Site.Sections "Section" "courses") }}
       {{ range first 3 .Sections }}
-      {{ $slug := .File.BaseFileName }}
+      {{ $slug := path.Base .File.Dir }}
       <div class="group flex flex-col items-center text-center w-full sm:w-[calc(50%-1.5rem)] lg:w-[calc(33.333%-2rem)] min-w-[280px]">
         <div class="course-image-wrapper w-full p-12 mb-8">
           {{ if .Params.illustration }}
