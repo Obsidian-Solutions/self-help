@@ -2,35 +2,29 @@
 <script>
   /**
    * MindFull CMS Partial Rendering & Sync-Scroll Engine
+   * Definitive Snippet Mode
    */
   (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has('cms_preview')) return;
+    // 1. Immediate Detection (Run before DOM load)
+    const isPreview = window.location.search.includes('cms_preview=true');
+    if (!isPreview) return;
 
-    console.log("MindFull Preview Mode: Snippeting active");
+    console.log("MindFull Preview Mode: Initiating aggressive snippeting...");
     
-    // 1. Tag body for CSS hiding
-    document.body.setAttribute('data-cms-preview', 'true');
-
-    // 2. Aggressive Styling for "Partial" View
-    const style = document.createElement('style');
-    style.textContent = `
+    // 2. Immediate CSS Injection (Zero-flash hiding)
+    const css = `
       header, footer, nav, aside, 
       .engagement-bar, .related-posts, .community-discussion, 
-      #loginModal, #signupModal, #confirmModal, .tags-social-section, 
-      .premium-card.bg-indigo-600, 
-      .mt-24.pt-12.border-t, 
-      .mt-16.flex.items-center.justify-between,
-      .mt-24.text-center,
-      .course-start-btn,
+      .tags-social-section, .mt-24.text-center, .mt-32,
+      #loginModal, #signupModal, #confirmModal,
       .js-completion-badge { 
         display: none !important; 
       }
       
-      /* Background matching theme */
       body { 
         background-image: none !important; 
         background-color: #f9fafb !important; 
+        overflow-x: hidden !important;
       }
       .dark body { 
         background-color: #111827 !important; 
@@ -52,15 +46,20 @@
         max-width: 100% !important; 
       }
 
-      /* Remove transitions for instant scroll sync */
-      * { transition: none !important; animation: none !important; }
+      /* Instant Scroll Sync (No smooth scrolling) */
+      * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
     `;
-    document.head.appendChild(style);
+    const styleEl = document.createElement('style');
+    styleEl.textContent = css;
+    document.head.appendChild(styleEl);
 
-    // 3. Handshake: Signal 'READY' to Control Tower
+    // 3. Mark body for secondary selectors
+    document.documentElement.setAttribute('data-cms-preview', 'true');
+
+    // 4. Handshake: Signal 'READY' to Control Tower
     window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
 
-    // 4. Command Listener: Handles Content and Scroll updates
+    // 5. Command Listener: Handles Content and Scroll updates
     let isRemoteScrolling = false;
     window.addEventListener('message', function(event) {
       const data = event.data;
@@ -80,15 +79,12 @@
       if (data.type === 'CMS_SCROLL') {
         isRemoteScrolling = true;
         const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-        window.scrollTo({
-          top: data.percentage * scrollHeight,
-          behavior: 'auto'
-        });
+        window.scrollTo(0, data.percentage * scrollHeight);
         setTimeout(() => { isRemoteScrolling = false; }, 50);
       }
     });
 
-    // Notify parent of internal scroll
+    // 6. Notify parent of internal scroll
     window.addEventListener('scroll', () => {
       if (isRemoteScrolling) return;
       const percentage = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
