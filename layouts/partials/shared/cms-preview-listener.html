@@ -7,26 +7,61 @@
     const urlParams = new URLSearchParams(window.location.search);
     if (!urlParams.has('cms_preview')) return;
 
-    console.log("MindFull Preview Mode: Partial Rendering Engine Active");
+    console.log("MindFull Preview Mode: Snippeting active");
     
-    // 1. Aggressive Styling for "Partial" View
+    // 1. Tag body for CSS hiding
+    document.body.setAttribute('data-cms-preview', 'true');
+
+    // 2. Aggressive Styling for "Partial" View
     const style = document.createElement('style');
     style.textContent = `
-      header, footer, nav, .engagement-bar, .related-posts, .community-discussion, #loginModal, #signupModal { 
+      header, footer, nav, aside, 
+      .engagement-bar, .related-posts, .community-discussion, 
+      #loginModal, #signupModal, #confirmModal, .tags-social-section, 
+      .premium-card.bg-indigo-600, 
+      .mt-24.pt-12.border-t, 
+      .mt-16.flex.items-center.justify-between,
+      .mt-24.text-center,
+      .course-start-btn,
+      .js-completion-badge { 
         display: none !important; 
       }
-      body { background: white !important; overflow-x: hidden !important; }
+      
+      /* Background matching theme */
+      body { 
+        background-image: none !important; 
+        background-color: #f9fafb !important; 
+      }
+      .dark body { 
+        background-color: #111827 !important; 
+      }
+
       main { padding: 0 !important; margin: 0 !important; }
-      article { padding: 2rem !important; max-width: 100% !important; }
-      /* Ensure the prose container is easy to target */
-      .prose { margin-top: 0 !important; }
+      .p-3.sm:p-6.lg:p-10 { padding: 0 !important; }
+      
+      article { 
+        padding: 2rem !important; 
+        max-width: 100% !important; 
+        border: none !important; 
+        box-shadow: none !important; 
+        background: transparent !important; 
+      }
+      
+      .prose { 
+        margin-top: 0 !important; 
+        max-width: 100% !important; 
+      }
+
+      /* Remove transitions for instant scroll sync */
+      * { transition: none !important; animation: none !important; }
     `;
     document.head.appendChild(style);
 
-    // 2. Handshake: Signal 'READY' to Control Tower
+    // 3. Handshake: Signal 'READY' to Control Tower
     window.parent.postMessage({ type: 'IFRAME_READY' }, '*');
 
-    // 3. Command Listener: Handles Content and Scroll updates
+    // 4. Command Listener: Handles Content and Scroll updates
+    let isRemoteScrolling = false;
     window.addEventListener('message', function(event) {
       const data = event.data;
       
@@ -43,16 +78,19 @@
 
       // Sync Scroll
       if (data.type === 'CMS_SCROLL') {
+        isRemoteScrolling = true;
         const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
         window.scrollTo({
           top: data.percentage * scrollHeight,
           behavior: 'auto'
         });
+        setTimeout(() => { isRemoteScrolling = false; }, 50);
       }
     });
 
     // Notify parent of internal scroll
     window.addEventListener('scroll', () => {
+      if (isRemoteScrolling) return;
       const percentage = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
       window.parent.postMessage({ type: 'IFRAME_SCROLL', percentage }, '*');
     });
