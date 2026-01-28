@@ -180,6 +180,53 @@ router.post('/users/:id/notes', (req, res) => {
   );
 });
 
+// --- Quizzes ---
+router.get('/quizzes', (req, res) => {
+  db.all('SELECT * FROM quizzes ORDER BY created_at DESC', [], (err, rows) => {
+    if (err) return res.status(500).json({ message: 'DB Error' });
+    res.json(rows);
+  });
+});
+
+router.get('/quizzes/:id', (req, res) => {
+  db.get('SELECT * FROM quizzes WHERE id = ?', [req.params.id], (err, row) => {
+    if (err) return res.status(500).json({ message: 'DB Error' });
+    if (row && row.questions) row.questions = JSON.parse(row.questions);
+    res.json(row);
+  });
+});
+
+router.post('/quizzes', (req, res) => {
+  const { title, description, result_message, questions, status } = req.body;
+  db.run(
+    'INSERT INTO quizzes (title, description, result_message, questions, status) VALUES (?, ?, ?, ?, ?)',
+    [title, description, result_message, JSON.stringify(questions), status || 'draft'],
+    function(err) {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json({ id: this.lastID, success: true });
+    }
+  );
+});
+
+router.put('/quizzes/:id', (req, res) => {
+  const { title, description, result_message, questions, status } = req.body;
+  db.run(
+    'UPDATE quizzes SET title = ?, description = ?, result_message = ?, questions = ?, status = ? WHERE id = ?',
+    [title, description, result_message, JSON.stringify(questions), status, req.params.id],
+    err => {
+      if (err) return res.status(500).json({ message: 'DB Error' });
+      res.json({ success: true });
+    }
+  );
+});
+
+router.delete('/quizzes/:id', (req, res) => {
+  db.run('DELETE FROM quizzes WHERE id = ?', [req.params.id], err => {
+    if (err) return res.status(500).json({ message: 'DB Error' });
+    res.json({ success: true });
+  });
+});
+
 router.get('/popular', (req, res) => {
   db.all(
     'SELECT slug, views, likes, dislikes FROM post_stats ORDER BY views DESC LIMIT 5',

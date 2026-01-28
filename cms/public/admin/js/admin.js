@@ -1,6 +1,6 @@
 /**
- * MindFull Control Tower v4.1
- * Utility-First Controller for Site Operations
+ * MindFull Control Tower v4.2
+ * Quiz Builder & Rating Integration
  */
 
 /* global SimpleMDE, FileReader, confirm */
@@ -11,8 +11,9 @@
   let currentCollection = 'posts';
   let currentSlug = null;
   let currentLeadId = null;
+  let currentQuizId = null;
 
-  console.log('Control Tower Engine v4.1 Active');
+  console.log('Control Tower Engine v4.2 Active');
 
   // --- 1. UTILS ---
   function notify(msg, type = 'success') {
@@ -85,10 +86,22 @@
         document.getElementById('dev-log-container').classList.remove('hidden');
         document.getElementById('dev-terminal').innerHTML += `<br>[${new Date().toLocaleTimeString()}] Fetching system logs...<br>Build Status: IDLE<br>CMS Status: ONLINE`;
         break;
+      case 'new-quiz': openQuizEditor(null); break;
+      case 'edit-quiz': openQuizEditor(id); break;
+      case 'save-quiz': saveQuiz(); break;
+      case 'add-question': addQuestionRow(); break;
+      case 'remove-question': btn.closest('.question-row').remove(); break;
+      case 'delete-quiz':
+        if (confirm('Delete this quiz?')) {
+          await api(`/admin/quizzes/${id}`, 'DELETE');
+          showSection('quizzes');
+          notify('Quiz Deleted');
+        }
+        break;
     }
   });
 
-  // --- 3. CORE LOGIC ---
+  // --- 3. CORE NAVIGATION ---
 
   function showSection(id) {
     document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
@@ -100,8 +113,7 @@
     const target = document.getElementById(`section-${id}`);
     if (target) target.classList.remove('hidden');
 
-    const mappedId = id === 'editor' ? 'content' : id;
-    const activeBtn = document.querySelector(`[data-section="${mappedId}"]`);
+    const activeBtn = document.querySelector(`[data-section="${id === 'editor' || id === 'quiz-editor' ? (id === 'quiz-editor' ? 'quizzes' : 'content') : id}"]`);
     if (activeBtn) {
       activeBtn.classList.add('active', 'text-white', 'bg-slate-800');
       activeBtn.classList.remove('text-slate-400');
@@ -115,48 +127,102 @@
     if (id === 'users') loadUsers();
     if (id === 'inquiries') loadInquiries();
     if (id === 'media') loadMedia();
+    if (id === 'quizzes') loadQuizzes();
   }
 
-  async function executeBuild() {
-    notify('Build Sequence Started');
-    const term = document.getElementById('dev-terminal');
-    document.getElementById('dev-log-container').classList.remove('hidden');
-    term.innerHTML += `<br>>>> [BUILD] Initiating hugo --minify...`;
-    
-    // Simulating build response for prototype
-    setTimeout(() => {
-      term.innerHTML += `<br>>>> [BUILD] Processing 57 pages...`;
-      term.innerHTML += `<br>>>> [BUILD] Done in 175ms. Pagefind indexing complete.`;
-      notify('Production Build Success');
-    }, 1500);
+  // --- 4. QUIZ BUILDER ---
+
+  async function loadQuizzes() {
+    const items = await api('/admin/quizzes');
+    const container = document.getElementById('quizzes-list');
+    if (!container || !items) return;
+
+    container.innerHTML = items.map(q => `
+      <div class="admin-card p-6 flex flex-col h-full group">
+        <div class="flex justify-between mb-4">
+          <span class="text-[9px] font-black uppercase bg-indigo-50 text-indigo-600 px-2 py-1 rounded">${q.status}</span>
+          <span class="text-[9px] font-bold text-slate-400 uppercase">ID: ${q.id}</span>
+        </div>
+        <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${q.title}</h4>
+        <div class="flex gap-2">
+          <button data-action="edit-quiz" data-id="${q.id}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Configure</button>
+          <button data-action="delete-quiz" data-id="${q.id}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+        </div>
+      </div>
+    `).join('') || '<p class="col-span-full py-20 text-center text-xs italic text-slate-400">No quizzes defined.</p>';
   }
 
-  async function loadDashboard() {
-    const stats = await api('/admin/stats');
-    if (stats) {
-      document.getElementById('stat-users').textContent = stats.totalUsers;
-      document.getElementById('stat-views').textContent = stats.totalViews;
-      document.getElementById('stat-rating').textContent = stats.averageRating;
-      document.getElementById('stat-new-leads').textContent = stats.newInquiries;
-    }
-    const [activity, popular] = await Promise.all([api('/admin/activity'), api('/admin/popular')]);
-    if (activity) {
-      document.getElementById('activity-list').innerHTML = activity.map(i => `
-        <div class="flex items-center justify-between py-4">
-          <p class="text-sm font-bold text-slate-700">${i.user_name} <span class="text-[10px] font-black uppercase text-slate-400 ml-2">${i.event}</span></p>
-          <span class="text-[10px] font-black text-indigo-600">${new Date(i.created_at).toLocaleTimeString()}</span>
-        </div>
-      `).join('');
-    }
-    if (popular) {
-      document.getElementById('popular-list').innerHTML = popular.map(i => `
-        <div class="flex items-center justify-between py-3 px-4 bg-slate-50 rounded-xl mb-2">
-          <p class="text-xs font-bold text-slate-600 truncate">${i.slug}</p>
-          <span class="text-[10px] font-black text-emerald-600">${i.views} HITS</span>
-        </div>
-      `).join('');
+  async function openQuizEditor(id) {
+    currentQuizId = id;
+    showSection('quiz-editor');
+    const container = document.getElementById('quiz-questions-container');
+    container.innerHTML = '';
+
+    if (id) {
+      const quiz = await api(`/admin/quizzes/${id}`);
+      document.getElementById('quiz-title').value = quiz.title;
+      document.getElementById('quiz-description').value = quiz.description;
+      document.getElementById('quiz-result').value = quiz.result_message;
+      document.getElementById('quiz-status').value = quiz.status;
+      (quiz.questions || []).forEach(q => addQuestionRow(q));
+    } else {
+      document.getElementById('quiz-title').value = '';
+      document.getElementById('quiz-description').value = '';
+      document.getElementById('quiz-result').value = '';
+      document.getElementById('quiz-status').value = 'draft';
+      addQuestionRow();
     }
   }
+
+  function addQuestionRow(data = {}) {
+    const container = document.getElementById('quiz-questions-container');
+    const row = document.createElement('div');
+    row.className = 'question-row p-6 bg-slate-50 rounded-2xl space-y-4 border border-transparent hover:border-indigo-100 transition-all';
+    row.innerHTML = `
+      <div class="flex justify-between items-center">
+        <span class="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Question</span>
+        <button data-action="remove-question" class="text-slate-400 hover:text-red-500 transition-colors">&times;</button>
+      </div>
+      <input type="text" placeholder="Question text" class="q-text w-full p-3 bg-white rounded-xl border-none font-bold text-sm" value="${data.question || ''}">
+      <div class="grid grid-cols-2 gap-4">
+        ${[0, 1, 2, 3].map(i => `
+          <div class="flex items-center gap-2 bg-white p-2 rounded-xl border border-slate-100">
+            <input type="radio" name="correct-${Date.now()}-${Math.random()}" class="q-correct" ${data.correct === i ? 'checked' : ''}>
+            <input type="text" placeholder="Option ${i + 1}" class="q-option w-full border-none bg-transparent text-xs font-medium" value="${(data.options || [])[i] || ''}">
+          </div>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(row);
+  }
+
+  async function saveQuiz() {
+    const questions = Array.from(document.querySelectorAll('.question-row')).map(row => {
+      const options = Array.from(row.querySelectorAll('.q-option')).map(opt => opt.value);
+      const correctIndex = Array.from(row.querySelectorAll('.q-correct')).findIndex(radio => radio.checked);
+      return {
+        question: row.querySelector('.q-text').value,
+        options,
+        correct: correctIndex
+      };
+    });
+
+    const payload = {
+      title: document.getElementById('quiz-title').value,
+      description: document.getElementById('quiz-description').value,
+      result_message: document.getElementById('quiz-result').value,
+      status: document.getElementById('quiz-status').value,
+      questions
+    };
+
+    const res = await api(currentQuizId ? `/admin/quizzes/${currentQuizId}` : '/admin/quizzes', currentQuizId ? 'PUT' : 'POST', payload);
+    if (res) {
+      notify('Quiz Engine Updated');
+      showSection('quizzes');
+    }
+  }
+
+  // --- 5. CMS & RATINGS ---
 
   window.loadCollection = async function (name) {
     currentCollection = name;
@@ -164,15 +230,25 @@
     const container = document.getElementById('collection-view');
     if (!container || !items) return;
 
-    container.innerHTML = items.map(i => `
-      <div class="admin-card p-6 flex flex-col h-full group">
-        <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${i.data.title || i.slug}</h4>
-        <div class="flex gap-2">
-          <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Update</button>
-          <button data-action="delete-entry" data-collection="${name}" data-slug="${i.slug}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+    // For courses, we also want to fetch and show ratings
+    const ratings = name === 'courses' ? await Promise.all(items.map(i => api(`/courses/${i.slug}/rating`))) : [];
+
+    container.innerHTML = items.map((i, idx) => {
+      const rating = ratings[idx] || { avg_rating: 0, total_ratings: 0 };
+      return `
+        <div class="admin-card p-6 flex flex-col h-full group">
+          <div class="flex justify-between mb-4">
+            <span class="text-[9px] font-black uppercase bg-indigo-50 text-indigo-600 px-2 py-1 rounded">${i.data.category || 'General'}</span>
+            ${name === 'courses' ? `<span class="text-[9px] font-black text-amber-500 uppercase"><i class="fa-solid fa-star mr-1"></i> ${rating.avg_rating.toFixed(1)} (${rating.total_ratings})</span>` : ''}
+          </div>
+          <h4 class="font-black text-slate-900 mb-6 flex-1 group-hover:text-indigo-600 transition-colors">${i.data.title || i.slug}</h4>
+          <div class="flex gap-2">
+            <button data-action="edit-entry" data-collection="${name}" data-slug="${i.slug}" class="flex-1 py-2 bg-indigo-600 text-white text-[10px] font-black uppercase rounded-lg">Update</button>
+            <button data-action="delete-entry" data-collection="${name}" data-slug="${i.slug}" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash-can"></i></button>
+          </div>
         </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   };
 
   async function editEntry(collection, slug) {
@@ -204,6 +280,8 @@
     const res = await api(`/content/${currentCollection}/${currentSlug}`, 'POST', { data, body });
     if (res) { notify('Site Content Updated'); showSection('content'); }
   }
+
+  // --- 6. CRM & LEADS ---
 
   async function loadUsers() {
     const users = await api('/admin/users');
@@ -277,6 +355,8 @@
     loadInquiries();
   }
 
+  // --- 7. MEDIA ---
+
   async function loadMedia() {
     const items = await api('/media');
     const container = document.getElementById('media-grid');
@@ -308,7 +388,20 @@
     reader.readAsDataURL(file);
   };
 
-  // --- 4. BOOT ---
+  // --- 8. DASHBOARD RECAP ---
+
+  async function executeBuild() {
+    notify('Build Sequence Started');
+    const term = document.getElementById('dev-terminal');
+    document.getElementById('dev-log-container').classList.remove('hidden');
+    term.innerHTML += `<br>>>> [BUILD] Initiating hugo --minify...`;
+    setTimeout(() => {
+      term.innerHTML += `<br>>>> [BUILD] Done in 175ms. Pagefind indexing complete.`;
+      notify('Production Build Success');
+    }, 1500);
+  }
+
+  // --- 9. BOOT ---
   function init() {
     const token = localStorage.getItem('mindfull_admin_token');
     if (token) {

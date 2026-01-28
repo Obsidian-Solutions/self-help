@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            <!-- Content Manager -->
+            <!-- CMS Manager -->
             <div id="section-content" class="admin-section hidden space-y-6">
                 <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
                     <div class="flex gap-4">
@@ -148,6 +148,49 @@
                     <button data-action="new-entry" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg shadow-indigo-100">+ New Content</button>
                 </div>
                 <div id="collection-view" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Quiz Builder Section -->
+            <div id="section-quizzes" class="admin-section hidden space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
+                    <h3 class="font-black text-slate-900 uppercase text-xs tracking-widest px-4">Master Quiz Repository</h3>
+                    <button data-action="new-quiz" class="bg-indigo-600 text-white px-6 py-2 rounded-xl font-bold text-xs shadow-lg">+ New Quiz</button>
+                </div>
+                <div id="quizzes-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Quiz Editor -->
+            <div id="section-quiz-editor" class="admin-section hidden space-y-10">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200">
+                    <button data-action="nav" data-section="quizzes" class="text-xs font-bold text-indigo-600 flex items-center gap-2"><i class="fa-solid fa-arrow-left"></i> Back to Repository</button>
+                    <div class="flex gap-4">
+                        <button data-action="save-quiz" class="bg-indigo-600 text-white px-8 py-2 rounded-xl font-bold text-sm shadow-lg">Save Quiz Engine</button>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-10">
+                    <div class="col-span-1 space-y-6">
+                        <div class="admin-card p-8 space-y-4">
+                            <h4 class="font-black text-slate-900 uppercase text-[10px] tracking-widest text-slate-400">Metadata</h4>
+                            <input type="text" id="quiz-title" placeholder="Quiz Title" class="w-full p-3 bg-slate-50 rounded-xl border-none font-bold text-sm">
+                            <textarea id="quiz-description" placeholder="Description" rows="3" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-medium"></textarea>
+                            <input type="text" id="quiz-result" placeholder="Completion Message" class="w-full p-3 bg-slate-50 rounded-xl border-none text-xs font-medium">
+                            <select id="quiz-status" class="w-full p-3 bg-slate-50 rounded-xl border-none font-bold text-xs">
+                                <option value="draft">Draft</option>
+                                <option value="published">Published</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-span-2 space-y-6">
+                        <div class="admin-card p-8">
+                            <div class="flex justify-between items-center mb-6">
+                                <h4 class="font-black text-slate-900 uppercase text-[10px] tracking-widest text-slate-400">Questions & Logic</h4>
+                                <button data-action="add-question" class="text-indigo-600 font-bold text-[10px] uppercase">+ Add Question</button>
+                            </div>
+                            <div id="quiz-questions-container" class="space-y-8"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Editor -->
