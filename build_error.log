@@ -1,0 +1,20 @@
+
+> mindfull-theme@1.0.0 build
+> npm run build:css && HUGO_ENV=production hugo --minify && npx pagefind --site public
+
+
+> mindfull-theme@1.0.0 build:css
+> tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --minify
+
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+Rebuilding...
+
+Done in 667ms.
+Start building sites … 
+hugo v0.154.5+extended+withdeploy linux/amd64 BuildDate=unknown
+
+Total in 42 ms
+ERROR error building site: render: [en v1.0.0 guest] failed to render pages: render of "/home/matt/Development/themes/self-help/content/posts/_index.md" failed: "/home/matt/Development/themes/self-help/layouts/_default/baseof.html:4:5": execute of template failed: template: posts/list.html:4:5: executing "posts/list.html" at <partial "shared/head.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/head.html:48:3": execute of template failed: template: _partials/shared/head.html:48:3: executing "_partials/shared/head.html" at <partialCached "shared/head/js.html" .>: error calling partialCached: "/home/matt/Development/themes/self-help/layouts/partials/shared/head/js.html:45:3": execute of template failed: template: _partials/shared/head/js.html:45:3: executing "_partials/shared/head/js.html" at <partial "shared/cms-preview-listener.html" .>: error calling partial: "/home/matt/Development/themes/self-help/layouts/partials/shared/cms-preview-listener.html:1:54": execute of template failed: template: _partials/shared/cms-preview-listener.html:1:54: executing "_partials/shared/cms-preview-listener.html" at <.Site.IsServer>: can't evaluate field IsServer in type page.Site
