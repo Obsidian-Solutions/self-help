@@ -1,19 +1,19 @@
-[CSS] 
-[CSS] > mindfull-theme@1.0.0 watch:css
-[CSS] > tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch
-[CSS] 
 [HUGO] 
 [HUGO] > mindfull-theme@1.0.0 start
 [HUGO] > hugo server -D
 [HUGO] 
-[DOCS] 
-[DOCS] > mindfull-theme@1.0.0 docs:dev
-[DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
-[DOCS] 
+[CSS] 
+[CSS] > mindfull-theme@1.0.0 watch:css
+[CSS] > tailwindcss -i ./assets/css/input.css -o ./static/css/style.css --watch
+[CSS] 
 [CMS] 
 [CMS] > mindfull-cms@1.0.0 dev
 [CMS] > nodemon server.js
 [CMS] 
+[DOCS] 
+[DOCS] > mindfull-theme@1.0.0 docs:dev
+[DOCS] > hugo server -s docs-site -p 1314 --disableFastRender
+[DOCS] 
 [CMS] [33m[nodemon] 3.1.11[39m
 [CMS] [33m[nodemon] to restart at any time, enter `rs`[39m
 [CMS] [33m[nodemon] watching path(s): *.*[39m
@@ -40,7 +40,7 @@
 [DOCS]  Aliases          │  0 
 [DOCS]  Cleaned          │  0 
 [DOCS] 
-[DOCS] Built in 63 ms
+[DOCS] Built in 73 ms
 [DOCS] Environment: "development"
 [DOCS] Serving pages from disk
 [DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1) 
@@ -56,7 +56,7 @@
 [HUGO]  Aliases          │  9 
 [HUGO]  Cleaned          │  0 
 [HUGO] 
-[HUGO] Built in 150 ms
+[HUGO] Built in 142 ms
 [HUGO] Environment: "development"
 [HUGO] Serving pages from disk
 [HUGO] Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
@@ -67,12 +67,18 @@
 [CSS] 
 [CSS] Rebuilding...
 [CSS] 
-[CSS] Done in 462ms.
-[HUGO] 
-[HUGO] Change of Static files detected, rebuilding site (#1).
-[HUGO] 2026-01-28 12:24:02.543 +0000
-[HUGO] Syncing /css/style.css to /
+[CSS] Done in 447ms.
+[CMS] [0mGET /admin/ [32m200[0m 3.294 ms - 19715[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.163 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.784 ms - 17755[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 7.983 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.085 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.701 ms - -[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.664 ms - 166[0m
 [CMS] [32m[nodemon] restarting due to changes...[39m
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [32m200[0m 2.898 ms - 15726[0m
+[CMS] [0mGET /admin/css/admin.css [36m304[0m 0.712 ms - -[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.434 ms - 10966[0m
