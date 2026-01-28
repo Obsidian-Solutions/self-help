@@ -195,6 +195,26 @@
     document.getElementById('editor-title').textContent = `Editing: ${slug}`;
     initSimpleMDE(entry.body || '');
     renderFMFields(entry.data || {});
+    renderLiveTarget(collection, slug, entry.data || {});
+  }
+
+  function renderLiveTarget(collection, slug, data) {
+    const liveBase = 'http://localhost:1313';
+    const path = `/${collection}/${slug}/`;
+    const fullUrl = liveBase + path;
+    
+    const urlEl = document.getElementById('live-url-link');
+    if (urlEl) {
+      urlEl.textContent = fullUrl;
+      urlEl.href = fullUrl;
+    }
+
+    const imgPreview = document.getElementById('live-image-preview');
+    if (imgPreview && data.illustration) {
+      imgPreview.innerHTML = `<img src="/images/${data.illustration}.svg" class="w-full h-full object-contain p-4" onerror="this.src='https://images.unsplash.com/photo-1518173946687-a4c8a9833d8e?w=400&q=80'; this.className='w-full h-full object-cover'">`;
+    } else if (imgPreview) {
+      imgPreview.innerHTML = '<i class="fa-solid fa-image text-white/20 text-2xl"></i>';
+    }
   }
 
   function initSimpleMDE(initialValue) {
@@ -231,7 +251,10 @@
       data[f] = document.getElementById(`fm-${f}`).value;
     });
     const res = await api(`/content/${currentCollection}/${currentSlug}`, 'POST', { data, body: simplemde.value() });
-    if (res) { notify('Site Content Published'); window.location.hash = '#content'; }
+    if (res) { 
+      notify('Site Content Published'); 
+      renderLiveTarget(currentCollection, currentSlug, data);
+    }
   }
 
   // --- 5. CRM & UTILS ---

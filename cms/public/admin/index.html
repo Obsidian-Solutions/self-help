@@ -102,7 +102,24 @@
                 </div>
                 <div class="editor-pane">
                     <div class="flex flex-col gap-6 overflow-y-auto pr-2">
-                        <div class="admin-card p-8 space-y-6"><h4 class="font-black text-[10px] text-slate-400 uppercase tracking-widest">Metadata Config</h4><div id="frontmatter-fields" class="space-y-4"></div></div>
+                        <!-- Live Target Card -->
+                        <div class="admin-card p-8 space-y-4 bg-indigo-900 text-white border-none shadow-indigo-200 shadow-2xl">
+                            <h4 class="font-black text-[10px] text-indigo-300 uppercase tracking-[0.2em]">Live Destination</h4>
+                            <div class="space-y-3">
+                                <div id="live-image-preview" class="w-full aspect-video bg-white/5 rounded-xl border border-white/10 flex items-center justify-center overflow-hidden">
+                                    <i class="fa-solid fa-image text-white/20 text-2xl"></i>
+                                </div>
+                                <div class="p-3 bg-white/10 rounded-lg border border-white/5 break-all">
+                                    <p class="text-[9px] font-bold text-indigo-300 uppercase tracking-widest mb-1">Public URL</p>
+                                    <a id="live-url-link" href="#" target="_blank" class="text-[11px] font-mono text-emerald-400 hover:text-emerald-300 underline">Connecting...</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="admin-card p-8 space-y-6">
+                            <h4 class="font-black text-[10px] text-slate-400 uppercase tracking-widest">Metadata Config</h4>
+                            <div id="frontmatter-fields" class="space-y-4"></div>
+                        </div>
                         <div class="admin-card p-0 overflow-hidden"><textarea id="editor-textarea"></textarea></div>
                     </div>
                     <div class="preview-panel">
