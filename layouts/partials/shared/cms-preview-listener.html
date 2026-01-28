@@ -13,13 +13,23 @@
     // 1. Tag body for CSS hiding
     document.body.setAttribute('data-cms-preview', 'true');
 
-    // 2. Aggressive Snippeting: Remove chrome entirely from the DOM
+    // 2. High-Fidelity Snippeting: Remove everything but the article
     const removeChrome = () => {
-      const selectors = ['header', 'footer', '#loginModal', '#signupModal', '#confirmModal', '.engagement-bar', '.related-posts'];
+      const selectors = ['header', 'footer', '#loginModal', '#signupModal', '#confirmModal', '.engagement-bar', '.related-posts', '.community-discussion', 'nav'];
       selectors.forEach(sel => {
         const el = document.querySelector(sel);
         if (el) el.remove();
       });
+      // Flatten padding for the iframe
+      const main = document.querySelector('main');
+      if (main) {
+        main.style.padding = '0';
+        main.style.marginTop = '0';
+      }
+      const article = document.querySelector('article');
+      if (article) {
+        article.style.paddingTop = '2rem';
+      }
     };
 
     // Run once immediately and once on DOMContentLoaded
@@ -35,7 +45,7 @@
       if (data.type === 'CMS_SYNC') {
         const contentArea = document.querySelector('.prose') || document.querySelector('article');
         const titleArea = document.querySelector('h1');
-        const categoryArea = document.querySelector('.px-4.py-1.5');
+        const categoryArea = document.querySelector('.fidelity-category') || document.querySelector('.px-4.py-1.5');
 
         if (contentArea && data.body) contentArea.innerHTML = data.body;
         if (titleArea && data.title) titleArea.textContent = data.title;

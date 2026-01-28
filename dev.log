@@ -169,3 +169,55 @@
 [CMS] [32m[nodemon] starting `node server.js`[39m
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /admin/ [32m200[0m 2.848 ms - 10317[0m
+[CMS] [0mGET /admin/css/admin.css [32m200[0m 1.354 ms - 2307[0m
+[CMS] [0mGET /admin/js/admin.js [32m200[0m 0.834 ms - 7664[0m
+[CMS] [0mGET /api/content/posts [32m200[0m 8.287 ms - 1780[0m
+[CMS] [0mGET /favicon.ico [33m404[0m 1.011 ms - 150[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [32m200[0m 1.935 ms - 3926[0m
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.387 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.953 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.729 ms - -[0m
+[HUGO] adding created directory to watchlist /home/matt/Development/themes/self-help/static/admin
+[HUGO] adding created directory to watchlist /home/matt/Development/themes/self-help/static/admin/js
+[HUGO] adding created directory to watchlist /home/matt/Development/themes/self-help/static/admin/css
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#5).
+[HUGO] 2026-01-28 13:35:53.214 +0000
+[HUGO] Syncing /admin to /
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.260 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.711 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.831 ms - -[0m
+[CSS] 
+[CSS] Rebuilding...
+[CSS] 
+[CSS] Done in 48ms.
+[HUGO] 
+[HUGO] Change detected, rebuilding site (#6).
+[HUGO] 2026-01-28 13:36:03.714 +0000
+[HUGO] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] 
+[DOCS] Change detected, rebuilding site (#3).
+[DOCS] 2026-01-28 13:36:03.743 +0000
+[DOCS] Template changed /partials/shared/cms-preview-listener.html
+[DOCS] Web Server is available at http://localhost:1314/ (bind address 127.0.0.1)
+[DOCS] Total in 6 ms
+[HUGO] Web Server is available at http://localhost:1313/ (bind address 127.0.0.1)
+[HUGO] Total in 40 ms
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.201 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.525 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 1.943 ms - -[0m
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#7).
+[HUGO] 2026-01-28 13:36:24.214 +0000
+[HUGO] Syncing /admin/index.html to /
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.140 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 2.368 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 2.238 ms - -[0m
+[HUGO] 
+[HUGO] Change of Static files detected, rebuilding site (#8).
+[HUGO] 2026-01-28 13:36:55.714 +0000
+[HUGO] Syncing /admin/js/admin.js to /
+[CMS] [0mPOST /api/content/posts/panic-attack-tips/view [33m403[0m 0.156 ms - 33[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/stats [36m304[0m 1.071 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips/comments [36m304[0m 0.868 ms - -[0m
