@@ -1,4 +1,4 @@
-{{ if or (eq (getenv "HUGO_ENV") "development") (.Site.IsServer) }}
+{{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
    * MindFull CMS Preview Sync
