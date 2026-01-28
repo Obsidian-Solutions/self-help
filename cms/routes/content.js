@@ -301,8 +301,6 @@ router.get('/:collection/:slug', auth, async (req, res) => {
 
 
 
-    // If file doesn't exist, check if it's a directory containing _index.md
-
     if (!(await fs.pathExists(filePath))) {
 
       const dirPath = safePath(collection, slug);
@@ -321,9 +319,45 @@ router.get('/:collection/:slug', auth, async (req, res) => {
 
     
 
-    const { data, content: body } = matter(await fs.readFile(filePath, 'utf8'));
+    const raw = await fs.readFile(filePath, 'utf8');
 
-    res.json({ data, body });
+    const { data, content: body } = matter(raw);
+
+    res.json({ data, body, raw });
+
+  } catch (err) { res.status(500).json({ message: err.message }); }
+
+});
+
+
+
+router.post('/:collection/:slug/raw', auth, async (req, res) => {
+
+  try {
+
+    const { collection, slug } = req.params;
+
+    const { raw } = req.body;
+
+    let filePath = safePath(collection, `${slug}.md`);
+
+
+
+    const dirPath = safePath(collection, slug);
+
+    if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
+
+      filePath = path.join(dirPath, '_index.md');
+
+    }
+
+
+
+    await fs.ensureDir(path.dirname(filePath));
+
+    await fs.writeFile(filePath, raw, 'utf8');
+
+    res.json({ success: true });
 
   } catch (err) { res.status(500).json({ message: err.message }); }
 

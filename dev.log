@@ -128,3 +128,26 @@
 [CMS] CMS Server running on http://localhost:3000
 [CMS] Connected to the MindFull CMS database.
 [CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 7.458 ms - -[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 2.827 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.050 ms - -[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 1.323 ms - 166[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.091 ms - -[0m
+[CMS] [0mGET /api/content/posts/panic-attack-tips [36m304[0m 1.075 ms - -[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.742 ms - 166[0m
+[CMS] [0mGET /api/content/posts [36m304[0m 1.646 ms - -[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 1.852 ms - -[0m
+[CMS] [0mGET /api/content/courses/anger-management [36m304[0m 1.044 ms - -[0m
+[CMS] [0mGET /illustrations/breathing.svg [33m404[0m 0.433 ms - 166[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
+[CMS] [0mGET /api/content/courses [36m304[0m 8.756 ms - -[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 1.762 ms - -[0m
+[CMS] [0mGET /api/content/courses/cbt-anxiety [32m200[0m 1.748 ms - 629[0m
+[CMS] [0mGET /illustrations/breaking-barriers.svg [33m404[0m 1.149 ms - 174[0m
+[CMS] [0mGET /api/content/courses [36m304[0m 0.974 ms - -[0m
+[CMS] [32m[nodemon] restarting due to changes...[39m
+[CMS] [32m[nodemon] starting `node server.js`[39m
+[CMS] CMS Server running on http://localhost:3000
+[CMS] Connected to the MindFull CMS database.
