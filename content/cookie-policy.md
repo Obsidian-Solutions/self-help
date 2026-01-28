@@ -5,8 +5,6 @@ url: '/cookie-policy'
 description: 'Learn how MindFull uses cookies and local storage to provide a secure and personalized mental wellness experience.'
 ---
 
-# Cookie Policy
-
 Last updated: January 26, 2026
 
 This Cookie Policy explains how **MindFull** uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.
