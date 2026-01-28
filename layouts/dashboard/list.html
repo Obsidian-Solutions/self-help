@@ -282,7 +282,9 @@
 
       const updateDisplay = async () => {
         try {
-          const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+          const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`, {
+            credentials: 'include'
+          });
           const data = await res.json();
           const starIcon = el.querySelector('i');
           if (data.total_ratings > 0) {
@@ -294,7 +296,9 @@
           } else {
             valEl.textContent = 'New';
           }
-        } catch (e) {}
+        } catch (e) {
+          console.error('Dashboard rating fetch failed:', e);
+        }
       };
 
       updateDisplay();

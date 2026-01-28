@@ -196,14 +196,18 @@
 
     const updateRatingDisplay = async () => {
       try {
-        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`);
+        const res = await fetch(`${window.mindfullConfig.cmsUrl}/api/content/courses/${slug}/rating`, {
+          credentials: 'include'
+        });
         const data = await res.json();
         if (data.total_ratings > 0 && valEl) {
           valEl.textContent = data.avg_rating.toFixed(1);
         } else if (valEl) {
           valEl.textContent = 'New';
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('Rating fetch failed:', e);
+      }
     };
 
     updateRatingDisplay();
@@ -266,7 +270,8 @@
             statusEl.textContent = err.message || 'Error saving rating';
           }
         } catch (e) {
-          statusEl.textContent = 'Connection error';
+          console.error('Submission error:', e);
+          statusEl.textContent = 'Network error. Is CMS running?';
         }
       });
     });
