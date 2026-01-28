@@ -37,16 +37,16 @@ db.serialize(() => {
 
   // Other Tables
   db.run(
-    'CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, slug TEXT UNIQUE, category TEXT, illustration TEXT, status TEXT DEFAULT \'draft\', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP)',
+    "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, description TEXT, slug TEXT UNIQUE, category TEXT, illustration TEXT, status TEXT DEFAULT 'draft', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP)",
   );
   db.run(
-    'CREATE TABLE IF NOT EXISTS lessons (id INTEGER PRIMARY KEY AUTOINCREMENT, course_id INTEGER, title TEXT, content TEXT, slug TEXT, order_index INTEGER, illustration TEXT, status TEXT DEFAULT \'draft\', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (course_id) REFERENCES courses(id))',
+    "CREATE TABLE IF NOT EXISTS lessons (id INTEGER PRIMARY KEY AUTOINCREMENT, course_id INTEGER, title TEXT, content TEXT, slug TEXT, order_index INTEGER, illustration TEXT, status TEXT DEFAULT 'draft', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (course_id) REFERENCES courses(id))",
   );
   db.run(
-    'CREATE TABLE IF NOT EXISTS quizzes (id INTEGER PRIMARY KEY AUTOINCREMENT, lesson_id INTEGER, title TEXT, description TEXT, result_message TEXT, questions JSON, status TEXT DEFAULT \'draft\', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (lesson_id) REFERENCES lessons(id))',
+    "CREATE TABLE IF NOT EXISTS quizzes (id INTEGER PRIMARY KEY AUTOINCREMENT, lesson_id INTEGER, title TEXT, description TEXT, result_message TEXT, questions JSON, status TEXT DEFAULT 'draft', created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (lesson_id) REFERENCES lessons(id))",
   );
   db.run(
-    'CREATE TABLE IF NOT EXISTS therapists (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bio TEXT, specialty TEXT, location TEXT, rate TEXT, image_url TEXT, available INTEGER DEFAULT 1, status TEXT DEFAULT \'published\', created_at DATETIME DEFAULT CURRENT_TIMESTAMP)',
+    "CREATE TABLE IF NOT EXISTS therapists (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, bio TEXT, specialty TEXT, location TEXT, rate TEXT, image_url TEXT, available INTEGER DEFAULT 1, status TEXT DEFAULT 'published', created_at DATETIME DEFAULT CURRENT_TIMESTAMP)",
   );
   db.run(
     'CREATE TABLE IF NOT EXISTS post_stats (slug TEXT PRIMARY KEY, views INTEGER DEFAULT 0, likes INTEGER DEFAULT 0, dislikes INTEGER DEFAULT 0)',
@@ -64,7 +64,7 @@ db.serialize(() => {
     'CREATE TABLE IF NOT EXISTS course_rating_locks (course_slug TEXT, viewer_id TEXT, rating INTEGER, PRIMARY KEY (course_slug, viewer_id))',
   );
   db.run(
-    'CREATE TABLE IF NOT EXISTS inquiries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, subject TEXT, message TEXT, status TEXT DEFAULT \'new\', created_at DATETIME DEFAULT CURRENT_TIMESTAMP)',
+    "CREATE TABLE IF NOT EXISTS inquiries (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT, subject TEXT, message TEXT, status TEXT DEFAULT 'new', created_at DATETIME DEFAULT CURRENT_TIMESTAMP)",
   );
   db.run(
     'CREATE TABLE IF NOT EXISTS user_notes (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, therapist_id INTEGER, content TEXT, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (therapist_id) REFERENCES users(id))',
