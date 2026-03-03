@@ -15,6 +15,8 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-{{ $style := "css/style.css" }}
-<link rel="preload" href="{{ $style | relURL }}" as="style">
-<link rel="stylesheet" href="{{ $style | relURL }}?v={{ now.Unix }}">
+{{- with resources.Get "css/style.css" }}
+  {{- $style := . | fingerprint }}
+  <link rel="preload" href="{{ $style.RelPermalink }}" as="style">
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
+{{- end }}
