@@ -15,11 +15,6 @@
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
 
-{{- with resources.Get "css/main.css" }}
-  {{- $style := . }}
-  {{- if not hugo.IsDevelopment }}
-    {{- $style = . | minify | fingerprint }}
-  {{- end }}
-  <link rel="preload" href="{{ $style.RelPermalink }}" as="style">
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" {{ if not hugo.IsDevelopment }}integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous"{{ end }}>
-{{- end }}
+{{ $style := "css/style.css" }}
+<link rel="preload" href="{{ $style | relURL }}" as="style">
+<link rel="stylesheet" href="{{ $style | relURL }}?v={{ now.Unix }}">
