@@ -19,7 +19,7 @@ router.get('/logs/stream', (req, res) => {
   res.flushHeaders();
 
   const logPath = path.join(__dirname, '../../dev.log');
-  
+
   // Send initial heartbeat
   res.write('data: {"type":"status", "msg":"Log link established"}\n\n');
 
@@ -28,19 +28,23 @@ router.get('/logs/stream', (req, res) => {
   try {
     const stats = fs.statSync(logPath);
     lastSize = stats.size;
-  } catch(e) {}
+  } catch (e) {
+    // Log file might not exist yet
+  }
 
   const timer = setInterval(() => {
     try {
       const stats = fs.statSync(logPath);
       if (stats.size > lastSize) {
         const stream = fs.createReadStream(logPath, { start: lastSize, end: stats.size });
-        stream.on('data', (chunk) => {
+        stream.on('data', chunk => {
           res.write(`data: ${JSON.stringify({ type: 'log', content: chunk.toString() })}\n\n`);
         });
         lastSize = stats.size;
       }
-    } catch(e) {}
+    } catch (e) {
+      // Ignore read errors during polling
+    }
   }, 1000);
 
   req.on('close', () => clearInterval(timer));

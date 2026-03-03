@@ -50,7 +50,7 @@ router.post('/posts/:slug/view', (req, res) => {
       userId = decoded.id;
       viewerId = `user_${userId}`;
     } catch (e) {
-      /* fallback */
+      // Fallback for invalid or missing tokens
     }
   }
 
@@ -105,7 +105,9 @@ router.post('/posts/:slug/react', (req, res) => {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     try {
       userId = jwt.verify(authHeader.split(' ')[1], JWT_SECRET).id;
-    } catch (e) {}
+    } catch (e) {
+      // Continue as guest
+    }
   }
 
   const column = type === 'like' ? 'likes' : 'dislikes';
@@ -147,7 +149,9 @@ router.post('/posts/:slug/comments', (req, res) => {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     try {
       userId = jwt.verify(authHeader.split(' ')[1], JWT_SECRET).id;
-    } catch (e) {}
+    } catch (e) {
+      // Continue as guest
+    }
   }
 
   db.serialize(() => {
@@ -205,7 +209,9 @@ router.post('/courses/:slug/rate', (req, res) => {
       const decoded = jwt.verify(authHeader.split(' ')[1], JWT_SECRET);
       userId = decoded.id;
       viewerId = `user_${userId}`;
-    } catch (e) {}
+    } catch (e) {
+      // Allow guest rating
+    }
   }
 
   if (!viewerId) {
@@ -258,7 +264,8 @@ router.get('/:collection', auth, async (req, res) => {
     const { collection } = req.params;
     if (!isValidSlug(collection)) return res.status(400).json({ message: 'Invalid collection' });
     const collectionPath = safePath(collection);
-    if (!(await fs.pathExists(collectionPath))) return res.status(404).json({ message: 'Not found' });
+    if (!(await fs.pathExists(collectionPath)))
+      return res.status(404).json({ message: 'Not found' });
 
     const items = await fs.readdir(collectionPath, { withFileTypes: true });
 
@@ -291,76 +298,75 @@ router.get('/:collection', auth, async (req, res) => {
   }
 });
 
-router.get('/:collection/:slug', auth, async (req, res) => {
-
+router.post('/preview-buffer', auth, async (req, res) => {
   try {
+    const { raw } = req.body;
+    let content = raw;
 
+    // Force the isolated snippet layout and CMS output format
+    if (content.startsWith('---')) {
+      content = content.replace('---', '---\nlayout: "single.cms"\noutputs: ["CMS"]');
+    } else {
+      content = `---\nlayout: "single.cms"\noutputs: ["CMS"]\n---\n${content}`;
+    }
+
+    const bufferPath = path.resolve(__dirname, '../../content/cms-preview.md');
+    await fs.writeFile(bufferPath, content, 'utf8');
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Buffer write error:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.get('/:collection/:slug', auth, async (req, res) => {
+  try {
     const { collection, slug } = req.params;
 
     let filePath = safePath(collection, `${slug}.md`);
 
-
-
     if (!(await fs.pathExists(filePath))) {
-
       const dirPath = safePath(collection, slug);
 
-      if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
-
+      if ((await fs.pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory()) {
         filePath = path.join(dirPath, '_index.md');
-
       }
-
     }
 
-
-
     if (!(await fs.pathExists(filePath))) return res.status(404).json({ message: 'Not found' });
-
-    
 
     const raw = await fs.readFile(filePath, 'utf8');
 
     const { data, content: body } = matter(raw);
 
     res.json({ data, body, raw });
-
-  } catch (err) { res.status(500).json({ message: err.message }); }
-
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
-
-
 router.post('/:collection/:slug/raw', auth, async (req, res) => {
-
   try {
-
     const { collection, slug } = req.params;
 
     const { raw } = req.body;
 
     let filePath = safePath(collection, `${slug}.md`);
 
-
-
     const dirPath = safePath(collection, slug);
 
-    if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
-
+    if ((await fs.pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory()) {
       filePath = path.join(dirPath, '_index.md');
-
     }
-
-
 
     await fs.ensureDir(path.dirname(filePath));
 
     await fs.writeFile(filePath, raw, 'utf8');
 
     res.json({ success: true });
-
-  } catch (err) { res.status(500).json({ message: err.message }); }
-
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 router.post('/:collection/:slug', auth, async (req, res) => {
@@ -372,7 +378,7 @@ router.post('/:collection/:slug', auth, async (req, res) => {
 
     // If it's a directory (like a course), save to _index.md instead
     const dirPath = safePath(collection, slug);
-    if (await fs.pathExists(dirPath) && (await fs.stat(dirPath)).isDirectory()) {
+    if ((await fs.pathExists(dirPath)) && (await fs.stat(dirPath)).isDirectory()) {
       filePath = path.join(dirPath, '_index.md');
     }
 

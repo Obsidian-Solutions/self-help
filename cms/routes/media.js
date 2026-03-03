@@ -26,8 +26,14 @@ router.get('/illustrations/:name', async (req, res) => {
     const files = await fs.readdir(ILLUSTRATION_DIR);
     // Find file that starts with the name (e.g., "breathing" -> "undraw_breathing_...")
     // or exact match
-    const match = files.find(f => f === `${name}.svg` || f === `undraw_${name}.svg` || f.startsWith(`undraw_${name}_`) || f.startsWith(`${name}_`));
-    
+    const match = files.find(
+      f =>
+        f === `${name}.svg` ||
+        f === `undraw_${name}.svg` ||
+        f.startsWith(`undraw_${name}_`) ||
+        f.startsWith(`${name}_`),
+    );
+
     if (match) {
       res.sendFile(path.join(ILLUSTRATION_DIR, match));
     } else {

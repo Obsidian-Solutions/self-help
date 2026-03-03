@@ -1,72 +1,49 @@
 {{ if or (eq (getenv "HUGO_ENV") "development") (hugo.IsServer) }}
 <script>
   /**
-   * MindFull CMS Deterministic Sync Engine
-   * Version: 3.0 (Precision Grade)
+   * MindFull CMS Storage-Link Sync v11.0
+   * High-Reliability LocalStorage Bridge
    */
   (function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.has('cms_preview')) return;
+    const isPreview = window.location.search.includes('cms_preview=true') || window.location.pathname.endsWith('.cms.html');
+    if (!isPreview) return;
 
-    console.log("MindFull Preview: Precision Engine Active");
-    
-    // 1. Force Snippet Layout
-    const style = document.createElement('style');
-    style.textContent = `
-      header, footer, nav, aside, .engagement-bar, .related-posts, 
-      .community-discussion, .tags-social-section, .mt-24, .mt-32,
-      #loginModal, #signupModal, #confirmModal { display: none !important; }
-      body { background-color: #f9fafb !important; scroll-behavior: auto !important; }
-      .dark body { background-color: #111827 !important; }
-      main { padding: 0 !important; margin: 0 !important; }
-      article { padding: 2rem !important; max-width: 100% !important; }
-      * { transition: none !important; animation: none !important; }
-    `;
-    document.head.appendChild(style);
+    console.log("CMS SNIPPET: Storage Bridge Active.");
 
-    // 2. Handshake Heartbeat
-    let isAcknowleged = false;
-    const signal = () => { if(!isAcknowleged) window.parent.postMessage({ type: 'IFRAME_READY' }, '*'); };
-    const heartbeat = setInterval(signal, 500);
-    signal();
-
-    // 3. Precision Scroll State
-    let isInternalScroll = false;
-    let scrollEndTimer = null;
-
-    window.addEventListener('message', function(event) {
-      const data = event.data;
-      
-      if (data.type === 'IFRAME_READY_ACK') {
-        isAcknowleged = true;
-        clearInterval(heartbeat);
-      }
-
-      if (data.type === 'CMS_SYNC') {
-        const content = document.querySelector('.prose') || document.querySelector('article');
-        const title = document.querySelector('h1');
-        if (content && data.body) content.innerHTML = data.body;
-        if (title && data.title) title.textContent = data.title;
-      }
-
-      if (data.type === 'CMS_SCROLL') {
-        isInternalScroll = true;
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        window.scrollTo(0, data.percentage * max);
+    // 1. Storage Listener (Content & Scroll)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'cms_preview_data') {
+        const data = JSON.parse(e.newValue);
+        const root = document.querySelector('.fidelity-content') || document.querySelector('.prose');
+        const title = document.querySelector('.fidelity-title') || document.querySelector('h1');
         
-        clearTimeout(scrollEndTimer);
-        scrollEndTimer = setTimeout(() => { isInternalScroll = false; }, 100);
+        if (root && data.body) root.innerHTML = data.body;
+        if (title && data.title) title.textContent = data.title;
+        
+        // Sync Theme
+        if (data.theme === 'dark') document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+      }
+
+      if (e.key === 'cms_preview_scroll') {
+        const data = JSON.parse(e.newValue);
+        const s = document.scrollingElement || document.documentElement;
+        const max = s.scrollHeight - window.innerHeight;
+        window.scrollTo({ top: data.perc * max, behavior: 'auto' });
       }
     });
 
-    // 4. Bi-directional Reporting
+    // 2. Report Scroll back to Parent
     window.addEventListener('scroll', () => {
-      if (isInternalScroll) return;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
+      // Don't report if we are already syncing (prevent loop)
+      const s = document.scrollingElement || document.documentElement;
+      const max = s.scrollHeight - window.innerHeight;
       if (max <= 0) return;
-      const percentage = window.scrollY / max;
-      window.parent.postMessage({ type: 'IFRAME_SCROLL', percentage }, '*');
-    });
+      localStorage.setItem('cms_dashboard_scroll', JSON.stringify({ 
+        perc: s.scrollTop / max,
+        ts: Date.now() 
+      }));
+    }, { passive: true });
 
   })();
 </script>

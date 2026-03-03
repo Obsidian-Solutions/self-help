@@ -1,7 +1,5 @@
 const request = require('supertest');
 const express = require('express');
-const path = require('path');
-const fs = require('fs-extra');
 
 // Import our routes and app logic
 // We'll create a test version of the app to avoid port conflicts
@@ -11,10 +9,10 @@ jest.mock('../middleware/auth', () => ({
     req.user = { id: 1, role: 'admin' };
     next();
   },
-  roleAuth: (roles) => (req, res, next) => {
+  roleAuth: _roles => (req, res, next) => {
     req.user = { id: 1, role: 'admin' };
     next();
-  }
+  },
 }));
 
 const authRoutes = require('../routes/auth');
@@ -33,7 +31,6 @@ app.use('/api/media', mediaRoutes);
 app.use('/illustrations', mediaRoutes);
 
 describe('CMS API Suite', () => {
-  
   test('GET /api/health should be online', async () => {
     const res = await request(app).get('/api/health');
     expect(res.statusCode).toBe(200);

@@ -2,209 +2,38 @@
 # Hugo Configuration - MindFull Theme
 # ============================================================================
 
-# Site Configuration
-baseURL = 'https://mindfull.example.com/'  # Update with your actual domain
+baseURL = 'https://mindfull.example.com/'
 languageCode = 'en-US'
 title = 'MindFull'
-description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
+description = 'Science-backed CBT tools and expert guidance.'
 
 [params]
   author = 'MindFull Team'
-  description = 'Science-backed CBT tools and expert guidance to help you master your mental well-being. Built for privacy and growth.'
-  keywords = 'mental health, CBT, therapy, mindfulness, mood tracking, self-help, wellness'
-  og_image = '/images/og-image.png'
-  site_logo_icon = 'fa-solid fa-brain' # Configurable FontAwesome icon for the logo
-  cms_url = 'http://localhost:3000' # CMS Backend URL
-
-# SSO Configuration
-[params.auth.sso]
-  google_client_id = '' # Set via env in production
-  github_client_id = '' # Set via env in production
-  enabled = true
-
-# Hugo Configuration
-enableRobotsTXT = true
-enableGitInfo = false
-
-# Pagination
-[pagination]
-  pagerSize = 10
+  cms_url = 'http://localhost:3000'
 
 # Output Formats
+[outputFormats]
+  [outputFormats.CMS]
+    name = "CMS"
+    baseName = "index"
+    path = ""
+    mediaType = "text/html"
+    isHTML = true
+    fileSuffix = ".snippet"
+
 [outputs]
   home = ['HTML']
-  page = ['HTML']
-  section = ['HTML']
+  page = ['HTML', 'CMS']
+  section = ['HTML', 'CMS']
 
-# Sitemap Configuration
-[sitemap]
-  changefreq = 'weekly'
-  filename = 'sitemap.xml'
-  priority = -1
-
-# Taxonomies (Categories, Tags)
 [taxonomies]
   category = 'categories'
   tag = 'tags'
 
-# Menu Configuration
-[menus]
-  [[menus.main]]
-    name = 'Home'
-    pageRef = '/'
-    weight = 10
+[markup.goldmark.renderer]
+  unsafe = true
 
-  [[menus.main]]
-    name = 'Courses'
-    pageRef = '/courses'
-    weight = 20
-
-  [[menus.main]]
-    name = 'Blog'
-    pageRef = '/posts'
-    weight = 30
-
-  [[menus.main]]
-    name = 'Dashboard'
-    pageRef = '/dashboard'
-    weight = 40
-
-# Hugo Module Configuration
-[module]
-  [module.hugoVersion]
-    extended = true
-    min = '0.154.0'
-
-  # Main content mount
-  [[module.mounts]]
-    source = 'content'
-    target = 'content'
-
-# Markdown Configuration
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true  # Allow HTML in markdown
-
-# Security & Privacy
-[security]
-  enableInlineShortcodes = false
-  [security.exec]
-    allow = ['^dart-sass-embedded$', '^go$', '^npx$', '^postcss$']
-  [security.funcs]
-    getenv = ['HUGO_ENV']
-  [security.osEnv]
-    allow = ['(?i)^(HUGO|NODE)', 'PATH']
-
-# Build Configuration
-[build]
-  noJSConfigInAssets = false
-  useResourceCacheWhen = 'fallback'
-
-  [build.cachebusters]
-    [[build.cachebusters.source]]
-      source = 'assets/watching/hugo_stats.json'
-      target = 'styles.css'
-    [[build.cachebusters.source]]
-      source = '(postcss|tailwind).config.js'
-      target = 'styles.css'
-    [[build.cachebusters.source]]
-      source = 'assets/css/**.css'
-      target = 'styles.css'
-
-# ============================================================================
-# PLUGIN & FEATURE CONFIGURATION
-# ============================================================================
-
-# Features Configuration - Enable/Disable Features
-[params.features]
-  quizzes = true
-  moodTracking = true
-  achievements = true
-  darkMode = true
-  journal = true
-  dashboard = true
-  authentication = false
-  therapistDirectory = true
-  courseSystem = true
-  illustrations = true
-
-# API Configuration
-[params.api]
-  enableExternalApi = false
-  enableAnalytics = false
-  enableComments = false
-
-# Illustration Settings
-[params.illustrations]
-  source = 'local'
-  fallbackImage = '/images/placeholder.svg'
-  lazyLoad = true
-
-# Dark Mode Configuration
 [params.darkMode]
   enabled = true
-  defaultMode = 'auto'  # 'light', 'dark', or 'auto'
+  defaultMode = 'auto'
   storageKey = 'theme-preference'
-
-# Theme Colors
-[params.colors]
-  primary = '#4F46E5'
-  secondary = '#10B981'
-  accent = '#F59E0B'
-  neutral = '#374151'
-
-# Social Links & Handles (Optional)
-[params.social]
-  # twitter = 'https://twitter.com/mindfull'
-  # twitter_handle = '@mindfull'
-  github = 'https://github.com/Obsidian-Solutions/self-help'
-  email = 'support@mindfull.com'
-  # website = 'https://mindfull.example.com'
-  # facebook = 'https://facebook.com/mindfull'
-  # instagram = 'https://instagram.com/mindfull'
-  # linkedin = 'https://linkedin.com/company/mindfull'
-  # tiktok = 'https://tiktok.com/@mindfull'
-  # youtube = 'https://youtube.com/@mindfull'
-  # threads = 'https://threads.net/@mindfull'
-  # pinterest = 'https://pinterest.com/mindfull'
-  # reddit = 'https://reddit.com/r/mindfull'
-  # discord = 'https://discord.gg/mindfull'
-
-# Analytics (Optional)
-[params.analytics]
-  enabled = false
-  googleAnalyticsId = ''
-  # plausibleDomain = ''
-
-# FOSS Search Configuration
-[params.search]
-  enabled = true
-  provider = 'pagefind' # Options: 'pagefind', 'opensearch'
-
-# FOSS Analytics Configuration (Umami/Ackee)
-[params.analytics.foss]
-  enabled = false
-  provider = 'umami' # Options: 'umami', 'ackee'
-  website_id = ''    # Your Umami Website ID
-  script_url = 'https://analytics.umami.is/script.js' # Self-hosted URL here
-
-# SEO Configuration
-[params.seo]
-  robotsTxt = true
-  sitemap = true
-  enableOpenGraph = true
-  enableTwitterCard = true
-
-# Performance
-[params.performance]
-  minifyHTML = true
-  minifyCSS = true
-  minifyJS = true
-  enableGzip = true
-  lazyLoadImages = true
-
-# Cache Control
-[params.cache]
-  maxAge = 31536000  # 1 year for assets
-  sMaxAge = 604800   # 1 week for pages

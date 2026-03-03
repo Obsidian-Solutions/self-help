@@ -8,7 +8,7 @@
 (function () {
   const CMS_PORT = 3000;
   const HUGO_PORT = 1313;
-  const isHugoHost = window.location.port == HUGO_PORT;
+  const isHugoHost = window.location.port === HUGO_PORT.toString();
   const API_BASE = isHugoHost ? `http://${window.location.hostname}:${CMS_PORT}/api` : '/api';
 
   let simplemde = null;
@@ -20,9 +20,10 @@
   // --- 1. CORE API ---
   async function api(endpoint, method = 'GET', body = null) {
     const token = localStorage.getItem('mindfull_admin_token');
+    let parts;
     const headers = { 
       'Content-Type': 'application/json',
-      'x-xsrf-token': (parts = `; ${document.cookie}`.split(`; XSRF-TOKEN=`)).length === 2 ? parts.pop().split(';').shift() : ''
+      'x-xsrf-token': (parts = `; ${document.cookie}`.split('; XSRF-TOKEN=')).length === 2 ? parts.pop().split(';').shift() : '',
     };
     if (token) headers.Authorization = `Bearer ${token}`;
 
@@ -185,7 +186,7 @@
       if (res.ok) {
         localStorage.setItem('mindfull_admin_token', data.token);
         localStorage.setItem('mindfull_admin_user', JSON.stringify(data.user));
-        location.reload();
+        window.location.reload();
       }
     });
   }

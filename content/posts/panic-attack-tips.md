@@ -6,6 +6,7 @@ description: >-
 category: Coping
 illustration: breathing
 ---
+
 When a panic attack hits, your body is in full "fight or flight" mode. Your amygdala has sounded an alarm, flooding your system with adrenaline. While it feels dangerous, it is important to remember that a panic attack is not physically harmful.
 
 Here is how to regain control of your physiological response:

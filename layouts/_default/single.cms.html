@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CMS Preview Snippet</title>
+  {{ partialCached "shared/head/css.html" . }}
+  <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+  <style>
+    /* Absolute snippet isolation */
+    html { background-color: #f9fafb !important; margin: 0 !important; padding: 0 !important; height: 100% !important; }
+    .dark html { background-color: #111827 !important; }
+    body { background: transparent !important; padding: 3rem 2rem !important; margin: 0 !important; }
+    article { max-width: 850px; margin: 0 auto; }
+    /* Instant scroll behavior */
+    * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+  </style>
+</head>
+<body class="bg-gray-50 text-neutral font-sans antialiased dark:bg-gray-900 dark:text-gray-200">
+  <article>
+    <header class="mb-12 text-center">
+      <span class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800 fidelity-category">
+        {{ .Params.category | default "Draft" }}
+      </span>
+      <h1 class="text-4xl sm:text-6xl font-black tracking-tighter text-gray-900 dark:text-white mt-8 mb-4 leading-none fidelity-title">
+        {{ .Title }}
+      </h1>
+    </header>
+
+    {{ if .Params.illustration }}
+    <div class="snippet-hero mb-16 flex justify-center fidelity-hero">
+      {{ partial "shared/undraw.html" (dict "name" .Params.illustration "width" "w-full" "height" "auto" "class" "w-full max-w-lg h-auto drop-shadow-2xl") }}
+    </div>
+    {{ end }}
+
+    <div class="prose prose-indigo dark:prose-invert prose-lg md:prose-xl text-gray-600 dark:text-gray-300 max-w-none fidelity-content">
+      {{ .Content }}
+    </div>
+  </article>
+
+  <!-- Precision Bridge Listener -->
+  {{ partial "shared/cms-preview-listener.html" . }}
+</body>
+</html>
