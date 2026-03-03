@@ -6,6 +6,7 @@ baseURL = 'https://mindfull.example.com/'
 languageCode = 'en-US'
 title = 'MindFull'
 description = 'Science-backed CBT tools and expert guidance.'
+relativeURLs = true
 
 [params]
   author = 'MindFull Team'

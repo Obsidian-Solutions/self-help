@@ -29,7 +29,7 @@
         <a href="{{ .Params.hero.secondaryCtaLink }}" class="hide-on-logged-in btn-premium-secondary">
           {{ .Params.hero.secondaryCta }}
         </a>
-        <a href="/dashboard" class="show-on-logged-in hidden btn-premium-secondary">
+        <a href="{{ "/dashboard/" | relURL }}" class="show-on-logged-in hidden btn-premium-secondary">
           Go to Dashboard
         </a>
       </div>
@@ -127,7 +127,7 @@
     </div>
     
     <div class="mt-20 text-center mx-auto">
-      <a href="/courses" class="inline-flex items-center justify-center px-10 py-4 border-2 border-gray-100 dark:border-gray-800 text-sm font-black text-gray-600 dark:text-gray-300 rounded-2xl hover:border-indigo-600 hover:text-indigo-600 transition-all">
+      <a href="{{ "/courses/" | relURL }}" class="inline-flex items-center justify-center px-10 py-4 border-2 border-gray-100 dark:border-gray-800 text-sm font-black text-gray-600 dark:text-gray-300 rounded-2xl hover:border-indigo-600 hover:text-indigo-600 transition-all">
         Browse All Courses &rarr;
       </a>
     </div>
@@ -144,7 +144,7 @@
           {{ .Params.sections.blogTitle }}
         </p>
       </div>
-      <a href="/posts" class="btn-premium-secondary px-8 py-3 hidden md:inline-flex">View All Articles &rarr;</a>
+      <a href="{{ "/posts/" | relURL }}" class="btn-premium-secondary px-8 py-3 hidden md:inline-flex">View All Articles &rarr;</a>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12">
@@ -197,7 +197,7 @@
         {{ end }}
         
         <div class="mt-auto pt-4 md:hidden">
-          <a href="/posts" class="btn-premium-secondary w-full">View All Articles &rarr;</a>
+          <a href="{{ "/posts/" | relURL }}" class="btn-premium-secondary w-full">View All Articles &rarr;</a>
         </div>
       </div>
     </div>
@@ -259,7 +259,7 @@
           </li>
           {{ end }}
         </ul>
-        <a href="/signup?plan={{ .Title }}" class="w-full btn-premium-primary flex items-center justify-center">
+        <a href="{{ "/signup/" | relURL }}?plan={{ .Title }}" class="w-full btn-premium-primary flex items-center justify-center">
           Choose {{ .Title }}
         </a>
       </div>
@@ -285,7 +285,7 @@
           <button onclick="window.openModal('signupModal')" class="hide-on-logged-in px-12 py-5 bg-white text-indigo-600 font-black rounded-[2rem] text-lg hover:scale-105 transition-all shadow-xl">
             {{ .Params.sections.cataButton }} &rarr;
           </button>
-          <a href="/dashboard" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-[2rem] text-lg hover:scale-105 transition-all shadow-xl">
+          <a href="{{ "/dashboard/" | relURL }}" class="show-on-logged-in hidden px-12 py-5 bg-white text-indigo-600 font-black rounded-[2rem] text-lg hover:scale-105 transition-all shadow-xl">
             Go to Dashboard &rarr;
           </a>
           <p class="text-indigo-100 font-bold text-sm tracking-widest uppercase text-center">7-day free trial &middot; No credit card required</p>

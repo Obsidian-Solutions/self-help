@@ -14,7 +14,7 @@
         </button>
 
         <div class="flex-shrink-0 flex items-center">
-          <a href="/" class="text-2xl font-black tracking-tight text-indigo-600 dark:text-indigo-400 flex items-center gap-2" aria-label="Go to MindFull home">
+          <a href="{{ relURL "/" }}" class="text-2xl font-black tracking-tight text-indigo-600 dark:text-indigo-400 flex items-center gap-2" aria-label="Go to MindFull home">
             <span class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-lg" aria-hidden="true">{{ $labels.site.logo_text }}</span>
             {{ site.Title }}
           </a>
@@ -24,9 +24,9 @@
       <!-- Center Navigation (Desktop) -->
       <div class="hidden sm:flex sm:items-center sm:space-x-1">
         {{ range $labels.header.nav }}
-        <a href="{{ .url }}" class="px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ .name }}</a>
+        <a href="{{ .url | relURL }}" class="px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ .name }}</a>
         {{ end }}
-        <a id="nav-dashboard" href="/dashboard" class="hidden px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard") 0).name }}</a>
+        <a id="nav-dashboard" href="{{ "/dashboard" | relURL }}" class="hidden px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors rounded-lg">{{ (index (where $labels.sidebar.nav "url" "/dashboard/") 0).name }}</a>
       </div>
 
       <div class="flex items-center space-x-1 md:space-x-3">
@@ -77,10 +77,10 @@
   <div id="mobile-menu" class="hidden sm:hidden bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 animate-in slide-in-from-top-4 duration-300">
     <div class="px-4 pt-2 pb-6 space-y-1">
       {{ range $labels.header.nav }}
-      <a href="{{ .url }}" class="block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
+      <a href="{{ .url | relURL }}" class="block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
       {{ end }}
-      {{ range where $labels.sidebar.nav "url" "in" (slice "/dashboard" "/journal" "/settings") }}
-      <a href="{{ .url }}" class="mobile-dashboard-link hidden block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
+      {{ range where $labels.sidebar.nav "url" "in" (slice "/dashboard/" "/journal/" "/settings/") }}
+      <a href="{{ .url | relURL }}" class="mobile-dashboard-link hidden block px-4 py-3 text-base font-black text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">{{ .name }}</a>
       {{ end }}
       
       <div class="pt-4 border-t border-gray-50 dark:border-gray-800 mt-4 mobile-auth-section">

@@ -132,7 +132,7 @@
   <section class="mt-32 max-w-5xl mx-auto related-posts">
     <div class="flex items-end justify-between mb-10">
       <h3 class="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">You might also like</h3>
-      <a href="/posts" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-8 uppercase tracking-widest">Explore all &rarr;</a>
+      <a href="{{ "/posts/" | relURL }}" class="text-sm font-black text-indigo-600 dark:text-indigo-400 hover:underline underline-offset-8 uppercase tracking-widest">Explore all &rarr;</a>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -157,7 +157,7 @@
   </section>
 
   <div class="mt-24 text-center">
-    <a href="/posts" class="btn-premium-secondary px-10">
+    <a href="{{ "/posts/" | relURL }}" class="btn-premium-secondary px-10">
       &larr; Back to all articles
     </a>
   </div>
