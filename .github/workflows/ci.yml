@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -19,14 +22,11 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Install Hugo
-        run: |
-          HUGO_VERSION=$(grep -oP "min = '\K[0-9.]+" hugo.toml)
-          mkdir -p hugo_bin
-          wget -q https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
-          tar -xzf hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz -C hugo_bin
-          sudo mv hugo_bin/hugo /usr/local/bin/
-          rm -rf hugo_bin hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.128.0'
+          extended: true
 
       - name: Install Dependencies
         run: npm install
