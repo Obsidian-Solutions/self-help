@@ -9,7 +9,17 @@
 
 const DB_KEY = 'mindfull_users';
 const SESSION_KEY = 'mindfull_session';
-const CMS_URL = window.mindfullConfig ? window.mindfullConfig.cmsUrl : 'http://localhost:3000';
+const CONFIG = window.mindfullConfig || {};
+const CMS_URL = CONFIG.cmsUrl || 'http://localhost:3000';
+const BASE_PATH = (CONFIG.basePath || '/').replace(/\/+$/, '');
+
+// --- Helper to normalize internal paths with base path ---
+function normalizePath(path) {
+  if (!path.startsWith('/')) return path;
+  const cleanPath = path.replace(/\/+$/, '');
+  if (cleanPath === '') return BASE_PATH || '/';
+  return BASE_PATH + cleanPath;
+}
 
 // --- CMS CRM Integration Helper ---
 async function logInteraction(type, metadata = '') {
@@ -130,33 +140,35 @@ window.safeRedirect = function (path) {
     '/privacy',
     '/terms',
     '/cookie-policy',
-  ];
+  ].map(p => normalizePath(p));
 
-  if (typeof path !== 'string' || !path.startsWith('/') || path.startsWith('//')) {
-    window.location.replace('/');
+  const target = path.startsWith('/') ? path : normalizePath('/' + path);
+
+  if (typeof target !== 'string' || !target.startsWith('/') || target.startsWith('//')) {
+    window.location.replace(normalizePath('/'));
     return;
   }
 
   try {
-    const url = new URL(path, window.location.origin);
+    const url = new URL(target, window.location.origin);
     const currentOrigin = window.location.origin;
     if (url.origin !== currentOrigin) {
-      window.location.replace('/');
+      window.location.replace(normalizePath('/'));
       return;
     }
 
-    const basePath = url.pathname;
+    const basePath = url.pathname.replace(/\/+$/, '') || '/';
     const isSafe = whitelist.some(
-      w => basePath === w || (w !== '/' && basePath.startsWith(w + '/')),
+      w => basePath === w || (w !== normalizePath('/') && basePath.startsWith(w + '/')),
     );
 
     if (isSafe) {
       window.location.replace(url.pathname + url.search + url.hash);
     } else {
-      window.location.replace('/');
+      window.location.replace(normalizePath('/'));
     }
   } catch (e) {
-    window.location.replace('/');
+    window.location.replace(normalizePath('/'));
   }
 };
 
@@ -241,11 +253,14 @@ window.checkAuth = () => {
   const mobileDashboardLinks = document.querySelectorAll('.mobile-dashboard-link');
   const navCourses = document.getElementById('nav-courses');
 
-  const path = window.location.pathname;
-  const isAuthPage = path.includes('/login') || path.includes('/signup');
+  const currentPath = window.location.pathname;
+  const isAuthPage =
+    currentPath.includes(normalizePath('/login')) || currentPath.includes(normalizePath('/signup'));
   const isAppPage =
-    path.includes('/dashboard') || path.includes('/journal') || path.includes('/settings');
-  const isProtectedPage = isAppPage || path.includes('/lessons');
+    currentPath.includes(normalizePath('/dashboard')) ||
+    currentPath.includes(normalizePath('/journal')) ||
+    currentPath.includes(normalizePath('/settings'));
+  const isProtectedPage = isAppPage || currentPath.includes(normalizePath('/lessons'));
 
   if (user) {
     document.body.classList.add('user-logged-in');
@@ -282,11 +297,13 @@ window.checkAuth = () => {
     });
 
     // Update buttons
-    document.querySelectorAll('a[href="/signup"], a[href="/login"]').forEach(btn => {
+    const signupPath = normalizePath('/signup');
+    const loginPath = normalizePath('/login');
+    document.querySelectorAll(`a[href="${signupPath}"], a[href="${loginPath}"]`).forEach(btn => {
       if (btn.closest('#auth-logged-out') || btn.closest('.mobile-auth-section')) return;
       const btnText = btn.textContent.toLowerCase();
       if (btnText.includes('get started')) {
-        btn.href = '/dashboard';
+        btn.href = normalizePath('/dashboard');
         btn.textContent = 'Go to Dashboard';
       }
     });

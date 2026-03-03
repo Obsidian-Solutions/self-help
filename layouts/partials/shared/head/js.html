@@ -2,7 +2,8 @@
 <script>
   // Global Configuration
   window.mindfullConfig = {
-    cmsUrl: {{ .Site.Params.cms_url | default "" | absURL }} || window.location.origin
+    cmsUrl: {{ .Site.Params.cms_url | default "" | absURL }} || window.location.origin,
+    basePath: {{ relURL "/" }}
   };
 
   // Theme Management
