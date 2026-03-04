@@ -2,13 +2,13 @@
 {{ $labels := site.Data.labels.auth_modals.signup }}
 <div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 overflow-hidden">
   <div class="sm:mx-auto sm:w-full sm:max-w-md animate-in fade-in slide-in-from-top-4 duration-700">
-    <a href="{{ relURL "/" }}" class="flex justify-center mb-6">
+    <a href="{{ relURL "" }}" class="flex justify-center mb-6">
       <span class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white text-2xl font-black shadow-xl shadow-indigo-200 dark:shadow-none">{{ site.Data.labels.site.logo_text }}</span>
     </a>
     <h2 class="text-center text-3xl font-black text-gray-900 dark:text-white tracking-tight">{{ $labels.title }}</h2>
     <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400 font-medium">
       {{ $labels.footer_text }}
-      <a href="{{ "/login/" | relURL }}" class="font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">{{ $labels.footer_link }}</a>
+      <a href="{{ "login/" | relURL }}" class="font-bold text-indigo-600 hover:text-indigo-500 dark:text-indigo-400">{{ $labels.footer_link }}</a>
     </p>
   </div>
 

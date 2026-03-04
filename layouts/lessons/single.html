@@ -3,7 +3,7 @@
   <!-- Lesson Header -->
   <div class="mb-10">
     <div class="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 mb-4">
-      <a href="{{ "/courses/" | relURL }}" class="hover:underline">Courses</a>
+      <a href="{{ "courses/" | relURL }}" class="hover:underline">Courses</a>
       <span>&middot;</span>
       {{ $course := .GetPage ".." }}
       {{ if $course }}
@@ -146,7 +146,7 @@
       if (courseUrl && courseUrl.startsWith('/') && !courseUrl.startsWith('//')) {
         window.location.href = courseUrl;
       } else {
-        window.location.href = '{{ "/courses/" | relURL }}';
+        window.location.href = '{{ "courses/" | relURL }}';
       }
     }, 1500);
   }

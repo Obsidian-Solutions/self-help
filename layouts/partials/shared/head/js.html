@@ -3,7 +3,7 @@
   // Global Configuration
   window.mindfullConfig = {
     cmsUrl: {{ .Site.Params.cms_url | default "" | relURL }} || window.location.origin,
-    basePath: {{ relURL "/" }}
+    basePath: {{ relURL "" }}
   };
 
   // Theme Management
