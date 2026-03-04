@@ -2,7 +2,6 @@
 <html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}" class="font-sans">
 <head>
   {{ partial "shared/head.html" . }}
-  <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
 </head>
 {{ $isPreview := strings.Contains .RelPermalink "cms_preview=true" | or (in .Page.Permalink "cms_preview=true") | or (eq .Site.Params.cms_preview true) }}
 <!-- We detect it better via a global data attribute set by the listener script, but for template level hiding: -->

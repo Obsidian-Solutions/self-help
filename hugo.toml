@@ -7,7 +7,7 @@ languageCode = 'en-US'
 title = 'MindFull'
 description = 'Science-backed CBT tools and expert guidance.'
 relativeURLs = false
-canonifyURLs = true
+canonifyURLs = false
 
 [params]
   author = 'MindFull Team'
