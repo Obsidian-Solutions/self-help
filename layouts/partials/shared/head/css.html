@@ -17,6 +17,6 @@
 
 {{- with resources.Get "css/style.css" }}
   {{- $style := . | fingerprint }}
-  <link rel="preload" href="{{ $style.RelPermalink }}" as="style">
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
+  <link rel="preload" href="{{ $style.Permalink }}" as="style">
+  <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $style.Data.Integrity }}" crossorigin="anonymous">
 {{- end }}

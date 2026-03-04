@@ -17,7 +17,7 @@
 <meta property="og:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
 <meta property="og:description" content="{{ .Description | default site.Params.description }}" />
 {{ with .Params.image | default site.Params.og_image }}
-<meta property="og:image" content="{{ . | absURL }}" />
+<meta property="og:image" content="{{ . | relURL }}" />
 {{ end }}
 <meta property="og:site_name" content="{{ site.Title }}" />
 
@@ -28,7 +28,7 @@
 <meta name="twitter:title" content="{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }}{{ end }}" />
 <meta name="twitter:description" content="{{ .Description | default site.Params.description }}" />
 {{ with .Params.image | default site.Params.og_image }}
-<meta name="twitter:image" content="{{ . | absURL }}" />
+<meta name="twitter:image" content="{{ . | relURL }}" />
 {{ end }}
 {{ with site.Params.social.twitter_handle }}
 <meta name="twitter:site" content="{{ . }}" />
