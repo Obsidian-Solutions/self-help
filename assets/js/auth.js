@@ -17,8 +17,7 @@ const BASE_PATH = (CONFIG.basePath || '/').replace(/\/+$/, '');
 function normalizePath(path) {
   if (!path.startsWith('/')) return path;
   const cleanPath = path.replace(/\/+$/, '');
-  if (cleanPath === '') return BASE_PATH || '/';
-  return BASE_PATH + cleanPath;
+  return BASE_PATH + (cleanPath || '/');
 }
 
 // --- CMS CRM Integration Helper ---

@@ -5,3 +5,4 @@ resources/
 node_modules/
 cms/node_modules/
 docs-site/
+assets/css/style.css
