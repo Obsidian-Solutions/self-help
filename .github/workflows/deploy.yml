@@ -54,7 +54,7 @@ jobs:
         run: npm run build:css
 
       - name: Build Hugo site
-        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        run: hugo --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

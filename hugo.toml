@@ -2,11 +2,11 @@
 # Hugo Configuration - MindFull Theme
 # ============================================================================
 
-baseURL = 'https://mindfull.example.com/'
+baseURL = 'https://obsidian-solutions.github.io/self-help/'
 languageCode = 'en-US'
 title = 'MindFull'
 description = 'Science-backed CBT tools and expert guidance.'
-relativeURLs = false
+relativeURLs = true
 
 [params]
   author = 'MindFull Team'
