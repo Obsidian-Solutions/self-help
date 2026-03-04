@@ -6,7 +6,7 @@ baseURL = 'https://obsidiansolutions.co.uk/self-help/'
 languageCode = 'en-US'
 title = 'MindFull'
 description = 'Science-backed CBT tools and expert guidance.'
-relativeURLs = true
+relativeURLs = false
 canonifyURLs = true
 
 [params]
