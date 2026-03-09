@@ -176,9 +176,9 @@ window.safeRedirect = function (path) {
 // 1. Sign Up
 window.handleSignup = async e => {
   e.preventDefault();
-  const nameEl = document.getElementById('signup-name');
-  const emailEl = document.getElementById('signup-email');
-  const passwordEl = document.getElementById('signup-password');
+  const nameEl = document.getElementById('signup-name-modal') || document.getElementById('signup-name');
+  const emailEl = document.getElementById('signup-email-modal') || document.getElementById('signup-email');
+  const passwordEl = document.getElementById('signup-password-modal') || document.getElementById('signup-password');
 
   if (!nameEl || !emailEl || !passwordEl) return;
 
@@ -211,8 +211,8 @@ window.handleSignup = async e => {
 // 2. Login
 window.handleLogin = async e => {
   e.preventDefault();
-  const emailEl = document.getElementById('login-email');
-  const passwordEl = document.getElementById('login-password');
+  const emailEl = document.getElementById('login-email-modal') || document.getElementById('login-email');
+  const passwordEl = document.getElementById('login-password-modal') || document.getElementById('login-password');
 
   if (!emailEl || !passwordEl) return;
 
