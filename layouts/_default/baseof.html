@@ -149,25 +149,5 @@
   {{ partial "auth/confirm-modal.html" . }}
   {{ partial "shared/toast.html" . }}
   {{ partial "shared/cookie-consent.html" . }}
-  
-  <script>
-    window.openModal = function(id) { 
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.remove('hidden');
-        el.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-      }
-    };
-    window.closeModal = function(id) { 
-      const el = document.getElementById(id);
-      if (el) {
-        el.classList.add('hidden');
-        el.style.display = 'none';
-        document.body.style.overflow = '';
-      }
-    };
-    window.switchModal = function(c, o) { window.closeModal(c); window.openModal(o); };
-  </script>
 </body>
 </html>

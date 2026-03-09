@@ -1,3 +1,4 @@
+type: "page"
 ---
 title: 'Log In'
 layout: 'login'
@@ -7,6 +8,7 @@ demoMode: true
 demoEmail: 'demo@example.com'
 demoPassword: 'password'
 socialLogin: true
+type: "page"
 ---
 
 Welcome back! Access your personalized mental health journey.

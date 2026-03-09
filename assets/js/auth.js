@@ -40,27 +40,24 @@ async function logInteraction(type, metadata = '') {
 }
 
 // --- Modal Management ---
-window.openModal = modalId => {
-  console.log('Opening modal:', modalId);
+// These are also defined inline in head to ensure immediate availability
+window.openModal = window.openModal || (modalId => {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'block';
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-  } else {
-    console.error('Modal not found:', modalId);
   }
-};
+});
 
-window.closeModal = modalId => {
-  console.log('Closing modal:', modalId);
+window.closeModal = window.closeModal || (modalId => {
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'none';
     modal.classList.add('hidden');
     document.body.style.overflow = '';
   }
-};
+});
 
 window.switchModal = (closeId, openId) => {
   window.closeModal(closeId);
