@@ -1,4 +1,4 @@
-baseURL = 'http://localhost:1314/'
+baseURL = 'https://obsidiansolutions.co.uk/self-help/docs/'
 languageCode = 'en-us'
 title = 'MindFull Documentation'
 
@@ -12,7 +12,7 @@ title = 'MindFull Documentation'
     target = 'content'
   [[module.mounts]]
     source = '../_docs_src'
-    target = 'content/docs'
+    target = 'content'
 
   # Mount shortcodes and partials from main site
   [[module.mounts]]

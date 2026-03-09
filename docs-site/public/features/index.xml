@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Features on MindFull Documentation</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/</link><description>Recent content in Features on MindFull Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://obsidiansolutions.co.uk/self-help/docs/features/index.xml" rel="self" type="application/rss+xml"/><item><title>Quizzes</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/quizzes/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/quizzes/</guid><description>&lt;p&gt;MindFull includes a powerful client-side quiz engine. Quizzes are defined directly in the frontmatter of any lesson file.&lt;/p&gt;
+&lt;h2 id="1-quick-start-checklist"&gt;1. Quick Start Checklist&lt;a class="anchor" href="#1-quick-start-checklist"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Create a new lesson in &lt;code&gt;content/lessons/&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Define the &lt;code&gt;quiz&lt;/code&gt; block in frontmatter.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Add at least one question with options.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Set the &lt;code&gt;correct&lt;/code&gt; index (0-3).&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Provide an explanation for the answer.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-frontmatter-schema"&gt;2. Frontmatter Schema&lt;a class="anchor" href="#2-frontmatter-schema"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;quiz&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;title&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;Basics of CBT&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;description&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;Test your knowledge of Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;result_message&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Great work! You&amp;#39;ve mastered the basics.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;questions&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;question&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;What does the &amp;#39;C&amp;#39; in CBT stand for?&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;options&lt;/span&gt;: [&lt;span style="color:#e6db74"&gt;&amp;#39;Care&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Cognitive&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Change&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Center&amp;#39;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;correct&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;explanation&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;CBT stands for Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="3-scoring--achievements"&gt;3. Scoring &amp;amp; Achievements&lt;a class="anchor" href="#3-scoring--achievements"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The quiz engine automatically calculates scores and triggers badges based on performance.&lt;/p&gt;</description></item><item><title>Search &amp; Analytics</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/analytics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/analytics/</guid><description>&lt;p&gt;MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.&lt;/p&gt;
+&lt;h2 id="1-static-search-pagefind"&gt;1. Static Search (Pagefind)&lt;a class="anchor" href="#1-static-search-pagefind"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;By default, MindFull uses &lt;strong&gt;Pagefind&lt;/strong&gt;, a static search library that runs entirely in the browser.&lt;/p&gt;
+&lt;h3 id="search-providers"&gt;Search Providers&lt;a class="anchor" href="#search-providers"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Provider&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Type&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Privacy&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Scale&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Pagefind&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Static (WASM)&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;100%&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Small to Medium&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;OpenSearch&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Server-side&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;100% (Self-hosted)&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Large/Enterprise&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="features"&gt;Features&lt;a class="anchor" href="#features"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;Zero-Server&lt;/strong&gt;: Runs entirely in the browser.&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;High Performance&lt;/strong&gt;: Instant results as you type.&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;FOSS&lt;/strong&gt;: MIT Licensed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote class='book-hint note'&gt;
+&lt;p&gt;To update the search index, you must run the build command:&lt;/p&gt;</description></item><item><title>Wellness Shortcodes</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/shortcodes/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/shortcodes/</guid><description>&lt;p&gt;MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, high-fidelity, and fully configurable.&lt;/p&gt;
+&lt;h2 id="1-guided-breathing-hahahugoshortcode15s0hbhb"&gt;1. Guided Breathing (&lt;code&gt;&lt;div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container smooth-render" 
+ id="breathe-1773048487578182060"
+ data-inhale="4" 
+ data-hold="4" 
+ data-exhale="4"&gt;
+ 
+ &lt;div class="absolute inset-0 opacity-10 pointer-events-none"&gt;
+ &lt;svg
+ class="handcrafts-element absolute top-4 left-4 w-12 h-12 animate-pulse"
+ viewBox="0 0 200 50"
+ fill="none"
+ stroke="currentColor"
+ stroke-width="3"
+ stroke-linecap="round"
+ stroke-linejoin="round"
+&gt;
+ &lt;path d="M 10 25 L 190 25" /&gt;&lt;/svg&gt;
+
+ &lt;/div&gt;
+
+ &lt;div class="relative z-10 text-center w-full max-w-sm"&gt;
+ &lt;div class="flex items-center justify-between mb-8 gap-4"&gt;
+ &lt;h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap"&gt;Guided Breathing&lt;/h3&gt;
+ 
+ 
+ &lt;div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]"&gt;
+ &lt;i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"&gt;&lt;/i&gt;
+ &lt;select onchange="window.setSoundscape('1773048487578182060', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full"&gt;
+ &lt;option value="0"&gt;Silent&lt;/option&gt;
+ &lt;option value="1"&gt;Deep Zen&lt;/option&gt;
+ &lt;option value="2"&gt;Gentle Rain&lt;/option&gt;
+ &lt;option value="3"&gt;White Noise&lt;/option&gt;
+ &lt;/select&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+ 
+ &lt;div class="breathe-circle relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out"&gt;
+ &lt;div class="breathe-inner absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"&gt;&lt;/div&gt;
+ 
+ &lt;div class="relative z-20 flex flex-col items-center"&gt;
+ &lt;span class="breathe-status text-xs font-black text-indigo-400 uppercase tracking-widest mb-2"&gt;Ready&lt;/span&gt;
+ &lt;span class="breathe-timer text-5xl font-black text-indigo-600 dark:text-white tracking-tighter"&gt;0&lt;/span&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+
+ &lt;div class="mt-12 flex flex-col gap-4"&gt;
+ &lt;button onclick="window.toggleBreathing('1773048487578182060')" class="breathe-btn btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200"&gt;Start Session&lt;/button&gt;
+ &lt;div class="flex justify-center gap-4"&gt;
+ &lt;span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"&gt;4-4-4 Rhythm&lt;/span&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+ (function() {
+ const instances = {};
+
+ window.toggleBreathing = function(id) {
+ if (!instances[id]) initInstance(id);
+ const inst = instances[id];
+ 
+ if (!inst.audioCtx) inst.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+ if (inst.audioCtx.state === 'suspended') inst.audioCtx.resume();
+
+ if (inst.active) stop(id); else start(id);
+ };
+
+ window.setSoundscape = function(id, index) {
+ if (!instances[id]) initInstance(id);
+ const inst = instances[id];
+ const soundscapes = [
+ { name: 'Silent', url: '' },
+ { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+ { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+ { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
+ ];
+ 
+ inst.currentSoundscapeIdx = parseInt(index);
+ const scape = soundscapes[inst.currentSoundscapeIdx];
+ 
+ if (scape.url) {
+ inst.ambientAudio.src = scape.url;
+ inst.ambientAudio.load();
+ if (inst.active) inst.ambientAudio.play().catch(e =&gt; {});
+ } else {
+ inst.ambientAudio.pause();
+ inst.ambientAudio.src = '';
+ }
+ };
+
+ function initInstance(id) {
+ const el = document.getElementById('breathe-' + id);
+ instances[id] = {
+ active: false,
+ timerInterval: null,
+ cycleTimeout: null,
+ currentSoundscapeIdx: 0,
+ ambientAudio: new Audio(),
+ audioCtx: null,
+ timings: {
+ inhale: parseInt(el.dataset.inhale),
+ hold: parseInt(el.dataset.hold),
+ exhale: parseInt(el.dataset.exhale)
+ },
+ dom: {
+ circle: el.querySelector('.breathe-circle'),
+ inner: el.querySelector('.breathe-inner'),
+ status: el.querySelector('.breathe-status'),
+ timer: el.querySelector('.breathe-timer'),
+ btn: el.querySelector('.breathe-btn')
+ }
+ };
+ instances[id].ambientAudio.loop = true;
+ }
+
+ function start(id) {
+ const inst = instances[id];
+ inst.active = true;
+ inst.dom.btn.textContent = 'Stop Session';
+ inst.dom.btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
+ 
+ if (inst.ambientAudio.src) inst.ambientAudio.play().catch(e =&gt; {});
+ runPhase(id, 'inhale');
+ }
+
+ function stop(id) {
+ const inst = instances[id];
+ inst.active = false;
+ clearTimeout(inst.cycleTimeout);
+ clearInterval(inst.timerInterval);
+ inst.ambientAudio.pause();
+ inst.dom.btn.textContent = 'Start Session';
+ inst.dom.btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
+ inst.dom.status.textContent = 'Ready';
+ inst.dom.timer.textContent = '0';
+ 
+ inst.dom.inner.style.transitionDuration = '0ms';
+ inst.dom.circle.style.transitionDuration = '0ms';
+ inst.dom.inner.style.transform = 'scale(1)';
+ inst.dom.circle.style.transform = 'scale(1)';
+ inst.dom.inner.style.opacity = '0.2';
+ inst.dom.circle.style.borderColor = '';
+ inst.dom.inner.offsetHeight; 
+ inst.dom.inner.style.transitionDuration = '1000ms';
+ inst.dom.circle.style.transitionDuration = '1000ms';
+ }
+
+ function runPhase(id, phase) {
+ const inst = instances[id];
+ if (!inst.active) return;
+
+ const duration = inst.timings[phase];
+ const ms = duration * 1000;
+
+ inst.dom.inner.style.transitionDuration = `${ms}ms`;
+ inst.dom.circle.style.transitionDuration = `${ms}ms`;
+
+ if (phase === 'inhale') {
+ playChime(id, 440, 'triangle', 0.05);
+ inst.dom.status.textContent = 'Breathe In';
+ inst.dom.inner.style.transform = 'scale(5)';
+ inst.dom.inner.style.opacity = '0.4';
+ inst.dom.circle.style.transform = 'scale(1.05)';
+ inst.dom.circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'hold'), ms);
+ } 
+ else if (phase === 'hold') {
+ playChime(id, 554.37, 'sine', 0.03);
+ inst.dom.status.textContent = 'Hold';
+ inst.dom.inner.style.opacity = '0.6';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'exhale'), ms);
+ } 
+ else if (phase === 'exhale') {
+ playChime(id, 329.63, 'triangle', 0.05);
+ inst.dom.status.textContent = 'Breathe Out';
+ inst.dom.inner.style.transform = 'scale(1)';
+ inst.dom.inner.style.opacity = '0.2';
+ inst.dom.circle.style.transform = 'scale(1)';
+ inst.dom.circle.style.borderColor = '';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'inhale'), ms);
+ }
+ }
+
+ function startTimer(id, seconds) {
+ const inst = instances[id];
+ clearInterval(inst.timerInterval);
+ let countdown = seconds;
+ inst.dom.timer.textContent = countdown;
+ inst.timerInterval = setInterval(() =&gt; {
+ countdown--;
+ if (countdown &gt;= 0) inst.dom.timer.textContent = countdown;
+ if (countdown &lt;= 0) clearInterval(inst.timerInterval);
+ }, 1000);
+ }
+
+ function playChime(id, freq, type, volume) {
+ const inst = instances[id];
+ try {
+ const osc = inst.audioCtx.createOscillator();
+ const gain = inst.audioCtx.createGain();
+ osc.type = type;
+ osc.frequency.setValueAtTime(freq, inst.audioCtx.currentTime);
+ gain.gain.setValueAtTime(volume, inst.audioCtx.currentTime);
+ gain.gain.exponentialRampToValueAtTime(0.0001, inst.audioCtx.currentTime + 1.5);
+ osc.connect(gain);
+ gain.connect(inst.audioCtx.destination);
+ osc.start();
+ osc.stop(inst.audioCtx.currentTime + 1.5);
+ } catch (e) {}
+ }
+ })();
+&lt;/script&gt;
+&lt;/code&gt;)&lt;a class="anchor" href="#1-guided-breathing-hahahugoshortcode15s0hbhb"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Renders a premium, cinematic breathing guide with custom rhythms, ambient soundscapes, and transition chimes.&lt;/p&gt;</description></item></channel></rss>

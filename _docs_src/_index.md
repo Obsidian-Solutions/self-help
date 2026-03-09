@@ -26,33 +26,33 @@ Explore the core sections of our documentation:
 
 ### 🛠️ Getting Started
 
-- [x] [Installation](/docs/getting-started/installation)
-- [x] [SSO Configuration](/docs/getting-started/sso-setup)
-- [x] [Deployment Readiness](/docs/getting-started/deployment)
+- [x] [Installation](/self-help/docs/getting-started/installation)
+- [x] [SSO Configuration](/self-help/docs/getting-started/sso-setup)
+- [x] [Deployment Readiness](/self-help/docs/getting-started/deployment)
 
 ### 🧩 Features
 
-- [x] [Quiz System](/docs/features/quizzes)
+- [x] [Quiz System](/self-help/docs/features/quizzes)
 
-- [x] [Search & Analytics](/docs/features/analytics)
+- [x] [Search & Analytics](/self-help/docs/features/analytics)
 
-- [x] [Wellness Shortcodes](/docs/features/shortcodes)
+- [x] [Wellness Shortcodes](/self-help/docs/features/shortcodes)
 
 ### 🎨 Design & Branding
 
-- [x] [Branding & Visual Standards](/docs/design/branding)
+- [x] [Branding & Visual Standards](/self-help/docs/design/branding)
 
-- [x] [Illustration Engine](/docs/design/illustrations)
+- [x] [Illustration Engine](/self-help/docs/design/illustrations)
 
-- [x] [Block Library](/docs/design/blocks)
+- [x] [Block Library](/self-help/docs/design/blocks)
 
 ### 💻 Development
 
-- [x] [Technical Architecture](/docs/development/architecture)
-- [x] [Public Dev Mode](/docs/development/pubdev)
+- [x] [Technical Architecture](/self-help/docs/development/architecture)
+- [x] [Public Dev Mode](/self-help/docs/development/pubdev)
 
 ---
 
 ## 🆘 Support
 
-If you encounter issues during setup, please check the [Technical Architecture](/docs/development/architecture) page or visit our [GitHub Repository](https://github.com/Obsidian-Solutions/self-help).
+If you encounter issues during setup, please check the [Technical Architecture](/self-help/docs/development/architecture) page or visit our [GitHub Repository](https://github.com/Obsidian-Solutions/self-help).

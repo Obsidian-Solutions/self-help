@@ -56,6 +56,13 @@ jobs:
       - name: Build Hugo site
         run: hugo --minify
 
+      - name: Build Docs site
+        run: |
+          cd docs-site
+          hugo --minify
+          mkdir -p ../public/docs
+          cp -r public/* ../public/docs/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

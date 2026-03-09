@@ -1,88 +1,566 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>MindFull Documentation</title>
-    <link>http://localhost:1314/</link>
-    <description>Recent content on MindFull Documentation</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <atom:link href="http://localhost:1314/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Architecture</title>
-      <link>http://localhost:1314/docs/development/architecture/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/development/architecture/</guid>
-      <description>&lt;p&gt;MindFull is designed with two core principles: &lt;strong&gt;Data-Driven UI&lt;/strong&gt; and &lt;strong&gt;Security by Default&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-hybrid-data-architecture&#34;&gt;1. Hybrid Data Architecture&lt;a class=&#34;anchor&#34; href=&#34;#1-hybrid-data-architecture&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;We strictly separate static data from dynamic user engagement.&lt;/p&gt;&#xA;&lt;h3 id=&#34;data-storage-strategy&#34;&gt;Data Storage Strategy&lt;a class=&#34;anchor&#34; href=&#34;#data-storage-strategy&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Category&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Storage Location&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Usage&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Global UI Labels&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;data/labels.json&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Buttons, navigation, and component text&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Static Content&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;content/*.md&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Blog posts, lessons, and course curriculum&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Compliance Data&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;data/cookies.json&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Legal transparency and consent manager&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Engagement Data&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;cms/db/mindfull.sqlite&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Views, Ratings, Comments, and Reactions&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Auth Sessions&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;JWT + &lt;code&gt;localStorage&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Secure identity management&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;dynamic-engagement-system&#34;&gt;Dynamic Engagement System&lt;a class=&#34;anchor&#34; href=&#34;#dynamic-engagement-system&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;The Node.js CMS manages real-time interactions using an optimized SQLite backend:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Branding</title>
-      <link>http://localhost:1314/docs/design/branding/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/design/branding/</guid>
-      <description>&lt;p&gt;MindFull is designed to be reskinned in seconds while maintaining elite-level visual polish through centralized configuration and global smoothing engines.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-core-visuals&#34;&gt;1. Core Visuals&lt;a class=&#34;anchor&#34; href=&#34;#1-core-visuals&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;h3 id=&#34;branding-configuration&#34;&gt;Branding Configuration&lt;a class=&#34;anchor&#34; href=&#34;#branding-configuration&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Property&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;File&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Value Type&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Description&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Logo Icon&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;FontAwesome Class&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Primary icon for header/footer (GPG signed)&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Site Title&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;String&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Your organization&amp;rsquo;s name&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Primary Color&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Hex Code&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Brand identity color (Indigo default)&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Secondary Color&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Hex Code&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Accent color (Emerald default)&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;2-high-fidelity-rendering&#34;&gt;2. High-Fidelity Rendering&lt;a class=&#34;anchor&#34; href=&#34;#2-high-fidelity-rendering&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;MindFull includes a built-in &lt;strong&gt;Smoothing Stack&lt;/strong&gt; that ensures your brand looks sharp on all displays.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Installation</title>
-      <link>http://localhost:1314/docs/getting-started/installation/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/getting-started/installation/</guid>
-      <description>&lt;p&gt;Follow these steps to get your local development environment up and running.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-prerequisites&#34;&gt;1. Prerequisites&lt;a class=&#34;anchor&#34; href=&#34;#1-prerequisites&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote class=&#39;book-hint note&#39;&gt;&#xA;&lt;p&gt;Ensure you have the following tools installed before proceeding.&lt;/p&gt;&lt;/blockquote&gt;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Tool&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Version&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Purpose&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Hugo (Extended)&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;v0.120.0+&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Static Site Generation&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Node.js&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;v18.0.0+&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;CSS &amp;amp; Backend execution&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;npm&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;v9.0.0+&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Dependency management&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;readiness-checklist&#34;&gt;Readiness Checklist&lt;a class=&#34;anchor&#34; href=&#34;#readiness-checklist&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Hugo Extended installed (&lt;code&gt;hugo version&lt;/code&gt;)&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Node.js installed (&lt;code&gt;node -v&lt;/code&gt;)&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; npm installed (&lt;code&gt;npm -v&lt;/code&gt;)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-clone-and-install&#34;&gt;2. Clone and Install&lt;a class=&#34;anchor&#34; href=&#34;#2-clone-and-install&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Clone the repository&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git clone https://github.com/Obsidian-Solutions/self-help.git&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd self-help&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Install dependencies&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm install&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;3-initialize-the-cms&#34;&gt;3. Initialize the CMS&lt;a class=&#34;anchor&#34; href=&#34;#3-initialize-the-cms&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The CMS handles authentication and secure content storage.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Quizzes</title>
-      <link>http://localhost:1314/docs/features/quizzes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/features/quizzes/</guid>
-      <description>&lt;p&gt;MindFull includes a powerful client-side quiz engine. Quizzes are defined directly in the frontmatter of any lesson file.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-quick-start-checklist&#34;&gt;1. Quick Start Checklist&lt;a class=&#34;anchor&#34; href=&#34;#1-quick-start-checklist&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Create a new lesson in &lt;code&gt;content/lessons/&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Define the &lt;code&gt;quiz&lt;/code&gt; block in frontmatter.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Add at least one question with options.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Set the &lt;code&gt;correct&lt;/code&gt; index (0-3).&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Provide an explanation for the answer.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;2-frontmatter-schema&#34;&gt;2. Frontmatter Schema&lt;a class=&#34;anchor&#34; href=&#34;#2-frontmatter-schema&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;quiz&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;title&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Basics of CBT&amp;#39;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;description&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Test your knowledge of Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;result_message&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Great work! You&amp;#39;ve mastered the basics.&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;questions&lt;/span&gt;:&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#f92672&#34;&gt;question&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;What does the &amp;#39;C&amp;#39; in CBT stand for?&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;options&lt;/span&gt;: [&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Care&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Cognitive&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Change&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Center&amp;#39;&lt;/span&gt;]&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;correct&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;explanation&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;CBT stands for Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;3-scoring--achievements&#34;&gt;3. Scoring &amp;amp; Achievements&lt;a class=&#34;anchor&#34; href=&#34;#3-scoring--achievements&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The quiz engine automatically calculates scores and triggers badges based on performance.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Illustrations</title>
-      <link>http://localhost:1314/docs/design/illustrations/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/design/illustrations/</guid>
-      <description>&lt;p&gt;MindFull uses a hybrid illustration system designed for &lt;strong&gt;speed&lt;/strong&gt;, &lt;strong&gt;reliability&lt;/strong&gt;, and &lt;strong&gt;cinematic polish&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-visual-presentation&#34;&gt;1. Visual Presentation&lt;a class=&#34;anchor&#34; href=&#34;#1-visual-presentation&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;All illustrations in MindFull are automatically enhanced by the &lt;strong&gt;Premium Frame Engine&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;h3 id=&#34;course-image-wrapper&#34;&gt;Course Image Wrapper&lt;a class=&#34;anchor&#34; href=&#34;#course-image-wrapper&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;p&gt;Use the &lt;code&gt;.course-image-wrapper&lt;/code&gt; to ensure your visuals match the platform&amp;rsquo;s high-fidelity aesthetic:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;🧊 &lt;strong&gt;Squircle Shape&lt;/strong&gt;: Enforces a consistent 3rem rounded &amp;ldquo;Squircle&amp;rdquo; border.&lt;/li&gt;&#xA;&lt;li&gt;цент &lt;strong&gt;Perfect Centering&lt;/strong&gt;: Automatically centers SVGs without clipping.&lt;/li&gt;&#xA;&lt;li&gt;🎨 &lt;strong&gt;Mesh Background&lt;/strong&gt;: Injects a subtle, dual-radial gradient behind the image.&lt;/li&gt;&#xA;&lt;li&gt;🚀 &lt;strong&gt;Interactive Scale&lt;/strong&gt;: Automatically scales to 105% on parent card hover.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;course-image-wrapper w-full p-12&amp;#34;&lt;/span&gt;&amp;gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  {{ partial &amp;#34;shared/undraw.html&amp;#34; (dict &amp;#34;name&amp;#34; &amp;#34;meditation&amp;#34;) }}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/&lt;span style=&#34;color:#f92672&#34;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;&#xA;&lt;h2 id=&#34;2-rendering-logic&#34;&gt;2. Rendering Logic&lt;a class=&#34;anchor&#34; href=&#34;#2-rendering-logic&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;undraw.html&lt;/code&gt; partial handles illustrations using a 3-tier &lt;strong&gt;local-first&lt;/strong&gt; strategy.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Public Development</title>
-      <link>http://localhost:1314/docs/development/pubdev/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/development/pubdev/</guid>
-      <description>&lt;p&gt;If you need to share your local development site with a client or tester, use the &lt;strong&gt;Public Dev&lt;/strong&gt; mode.&lt;/p&gt;&#xA;&lt;h2 id=&#34;single-command-startup&#34;&gt;Single Command Startup&lt;a class=&#34;anchor&#34; href=&#34;#single-command-startup&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;npm run pubdev&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;how-it-works&#34;&gt;How it Works&lt;a class=&#34;anchor&#34; href=&#34;#how-it-works&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;blockquote class=&#39;book-hint tip&#39;&gt;&#xA;&lt;p&gt;This mode uses &lt;strong&gt;Localtunnel&lt;/strong&gt; to generate a public URL instantly with zero registration required.&lt;/p&gt;&lt;/blockquote&gt;&lt;h3 id=&#34;gateway-routing&#34;&gt;Gateway Routing&lt;a class=&#34;anchor&#34; href=&#34;#gateway-routing&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Path&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Destination&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Port&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;/api/*&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;MindFull CMS&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;3000&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;/*&lt;/code&gt; (Root)&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Hugo Frontend&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;1313&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Gateway&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Local Reverse Proxy&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;4242&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;launch-checklist&#34;&gt;Launch Checklist&lt;a class=&#34;anchor&#34; href=&#34;#launch-checklist&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Run &lt;code&gt;npm run pubdev&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Wait for &lt;code&gt;🔗 SHAREABLE URL&lt;/code&gt; to appear.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Share the URL with your external collaborator.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;technical-sequence&#34;&gt;Technical Sequence&lt;a class=&#34;anchor&#34; href=&#34;#technical-sequence&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;Proxy Gateway&lt;/strong&gt;: A local proxy starts on port &lt;code&gt;4242&lt;/code&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Public Tunnel&lt;/strong&gt;: Localtunnel creates a secure random URL (e.g., &lt;code&gt;https://random-id.loca.lt&lt;/code&gt;).&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Unified Link&lt;/strong&gt;: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
-    </item>
-    <item>
-      <title>SSO Configuration</title>
-      <link>http://localhost:1314/docs/getting-started/sso-setup/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/getting-started/sso-setup/</guid>
-      <description>&lt;p&gt;MindFull supports authenticating users via &lt;strong&gt;Google&lt;/strong&gt; and &lt;strong&gt;GitHub&lt;/strong&gt;. These services require secure secret management, which is handled by the &lt;strong&gt;MindFull CMS&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-provider-setup&#34;&gt;1. Provider Setup&lt;a class=&#34;anchor&#34; href=&#34;#1-provider-setup&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;h3 id=&#34;google-oauth-setup&#34;&gt;Google OAuth Setup&lt;a class=&#34;anchor&#34; href=&#34;#google-oauth-setup&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Create a project in the &lt;a href=&#34;https://console.cloud.google.com/&#34;&gt;Google Cloud Console&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Navigate to &lt;strong&gt;APIs &amp;amp; Services &amp;gt; Credentials&lt;/strong&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Create an &lt;strong&gt;OAuth client ID&lt;/strong&gt; for a &amp;ldquo;Web Application&amp;rdquo;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Configure the redirect URIs (see table below).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;github-oauth-setup&#34;&gt;GitHub OAuth Setup&lt;a class=&#34;anchor&#34; href=&#34;#github-oauth-setup&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Go to &lt;a href=&#34;https://github.com/settings/developers&#34;&gt;GitHub Developer Settings&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Register a &lt;strong&gt;New OAuth App&lt;/strong&gt;.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; Configure the homepage and callback URLs (see table below).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h3 id=&#34;required-redirect-uris&#34;&gt;Required Redirect URIs&lt;a class=&#34;anchor&#34; href=&#34;#required-redirect-uris&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Provider&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Environment&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Redirect URI&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Google&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Local&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;http://localhost:3000/api/auth/google/callback&lt;/code&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;GitHub&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Local&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;http://localhost:3000/api/auth/github/callback&lt;/code&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h2 id=&#34;2-configure-the-cms&#34;&gt;2. Configure the CMS&lt;a class=&#34;anchor&#34; href=&#34;#2-configure-the-cms&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Create or edit the &lt;code&gt;.env&lt;/code&gt; file inside the &lt;code&gt;cms/&lt;/code&gt; directory:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Block Library</title>
-      <link>http://localhost:1314/docs/design/blocks/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/design/blocks/</guid>
-      <description>&lt;p&gt;MindFull uses a modular &amp;ldquo;Block&amp;rdquo; architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-hero-block&#34;&gt;1. Hero Block&lt;a class=&#34;anchor&#34; href=&#34;#1-hero-block&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The Hero block is the first thing users see. It&amp;rsquo;s designed for high impact and clear calls to action.&lt;/p&gt;&#xA;&lt;h3 id=&#34;configuration&#34;&gt;Configuration&lt;a class=&#34;anchor&#34; href=&#34;#configuration&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;hero]&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;tagline = &amp;#34;Your Science-Backed Wellness Journey&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;headline = &amp;#34;Master your mind&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;subheadline = &amp;#34;with daily CBT.&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;description = &amp;#34;Learn proven techniques to manage anxiety...&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;illustration = &amp;#34;meditation&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;primaryCta = &amp;#34;Browse Courses&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;primaryCtaLink = &amp;#34;/courses&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;secondaryCta = &amp;#34;Log In&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;secondaryCtaLink = &amp;#34;/login&amp;#34;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;key-properties&#34;&gt;Key Properties&lt;a class=&#34;anchor&#34; href=&#34;#key-properties&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Property&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Description&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;tagline&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Small text badge above the headline.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;illustration&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Slug from the UnDraw library.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;code&gt;secondaryCta&lt;/code&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Automatically hidden if the user is logged in.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;2-features-block&#34;&gt;2. Features Block&lt;a class=&#34;anchor&#34; href=&#34;#2-features-block&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The Features block displays your value propositions in a clean, responsive grid.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Deployment</title>
-      <link>http://localhost:1314/docs/getting-started/deployment/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/getting-started/deployment/</guid>
-      <description>&lt;p&gt;MindFull is architected for maximum stability and performance in production environments.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-production-strengths&#34;&gt;1. Production Strengths&lt;a class=&#34;anchor&#34; href=&#34;#1-production-strengths&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;The theme is rigorously tested to ensure a high-quality user experience and minimal maintenance.&lt;/p&gt;&#xA;&lt;h3 id=&#34;strength-assessment&#34;&gt;Strength Assessment&lt;a class=&#34;anchor&#34; href=&#34;#strength-assessment&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Pillar&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Rating&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Description&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Performance&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;⚡ Ultra-Fast&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;40ms build time with minified output.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;🛡️ Hardened&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Zero external API calls; native DOM only.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Privacy&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;🔒 100% Client-Side&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;All user data stays in browser &lt;code&gt;localStorage&lt;/code&gt;.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;SEO&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;🔍 Optimized&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;100% crawlable with automated meta-tags.&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h2 id=&#34;2-final-deployment-checklist&#34;&gt;2. Final Deployment Checklist&lt;a class=&#34;anchor&#34; href=&#34;#2-final-deployment-checklist&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Before pushing your site live, ensure you have completed the following steps:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Search &amp; Analytics</title>
-      <link>http://localhost:1314/docs/features/analytics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/features/analytics/</guid>
-      <description>&lt;p&gt;MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-static-search-pagefind&#34;&gt;1. Static Search (Pagefind)&lt;a class=&#34;anchor&#34; href=&#34;#1-static-search-pagefind&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;By default, MindFull uses &lt;strong&gt;Pagefind&lt;/strong&gt;, a static search library that runs entirely in the browser.&lt;/p&gt;&#xA;&lt;h3 id=&#34;search-providers&#34;&gt;Search Providers&lt;a class=&#34;anchor&#34; href=&#34;#search-providers&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Provider&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Type&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Privacy&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;Scale&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;Pagefind&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Static (WASM)&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;100%&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Small to Medium&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;&lt;strong&gt;OpenSearch&lt;/strong&gt;&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Server-side&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;100% (Self-hosted)&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Large/Enterprise&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;features&#34;&gt;Features&lt;a class=&#34;anchor&#34; href=&#34;#features&#34;&gt;#&lt;/a&gt;&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; &lt;strong&gt;Zero-Server&lt;/strong&gt;: Runs entirely in the browser.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; &lt;strong&gt;High Performance&lt;/strong&gt;: Instant results as you type.&lt;/li&gt;&#xA;&lt;li&gt;&lt;input checked=&#34;&#34; disabled=&#34;&#34; type=&#34;checkbox&#34;&gt; &lt;strong&gt;FOSS&lt;/strong&gt;: MIT Licensed.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;blockquote class=&#39;book-hint note&#39;&gt;&#xA;&lt;p&gt;To update the search index, you must run the build command:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Wellness Shortcodes</title>
-      <link>http://localhost:1314/docs/features/shortcodes/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1314/docs/features/shortcodes/</guid>
-      <description>&lt;p&gt;MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, high-fidelity, and fully configurable.&lt;/p&gt;&#xA;&lt;h2 id=&#34;1-guided-breathing-hahahugoshortcode14s0hbhb&#34;&gt;1. Guided Breathing (&lt;code&gt;&lt;div class=&#34;my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container smooth-render&#34; &#xA;     id=&#34;breathe-1772576594694061106&#34;&#xA;     data-inhale=&#34;4&#34; &#xA;     data-hold=&#34;4&#34; &#xA;     data-exhale=&#34;4&#34;&gt;&#xA;  &#xA;  &lt;div class=&#34;absolute inset-0 opacity-10 pointer-events-none&#34;&gt;&#xA;    &lt;svg&#xA;  class=&#34;handcrafts-element absolute top-4 left-4 w-12 h-12 animate-pulse&#34;&#xA;  viewBox=&#34;0 0 200 50&#34;&#xA;  fill=&#34;none&#34;&#xA;  stroke=&#34;currentColor&#34;&#xA;  stroke-width=&#34;3&#34;&#xA;  stroke-linecap=&#34;round&#34;&#xA;  stroke-linejoin=&#34;round&#34;&#xA;&gt;&#xA;  &lt;path d=&#34;M 10 25 L 190 25&#34; /&gt;&lt;/svg&gt;&#xA;&#xA;  &lt;/div&gt;&#xA;&#xA;  &lt;div class=&#34;relative z-10 text-center w-full max-w-sm&#34;&gt;&#xA;    &lt;div class=&#34;flex items-center justify-between mb-8 gap-4&#34;&gt;&#xA;      &lt;h3 class=&#34;text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap&#34;&gt;Guided Breathing&lt;/h3&gt;&#xA;      &#xA;      &#xA;      &lt;div class=&#34;flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]&#34;&gt;&#xA;        &lt;i class=&#34;fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0&#34;&gt;&lt;/i&gt;&#xA;        &lt;select onchange=&#34;window.setSoundscape(&#39;1772576594694061106&#39;, this.value)&#34; class=&#34;bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full&#34;&gt;&#xA;          &lt;option value=&#34;0&#34;&gt;Silent&lt;/option&gt;&#xA;          &lt;option value=&#34;1&#34;&gt;Deep Zen&lt;/option&gt;&#xA;          &lt;option value=&#34;2&#34;&gt;Gentle Rain&lt;/option&gt;&#xA;          &lt;option value=&#34;3&#34;&gt;White Noise&lt;/option&gt;&#xA;        &lt;/select&gt;&#xA;      &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;    &#xA;    &lt;div class=&#34;breathe-circle relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out&#34;&gt;&#xA;      &lt;div class=&#34;breathe-inner absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out&#34;&gt;&lt;/div&gt;&#xA;      &#xA;      &lt;div class=&#34;relative z-20 flex flex-col items-center&#34;&gt;&#xA;        &lt;span class=&#34;breathe-status text-xs font-black text-indigo-400 uppercase tracking-widest mb-2&#34;&gt;Ready&lt;/span&gt;&#xA;        &lt;span class=&#34;breathe-timer text-5xl font-black text-indigo-600 dark:text-white tracking-tighter&#34;&gt;0&lt;/span&gt;&#xA;      &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;&#xA;    &lt;div class=&#34;mt-12 flex flex-col gap-4&#34;&gt;&#xA;      &lt;button onclick=&#34;window.toggleBreathing(&#39;1772576594694061106&#39;)&#34; class=&#34;breathe-btn btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200&#34;&gt;Start Session&lt;/button&gt;&#xA;      &lt;div class=&#34;flex justify-center gap-4&#34;&gt;&#xA;        &lt;span class=&#34;text-[10px] font-bold text-gray-400 uppercase tracking-widest&#34;&gt;4-4-4 Rhythm&lt;/span&gt;&#xA;      &lt;/div&gt;&#xA;    &lt;/div&gt;&#xA;  &lt;/div&gt;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;script&gt;&#xA;  (function() {&#xA;    const instances = {};&#xA;&#xA;    window.toggleBreathing = function(id) {&#xA;      if (!instances[id]) initInstance(id);&#xA;      const inst = instances[id];&#xA;      &#xA;      if (!inst.audioCtx) inst.audioCtx = new (window.AudioContext || window.webkitAudioContext)();&#xA;      if (inst.audioCtx.state === &#39;suspended&#39;) inst.audioCtx.resume();&#xA;&#xA;      if (inst.active) stop(id); else start(id);&#xA;    };&#xA;&#xA;    window.setSoundscape = function(id, index) {&#xA;      if (!instances[id]) initInstance(id);&#xA;      const inst = instances[id];&#xA;      const soundscapes = [&#xA;        { name: &#39;Silent&#39;, url: &#39;&#39; },&#xA;        { name: &#39;Deep Zen&#39;, url: &#39;https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3&#39; },&#xA;        { name: &#39;Gentle Rain&#39;, url: &#39;https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3&#39; },&#xA;        { name: &#39;White Noise&#39;, url: &#39;https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3&#39; }&#xA;      ];&#xA;      &#xA;      inst.currentSoundscapeIdx = parseInt(index);&#xA;      const scape = soundscapes[inst.currentSoundscapeIdx];&#xA;      &#xA;      if (scape.url) {&#xA;        inst.ambientAudio.src = scape.url;&#xA;        inst.ambientAudio.load();&#xA;        if (inst.active) inst.ambientAudio.play().catch(e =&gt; {});&#xA;      } else {&#xA;        inst.ambientAudio.pause();&#xA;        inst.ambientAudio.src = &#39;&#39;;&#xA;      }&#xA;    };&#xA;&#xA;    function initInstance(id) {&#xA;      const el = document.getElementById(&#39;breathe-&#39; + id);&#xA;      instances[id] = {&#xA;        active: false,&#xA;        timerInterval: null,&#xA;        cycleTimeout: null,&#xA;        currentSoundscapeIdx: 0,&#xA;        ambientAudio: new Audio(),&#xA;        audioCtx: null,&#xA;        timings: {&#xA;          inhale: parseInt(el.dataset.inhale),&#xA;          hold: parseInt(el.dataset.hold),&#xA;          exhale: parseInt(el.dataset.exhale)&#xA;        },&#xA;        dom: {&#xA;          circle: el.querySelector(&#39;.breathe-circle&#39;),&#xA;          inner: el.querySelector(&#39;.breathe-inner&#39;),&#xA;          status: el.querySelector(&#39;.breathe-status&#39;),&#xA;          timer: el.querySelector(&#39;.breathe-timer&#39;),&#xA;          btn: el.querySelector(&#39;.breathe-btn&#39;)&#xA;        }&#xA;      };&#xA;      instances[id].ambientAudio.loop = true;&#xA;    }&#xA;&#xA;    function start(id) {&#xA;      const inst = instances[id];&#xA;      inst.active = true;&#xA;      inst.dom.btn.textContent = &#39;Stop Session&#39;;&#xA;      inst.dom.btn.classList.replace(&#39;btn-premium-primary&#39;, &#39;btn-premium-secondary&#39;);&#xA;      &#xA;      if (inst.ambientAudio.src) inst.ambientAudio.play().catch(e =&gt; {});&#xA;      runPhase(id, &#39;inhale&#39;);&#xA;    }&#xA;&#xA;    function stop(id) {&#xA;      const inst = instances[id];&#xA;      inst.active = false;&#xA;      clearTimeout(inst.cycleTimeout);&#xA;      clearInterval(inst.timerInterval);&#xA;      inst.ambientAudio.pause();&#xA;      inst.dom.btn.textContent = &#39;Start Session&#39;;&#xA;      inst.dom.btn.classList.replace(&#39;btn-premium-secondary&#39;, &#39;btn-premium-primary&#39;);&#xA;      inst.dom.status.textContent = &#39;Ready&#39;;&#xA;      inst.dom.timer.textContent = &#39;0&#39;;&#xA;      &#xA;      inst.dom.inner.style.transitionDuration = &#39;0ms&#39;;&#xA;      inst.dom.circle.style.transitionDuration = &#39;0ms&#39;;&#xA;      inst.dom.inner.style.transform = &#39;scale(1)&#39;;&#xA;      inst.dom.circle.style.transform = &#39;scale(1)&#39;;&#xA;      inst.dom.inner.style.opacity = &#39;0.2&#39;;&#xA;      inst.dom.circle.style.borderColor = &#39;&#39;;&#xA;      inst.dom.inner.offsetHeight; &#xA;      inst.dom.inner.style.transitionDuration = &#39;1000ms&#39;;&#xA;      inst.dom.circle.style.transitionDuration = &#39;1000ms&#39;;&#xA;    }&#xA;&#xA;    function runPhase(id, phase) {&#xA;      const inst = instances[id];&#xA;      if (!inst.active) return;&#xA;&#xA;      const duration = inst.timings[phase];&#xA;      const ms = duration * 1000;&#xA;&#xA;      inst.dom.inner.style.transitionDuration = `${ms}ms`;&#xA;      inst.dom.circle.style.transitionDuration = `${ms}ms`;&#xA;&#xA;      if (phase === &#39;inhale&#39;) {&#xA;        playChime(id, 440, &#39;triangle&#39;, 0.05);&#xA;        inst.dom.status.textContent = &#39;Breathe In&#39;;&#xA;        inst.dom.inner.style.transform = &#39;scale(5)&#39;;&#xA;        inst.dom.inner.style.opacity = &#39;0.4&#39;;&#xA;        inst.dom.circle.style.transform = &#39;scale(1.05)&#39;;&#xA;        inst.dom.circle.style.borderColor = &#39;rgba(79, 70, 229, 0.4)&#39;;&#xA;        startTimer(id, duration);&#xA;        inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, &#39;hold&#39;), ms);&#xA;      } &#xA;      else if (phase === &#39;hold&#39;) {&#xA;        playChime(id, 554.37, &#39;sine&#39;, 0.03);&#xA;        inst.dom.status.textContent = &#39;Hold&#39;;&#xA;        inst.dom.inner.style.opacity = &#39;0.6&#39;;&#xA;        startTimer(id, duration);&#xA;        inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, &#39;exhale&#39;), ms);&#xA;      } &#xA;      else if (phase === &#39;exhale&#39;) {&#xA;        playChime(id, 329.63, &#39;triangle&#39;, 0.05);&#xA;        inst.dom.status.textContent = &#39;Breathe Out&#39;;&#xA;        inst.dom.inner.style.transform = &#39;scale(1)&#39;;&#xA;        inst.dom.inner.style.opacity = &#39;0.2&#39;;&#xA;        inst.dom.circle.style.transform = &#39;scale(1)&#39;;&#xA;        inst.dom.circle.style.borderColor = &#39;&#39;;&#xA;        startTimer(id, duration);&#xA;        inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, &#39;inhale&#39;), ms);&#xA;      }&#xA;    }&#xA;&#xA;    function startTimer(id, seconds) {&#xA;      const inst = instances[id];&#xA;      clearInterval(inst.timerInterval);&#xA;      let countdown = seconds;&#xA;      inst.dom.timer.textContent = countdown;&#xA;      inst.timerInterval = setInterval(() =&gt; {&#xA;        countdown--;&#xA;        if (countdown &gt;= 0) inst.dom.timer.textContent = countdown;&#xA;        if (countdown &lt;= 0) clearInterval(inst.timerInterval);&#xA;      }, 1000);&#xA;    }&#xA;&#xA;    function playChime(id, freq, type, volume) {&#xA;      const inst = instances[id];&#xA;      try {&#xA;        const osc = inst.audioCtx.createOscillator();&#xA;        const gain = inst.audioCtx.createGain();&#xA;        osc.type = type;&#xA;        osc.frequency.setValueAtTime(freq, inst.audioCtx.currentTime);&#xA;        gain.gain.setValueAtTime(volume, inst.audioCtx.currentTime);&#xA;        gain.gain.exponentialRampToValueAtTime(0.0001, inst.audioCtx.currentTime + 1.5);&#xA;        osc.connect(gain);&#xA;        gain.connect(inst.audioCtx.destination);&#xA;        osc.start();&#xA;        osc.stop(inst.audioCtx.currentTime + 1.5);&#xA;      } catch (e) {}&#xA;    }&#xA;  })();&#xA;&lt;/script&gt;&#xA;&lt;/code&gt;)&lt;a class=&#34;anchor&#34; href=&#34;#1-guided-breathing-hahahugoshortcode14s0hbhb&#34;&gt;#&lt;/a&gt;&lt;/h2&gt;&#xA;&lt;p&gt;Renders a premium, cinematic breathing guide with custom rhythms, ambient soundscapes, and transition chimes.&lt;/p&gt;</description>
-    </item>
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Welcome to MindFull on MindFull Documentation</title><link>https://obsidiansolutions.co.uk/self-help/docs/</link><description>Recent content in Welcome to MindFull on MindFull Documentation</description><generator>Hugo</generator><language>en-us</language><atom:link href="https://obsidiansolutions.co.uk/self-help/docs/index.xml" rel="self" type="application/rss+xml"/><item><title>Architecture</title><link>https://obsidiansolutions.co.uk/self-help/docs/development/architecture/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/development/architecture/</guid><description>&lt;p&gt;MindFull is designed with two core principles: &lt;strong&gt;Data-Driven UI&lt;/strong&gt; and &lt;strong&gt;Security by Default&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id="1-hybrid-data-architecture"&gt;1. Hybrid Data Architecture&lt;a class="anchor" href="#1-hybrid-data-architecture"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We strictly separate static data from dynamic user engagement.&lt;/p&gt;
+&lt;h3 id="data-storage-strategy"&gt;Data Storage Strategy&lt;a class="anchor" href="#data-storage-strategy"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Category&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Storage Location&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Usage&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Global UI Labels&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;data/labels.json&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Buttons, navigation, and component text&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Static Content&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;content/*.md&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Blog posts, lessons, and course curriculum&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Compliance Data&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;data/cookies.json&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Legal transparency and consent manager&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Engagement Data&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;cms/db/mindfull.sqlite&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Views, Ratings, Comments, and Reactions&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Auth Sessions&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;JWT + &lt;code&gt;localStorage&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Secure identity management&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="dynamic-engagement-system"&gt;Dynamic Engagement System&lt;a class="anchor" href="#dynamic-engagement-system"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;The Node.js CMS manages real-time interactions using an optimized SQLite backend:&lt;/p&gt;</description></item><item><title>Branding</title><link>https://obsidiansolutions.co.uk/self-help/docs/design/branding/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/design/branding/</guid><description>&lt;p&gt;MindFull is designed to be reskinned in seconds while maintaining elite-level visual polish through centralized configuration and global smoothing engines.&lt;/p&gt;
+&lt;h2 id="1-core-visuals"&gt;1. Core Visuals&lt;a class="anchor" href="#1-core-visuals"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="branding-configuration"&gt;Branding Configuration&lt;a class="anchor" href="#branding-configuration"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Property&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;File&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Value Type&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Description&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Logo Icon&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;FontAwesome Class&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Primary icon for header/footer (GPG signed)&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Site Title&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;String&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Your organization&amp;rsquo;s name&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Primary Color&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Hex Code&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Brand identity color (Indigo default)&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Secondary Color&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;hugo.toml&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Hex Code&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Accent color (Emerald default)&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2 id="2-high-fidelity-rendering"&gt;2. High-Fidelity Rendering&lt;a class="anchor" href="#2-high-fidelity-rendering"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;MindFull includes a built-in &lt;strong&gt;Smoothing Stack&lt;/strong&gt; that ensures your brand looks sharp on all displays.&lt;/p&gt;</description></item><item><title>Installation</title><link>https://obsidiansolutions.co.uk/self-help/docs/getting-started/installation/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/getting-started/installation/</guid><description>&lt;p&gt;Follow these steps to get your local development environment up and running.&lt;/p&gt;
+&lt;h2 id="1-prerequisites"&gt;1. Prerequisites&lt;a class="anchor" href="#1-prerequisites"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote class='book-hint note'&gt;
+&lt;p&gt;Ensure you have the following tools installed before proceeding.&lt;/p&gt;&lt;/blockquote&gt;&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Tool&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Version&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Purpose&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Hugo (Extended)&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;v0.120.0+&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Static Site Generation&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Node.js&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;v18.0.0+&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;CSS &amp;amp; Backend execution&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;npm&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;v9.0.0+&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Dependency management&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="readiness-checklist"&gt;Readiness Checklist&lt;a class="anchor" href="#readiness-checklist"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Hugo Extended installed (&lt;code&gt;hugo version&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Node.js installed (&lt;code&gt;node -v&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; npm installed (&lt;code&gt;npm -v&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-clone-and-install"&gt;2. Clone and Install&lt;a class="anchor" href="#2-clone-and-install"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Clone the repository&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;git clone https://github.com/Obsidian-Solutions/self-help.git
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;cd self-help
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# Install dependencies&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm install&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="3-initialize-the-cms"&gt;3. Initialize the CMS&lt;a class="anchor" href="#3-initialize-the-cms"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The CMS handles authentication and secure content storage.&lt;/p&gt;</description></item><item><title>Quizzes</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/quizzes/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/quizzes/</guid><description>&lt;p&gt;MindFull includes a powerful client-side quiz engine. Quizzes are defined directly in the frontmatter of any lesson file.&lt;/p&gt;
+&lt;h2 id="1-quick-start-checklist"&gt;1. Quick Start Checklist&lt;a class="anchor" href="#1-quick-start-checklist"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Create a new lesson in &lt;code&gt;content/lessons/&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Define the &lt;code&gt;quiz&lt;/code&gt; block in frontmatter.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Add at least one question with options.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Set the &lt;code&gt;correct&lt;/code&gt; index (0-3).&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Provide an explanation for the answer.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="2-frontmatter-schema"&gt;2. Frontmatter Schema&lt;a class="anchor" href="#2-frontmatter-schema"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;quiz&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;title&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;Basics of CBT&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;description&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;Test your knowledge of Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;result_message&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;Great work! You&amp;#39;ve mastered the basics.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;questions&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;question&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;What does the &amp;#39;C&amp;#39; in CBT stand for?&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;options&lt;/span&gt;: [&lt;span style="color:#e6db74"&gt;&amp;#39;Care&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Cognitive&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Change&amp;#39;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#39;Center&amp;#39;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;correct&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;explanation&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;CBT stands for Cognitive Behavioral Therapy.&amp;#39;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="3-scoring--achievements"&gt;3. Scoring &amp;amp; Achievements&lt;a class="anchor" href="#3-scoring--achievements"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The quiz engine automatically calculates scores and triggers badges based on performance.&lt;/p&gt;</description></item><item><title>Illustrations</title><link>https://obsidiansolutions.co.uk/self-help/docs/design/illustrations/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/design/illustrations/</guid><description>&lt;p&gt;MindFull uses a hybrid illustration system designed for &lt;strong&gt;speed&lt;/strong&gt;, &lt;strong&gt;reliability&lt;/strong&gt;, and &lt;strong&gt;cinematic polish&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id="1-visual-presentation"&gt;1. Visual Presentation&lt;a class="anchor" href="#1-visual-presentation"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;All illustrations in MindFull are automatically enhanced by the &lt;strong&gt;Premium Frame Engine&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id="course-image-wrapper"&gt;Course Image Wrapper&lt;a class="anchor" href="#course-image-wrapper"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Use the &lt;code&gt;.course-image-wrapper&lt;/code&gt; to ensure your visuals match the platform&amp;rsquo;s high-fidelity aesthetic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;🧊 &lt;strong&gt;Squircle Shape&lt;/strong&gt;: Enforces a consistent 3rem rounded &amp;ldquo;Squircle&amp;rdquo; border.&lt;/li&gt;
+&lt;li&gt;цент &lt;strong&gt;Perfect Centering&lt;/strong&gt;: Automatically centers SVGs without clipping.&lt;/li&gt;
+&lt;li&gt;🎨 &lt;strong&gt;Mesh Background&lt;/strong&gt;: Injects a subtle, dual-radial gradient behind the image.&lt;/li&gt;
+&lt;li&gt;🚀 &lt;strong&gt;Interactive Scale&lt;/strong&gt;: Automatically scales to 105% on parent card hover.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;&lt;span style="color:#f92672"&gt;div&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;class&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;course-image-wrapper w-full p-12&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {{ partial &amp;#34;shared/undraw.html&amp;#34; (dict &amp;#34;name&amp;#34; &amp;#34;meditation&amp;#34;) }}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;/&lt;span style="color:#f92672"&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h2 id="2-rendering-logic"&gt;2. Rendering Logic&lt;a class="anchor" href="#2-rendering-logic"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;undraw.html&lt;/code&gt; partial handles illustrations using a 3-tier &lt;strong&gt;local-first&lt;/strong&gt; strategy.&lt;/p&gt;</description></item><item><title>Public Development</title><link>https://obsidiansolutions.co.uk/self-help/docs/development/pubdev/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/development/pubdev/</guid><description>&lt;p&gt;If you need to share your local development site with a client or tester, use the &lt;strong&gt;Public Dev&lt;/strong&gt; mode.&lt;/p&gt;
+&lt;h2 id="single-command-startup"&gt;Single Command Startup&lt;a class="anchor" href="#single-command-startup"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;npm run pubdev&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="how-it-works"&gt;How it Works&lt;a class="anchor" href="#how-it-works"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;blockquote class='book-hint tip'&gt;
+&lt;p&gt;This mode uses &lt;strong&gt;Localtunnel&lt;/strong&gt; to generate a public URL instantly with zero registration required.&lt;/p&gt;&lt;/blockquote&gt;&lt;h3 id="gateway-routing"&gt;Gateway Routing&lt;a class="anchor" href="#gateway-routing"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Path&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Destination&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Port&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;/api/*&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;MindFull CMS&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;3000&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;/*&lt;/code&gt; (Root)&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Hugo Frontend&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;1313&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Gateway&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Local Reverse Proxy&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;4242&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="launch-checklist"&gt;Launch Checklist&lt;a class="anchor" href="#launch-checklist"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Run &lt;code&gt;npm run pubdev&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Wait for &lt;code&gt;🔗 SHAREABLE URL&lt;/code&gt; to appear.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Share the URL with your external collaborator.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="technical-sequence"&gt;Technical Sequence&lt;a class="anchor" href="#technical-sequence"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Proxy Gateway&lt;/strong&gt;: A local proxy starts on port &lt;code&gt;4242&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Public Tunnel&lt;/strong&gt;: Localtunnel creates a secure random URL (e.g., &lt;code&gt;https://random-id.loca.lt&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Unified Link&lt;/strong&gt;: Both your Hugo Frontend and CMS Backend are accessible via that single public URL.&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>SSO Configuration</title><link>https://obsidiansolutions.co.uk/self-help/docs/getting-started/sso-setup/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/getting-started/sso-setup/</guid><description>&lt;p&gt;MindFull supports authenticating users via &lt;strong&gt;Google&lt;/strong&gt; and &lt;strong&gt;GitHub&lt;/strong&gt;. These services require secure secret management, which is handled by the &lt;strong&gt;MindFull CMS&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id="1-provider-setup"&gt;1. Provider Setup&lt;a class="anchor" href="#1-provider-setup"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id="google-oauth-setup"&gt;Google OAuth Setup&lt;a class="anchor" href="#google-oauth-setup"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Create a project in the &lt;a href="https://console.cloud.google.com/"&gt;Google Cloud Console&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Navigate to &lt;strong&gt;APIs &amp;amp; Services &amp;gt; Credentials&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Create an &lt;strong&gt;OAuth client ID&lt;/strong&gt; for a &amp;ldquo;Web Application&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Configure the redirect URIs (see table below).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="github-oauth-setup"&gt;GitHub OAuth Setup&lt;a class="anchor" href="#github-oauth-setup"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Go to &lt;a href="https://github.com/settings/developers"&gt;GitHub Developer Settings&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Register a &lt;strong&gt;New OAuth App&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;input disabled="" type="checkbox"&gt; Configure the homepage and callback URLs (see table below).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="required-redirect-uris"&gt;Required Redirect URIs&lt;a class="anchor" href="#required-redirect-uris"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Provider&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Environment&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Redirect URI&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Google&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Local&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;http://localhost:3000/api/auth/google/callback&lt;/code&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;GitHub&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Local&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;http://localhost:3000/api/auth/github/callback&lt;/code&gt;&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="2-configure-the-cms"&gt;2. Configure the CMS&lt;a class="anchor" href="#2-configure-the-cms"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Create or edit the &lt;code&gt;.env&lt;/code&gt; file inside the &lt;code&gt;cms/&lt;/code&gt; directory:&lt;/p&gt;</description></item><item><title>Block Library</title><link>https://obsidiansolutions.co.uk/self-help/docs/design/blocks/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/design/blocks/</guid><description>&lt;p&gt;MindFull uses a modular &amp;ldquo;Block&amp;rdquo; architecture. You can build complex, professional pages by simply defining blocks in your markdown frontmatter.&lt;/p&gt;
+&lt;h2 id="1-hero-block"&gt;1. Hero Block&lt;a class="anchor" href="#1-hero-block"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The Hero block is the first thing users see. It&amp;rsquo;s designed for high impact and clear calls to action.&lt;/p&gt;
+&lt;h3 id="configuration"&gt;Configuration&lt;a class="anchor" href="#configuration"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[&lt;span style="color:#ae81ff"&gt;hero]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;tagline = &amp;#34;Your Science-Backed Wellness Journey&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;headline = &amp;#34;Master your mind&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;subheadline = &amp;#34;with daily CBT.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;description = &amp;#34;Learn proven techniques to manage anxiety...&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;illustration = &amp;#34;meditation&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;primaryCta = &amp;#34;Browse Courses&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;primaryCtaLink = &amp;#34;/courses&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;secondaryCta = &amp;#34;Log In&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;secondaryCtaLink = &amp;#34;/login&amp;#34;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="key-properties"&gt;Key Properties&lt;a class="anchor" href="#key-properties"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Property&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Description&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;tagline&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Small text badge above the headline.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;illustration&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Slug from the UnDraw library.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;code&gt;secondaryCta&lt;/code&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Automatically hidden if the user is logged in.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h2 id="2-features-block"&gt;2. Features Block&lt;a class="anchor" href="#2-features-block"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The Features block displays your value propositions in a clean, responsive grid.&lt;/p&gt;</description></item><item><title>Deployment</title><link>https://obsidiansolutions.co.uk/self-help/docs/getting-started/deployment/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/getting-started/deployment/</guid><description>&lt;p&gt;MindFull is architected for maximum stability and performance in production environments.&lt;/p&gt;
+&lt;h2 id="1-production-strengths"&gt;1. Production Strengths&lt;a class="anchor" href="#1-production-strengths"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The theme is rigorously tested to ensure a high-quality user experience and minimal maintenance.&lt;/p&gt;
+&lt;h3 id="strength-assessment"&gt;Strength Assessment&lt;a class="anchor" href="#strength-assessment"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Pillar&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Rating&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Description&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Performance&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;⚡ Ultra-Fast&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;40ms build time with minified output.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Security&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;🛡️ Hardened&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Zero external API calls; native DOM only.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Privacy&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;🔒 100% Client-Side&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;All user data stays in browser &lt;code&gt;localStorage&lt;/code&gt;.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;SEO&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;🔍 Optimized&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;100% crawlable with automated meta-tags.&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="2-final-deployment-checklist"&gt;2. Final Deployment Checklist&lt;a class="anchor" href="#2-final-deployment-checklist"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Before pushing your site live, ensure you have completed the following steps:&lt;/p&gt;</description></item><item><title>Search &amp; Analytics</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/analytics/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/analytics/</guid><description>&lt;p&gt;MindFull prioritizes Free and Open Source Software (FOSS) for all supplementary services.&lt;/p&gt;
+&lt;h2 id="1-static-search-pagefind"&gt;1. Static Search (Pagefind)&lt;a class="anchor" href="#1-static-search-pagefind"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;By default, MindFull uses &lt;strong&gt;Pagefind&lt;/strong&gt;, a static search library that runs entirely in the browser.&lt;/p&gt;
+&lt;h3 id="search-providers"&gt;Search Providers&lt;a class="anchor" href="#search-providers"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th style="text-align: left"&gt;Provider&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Type&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Privacy&lt;/th&gt;
+ &lt;th style="text-align: left"&gt;Scale&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;Pagefind&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Static (WASM)&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;100%&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Small to Medium&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td style="text-align: left"&gt;&lt;strong&gt;OpenSearch&lt;/strong&gt;&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Server-side&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;100% (Self-hosted)&lt;/td&gt;
+ &lt;td style="text-align: left"&gt;Large/Enterprise&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="features"&gt;Features&lt;a class="anchor" href="#features"&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;Zero-Server&lt;/strong&gt;: Runs entirely in the browser.&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;High Performance&lt;/strong&gt;: Instant results as you type.&lt;/li&gt;
+&lt;li&gt;&lt;input checked="" disabled="" type="checkbox"&gt; &lt;strong&gt;FOSS&lt;/strong&gt;: MIT Licensed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote class='book-hint note'&gt;
+&lt;p&gt;To update the search index, you must run the build command:&lt;/p&gt;</description></item><item><title>Wellness Shortcodes</title><link>https://obsidiansolutions.co.uk/self-help/docs/features/shortcodes/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://obsidiansolutions.co.uk/self-help/docs/features/shortcodes/</guid><description>&lt;p&gt;MindFull includes specialized Hugo shortcodes designed specifically for mental health and educational content. These components are interactive, high-fidelity, and fully configurable.&lt;/p&gt;
+&lt;h2 id="1-guided-breathing-hahahugoshortcode15s0hbhb"&gt;1. Guided Breathing (&lt;code&gt;&lt;div class="my-12 flex flex-col items-center justify-center p-10 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-[3.5rem] border border-indigo-100 dark:border-indigo-800 shadow-sm overflow-hidden relative js-breathe-container smooth-render" 
+ id="breathe-1773048487578182060"
+ data-inhale="4" 
+ data-hold="4" 
+ data-exhale="4"&gt;
+ 
+ &lt;div class="absolute inset-0 opacity-10 pointer-events-none"&gt;
+ &lt;svg
+ class="handcrafts-element absolute top-4 left-4 w-12 h-12 animate-pulse"
+ viewBox="0 0 200 50"
+ fill="none"
+ stroke="currentColor"
+ stroke-width="3"
+ stroke-linecap="round"
+ stroke-linejoin="round"
+&gt;
+ &lt;path d="M 10 25 L 190 25" /&gt;&lt;/svg&gt;
+
+ &lt;/div&gt;
+
+ &lt;div class="relative z-10 text-center w-full max-w-sm"&gt;
+ &lt;div class="flex items-center justify-between mb-8 gap-4"&gt;
+ &lt;h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400 whitespace-nowrap"&gt;Guided Breathing&lt;/h3&gt;
+ 
+ 
+ &lt;div class="flex items-center gap-2 bg-white dark:bg-gray-800 px-4 py-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 min-w-[160px]"&gt;
+ &lt;i class="fa-solid fa-wind text-[10px] text-indigo-600 flex-shrink-0"&gt;&lt;/i&gt;
+ &lt;select onchange="window.setSoundscape('1773048487578182060', this.value)" class="bg-transparent border-none text-[10px] font-black uppercase tracking-widest text-gray-400 focus:ring-0 cursor-pointer hover:text-indigo-600 transition-colors outline-none appearance-none w-full"&gt;
+ &lt;option value="0"&gt;Silent&lt;/option&gt;
+ &lt;option value="1"&gt;Deep Zen&lt;/option&gt;
+ &lt;option value="2"&gt;Gentle Rain&lt;/option&gt;
+ &lt;option value="3"&gt;White Noise&lt;/option&gt;
+ &lt;/select&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+ 
+ &lt;div class="breathe-circle relative w-56 h-56 sm:w-72 sm:h-72 rounded-full bg-white dark:bg-gray-800 shadow-2xl flex flex-col items-center justify-center border-8 border-indigo-100 dark:border-indigo-900 mx-auto transition-all ease-in-out"&gt;
+ &lt;div class="breathe-inner absolute w-12 h-12 rounded-full bg-indigo-600 dark:bg-indigo-500 opacity-20 scale-100 transition-all ease-in-out"&gt;&lt;/div&gt;
+ 
+ &lt;div class="relative z-20 flex flex-col items-center"&gt;
+ &lt;span class="breathe-status text-xs font-black text-indigo-400 uppercase tracking-widest mb-2"&gt;Ready&lt;/span&gt;
+ &lt;span class="breathe-timer text-5xl font-black text-indigo-600 dark:text-white tracking-tighter"&gt;0&lt;/span&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+
+ &lt;div class="mt-12 flex flex-col gap-4"&gt;
+ &lt;button onclick="window.toggleBreathing('1773048487578182060')" class="breathe-btn btn-premium-primary px-12 py-4 text-base shadow-xl shadow-indigo-200"&gt;Start Session&lt;/button&gt;
+ &lt;div class="flex justify-center gap-4"&gt;
+ &lt;span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"&gt;4-4-4 Rhythm&lt;/span&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+ &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+ (function() {
+ const instances = {};
+
+ window.toggleBreathing = function(id) {
+ if (!instances[id]) initInstance(id);
+ const inst = instances[id];
+ 
+ if (!inst.audioCtx) inst.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+ if (inst.audioCtx.state === 'suspended') inst.audioCtx.resume();
+
+ if (inst.active) stop(id); else start(id);
+ };
+
+ window.setSoundscape = function(id, index) {
+ if (!instances[id]) initInstance(id);
+ const inst = instances[id];
+ const soundscapes = [
+ { name: 'Silent', url: '' },
+ { name: 'Deep Zen', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+ { name: 'Gentle Rain', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+ { name: 'White Noise', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' }
+ ];
+ 
+ inst.currentSoundscapeIdx = parseInt(index);
+ const scape = soundscapes[inst.currentSoundscapeIdx];
+ 
+ if (scape.url) {
+ inst.ambientAudio.src = scape.url;
+ inst.ambientAudio.load();
+ if (inst.active) inst.ambientAudio.play().catch(e =&gt; {});
+ } else {
+ inst.ambientAudio.pause();
+ inst.ambientAudio.src = '';
+ }
+ };
+
+ function initInstance(id) {
+ const el = document.getElementById('breathe-' + id);
+ instances[id] = {
+ active: false,
+ timerInterval: null,
+ cycleTimeout: null,
+ currentSoundscapeIdx: 0,
+ ambientAudio: new Audio(),
+ audioCtx: null,
+ timings: {
+ inhale: parseInt(el.dataset.inhale),
+ hold: parseInt(el.dataset.hold),
+ exhale: parseInt(el.dataset.exhale)
+ },
+ dom: {
+ circle: el.querySelector('.breathe-circle'),
+ inner: el.querySelector('.breathe-inner'),
+ status: el.querySelector('.breathe-status'),
+ timer: el.querySelector('.breathe-timer'),
+ btn: el.querySelector('.breathe-btn')
+ }
+ };
+ instances[id].ambientAudio.loop = true;
+ }
+
+ function start(id) {
+ const inst = instances[id];
+ inst.active = true;
+ inst.dom.btn.textContent = 'Stop Session';
+ inst.dom.btn.classList.replace('btn-premium-primary', 'btn-premium-secondary');
+ 
+ if (inst.ambientAudio.src) inst.ambientAudio.play().catch(e =&gt; {});
+ runPhase(id, 'inhale');
+ }
+
+ function stop(id) {
+ const inst = instances[id];
+ inst.active = false;
+ clearTimeout(inst.cycleTimeout);
+ clearInterval(inst.timerInterval);
+ inst.ambientAudio.pause();
+ inst.dom.btn.textContent = 'Start Session';
+ inst.dom.btn.classList.replace('btn-premium-secondary', 'btn-premium-primary');
+ inst.dom.status.textContent = 'Ready';
+ inst.dom.timer.textContent = '0';
+ 
+ inst.dom.inner.style.transitionDuration = '0ms';
+ inst.dom.circle.style.transitionDuration = '0ms';
+ inst.dom.inner.style.transform = 'scale(1)';
+ inst.dom.circle.style.transform = 'scale(1)';
+ inst.dom.inner.style.opacity = '0.2';
+ inst.dom.circle.style.borderColor = '';
+ inst.dom.inner.offsetHeight; 
+ inst.dom.inner.style.transitionDuration = '1000ms';
+ inst.dom.circle.style.transitionDuration = '1000ms';
+ }
+
+ function runPhase(id, phase) {
+ const inst = instances[id];
+ if (!inst.active) return;
+
+ const duration = inst.timings[phase];
+ const ms = duration * 1000;
+
+ inst.dom.inner.style.transitionDuration = `${ms}ms`;
+ inst.dom.circle.style.transitionDuration = `${ms}ms`;
+
+ if (phase === 'inhale') {
+ playChime(id, 440, 'triangle', 0.05);
+ inst.dom.status.textContent = 'Breathe In';
+ inst.dom.inner.style.transform = 'scale(5)';
+ inst.dom.inner.style.opacity = '0.4';
+ inst.dom.circle.style.transform = 'scale(1.05)';
+ inst.dom.circle.style.borderColor = 'rgba(79, 70, 229, 0.4)';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'hold'), ms);
+ } 
+ else if (phase === 'hold') {
+ playChime(id, 554.37, 'sine', 0.03);
+ inst.dom.status.textContent = 'Hold';
+ inst.dom.inner.style.opacity = '0.6';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'exhale'), ms);
+ } 
+ else if (phase === 'exhale') {
+ playChime(id, 329.63, 'triangle', 0.05);
+ inst.dom.status.textContent = 'Breathe Out';
+ inst.dom.inner.style.transform = 'scale(1)';
+ inst.dom.inner.style.opacity = '0.2';
+ inst.dom.circle.style.transform = 'scale(1)';
+ inst.dom.circle.style.borderColor = '';
+ startTimer(id, duration);
+ inst.cycleTimeout = setTimeout(() =&gt; runPhase(id, 'inhale'), ms);
+ }
+ }
+
+ function startTimer(id, seconds) {
+ const inst = instances[id];
+ clearInterval(inst.timerInterval);
+ let countdown = seconds;
+ inst.dom.timer.textContent = countdown;
+ inst.timerInterval = setInterval(() =&gt; {
+ countdown--;
+ if (countdown &gt;= 0) inst.dom.timer.textContent = countdown;
+ if (countdown &lt;= 0) clearInterval(inst.timerInterval);
+ }, 1000);
+ }
+
+ function playChime(id, freq, type, volume) {
+ const inst = instances[id];
+ try {
+ const osc = inst.audioCtx.createOscillator();
+ const gain = inst.audioCtx.createGain();
+ osc.type = type;
+ osc.frequency.setValueAtTime(freq, inst.audioCtx.currentTime);
+ gain.gain.setValueAtTime(volume, inst.audioCtx.currentTime);
+ gain.gain.exponentialRampToValueAtTime(0.0001, inst.audioCtx.currentTime + 1.5);
+ osc.connect(gain);
+ gain.connect(inst.audioCtx.destination);
+ osc.start();
+ osc.stop(inst.audioCtx.currentTime + 1.5);
+ } catch (e) {}
+ }
+ })();
+&lt;/script&gt;
+&lt;/code&gt;)&lt;a class="anchor" href="#1-guided-breathing-hahahugoshortcode15s0hbhb"&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Renders a premium, cinematic breathing guide with custom rhythms, ambient soundscapes, and transition chimes.&lt;/p&gt;</description></item></channel></rss>
