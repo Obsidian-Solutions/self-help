@@ -1,10 +1,9 @@
 <!-- Dark mode initialization and toggle - must run early -->
 <script>
   // Global Configuration
-  window.mindfullConfig = {
-    cmsUrl: {{ .Site.Params.cms_url | default "" | relURL }} || window.location.origin,
-    basePath: {{ relURL "" }}
-  };
+  window.mindfullConfig = window.mindfullConfig || {};
+  window.mindfullConfig.cmsUrl = {{ .Site.Params.cms_url | default "" | absURL }} || window.location.origin;
+  window.mindfullConfig.basePath = {{ relURL "" }};
 
   // Theme Management
   window.setTheme = function(theme) {

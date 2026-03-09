@@ -6,9 +6,12 @@
     <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">{{ .Params.description }}</p>
   </div>
 
-  {{ $plans := sort (where site.RegularPages "Section" "plans") "Weight" }}
+  {{ $plans := sort (where site.RegularPages "Type" "plans") "Weight" }}
   
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-center max-w-5xl mx-auto mb-20">
+    {{ if not $plans }}
+      <p class="text-center text-gray-500 col-span-3">No membership plans found. Please ensure content/plans/ contains plan files.</p>
+    {{ end }}
     {{ range $plans }}
     <div class="relative bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] border-2 {{ if .Params.recommended }}border-indigo-600 shadow-2xl shadow-indigo-100 scale-105 z-10{{ else }}border-gray-100 dark:border-gray-700 shadow-sm{{ end }} transition-all flex flex-col h-full">
       {{ if .Params.recommended }}

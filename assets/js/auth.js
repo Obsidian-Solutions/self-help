@@ -41,15 +41,19 @@ async function logInteraction(type, metadata = '') {
 
 // --- Modal Management ---
 window.openModal = modalId => {
+  console.log('Opening modal:', modalId);
   const modal = document.getElementById(modalId);
   if (modal) {
-    modal.style.display = '';
+    modal.style.display = 'block';
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+  } else {
+    console.error('Modal not found:', modalId);
   }
 };
 
 window.closeModal = modalId => {
+  console.log('Closing modal:', modalId);
   const modal = document.getElementById(modalId);
   if (modal) {
     modal.style.display = 'none';
