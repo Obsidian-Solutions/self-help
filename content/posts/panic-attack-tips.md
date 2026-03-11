@@ -4,6 +4,7 @@ description: >-
   Actionable steps you can take right now to ground yourself during high
   anxiety.
 category: Coping
+date: 2026-02-15T10:00:00-00:00
 illustration: breathing
 ---
 

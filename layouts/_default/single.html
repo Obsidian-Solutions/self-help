@@ -49,11 +49,18 @@
   {{ end }}
 
   <!-- Article Content -->
-  <div class="max-w-3xl mx-auto">
+  <div class="max-w-3xl mx-auto px-4 sm:px-0">
     <div class="prose prose-indigo dark:prose-invert prose-lg md:prose-xl text-gray-600 dark:text-gray-300 max-w-none 
                 prose-headings:font-black prose-headings:tracking-tighter prose-headings:text-gray-900 dark:prose-headings:text-white
-                prose-blockquote:border-l-4 prose-blockquote:border-indigo-600 prose-blockquote:bg-indigo-50/50 dark:prose-blockquote:bg-indigo-950/20 prose-blockquote:rounded-r-2xl prose-blockquote:py-2 prose-blockquote:px-8 prose-blockquote:italic
-                prose-img:rounded-3xl prose-img:shadow-xl">
+                prose-h2:text-3xl prose-h2:mt-20 prose-h2:mb-8 prose-h2:pb-4 prose-h2:border-b prose-h2:border-gray-100 dark:prose-h2:border-gray-800
+                prose-h3:text-2xl prose-h3:mt-12 prose-h3:mb-6
+                prose-p:leading-[1.8] prose-p:mb-10
+                prose-ul:my-8 prose-ul:list-disc prose-ul:pl-6
+                prose-ol:my-8 prose-ol:list-decimal prose-ol:pl-6
+                prose-li:mb-4 prose-li:pl-2
+                prose-blockquote:border-l-8 prose-blockquote:border-indigo-600 prose-blockquote:bg-indigo-50/30 dark:prose-blockquote:bg-indigo-950/30 prose-blockquote:rounded-2xl prose-blockquote:py-8 prose-blockquote:px-10 prose-blockquote:italic prose-blockquote:text-indigo-900 dark:prose-blockquote:text-indigo-100 prose-blockquote:font-medium prose-blockquote:my-12
+                prose-strong:font-black prose-strong:text-gray-900 dark:prose-strong:text-white
+                prose-img:rounded-[2.5rem] prose-img:shadow-2xl prose-img:my-16">
       {{ .Content }}
     </div>
 
