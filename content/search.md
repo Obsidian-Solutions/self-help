@@ -1,9 +1,7 @@
-## type: "page"
-
+---
 title: 'Search'
 layout: 'single'
-type: "page"
-
+type: 'page'
 ---
 
 {{< search_engine >}}
