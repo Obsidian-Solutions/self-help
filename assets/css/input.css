@@ -185,7 +185,8 @@
   .prose h3 {
     @apply mt-16 mb-8 font-black tracking-tighter text-2xl;
   }
-  .prose ul, .prose ol {
+  .prose ul,
+  .prose ol {
     @apply my-10 pl-6 space-y-4;
   }
   .prose li {
