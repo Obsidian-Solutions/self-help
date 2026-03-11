@@ -23,10 +23,10 @@
       </p>
       
       <div class="flex flex-col sm:flex-row justify-center items-center gap-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 mx-auto">
-        <a href="{{ .Params.hero.primaryCtaLink }}" class="btn-premium-primary">
+        <a href="{{ .Params.hero.primaryCtaLink | relURL }}" class="btn-premium-primary">
           {{ .Params.hero.primaryCta }}
         </a>
-        <a href="{{ .Params.hero.secondaryCtaLink }}" class="hide-on-logged-in btn-premium-secondary">
+        <a href="{{ .Params.hero.secondaryCtaLink | relURL }}" class="hide-on-logged-in btn-premium-secondary">
           {{ .Params.hero.secondaryCta }}
         </a>
         <a href="{{ "dashboard/" | relURL }}" class="show-on-logged-in hidden btn-premium-secondary">

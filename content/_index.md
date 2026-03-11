@@ -10,9 +10,9 @@ subheadline = "with daily CBT."
 description = "Learn proven techniques to manage anxiety, depression, and stress. Bite-sized lessons, interactive exercises, and progress tracking."
 illustration = "meditation"
 primaryCta = "Browse Courses"
-primaryCtaLink = "/courses"
+primaryCtaLink = "courses/"
 secondaryCta = "Log In"
-secondaryCtaLink = "/login"
+secondaryCtaLink = "login/"
 
 [[features]]
 title = "Proven CBT Techniques"
