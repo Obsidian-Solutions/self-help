@@ -11,13 +11,18 @@ const DB_KEY = 'mindfull_users';
 const SESSION_KEY = 'mindfull_session';
 const CONFIG = window.mindfullConfig || {};
 const CMS_URL = CONFIG.cmsUrl || 'http://localhost:3000';
-const BASE_PATH = (CONFIG.basePath || '/').replace(/\/+$/, '');
+const BASE_PATH = (CONFIG.basePath || '/').replace(/\/+$/, '') + '/';
 
 // --- Helper to normalize internal paths with base path ---
 function normalizePath(path) {
-  if (!path.startsWith('/')) return path;
-  const cleanPath = path.replace(/\/+$/, '');
-  return BASE_PATH + (cleanPath || '/');
+  // If absolute path provided, return as-is
+  if (path.startsWith('http')) return path;
+
+  // Remove leading slash from input path for joining
+  const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+
+  // Return BASE_PATH + cleanPath
+  return BASE_PATH + cleanPath;
 }
 
 // --- CMS CRM Integration Helper ---
@@ -41,23 +46,27 @@ async function logInteraction(type, metadata = '') {
 
 // --- Modal Management ---
 // These are also defined inline in head to ensure immediate availability
-window.openModal = window.openModal || (modalId => {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = 'block';
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  }
-});
+window.openModal =
+  window.openModal ||
+  (modalId => {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'block';
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+  });
 
-window.closeModal = window.closeModal || (modalId => {
-  const modal = document.getElementById(modalId);
-  if (modal) {
-    modal.style.display = 'none';
-    modal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-});
+window.closeModal =
+  window.closeModal ||
+  (modalId => {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  });
 
 window.switchModal = (closeId, openId) => {
   window.closeModal(closeId);
@@ -128,46 +137,33 @@ function clearSession() {
 window.safeRedirect = function (path) {
   const whitelist = [
     '/',
-    '/dashboard',
-    '/journal',
-    '/settings',
-    '/courses',
-    '/login',
-    '/signup',
-    '/therapists',
-    '/posts',
-    '/pricing',
-    '/privacy',
-    '/terms',
-    '/cookie-policy',
-  ].map(p => normalizePath(p));
+    '/dashboard/',
+    '/journal/',
+    '/settings/',
+    '/courses/',
+    '/login/',
+    '/signup/',
+    '/therapists/',
+    '/posts/',
+    '/pricing/',
+    '/privacy/',
+    '/terms/',
+    '/cookie-policy/',
+  ];
 
-  const target = path.startsWith('/') ? path : normalizePath('/' + path);
-
-  if (typeof target !== 'string' || !target.startsWith('/') || target.startsWith('//')) {
-    window.location.replace(normalizePath('/'));
-    return;
+  // Target to check against whitelist (normalize the input)
+  let target = path;
+  if (!target.startsWith('http')) {
+    if (!target.startsWith('/')) target = '/' + target;
+    if (!target.endsWith('/')) target = target + '/';
   }
 
-  try {
-    const url = new URL(target, window.location.origin);
-    const currentOrigin = window.location.origin;
-    if (url.origin !== currentOrigin) {
-      window.location.replace(normalizePath('/'));
-      return;
-    }
+  const isSafe = whitelist.some(w => target === w || (w !== '/' && target.startsWith(w)));
 
-    const basePath = url.pathname.replace(/\/+$/, '') || '/';
-    const isSafe = whitelist.some(
-      w => basePath === w || (w !== normalizePath('/') && basePath.startsWith(w + '/')),
-    );
-
-    if (isSafe) {
-      window.location.replace(url.pathname + url.search + url.hash);
-    } else {
-      window.location.replace(normalizePath('/'));
-    }
-  } catch (e) {
+  if (isSafe) {
+    const finalUrl = normalizePath(target);
+    window.location.replace(finalUrl);
+  } else {
     window.location.replace(normalizePath('/'));
   }
 };
@@ -177,9 +173,12 @@ window.safeRedirect = function (path) {
 // 1. Sign Up
 window.handleSignup = async e => {
   e.preventDefault();
-  const nameEl = document.getElementById('signup-name-modal') || document.getElementById('signup-name');
-  const emailEl = document.getElementById('signup-email-modal') || document.getElementById('signup-email');
-  const passwordEl = document.getElementById('signup-password-modal') || document.getElementById('signup-password');
+  const nameEl =
+    document.getElementById('signup-name-modal') || document.getElementById('signup-name');
+  const emailEl =
+    document.getElementById('signup-email-modal') || document.getElementById('signup-email');
+  const passwordEl =
+    document.getElementById('signup-password-modal') || document.getElementById('signup-password');
 
   if (!nameEl || !emailEl || !passwordEl) return;
 
@@ -212,8 +211,10 @@ window.handleSignup = async e => {
 // 2. Login
 window.handleLogin = async e => {
   e.preventDefault();
-  const emailEl = document.getElementById('login-email-modal') || document.getElementById('login-email');
-  const passwordEl = document.getElementById('login-password-modal') || document.getElementById('login-password');
+  const emailEl =
+    document.getElementById('login-email-modal') || document.getElementById('login-email');
+  const passwordEl =
+    document.getElementById('login-password-modal') || document.getElementById('login-password');
 
   if (!emailEl || !passwordEl) return;
 
@@ -240,7 +241,35 @@ window.handleLogout = async () => {
   window.safeRedirect('/');
 };
 
-// 4. State Observer
+// 4. Demo Login
+window.handleDemoLogin = async () => {
+  const demoUser = {
+    name: 'Demo Explorer',
+    email: 'demo@example.com',
+    plan: 'Pro',
+    id: 'demo-' + Date.now(),
+  };
+  setSession(demoUser);
+  window.closeModal('loginModal');
+  alert('Welcome to the Demo! You have been logged in with a Pro account.');
+  logInteraction('login', 'Method: Demo');
+  window.safeRedirect('/dashboard');
+};
+
+// 5. SSO Mock (For demonstration)
+window.handleGoogleLogin = () => {
+  alert(
+    'In a production environment, this would redirect to Google OAuth. For this demo, please use the Demo Login.',
+  );
+};
+
+window.handleGithubLogin = () => {
+  alert(
+    'In a production environment, this would redirect to GitHub OAuth. For this demo, please use the Demo Login.',
+  );
+};
+
+// 6. State Observer
 window.checkAuth = () => {
   const user = getSession();
   const loggedOutDiv = document.getElementById('auth-logged-out');
@@ -254,12 +283,15 @@ window.checkAuth = () => {
   const navCourses = document.getElementById('nav-courses');
 
   const currentPath = window.location.pathname;
-  const isAuthPage =
-    currentPath.includes(normalizePath('/login')) || currentPath.includes(normalizePath('/signup'));
-  const isAppPage =
-    currentPath.includes(normalizePath('/dashboard')) ||
-    currentPath.includes(normalizePath('/journal')) ||
-    currentPath.includes(normalizePath('/settings'));
+
+  // Helper to check if current path starts with a normalized base path
+  const isPath = p => {
+    const norm = normalizePath(p);
+    return currentPath === norm || currentPath === norm + '/';
+  };
+
+  const isAuthPage = isPath('/login') || isPath('/signup');
+  const isAppPage = isPath('/dashboard') || isPath('/journal') || isPath('/settings');
   const isProtectedPage = isAppPage || currentPath.includes(normalizePath('/lessons'));
 
   if (user) {
