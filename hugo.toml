@@ -14,14 +14,16 @@ canonifyURLs = false
   cms_url = 'http://localhost:3000'
 
 # Output Formats
+[mediaTypes]
+  [mediaTypes."text/x-cms-snippet"]
+    suffixes = ["snippet"]
+
 [outputFormats]
   [outputFormats.CMS]
     name = "CMS"
     baseName = "cms"
-    path = ""
-    mediaType = "text/html"
+    mediaType = "text/x-cms-snippet"
     isHTML = true
-    fileSuffix = ".snippet"
 
 [outputs]
   home = ['HTML']
